@@ -1,0 +1,36 @@
+{
+    "sqltools.connections": [
+        {
+            "askForPassword": true,
+            "connectionTimeout": 15,
+            "database": "BI",
+            "dialect": "MySQL",
+            "name": "My Sql",
+            "port": 3306,
+            "server": "127.0.0.1",
+            "username": "root"
+        },
+        {
+            "askForPassword": false,
+            "connectionTimeout": 15,
+            "database": "BI",
+            "dialect": "MySQL",
+            "name": "MySql",
+            "password": null,
+            "port": 3306,
+            "server": "localhost",
+            "username": "root"
+        },
+        {
+            "askForPassword": false,
+            "connectionTimeout": 15,
+            "database": "bi",
+            "dialect": "MySQL",
+            "name": "Sql",
+            "password": null,
+            "port": 3306,
+            "server": "127.0.0.1",
+            "username": "root"
+        }
+    ]
+}
