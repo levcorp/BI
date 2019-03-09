@@ -30,11 +30,11 @@ class seedUsuarios extends Seeder
                 'apellido'=>$faker->lastname,
                 'email'=>$faker->email,
                 'password'=>\Hash::make('12345678'),
-                'cargo'=>'Ventas',
+                'cargo'=>$faker->randomElement($array = array ('Ventas','Sistemas','Aplicaciones','Adquisiciones')),
                 'estado'=>'Activo',
                 'global'=>'Si',
-                'especialidad'=>'',
-                'sector'=>'',
+                'especialidad'=>$faker->randomElement($array = array ('AUTO','MECA','INST','ELEC','')),
+                'sector'=>$faker->randomElement($array = array ('Ventas','Sistemas','Aplicaciones','Adquisiciones','')),
             ]);
         }
         User::insert($datos);
