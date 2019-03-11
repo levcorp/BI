@@ -1,16 +1,6 @@
 <?php
+//Autentificacion
+Route::get('/','Log\controllerAuth@inicio')->name('inicio');
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
+//Panel
+Route::get('panel','Panel\controllerPanel@inicio')->name('panel');

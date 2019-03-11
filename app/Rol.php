@@ -11,4 +11,9 @@ class Rol extends Model
         'titulo',
         'descripcion',
     ];
+
+    public function modulos()
+    {
+        return $this->hasMany(App\Modulos::class);
+    }
 }

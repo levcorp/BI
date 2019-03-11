@@ -32,9 +32,9 @@ class seedUsuarios extends Seeder
                 'password'=>\Hash::make('12345678'),
                 'cargo'=>$faker->randomElement($array = array ('Ventas','Sistemas','Aplicaciones','Adquisiciones')),
                 'estado'=>'Activo',
-                'global'=>'Si',
+                'global'=>$faker->randomElement($array = array ('Si','No')),
                 'especialidad'=>$faker->randomElement($array = array ('AUTO','MECA','INST','ELEC','')),
-                'sector'=>$faker->randomElement($array = array ('Ventas','Sistemas','Aplicaciones','Adquisiciones','')),
+                'sector'=>$faker->randomElement($array = array ('MAN','CSS','M&C','F&B','')),
             ]);
         }
         User::insert($datos);

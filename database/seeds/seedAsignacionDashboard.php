@@ -16,7 +16,7 @@ class seedAsignacionDashboard extends Seeder
         for($i=1;$i<=21;$i++)
         {
             AsignacionDashboard::create([
-                'usuario_id'=>$faker->numberBetween($min = 1, $max = 21),
+                'usuario_id'=>$i,
                 'dashboard_id'=>$faker->numberBetween($min = 1, $max = 5),
             ]);
         }

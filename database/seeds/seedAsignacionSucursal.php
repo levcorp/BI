@@ -16,7 +16,7 @@ class seedAsignacionSucursal extends Seeder
         for($i=1;$i<=21;$i++)
         {
             AsignacionSucursal::create([
-                'usuario_id'=>$faker->numberBetween($min = 1, $max = 21),
+                'usuario_id'=>$i,
                 'sucursal_id'=>$faker->numberBetween($min = 1, $max = 3),
             ]);
         }

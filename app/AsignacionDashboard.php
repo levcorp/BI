@@ -11,4 +11,15 @@ class AsignacionDashboard extends Model
         'usuario_id',
         'dashboard_id',
     ];
+    
+
+    public function user()
+    {
+        return $this->belongsTo(App\User::class, 'usuario_id');
+    }
+
+    public function dashboard()
+    {
+        return $this->belongsTo(App\Dashboard::class, 'dashboard_id');
+    }
 }

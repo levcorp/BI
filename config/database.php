@@ -14,7 +14,7 @@ return [
     */
 
     //'default' => env('DB_CONNECTION', 'mysql'),
-    'default' => 'mysql',
+    'default' => 'sqlsrv',
     /*
     |--------------------------------------------------------------------------
     | Database Connections
@@ -75,11 +75,11 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', '192.168.10.45'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'sa'),
-            'username' => env('DB_USERNAME', 'Sa123'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' =>'192.168.10.4',
+            'port' => '1433',
+            'database' =>'Larcos',
+            'username' =>'sap',
+            'password' =>'486Lev01',
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

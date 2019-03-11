@@ -15,4 +15,13 @@ class AsignacionRol extends Model
         'eliminacion',
         'edicion',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(App\User::class, 'usuario_id');
+    }
+    public function rol()
+    {
+        return $this->belongsTo(App\Rol::class, 'rol_id');
+    }
 }

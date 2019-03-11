@@ -11,5 +11,14 @@ class AsignacionSucursal extends Model
         'usuario_id',
         'sucursal_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(App\User::class, 'usuario_id');
+    }
+    public function sucursal()
+    {
+        return $this->belongsTo(App\Sucursal::class, 'sucursal_id');
+    }
 }   
 

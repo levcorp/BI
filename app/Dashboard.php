@@ -11,4 +11,12 @@ class Dashboard extends Model
         'nombre',
         'descripcion', 
     ];
+    public function asignacion()
+    {
+        return $this->hasMany(App\AsignacionDashboard::class);
+    }
+    public function reportes()
+    {
+        return $this->hasMany(Reporte::class, 'id');
+    }
 }

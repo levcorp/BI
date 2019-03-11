@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
          $this->call(seedAsignacionRol::class);
          $this->call(seedAsignacionSucursal::class);
          $this->call(seedAsignacionDashboard::class);
+         $this->call(seedReporte::class);
     }
 }
