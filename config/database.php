@@ -75,11 +75,11 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' =>'192.168.10.4',
+            'host' =>'192.168.10.45',
             'port' => '1433',
-            'database' =>'Larcos',
-            'username' =>'sap',
-            'password' =>'486Lev01',
+            'database' =>'BI',
+            'username' =>'sa',
+            'password' =>'Sa123',
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
