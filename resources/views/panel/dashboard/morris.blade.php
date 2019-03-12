@@ -70,10 +70,7 @@
             });
             
             $("#output").pivotUI(
-            $.pivotUtilities.tipsData, {
-                rows: ["sex", "smoker"],
-                cols: ["day", "time"],
-                vals: ["tip", "total_bill"],
+            {!! $todo !!},{
                 aggregatorName: "Sum over Sum",
                 rendererName: "Heatmap"
             });

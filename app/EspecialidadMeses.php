@@ -14,6 +14,7 @@ class EspecialidadMeses extends Model
     ];
     public function getEjecutadoAttribute($value)
     {
+        return  $value; 
         if($value == 0)
         {
             return number_format($value,0);
@@ -23,6 +24,7 @@ class EspecialidadMeses extends Model
     }
     public function getMetaAttribute($value)
     {
+        return  $value; 
         if($value == 0)
         {
             return number_format($value,0);
