@@ -35,23 +35,26 @@
             <!-- AREA CHART -->
             @yield('primero')
             <!-- /.box -->
+          </div>
 
             <!-- DONUT CHART -->
-            @yield('segundo')
+          <div class="col-md-6">
             <!-- /.box -->
-
+            @yield('segundo')
           </div>
+
           <!-- /.col (LEFT) -->
           <div class="col-md-6">
             <!-- LINE CHART -->
             @yield('tercero')
             <!-- /.box -->
-
-            <!-- BAR CHART -->
+          </div>
+          <div class="col-md-12">
             @yield('cuarto')
+          </div>
+            <!-- BAR CHART -->
             <!-- /.box -->
 
-          </div>
           <!-- /.col (RIGHT) -->
         </div>
         <!-- /.row -->
