@@ -16,20 +16,47 @@
         <h3 class="box-title">Area Chart</h3>
 
         <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            <div class="row">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    <div class="col-sm-6">
+                        <div class="pull-right">
+                             <div class="dropdown">
+                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                     Sector
+                                     <span class="caret"></span>
+                                 </button>
+                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                     <li><a href="{{route('panel')}}">General</a></li>
+                                     <li><a href="{{route('filtroSector','MAN')}}">Manufactura</a></li>
+                                     <li><a href="{{route('filtroSector','M&C')}}">Mineria y Cemento</a></li>
+                                     <li><a href="{{route('filtroSector','F&B')}}">Alimentos y Bebidas</a></li>
+                                     <li><a href="{{route('filtroSector','CSS')}}">Construccionn y Servicios</a></li>
+                                     <li><a href="{{route('filtroSector','O&G')}}">Gas y Petroleo</a></li>
+                                 </ul>
+                             </div>
+                        </div>
+                    </div>
+                     <div class="col-sm-6">
+                         <div class="pull-left">
+                             <h4 class="text-center"><b></b> </h4>
+                         </div>
+                     </div>
+                 </div>
         </div>
         </div>
        <div class="box-body chart-responsive">
+           
             <div class="chart">
-                <canvas id="canvas" style="height:500px"></canvas>
+                <canvas id="canvas" style="height:450px"></canvas>
             </div>
         </div>
         <!-- /.box-body -->
     </div>
 @endsection
-@section('segundo')
+
+@section('tercero')
     <div class="box box-primary">
         <div class="box-header with-border">
         <h3 class="box-title">Area Chart</h3>
@@ -46,7 +73,7 @@
         <!-- /.box-body -->
     </div>
 @endsection()
-@section('tercero')
+@section('cuarto')
     <div class="box box-primary">
         <div class="box-header with-border">
         <h3 class="box-title">Area Chart</h3>
@@ -103,7 +130,7 @@
 				responsive: true,
 				title: {
 					display: true,
-					text: 'Presupuesto Meses'
+					text: '{{$titulo}}'
 				},
 				tooltips: {
 					mode: 'index',

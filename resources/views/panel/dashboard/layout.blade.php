@@ -39,7 +39,7 @@
           </div>
 
             <!-- DONUT CHART -->
-          <div class="col-md-6">
+          <div class="col-md-12">
             <!-- /.box -->
             @yield('segundo')
           </div>
@@ -50,7 +50,7 @@
             @yield('tercero')
             <!-- /.box -->
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
             @yield('cuarto')
           </div>
           <!-- /.col (RIGHT) -->
