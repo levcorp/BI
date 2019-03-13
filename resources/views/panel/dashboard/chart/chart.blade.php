@@ -21,49 +21,16 @@
             <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
         </div>
         </div>
-       <div class="box-body chart-responsive">
+        <div class="box-body chart-responsive">
             <div class="chart">
-                <canvas id="canvas" style="height:500px"></canvas>
+                <canvas id="canvas" style="height:250px"></canvas>
             </div>
         </div>
         <!-- /.box-body -->
     </div>
-@endsection
-@section('segundo')
-    <div class="box box-primary">
-        <div class="box-header with-border">
-        <h3 class="box-title">Area Chart</h3>
-
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div>
-        </div>
-        <div class="box-body table-responsive">
-            <div class="chart" id="dinamico"></div>
-        </div>
-        <!-- /.box-body -->
-    </div>
-@endsection()
-@section('tercero')
-    <div class="box box-primary">
-        <div class="box-header with-border">
-        <h3 class="box-title">Area Chart</h3>
-
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div>
-        </div>
-        <div class="box-body table-responsive">
-            <div class="chart" id="estatico"></div>
-        </div>
-        <!-- /.box-body -->
-    </div>
 @section('script')
- <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script>
 		var config = {
 			type: 'line',
 			data: {
@@ -137,26 +104,5 @@
 			window.myLine = new Chart(ctx, config);
 		};
 	</script>
-    <script>
-        $(function () {
-            "use strict";
-            // PIVOT
-            $("#dinamico").pivotUI(
-            {!! $todo !!},{
-                aggregatorName: "Sum over Sum",
-                rendererName: "Heatmap"
-            });
-            var utils = $.pivotUtilities;
-            var heatmap =  utils.renderers["Heatmap"];
-            var sumOverSum =  utils.aggregators["Sum"];
-            $("#estatico").pivot(
-            {!!$todo!!}, {
-                rows: ["SECTOR"],
-                cols: ["PERIODO"],
-                aggregator: sumOverSum(["META"]),
-                renderer: heatmap
-            });
-        });
-    </script>  
 @endsection
 @stop

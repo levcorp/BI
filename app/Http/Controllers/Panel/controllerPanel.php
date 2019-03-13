@@ -13,13 +13,12 @@ class controllerPanel extends Controller
     public function inicio()
     {
         $meses = EspecialidadMeses::select('PERIODO', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))
-                 ->groupBy('PERIODO')
-                 ->get();
+        ->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')
+        ->get();
         //dd($meses);
         $todo=EspecialidadMeses::all()->toJson();
         //dd($todo);
         //return ($todo);
         return view('panel.dashboard.morris',compact('meses','todo'));
-
     }
 }
