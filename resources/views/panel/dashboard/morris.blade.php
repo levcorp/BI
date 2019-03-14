@@ -10,41 +10,47 @@
         <li class="active">Morris</li>
     </ol>
 @endsection
+@section('opciones')
+    <div class="box box-primary">
+        <div class="box-header with-border">
+        <h5 class="box-title">Opciones</h5>
+            <div class="box-tools pull-right">
+                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="dropdown">
+                        <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Sector
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="{{route('panel')}}">General</a></li>
+                            <li><a href="{{route('filtroSector','MAN')}}">Manufactura</a></li>
+                            <li><a href="{{route('filtroSector','M&C')}}">Mineria y Cemento</a></li>
+                            <li><a href="{{route('filtroSector','F&B')}}">Alimentos y Bebidas</a></li>
+                            <li><a href="{{route('filtroSector','CSS')}}">Construccionn y Servicios</a></li>
+                            <li><a href="{{route('filtroSector','O&G')}}">Gas y Petroleo</a></li>
+                        </ul>
+                    </div>
+                </div>                 
+            </div>
+        </div>
+        <!-- /.box-body -->
+     </div>
+@endsection
 @section('primero')
     <div class="box box-primary">
         <div class="box-header with-border">
-        <h3 class="box-title">Area Chart</h3>
+        <h3 class="box-title">Presupuesto de {{ucwords($titulo)}}</h3>
 
         <div class="box-tools pull-right">
-            <div class="row">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                    <div class="col-sm-6">
-                        <div class="pull-right">
-                             <div class="dropdown">
-                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                     Sector
-                                     <span class="caret"></span>
-                                 </button>
-                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                     <li><a href="{{route('panel')}}">General</a></li>
-                                     <li><a href="{{route('filtroSector','MAN')}}">Manufactura</a></li>
-                                     <li><a href="{{route('filtroSector','M&C')}}">Mineria y Cemento</a></li>
-                                     <li><a href="{{route('filtroSector','F&B')}}">Alimentos y Bebidas</a></li>
-                                     <li><a href="{{route('filtroSector','CSS')}}">Construccionn y Servicios</a></li>
-                                     <li><a href="{{route('filtroSector','O&G')}}">Gas y Petroleo</a></li>
-                                 </ul>
-                             </div>
-                        </div>
-                    </div>
-                     <div class="col-sm-6">
-                         <div class="pull-left">
-                             <h4 class="text-center"><b></b> </h4>
-                         </div>
-                     </div>
-                 </div>
-        </div>
+            </div>
         </div>
        <div class="box-body chart-responsive">    
             <div class="chart">
@@ -54,7 +60,58 @@
         <!-- /.box-body -->
     </div>
 @endsection
+@section('segundo')
+    <div class="box box-primary">
+        <div class="box-header with-border">
+        <h3 class="box-title">Oportunidades de {{ucwords($titulo)}}</h3>
+            <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body chart-responsive">
+            <div class="chart" id="grafica-oportunidades" style="height:350px"></div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+@endsection
+@section('tercero')
+    <div class="box box-primary">
+        <div class="box-header with-border">
+        <h3 class="box-title">Oportunidad {{ucwords($titulo)}}</h3>
+
+        <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+       <div class="box-body chart-responsive">    
+            <div class="chart">
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+@endsection
 @section('cuarto')
+     <div class="box box-primary">
+        <div class="box-header with-border">
+        <h3 class="box-title">Porcentajes de Oportunidad {{ucwords($titulo)}}</h3>
+
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+        </div>
+        <div class="box-body chart--responsive">
+            <div class="chart" id="grafica-oportunidades-porcentaje" style="height:350px"></div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+@endsection
+@section('quinto')
     <div class="box box-primary">
         <div class="box-header with-border">
         <h3 class="box-title">Area Chart</h3>
@@ -70,23 +127,7 @@
         </div>
         <!-- /.box-body -->
     </div>
-@endsection()
-@section('tercero')
-    <div class="box box-primary">
-        <div class="box-header with-border">
-        <h3 class="box-title">Area Chart</h3>
 
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div>
-        </div>
-        <div class="box-body table-responsive">
-            <div class="chart" id="grafica-oportunidades"></div>
-        </div>
-        <!-- /.box-body -->
-    </div>
 @section('script')
  <script>
 		var config = {
@@ -126,10 +167,6 @@
 			},
 			options: {
 				responsive: true,
-				title: {
-					display: true,
-					text: '{{$titulo}}'
-				},
 				tooltips: {
 					mode: 'index',
 					intersect: false,
@@ -210,43 +247,93 @@
     <script type="text/javascript">
         Highcharts.chart('grafica-oportunidades', {
             chart: {
-                type: 'funnel'
+                type: 'funnel',
             },
-            title: {
-                text: 'Sales funnel'
-            },
+            title: false,
             plotOptions: {
                 series: {
                     dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b> ({point.y:,.0f})',
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
-                        softConnector: true
+                         enabled: true
                     },
                     center: ['40%', '50%'],
                     neckWidth: '30%',
-                    neckHeight: '25%',
-                    width: '80%',
-                    animation: true,
+                    neckHeight: '30%',
+                    width: '75%',
+                },
+                funnel:{
+                    borderColor: "white",
+                    states:{
+                        hover:{
+                            enabled:true,
+                            brightness: -0.1
+                        },
+                    },
+                    borderWidth:3
                 }
+
             },
             legend: {
                 enabled: false
             },
             series: [{
-                name: 'Unique users',
+                name:"Total $ ",
                 data: [
-                    ['Website visits', 15654],
-                    ['Downloads', 4064],
-                    ['Requested price list', 1987],
-                    ['Invoice sent', 976],
-                    ['Finalized', 846]
+                    @foreach($oportunidades as $total)
+                    ['{{$total->PosicionEstado}}', {{$total->Total}}],
+                    @endforeach
                 ],
-                borderColor: ['rgba(47,126,216, 1)', 'rgba(13,35,58, 1)', 'rgba(139,188,33, 1)', 'rgba(145,0,0, 1)', 'rgba(26,173,206, 1)'],
+                colors: ['rgba(127, 255, 212, 0.6)', 'rgba(64, 224, 208, 0.7)', 'rgba(72, 209, 204, 0.8)', 'rgba(0, 206, 209, 1)']
+            }],
+        });
+    </script>
+     <script type="text/javascript">
+        Highcharts.chart('grafica-oportunidades-porcentaje', {
+            chart: {
+                type: 'funnel',
+            },
+            title: false,
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                         enabled: true
+                    },
+                    center: ['40%', '50%'],
+                    neckWidth: '30%',
+                    neckHeight: '30%',
+                    width: '75%',
+                },
+                funnel:{
+                    borderColor: "white",
+                    states:{
+                        hover:{
+                            enabled:true,
+                            brightness: -0.1
+                        },
+                    },
+                    borderWidth:3
+                }
 
-                colors: ['rgba(47,126,216, 0.5)', 'rgba(13,35,58, 0.5)', 'rgba(139,188,33, 0.5)', 'rgba(145,0,0, 0.5)', 'rgba(26,173,206, 0.5)']
-            }]
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                name:"Total $ ",
+                data: [
+                    @foreach($oportunidadPorcentaje as $dato)
+                    ['{{$dato->PosicionEstado}}', {{$dato->Total}}],
+                    @endforeach
+                ],
+                colors: [
+                    'rgba(135, 206, 250, 0.7)', 
+                    'rgba(0, 191, 255, 0.8)',
+                    'rgba(30, 144, 255, 1)',
+                ]
+            }],
         });
     </script>
 @endsection
 @stop
+//colors: ['rgba(173, 216, 230, 0.6)', 'rgba(135, 206, 250, 0.7)', 'rgba(0, 191, 255, 0.8)', 'rgba(30, 144, 255, 1)']
+//colors: ['rgba(255, 160, 122, 0.6)', 'rgba(255, 127, 80, 0.7)', 'rgba(255, 99, 71, 0.8)', 'rgba(255, 69, 0, 1)']
+//colors: ['rgba(127, 255, 212, 0.6)', 'rgba(64, 224, 208, 0.7)', 'rgba(72, 209, 204, 0.8)', 'rgba(0, 206, 209, 1)']

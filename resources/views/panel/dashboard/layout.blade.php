@@ -32,6 +32,10 @@
     <!-- Main content -->
       <section class="content">
         <div class="row">
+          <div class="col-md-12">
+            <!-- /.box -->
+            @yield('opciones')
+          </div>
           <div class="col-md-6">
             <!-- AREA CHART -->
             @yield('primero')
@@ -50,8 +54,11 @@
             @yield('tercero')
             <!-- /.box -->
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
             @yield('cuarto')
+          </div>
+            <div class="col-md-12">
+            @yield('quinto')
           </div>
           <!-- /.col (RIGHT) -->
         </div>
