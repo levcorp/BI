@@ -18,7 +18,7 @@ class controllerPanel extends Controller
         ->get();
         //dd($meses);
         $todo=EspecialidadMeses::all()->toJson();
-        //dd($todo);
+        //return $todo;
         //return ($todo);
         return view('panel.dashboard.morris',compact('meses','todo','titulo'));
     }

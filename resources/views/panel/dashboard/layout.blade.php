@@ -32,14 +32,14 @@
     <!-- Main content -->
       <section class="content">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <!-- AREA CHART -->
             @yield('primero')
             <!-- /.box -->
           </div>
 
             <!-- DONUT CHART -->
-          <div class="col-md-12">
+          <div class="col-md-6">
             <!-- /.box -->
             @yield('segundo')
           </div>
@@ -50,7 +50,7 @@
             @yield('tercero')
             <!-- /.box -->
           </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             @yield('cuarto')
           </div>
           <!-- /.col (RIGHT) -->

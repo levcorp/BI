@@ -46,33 +46,14 @@
                  </div>
         </div>
         </div>
-       <div class="box-body chart-responsive">
-           
+       <div class="box-body chart-responsive">    
             <div class="chart">
-                <canvas id="canvas" style="height:450px"></canvas>
+                <canvas id="grafica-especialidad-meses" style="height:350px"></canvas>
             </div>
         </div>
         <!-- /.box-body -->
     </div>
 @endsection
-
-@section('tercero')
-    <div class="box box-primary">
-        <div class="box-header with-border">
-        <h3 class="box-title">Area Chart</h3>
-
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div>
-        </div>
-        <div class="box-body table-responsive">
-            <div class="chart" id="dinamico"></div>
-        </div>
-        <!-- /.box-body -->
-    </div>
-@endsection()
 @section('cuarto')
     <div class="box box-primary">
         <div class="box-header with-border">
@@ -85,7 +66,24 @@
         </div>
         </div>
         <div class="box-body table-responsive">
-            <div class="chart" id="estatico"></div>
+            <div class="chart" id="tabla-especialidad-meses"></div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+@endsection()
+@section('tercero')
+    <div class="box box-primary">
+        <div class="box-header with-border">
+        <h3 class="box-title">Area Chart</h3>
+
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+        </div>
+        <div class="box-body table-responsive">
+            <div class="chart" id="grafica-oportunidades"></div>
         </div>
         <!-- /.box-body -->
     </div>
@@ -160,30 +158,95 @@
 		};
 
 		window.onload = function() {
-			var ctx = document.getElementById('canvas').getContext('2d');
+			var ctx = document.getElementById('grafica-especialidad-meses').getContext('2d');
 			window.myLine = new Chart(ctx, config);
 		};
 	</script>
     <script>
-        $(function () {
-            "use strict";
-            // PIVOT
-            $("#dinamico").pivotUI(
-            {!! $todo !!},{
-                aggregatorName: "Sum over Sum",
-                rendererName: "Heatmap"
-            });
-            var utils = $.pivotUtilities;
-            var heatmap =  utils.renderers["Heatmap"];
-            var sumOverSum =  utils.aggregators["Sum"];
-            $("#estatico").pivot(
-            {!!$todo!!}, {
-                rows: ["SECTOR"],
-                cols: ["PERIODO"],
-                aggregator: sumOverSum(["META"]),
-                renderer: heatmap
-            });
+        var pivot = new WebDataRocks({
+            container: "#tabla-especialidad-meses",
+            //Mostrar Menu
+            toolbar: false,
+            report: {
+                dataSource: {
+                    data: {!!$todo!!}
+                },
+                slice: {
+                    rows: [
+                        {
+                        uniqueName: "SECTOR"
+                        },
+                        {
+                        uniqueName: "ESPECIALIDAD"
+                        }
+                    ],
+                    columns: [{
+                        uniqueName: "MES",
+                        }
+                    ],
+                    measures: [
+                        {
+                        uniqueName: "META",
+                        aggregation: "sum",
+                        format: "currency"
+                        },
+                        {
+                        uniqueName: "EJECUTADO",
+                        aggregation: "sum",
+                        format: "currency"
+                        },
+                    ]
+                },
+            },
+            formats: [{
+            name: "currency",
+            currencySymbol: "$",
+            currencySymbolAlign: "left",
+            thousandsSeparator: ",",
+            decimalPlaces: 2
+            }],
         });
-    </script>  
+    </script>
+    <script type="text/javascript">
+        Highcharts.chart('grafica-oportunidades', {
+            chart: {
+                type: 'funnel'
+            },
+            title: {
+                text: 'Sales funnel'
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b> ({point.y:,.0f})',
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                        softConnector: true
+                    },
+                    center: ['40%', '50%'],
+                    neckWidth: '30%',
+                    neckHeight: '25%',
+                    width: '80%',
+                    animation: true,
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                name: 'Unique users',
+                data: [
+                    ['Website visits', 15654],
+                    ['Downloads', 4064],
+                    ['Requested price list', 1987],
+                    ['Invoice sent', 976],
+                    ['Finalized', 846]
+                ],
+                borderColor: ['rgba(47,126,216, 1)', 'rgba(13,35,58, 1)', 'rgba(139,188,33, 1)', 'rgba(145,0,0, 1)', 'rgba(26,173,206, 1)'],
+
+                colors: ['rgba(47,126,216, 0.5)', 'rgba(13,35,58, 0.5)', 'rgba(139,188,33, 0.5)', 'rgba(145,0,0, 0.5)', 'rgba(26,173,206, 0.5)']
+            }]
+        });
+    </script>
 @endsection
 @stop
