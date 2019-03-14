@@ -76,7 +76,7 @@
         <!-- /.box-body -->
     </div>
 @endsection
-@section('tercero')
+@section('cuarto')
     <div class="box box-primary">
         <div class="box-header with-border">
         <h3 class="box-title">Oportunidad {{ucwords($titulo)}}</h3>
@@ -89,12 +89,13 @@
         </div>
        <div class="box-body chart-responsive">    
             <div class="chart">
+                <canvas id="grafica-oportunidad-porcentaje" style="height:350px"></canvas>
             </div>
         </div>
         <!-- /.box-body -->
     </div>
 @endsection
-@section('cuarto')
+@section('tercero')
      <div class="box box-primary">
         <div class="box-header with-border">
         <h3 class="box-title">Porcentajes de Oportunidad {{ucwords($titulo)}}</h3>
@@ -286,54 +287,78 @@
             }],
         });
     </script>
-     <script type="text/javascript">
-        Highcharts.chart('grafica-oportunidades-porcentaje', {
-            chart: {
-                type: 'funnel',
-            },
-            title: false,
-            plotOptions: {
-                series: {
-                    dataLabels: {
-                         enabled: true
-                    },
-                    center: ['40%', '50%'],
-                    neckWidth: '30%',
-                    neckHeight: '30%',
-                    width: '75%',
-                },
-                funnel:{
-                    borderColor: "white",
-                    states:{
-                        hover:{
-                            enabled:true,
-                            brightness: -0.1
-                        },
-                    },
-                    borderWidth:3
-                }
-
-            },
-            legend: {
-                enabled: false
-            },
-            series: [{
-                name:"Total $ ",
-                data: [
-                    @foreach($oportunidadPorcentaje as $dato)
-                    ['{{$dato->PosicionEstado}}', {{$dato->Total}}],
+    <script>
+var barChartData = {
+			labels:['Prospeccion', 'Presupuestaria', 'Propuesta', 'En Negociacion'],
+			datasets: [{
+				label: 'Dataset 1',
+				backgroundColor: "red",
+				data: [
+				   @foreach($oportunidadPorcentaje as $oportunidad)
+                        @if($oportunidad->PExito == 0.3)
+                        {{$oportunidad->Total}},
+                        @endif
                     @endforeach
-                ],
-                colors: [
-                    'rgba(135, 206, 250, 0.7)', 
-                    'rgba(0, 191, 255, 0.8)',
-                    'rgba(30, 144, 255, 1)',
-                ]
-            }],
-        });
-    </script>
+				]
+			}, {
+				label: 'Dataset 2',
+				backgroundColor: "blue",
+				data: [
+					  @foreach($oportunidadPorcentaje as $oportunidad)
+                        @if($oportunidad->PExito == 0.5)
+                        {{$oportunidad->Total}},
+                        @endif
+                    @endforeach
+				]
+			}, {
+				label: 'Dataset 3',
+				backgroundColor: "green",
+				data: [
+					  @foreach($oportunidadPorcentaje as $oportunidad)
+                        @if($oportunidad->PExito == 0.7)
+                        {{$oportunidad->Total}},
+                        @endif
+                    @endforeach
+				]
+			}, {
+				label: 'Dataset 3',
+				backgroundColor: "black",
+				data: [
+					  @foreach($oportunidadPorcentaje as $oportunidad)
+                        @if($oportunidad->PosicionEstado == '4 En Negociación')
+                        {{$oportunidad->Total}},
+                        @endif
+                    @endforeach
+				]
+			}
+            ]
+
+		};
+			var ctx2 = document.getElementById('grafica-oportunidad-porcentaje').getContext('2d');
+			window.myBar = new Chart(ctx2, {
+				type: 'bar',
+				data: barChartData,
+				options: {
+					title: {
+						display: true,
+						text: 'Chart.js Bar Chart - Stacked'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+
+    </script> 
 @endsection
 @stop
-//colors: ['rgba(173, 216, 230, 0.6)', 'rgba(135, 206, 250, 0.7)', 'rgba(0, 191, 255, 0.8)', 'rgba(30, 144, 255, 1)']
-//colors: ['rgba(255, 160, 122, 0.6)', 'rgba(255, 127, 80, 0.7)', 'rgba(255, 99, 71, 0.8)', 'rgba(255, 69, 0, 1)']
-//colors: ['rgba(127, 255, 212, 0.6)', 'rgba(64, 224, 208, 0.7)', 'rgba(72, 209, 204, 0.8)', 'rgba(0, 206, 209, 1)']

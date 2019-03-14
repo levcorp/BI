@@ -59,6 +59,7 @@ class controllerPanel extends Controller
                             ->orderBy('PosicionEstado','asc')
                             ->orderBy('PExito','asc')
                             ->get();
+
         return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje'));
     }
 }
