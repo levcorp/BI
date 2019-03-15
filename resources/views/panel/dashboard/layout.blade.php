@@ -31,11 +31,14 @@
 
     <!-- Main content -->
       <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- /.box -->
+          @yield('opciones')
+        </div>
+      </div>
+        @yield('boxes')
         <div class="row">
-          <div class="col-md-12">
-            <!-- /.box -->
-            @yield('opciones')
-          </div>
           <div class="col-md-6">
             <!-- AREA CHART -->
             @yield('primero')

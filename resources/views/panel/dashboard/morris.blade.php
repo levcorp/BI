@@ -1,75 +1,80 @@
-@extends('panel.dashboard.layout') @section('titulo')
-<h1>
-    Morris Charts
-    <small>Preview sample</small>
-</h1>
-<ol class="breadcrumb">
-    <li>
-        <a href="#"><i class="fa fa-dashboard"></i> Home</a>
-    </li>
-    <li><a href="#">Charts</a></li>
-    <li class="active">Morris</li>
-</ol>
-@endsection @section('opciones')
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h5 class="box-title">Opciones</h5>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="remove">
-                <i class="fa fa-times"></i>
-            </button>
+@extends('panel.dashboard.layout') 
+@section('boxes')
+<div class="row">
+@foreach($porcentajeEspecialidad as $especialidad)
+    <div class="col-lg-2 col-xs-6 {{$especialidad->ESPECIALIDAD =='AUTO' ? 'col-lg-offset-1' :''}}">
+        <p class="text-center"><b>{{$especialidad->nombre}}</b></p>
+        <svg id="Porcentaje-{{$especialidad->ESPECIALIDAD}}" width="100%" height="100%"></svg>
+        <div class="small-box">
+            <div class="inner text-center">
+                <h5>Meta : <b>${{number_format($especialidad->META,2)}}</b></h5>
+                <h5>Ejecutado : <b>${{number_format($especialidad->EJECUTADO,2)}}</b></h5>
+            </div>
         </div>
     </div>
+@endforeach
+</div>
+@endsection
+@section('opciones')
+<div class="box box-primary">
     <div class="box-body">
         <div class="row">
-            <div class="col-md-4">
-                <div class="dropdown">
-                    <button
-                        class="btn btn-info btn-sm dropdown-toggle"
-                        type="button"
-                        id="dropdownMenu1"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="true"
-                    >
-                        Sector
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="{{ route('panel') }}">General</a></li>
-                        <li>
-                            <a href="{{ route('filtroSector', 'MAN') }}"
-                                >Manufactura</a
-                            >
-                        </li>
-                        <li>
-                            <a href="{{ route('filtroSector', 'M&C') }}"
-                                >Mineria y Cemento</a
-                            >
-                        </li>
-                        <li>
-                            <a href="{{ route('filtroSector', 'F&B') }}"
-                                >Alimentos y Bebidas</a
-                            >
-                        </li>
-                        <li>
-                            <a href="{{ route('filtroSector', 'CSS') }}"
-                                >Construccionn y Servicios</a
-                            >
-                        </li>
-                        <li>
-                            <a href="{{ route('filtroSector', 'O&G') }}"
-                                >Gas y Petroleo</a
-                            >
-                        </li>
-                    </ul>
+            <div class="col-lg-2 col-xs-6">
+                <div class="pull-right">
+                    <div class="dropdown">
+                        <button
+                            class="btn btn-info dropdown-toggle"
+                            type="button"
+                            id="dropdownMenu1"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                        >
+                            Sector
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="{{ route('panel') }}">General</a></li>
+                            <li>
+                                <a href="{{ route('filtroSector', 'MAN') }}"
+                                    >Manufactura</a
+                                >
+                            </li>
+                            <li>
+                                <a href="{{ route('filtroSector', 'M&C') }}"
+                                    >Mineria y Cemento</a
+                                >
+                            </li>
+                            <li>
+                                <a href="{{ route('filtroSector', 'F&B') }}"
+                                    >Alimentos y Bebidas</a
+                                >
+                            </li>
+                            <li>
+                                <a href="{{ route('filtroSector', 'CSS') }}"
+                                    >Construccionn y Servicios</a
+                                >
+                            </li>
+                            <li>
+                                <a href="{{ route('filtroSector', 'O&G') }}"
+                                    >Gas y Petroleo</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="pull-left">
+                    <h4 class="text-center">{{$titulo}}</h4>
                 </div>
             </div>
         </div>
     </div>
     <!-- /.box-body -->
 </div>
-@endsection @section('primero')
+@endsection 
+@section('primero')
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Presupuesto de {{ ucwords($titulo) }}</h3>
@@ -97,7 +102,7 @@
     </div>
     <!-- /.box-body -->
 </div>
-@endsection @section('segundo')
+@endsection @section('cuarto')
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Oportunidades de {{ ucwords($titulo) }}</h3>
@@ -122,7 +127,7 @@
     </div>
     <!-- /.box-body -->
 </div>
-@endsection @section('cuarto')
+@endsection @section('segundo')
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Oportunidad por Porcentaje {{ ucwords($titulo) }}</h3>
@@ -198,7 +203,7 @@
         </div>
     </div>
     <div class="box-body table-responsive">
-        <div class="chart" id="tabla-especialidad-meses"></div>
+        <div id="tabla-especialidad-meses"></div>
     </div>
     <!-- /.box-body -->
 </div>
@@ -241,7 +246,7 @@
     		}]
     	},
     	options: {
-    		responsive: true,
+    		responsive: true,   
     		tooltips: {
     			mode: 'index',
     			intersect: false,
@@ -278,7 +283,12 @@
     var pivot = new WebDataRocks({
         container: "#tabla-especialidad-meses",
         //Mostrar Menu
-        toolbar: false,
+        toolbar: true,
+        beforetoolbarcreated: customizeToolbar,
+        global: {
+		// replace this path with the path to your own translated file
+		localization: "https://cdn.webdatarocks.com/loc/es.json"
+	    },
         report: {
             dataSource: {
                 data: {!!$todo!!}
@@ -289,11 +299,17 @@
                     uniqueName: "SECTOR"
                     },
                     {
-                    uniqueName: "ESPECIALIDAD"
+                            uniqueName: "ESPECIALIDAD",
+                            "filter": {
+                            "members": [
+                                "color.[blue]"
+                            ]
+                        } 
                     }
                 ],
                 columns: [{
                     uniqueName: "MES",
+                    sort: "unsorted"
                     }
                 ],
                 measures: [
@@ -318,6 +334,18 @@
         decimalPlaces: 2
         }],
     });
+    function customizeToolbar(toolbar) {
+    // get all tabs
+    var tabs = toolbar.getTabs();
+        toolbar.getTabs = function () {
+            // delete the first tab
+            delete tabs[0];
+            delete tabs[1];
+            delete tabs[2];
+            
+            return tabs;
+        }
+    }
 </script>
 <script type="text/javascript">
     Highcharts.chart('grafica-oportunidades', {
@@ -357,8 +385,8 @@
                 ['{{$total->PosicionEstado}}', {{$total->Total}}],
                 @endforeach
             ],
-            colors: ['rgba(220, 20, 60, 1)', 'rgba(255, 127, 80, 1)',
-             'rgba(255, 222, 173, 0.8)', 'rgba(119, 136, 153, 1)']
+            colors: ['rgba(222,103,54, 0.7)', 'rgba(103,193,236, 0.7)',
+             'rgba(230,185,13, 0.7)', 'rgba(123,188,83, 0.7)']
         }],
     });
 </script>
@@ -430,6 +458,24 @@
     					}
     				}
     			});
+</script>
+<script>
+@foreach($porcentajeEspecialidad as $especialidad)
+    var configuracion{{$especialidad->ESPECIALIDAD}} = liquidFillGaugeDefaultSettings();
+        configuracion{{$especialidad->ESPECIALIDAD}}.circleColor = "{{$especialidad->color[0]}}";
+        configuracion{{$especialidad->ESPECIALIDAD}}.textColor = "{{$especialidad->color[0]}}";
+        configuracion{{$especialidad->ESPECIALIDAD}}.waveTextColor = "white";
+        configuracion{{$especialidad->ESPECIALIDAD}}.waveColor = "{{$especialidad->color[1]}}";
+        configuracion{{$especialidad->ESPECIALIDAD}}.circleThickness = 0.1;
+        configuracion{{$especialidad->ESPECIALIDAD}}.textVertPosition = 0.5;
+        configuracion{{$especialidad->ESPECIALIDAD}}.waveAnimateTime = 3000;
+        configuracion{{$especialidad->ESPECIALIDAD}}.textSize = 0.75;
+        configuracion{{$especialidad->ESPECIALIDAD}}.waveHeight = 0.1;
+    var gauge{{$especialidad->ESPECIALIDAD}} = 
+        loadLiquidFillGauge("Porcentaje-{{$especialidad->ESPECIALIDAD}}", 
+                            {{$especialidad->EJECUTADO/($especialidad->META==0 ? 1 : $especialidad->META) }}*100,
+                            configuracion{{$especialidad->ESPECIALIDAD}}); 
+@endforeach
 </script>
 @endsection 
 @stop

@@ -8,3 +8,5 @@
 {{Html::script('code/modules/funnel.js')}}
 {{Html::script('code/modules/exporting.js')}}
 {{Html::script('code/modules/export-data.js')}}
+<script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+{{Html::script('js/liquidFillGauge.js')}}

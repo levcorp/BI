@@ -28,7 +28,25 @@ class controllerPanel extends Controller
                             ->orderBy('PosicionEstado','asc')
                             ->orderBy('PExito','asc')
                             ->get();
-        return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje'));
+        $porcentajeEspecialidad=DB::table('PresupuestoMeses')
+                                ->select('ESPECIALIDAD',DB::raw('SUM(META) as META'),DB::raw('SUM(EJECUTADO) as EJECUTADO'))
+                                ->where('ESPECIALIDAD','!=','OTROS')
+                                ->groupBy('ESPECIALIDAD')
+                                ->orderBy('ESPECIALIDAD','asc')
+                                ->get();
+        $porcentajeEspecialidad->map(function ($item, $key) {
+        $nombre=["Automatización",'Electrica','Instrumentación','Mecanica','Media Tensión'];
+            return $item->nombre=$nombre[$key];
+        });
+        $porcentajeEspecialidad->map(function ($item, $key) {
+            $circleColor=["#FAB9AC",'#7BBC53','#DE6736','#67C1EC','#E6B90D'];
+            $waveColor=["rgba(250,185,172, 0.5)",'rgba(123,188,83, 0.5)','rgba(222,103,54, 0.5)','rgba(103,193,236, 0.5)','rgba(230,185,13, 0.5)'];
+            return $item->color=[
+                $circleColor[$key],
+                $waveColor[$key]
+            ];
+        });
+        return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
     }
     public function sector($dato)
     {
@@ -59,7 +77,25 @@ class controllerPanel extends Controller
                             ->orderBy('PosicionEstado','asc')
                             ->orderBy('PExito','asc')
                             ->get();
-
-        return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje'));
+        $porcentajeEspecialidad=DB::table('PresupuestoMeses')
+                            ->select('ESPECIALIDAD',DB::raw('SUM(META) as META'),DB::raw('SUM(EJECUTADO) as EJECUTADO'))
+                            ->where('ESPECIALIDAD','!=','OTROS')
+                            ->where('SECTOR',$dato)
+                            ->groupBy('ESPECIALIDAD')
+                            ->orderBy('ESPECIALIDAD','asc')
+                            ->get();
+        $porcentajeEspecialidad->map(function ($item, $key) {
+        $nombre=["Automatización",'Electrica','Instrumentación','Mecanica','Media Tensión'];
+            return $item->nombre=$nombre[$key];
+        });
+        $porcentajeEspecialidad->map(function ($item, $key) {
+            $circleColor=["#FAB9AC",'#7BBC53','#DE6736','#67C1EC','#E6B90D'];
+            $waveColor=["rgba(250,185,172, 0.5)",'rgba(123,188,83, 0.5)','rgba(222,103,54, 0.5)','rgba(103,193,236, 0.5)','rgba(230,185,13, 0.5)'];
+            return $item->color=[
+                $circleColor[$key],
+                $waveColor[$key]
+            ];
+        });
+        return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
     }
 }
