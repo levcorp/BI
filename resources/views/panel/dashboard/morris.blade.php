@@ -283,7 +283,8 @@
                     ['{{$total->PosicionEstado}}', {{$total->Total}}],
                     @endforeach
                 ],
-                colors: ['rgba(127, 255, 212, 0.6)', 'rgba(64, 224, 208, 0.7)', 'rgba(72, 209, 204, 0.8)', 'rgba(0, 206, 209, 1)']
+                colors: ['rgba(220, 20, 60, 1)', 'rgba(255, 127, 80, 1)',
+                 'rgba(255, 222, 173, 0.8)', 'rgba(119, 136, 153, 1)']
             }],
         });
     </script>
