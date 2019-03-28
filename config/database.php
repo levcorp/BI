@@ -84,7 +84,17 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
+        'sap' => [
+            'driver' => 'sqlsrv',
+            'host' =>'192.168.10.45',
+            'port' => '1433',
+            'database' =>'LEVCORP',
+            'username' =>'sa',
+            'password' =>'Sa123',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
     ],
 
     /*

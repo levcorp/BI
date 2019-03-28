@@ -46,6 +46,7 @@ class controllerPanel extends Controller
                 $waveColor[$key]
             ];
         });
+        Session::flash('mensaje','Datos cargados correctamente');
         return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
     }
     public function sector($dato)
@@ -96,6 +97,7 @@ class controllerPanel extends Controller
                 $waveColor[$key]
             ];
         });
+        Session::flash('mensaje','Datos cargados correctamente');
         return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
     }
 }

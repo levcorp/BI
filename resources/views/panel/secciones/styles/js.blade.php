@@ -10,3 +10,4 @@
 {{Html::script('dist/js/app.min.js')}}
 <!-- AdminLTE for demo purposes -->
 {{Html::script('dist/js/demo.js')}}
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

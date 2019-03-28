@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
          $this->call(seedAsignacionSucursal::class);
          $this->call(seedAsignacionDashboard::class);
          $this->call(seedReporte::class);
+         $this->call(SeedSolicitud::class);
     }
 }

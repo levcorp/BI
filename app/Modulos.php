@@ -12,6 +12,7 @@ class Modulos extends Model
         'descripcion',
         'rol_id',   
     ];
+
     public function rol()
     {
         return $this->belongsTo(App\Rol::class, 'rol_id');

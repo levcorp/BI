@@ -7,11 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class EspecialidadMeses extends Model
 {
     protected $table='PresupuestoMeses';
-    protected $fillable=[
-        'PERIODO',
-        'META',
-        'EJECUTADO'
-    ];
     public function getEjecutadoAttribute($value)
     {
         return  $value; 

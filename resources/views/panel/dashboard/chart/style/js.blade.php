@@ -1,1 +1,0 @@
-{!!Html::style('plugins/chartjs/Chart.min.js')!!}

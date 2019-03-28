@@ -10,7 +10,7 @@ class Sucursal extends Model
     protected $fillable=[
         'sucursal'    
     ];
-
+    
     public function asignacion()
     {
         return $this->hasMany(App\AsignacionSucursal::class);

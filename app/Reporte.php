@@ -12,6 +12,7 @@ class Reporte extends Model
         'url',
         'dashboard_id'
     ];
+
     public function dashboard()
     {
         return $this->belongsTo(Dashboard::class, 'dashboard_id');
