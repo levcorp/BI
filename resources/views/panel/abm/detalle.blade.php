@@ -66,7 +66,7 @@
                         <td>@{{detalle.descripcion}}</td>
                         <td>@{{detalle.comentarios}}</td>
                         <td>
-                            <form method="DELETE">
+                            <form method="DELETE" @submit.prevent="deleteSolicitud(detalle.id)">
                                 <a href="" class="btn btn-success btn-xs"><i class="fa fa-check"></i></a>
                                 <a data-toggle="modal" data-target="#myModal2"  class="btn btn-info btn-xs"><i class="fa fa-plus"></i></a>
                                 <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
@@ -84,39 +84,41 @@
     </div>
     <!-- Modal Crear-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog " role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">Registro de Articulos</h4>
             </div>
-            <form method="POST">
+            <form method="POST" @submit.prevent="postDetalle()" :title="{{$id}}">
                 <div class="modal-body">
                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="recipient-name" class="control-label">Serie : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-slack"></i></span>
-                                    <select v-model="selected" class="form-control" aria-describedby="sizing-addon3">
-                                        <option selected value="MANUAL">MANUAL</option>
+                                    <select v-model="serie" class="form-control text-center" aria-describedby="sizing-addon3">
+                                        <option value="MANUAL">MANUAL</option>
                                         <option value="ROCKWELL AUTOMATION">ROCKWELL AUTOMATION</option>
                                         <option value="FESTO">FESTO</option>
                                         <option value="ENDRESS+HAUSER">ENDRESS + HAUSER</option>
-                                        <option value="KAISER">KAESER</option>
+                                        <option value="KAESER">KAESER</option>
                                         <option value="YALE">YALE</option>
                                         <option value="BELDEN">BELDEN</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="message-text" class="control-label">Fabricante : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-user"></i></span>
-                                    <input :value="fabricante" :disabled="fdisabled" type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <input v-if="serie != 'MANUAL'" :value="fabricante" :disabled="fdisabled" type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <v-select v-else v-model="selectFabricante" :options="fabricantes" label="FirmName">
+                                        <span slot="no-options">No hay opciones coincidentes!</span>
+                                    </v-select>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +127,10 @@
                                 <label for="message-text" class="control-label">Proveedor : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cubes"></i></span>
-                                    <input :value="proveedor" :disabled="pdisabled" type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <input  v-if="serie != 'MANUAL'" :value="proveedor" :disabled="pdisabled" type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <v-select v-else v-model="selectProveedor" :options="proveedores" label="CardName">
+                                        <span slot="no-options">No hay opciones coincidentes!</span>
+                                    </v-select>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +139,9 @@
                                 <label for="message-text" class="control-label">Especialidad : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-edit"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <v-select v-model="selectEspecialidad" :options="especialidades" label="Descripcion">
+                                        <span slot="no-options">No hay opciones coincidentes!</span>
+                                    </v-select>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +150,9 @@
                                 <label for="message-text" class="control-label">Familia : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cog"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <v-select v-model="selectFamilia" :options="familias" label="Familia">
+                                        <span slot="no-options">No hay opciones coincidentes!</span>
+                                    </v-select>
                                 </div>
                             </div>
                         </div>
@@ -152,16 +161,24 @@
                                 <label for="message-text" class="control-label">Sub Familia : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cogs"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <v-select v-model="selectSubfamilia" :options="subfamilias" label="Subfamilia">
+                                        <span slot="no-options">No hay opciones coincidentes!</span>
+                                    </v-select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="message-text" class="control-label">Unidad de Medida : </label>
+                                <label for="" class="control-label"> Unidad de Medida</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-th"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cube"></i></span>
+                                    <select v-model="medida" class="form-control text-center" aria-describedby="sizing-addon3">
+                                        <option value="PZA">PZA</option>
+                                        <option value="MT">MT</option>
+                                        <option value="LT">LT</option>
+                                        <option value="BOLSA">BOLSA</option>
+                                        <option value="ROLLO">ROLLO</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +187,7 @@
                                 <label for="message-text" class="control-label">Codigo de Venta : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-chain"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <input v-model="cod_venta" type="text" class="form-control" aria-describedby="sizing-addon3">
                                 </div>
                             </div>
                         </div>
@@ -179,7 +196,7 @@
                                 <label for="message-text" class="control-label">Codigo de Compra : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-chain"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <input v-model="cod_compra" type="text" class="form-control" aria-describedby="sizing-addon3">
                                 </div>
                             </div>
                         </div>
@@ -188,7 +205,7 @@
                                 <label for="message-text" class="control-label">Descripcion : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-indent"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="sizing-addon3">
+                                    <input v-model="descripcion" type="text" class="form-control" aria-describedby="sizing-addon3">
                                 </div>
                             </div>
                         </div>
@@ -197,7 +214,7 @@
                                 <label for="message-text" class="control-label">Comentarios : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-indent"></i></span>
-                                    <textarea type="text" class="form-control" aria-describedby="sizing-addon3"></textarea>
+                                    <textarea v-model="comentarios"type="text" class="form-control" aria-describedby="sizing-addon3"></textarea>
                                 </div>
                             </div>
                         </div>                 
@@ -212,6 +229,9 @@
         </div>
     </div>
 </div>
+<script>
+    window.ID = {{$id}};
+</script>
 @section('script')
   {{Html::script('js/detalleSolicitud.js')}}
 @endsection

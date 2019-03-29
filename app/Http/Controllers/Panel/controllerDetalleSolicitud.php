@@ -13,64 +13,75 @@ use Illuminate\Support\Facades\DB;
 use Session;
 class controllerDetalleSolicitud extends Controller
 {
-    public function __construct()
+    public function datos($opcion,$fabricante=null,$especialidad=null,$familia=null)
     {
-        if(Session::has('id')){Session::put($id);}
-    }
-    public function datos($opcion)
-    {
+        //dd($especialidad." ".$fabricante);
         switch($opcion)
         {
-            case "fabricante":
-                return response()->json(Fabricantes::all());
+            case "fabricantes":
+                return response()->json(Fabricante::all());
             break;
-            case "especialida":
+            case "especialidades":
                 return response()->json(Especialidad::all());
             break;
             case "proveedores":
                 return response()->json(Proveedor::select('CardName','CardCode')->get());
             break;
+            case "familias":
+                return response()->json(FYS::select('Familia')
+                                        ->where('Especialidad','like',$especialidad)
+                                        ->where('Marca','like',$fabricante)
+                                        ->groupBy('Familia')->get());
+            break;
+            case "subfamilias":
+                return response()->json(
+                    FYS::select('Subfamilia')
+                        ->where('Especialidad','like',$especialidad)
+                        ->where('Marca','like',$fabricante)
+                        ->where('Familia',$familia)
+                        ->groupBy('Subfamilia')->get()
+                    );
+            break;
             case "id":
-                return response()->json(Session::get('id'));
+                return response()->json($this->id);
             break;
         }
     }
-    public function detalles($paginacion)
+    public function detalles($id,$paginacion)
     {
-        return response()->json(Detalle::where('solicitud_id',Session::get('id'))->orderBy('id','desc')->paginate($paginacion));
+        return response()->json(Detalle::where('solicitud_id',$id)->orderBy('id','desc')->paginate($paginacion));
     }
     public function index(){   
         //dd(FYS::all());
-        return view('panel.abm.detalle');
     }
     public function store(Request $request){
         Detalle::create([
             'serie'=>$request->serie,
             'fabricante'=>$request->fabricante,
-            'cod_fabricante'=>$cod_fabricante,
-            'proveedor'=>$request->proveedores,
+            'cod_fabricante'=>$request->cod_fabricante,
+            'proveedor'=>$request->proveedor,
             'cod_proveedor'=>$request->cod_proveedor,
             'especialidad'=>$request->especialidad,
-            'cod_especialidad'=>$cod_especialidad,
+            'cod_especialidad'=>$request->cod_especialidad,
             'familia'=>$request->familia,
             'subfamilia'=>$request->subfamilia,
             'medida'=>$request->medida,
             'cod_venta'=>$request->cod_venta,
             'cod_compra'=>$request->cod_compra,
             'descripcion'=>$request->descripcion,
-            'comentarios'=>$request->comentarios
+            'comentarios'=>$request->comentarios,
+            'solicitud_id'=>$request->solicitud_id,
         ]);
     }   
     public function show($id)
     {
-        Session::put('id',$id);
-        return view('panel.abm.detalle');    
+        return view('panel.abm.detalle',compact('id'));    
     }
     public function update(Request $request, $id)
     {
 
     }
     public function destroy($id){
-        Detalle:findOrFail($id)->delete();
+        Detalle::findOrFail($id)->delete();
     }
 }

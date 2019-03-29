@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetalleSolicitud extends Model
 {
     protected $table='detalle_solicituds';
-    protected $filalble=[
+    protected $fillable=[
         'serie',
         'fabricante',
         'cod_fabricante',
@@ -21,7 +21,9 @@ class DetalleSolicitud extends Model
         'cod_venta',
         'cod_compra',
         'descripcion',
-        'comentarios'
+        'comentarios',
+        'solicitud_id'
+
     ];
     public $timestamps = false;
 }
