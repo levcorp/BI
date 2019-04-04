@@ -11,6 +11,8 @@ use App\Proveedor;
 use App\EspecialidadMeses as FYS;
 use Illuminate\Support\Facades\DB;
 use Session;
+use Validator;
+use App\Http\Requests\RequestArticulosABM as RArticulos;
 class controllerDetalleSolicitud extends Controller
 {
     public function datos($opcion,$fabricante=null,$especialidad=null,$familia=null)
@@ -54,7 +56,8 @@ class controllerDetalleSolicitud extends Controller
     public function index(){   
         //dd(FYS::all());
     }
-    public function store(Request $request){
+    public function store(RArticulos $request)
+    {
         Detalle::create([
             'serie'=>$request->serie,
             'fabricante'=>$request->fabricante,
@@ -72,14 +75,34 @@ class controllerDetalleSolicitud extends Controller
             'comentarios'=>$request->comentarios,
             'solicitud_id'=>$request->solicitud_id,
         ]);
-    }   
+    }
+    public function edit($id)   
+    {
+        return response()->json(Detalle::findOrFail($id));
+    }
     public function show($id)
     {
         return view('panel.abm.detalle',compact('id'));    
     }
     public function update(Request $request, $id)
     {
-
+        Detalle::findOrFail($id)->fill([
+            'serie'=>$request->serie,
+            'fabricante'=>$request->fabricante,
+            'cod_fabricante'=>$request->cod_fabricante,
+            'proveedor'=>$request->proveedor,
+            'cod_proveedor'=>$request->cod_proveedor,
+            'especialidad'=>$request->especialidad,
+            'cod_especialidad'=>$request->cod_especialidad,
+            'familia'=>$request->familia,
+            'subfamilia'=>$request->subfamilia,
+            'medida'=>$request->medida,
+            'cod_venta'=>$request->cod_venta,
+            'cod_compra'=>$request->cod_compra,
+            'descripcion'=>$request->descripcion,
+            'comentarios'=>$request->comentarios,
+            'solicitud_id'=>$request->solicitud_id,
+        ])->save();
     }
     public function destroy($id){
         Detalle::findOrFail($id)->delete();

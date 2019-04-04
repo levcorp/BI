@@ -23,7 +23,6 @@ class DetalleSolicitud extends Model
         'descripcion',
         'comentarios',
         'solicitud_id'
-
     ];
     public $timestamps = false;
 }

@@ -83,6 +83,33 @@ new Vue({
                     });
                     swal("¡ Registro Eliminado Correctamente ! ", {
                         icon: "success",
+
+                    });
+                }
+              });
+        },
+        solicitudID:function(id){
+            this.mail.solicitud_id=id;
+        },
+        sendMail:function(id)
+        {
+            swal({
+                title: "Enviar Correo",
+                text: "¿ Esta seguro en enviar el correo electronico con la lista de articulos ?",
+                icon: "warning",
+                buttons: ["Cancelar","Enviar"],
+                dangerMode: false,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                    var url='/api/solicitud/mail/'+id;
+                    axios.get(url).then(response=>{
+                        this.getResultadoPendiente();
+                        this.getResultadoRealizado();
+                       
+                    });
+                    swal("¡ Correo Enviado Correctamente ! ", {
+                        icon: "success",
                     });
                 }
               });

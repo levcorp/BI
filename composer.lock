@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b53eef22f458e4e6d8bc3a038d936e26",
+    "content-hash": "53982d5a859693d73f9dc4052cff94fa",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -733,6 +733,68 @@
             "time": "2019-03-01T22:53:41+00:00"
         },
         {
+            "name": "laraveles/spanish",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laraveles/spanish.git",
+                "reference": "f53974ecc56f1bea92cf8e56b3cc255ba89a1e81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laraveles/spanish/zipball/f53974ecc56f1bea92cf8e56b3cc255ba89a1e81",
+                "reference": "f53974ecc56f1bea92cf8e56b3cc255ba89a1e81",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+                "illuminate/support": "~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.4",
+                "phpunit/phpunit": "^5.6|^6.3|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laraveles\\Spanish\\SpanishServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laraveles\\Spanish\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Israel Ortuño",
+                    "email": "ai.ortuno@gmail.com"
+                },
+                {
+                    "name": "Cesar Garcia",
+                    "email": "cesargb@gmail.com",
+                    "homepage": "https://github.com/cesargb",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Conjunto de traducciones en español para Laravel",
+            "homepage": "https://github.com/Laraveles/spanish",
+            "keywords": [
+                "laravel",
+                "laraveles",
+                "spanish",
+                "traduccion"
+            ],
+            "time": "2019-03-15T10:09:52+00:00"
+        },
+        {
             "name": "league/flysystem",
             "version": "1.0.50",
             "source": {
@@ -1160,6 +1222,80 @@
                 "type"
             ],
             "time": "2015-07-25T16:39:46+00:00"
+        },
+        {
+            "name": "proengsoft/laravel-jsvalidation",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/proengsoft/laravel-jsvalidation.git",
+                "reference": "b2dfa9ec5f15b26b9dbdc69c1c6215a0ac4b83a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/proengsoft/laravel-jsvalidation/zipball/b2dfa9ec5f15b26b9dbdc69c1c6215a0ac4b83a8",
+                "reference": "b2dfa9ec5f15b26b9dbdc69c1c6215a0ac4b83a8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/contracts": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/http": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/support": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/translation": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/validation": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/view": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.10",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "~5.7|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Proengsoft\\JsValidation\\JsValidationServiceProvider"
+                    ],
+                    "aliases": {
+                        "JsValidator": "Proengsoft\\JsValidation\\Facades\\JsValidatorFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Proengsoft\\JsValidation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Albert Moreno",
+                    "email": "albert@memorylimit.net",
+                    "homepage": "https://github.com/torrentalle"
+                },
+                {
+                    "name": "Anton Komarev",
+                    "email": "a.komarev@cybercog.su",
+                    "homepage": "http://ell.folio.su/"
+                }
+            ],
+            "description": "Validate forms transparently with Javascript reusing your Laravel Validation Rules, Messages, and FormRequest",
+            "homepage": "https://github.com/proengsoft/laravel-jsvalidation",
+            "keywords": [
+                "form",
+                "javascript",
+                "jquery",
+                "laravel",
+                "proengsoft",
+                "validation",
+                "validator"
+            ],
+            "time": "2019-03-12T10:02:04+00:00"
         },
         {
             "name": "psr/container",

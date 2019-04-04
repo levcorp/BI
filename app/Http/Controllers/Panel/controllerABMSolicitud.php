@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Solicitud;
 use Auth;
+use Mail;
+use App\DetalleSolicitud;
+use Illuminate\Support\Facades\DB;
+
 class controllerABMSolicitud extends Controller
 {
     public function numero()
@@ -19,17 +23,31 @@ class controllerABMSolicitud extends Controller
         $solicitudes=Solicitud::where('estado',ucfirst($tipo))->orderBy('id','desc')->with('usuario')->paginate($paginacion);
         return response()->json($solicitudes);
     }
+    public function sendMail($id)
+    {
+        Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();
+        $para =['sistemas@levcorp.bo', Auth::user()->email];
+        $asunto='Articulos ABM';
+        Auth::attempt(['email' => 'gpinto@levcorp.bo', 'password' => '12345678']);
+        $articulos=DetalleSolicitud::where('solicitud_id',$id)->orderBy('id','desc')->get();
+        Mail::send('mails.articulosABM',['articulos' => $articulos],function($mensaje) use($para,$asunto){
+            $mensaje->from('admin@levcorp.bo','Sistemas');
+            $mensaje->to($para);
+            $mensaje->subject($asunto);
+        });     
+    }
     public function index()
     {
+       
+        //$articulos=DetalleSolicitud::select(DB::raw('count(solicitud_id) as solictud, solicitud_id'))->groupBy('solicitud_id')->where('solicitud_id','>',0)->get();
+        //dd($articulos->all());
+        //config(['mail.username'=>'gpinto@levcorp.bo']);
+        //config(['mail.password'=>'Larcos1']);
         Auth::attempt(['email' => 'gpinto@levcorp.bo', 'password' => '12345678']);
-
+        $articulos=DetalleSolicitud::where('solicitud_id',1)->orderBy('id','desc')->get();
         $solicitudesR=Solicitud::where('estado','Realizado')->orderBy('id','desc')->paginate(10);
         $solicitudesP=Solicitud::where('estado','Pendiente')->orderBy('id','desc')->paginate(10);
         return view('panel.abm.index',compact('solicitudesR','solicitudesP'));
-    }
-    public function create()
-    {
-        //
     }
     public function store(Request $request)
     {
@@ -41,18 +59,6 @@ class controllerABMSolicitud extends Controller
             //Estado de la solicitud
             'estado'=>'Pendiente'
         ]);
-    }
-    public function show($id)
-    {
-        //
-    }
-    public function edit($id)
-    {
-        //
-    }
-    public function update(Request $request, $id)
-    {
-        //
     }
     public function destroy($id)
     {

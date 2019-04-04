@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -15745,13 +15745,39 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
           });
         }
       });
+    },
+    solicitudID: function solicitudID(id) {
+      this.mail.solicitud_id = id;
+    },
+    sendMail: function sendMail(id) {
+      var _this6 = this;
+
+      sweetalert__WEBPACK_IMPORTED_MODULE_2___default()({
+        title: "Enviar Correo",
+        text: "¿ Esta seguro en enviar el correo electronico con la lista de articulos ?",
+        icon: "warning",
+        buttons: ["Cancelar", "Enviar"],
+        dangerMode: false
+      }).then(function (willDelete) {
+        if (willDelete) {
+          var url = '/api/solicitud/mail/' + id;
+          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+            _this6.getResultadoPendiente();
+
+            _this6.getResultadoRealizado();
+          });
+          sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("¡ Correo Enviado Correctamente ! ", {
+            icon: "success"
+          });
+        }
+      });
     }
   }
 });
 
 /***/ }),
 
-/***/ 0:
+/***/ 1:
 /*!********************************************!*\
   !*** multi ./resources/js/SolicitudABM.js ***!
   \********************************************/

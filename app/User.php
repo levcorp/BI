@@ -26,6 +26,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected $appends = ['correo'];
+    public function getCorreoAttribute()
+    {
+        return $this->attributes['email'];
+    }
     public function asignacionDashboard()
     {
         return $this->hasMany(AsignacionDashboard::class,'id');
