@@ -9,7 +9,7 @@ use Auth;
 use Mail;
 use App\DetalleSolicitud;
 use Illuminate\Support\Facades\DB;
-
+use App\User;
 class controllerABMSolicitud extends Controller
 {
     public function numero()
@@ -26,11 +26,11 @@ class controllerABMSolicitud extends Controller
     public function sendMail($id)
     {
         Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();
-        $para =['sistemas@levcorp.bo', Auth::user()->email];
         $asunto='Articulos ABM';
-        Auth::attempt(['email' => 'gpinto@levcorp.bo', 'password' => '12345678']);
+        $usuario=User::findOrFail(Solicitud::findOrFail($id)->usuario_id);
+        $para =['sistemas@levcorp.bo',$usuario->email];
         $articulos=DetalleSolicitud::where('solicitud_id',$id)->orderBy('id','desc')->get();
-        Mail::send('mails.articulosABM',['articulos' => $articulos],function($mensaje) use($para,$asunto){
+        Mail::send('mails.articulosABM',['articulos' => $articulos,'usuario'=>$usuario],function($mensaje) use($para,$asunto){
             $mensaje->from('admin@levcorp.bo','Sistemas');
             $mensaje->to($para);
             $mensaje->subject($asunto);

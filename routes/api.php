@@ -1,9 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::get('solicitud/mail/{id}','Panel\controllerABMSolicitud@sendMail');
 Route::get('solicitud/{id}/{paginacion}/detalles','Panel\controllerDetalleSolicitud@detalles');
 Route::get('solicitud/detalle/datos/{opcion}/{fabricante?}/{especialidad?}/{familia?}','Panel\controllerDetalleSolicitud@datos');

@@ -14,11 +14,11 @@
                     <table style="font-size: 12px; font-family: Arial, Helvetica, sans-serif;">
                         <tr style="margin: 5px;">
                             <th style="text-align: center;background-color: #0080c0; color: white;">Nombre</th>
-                            <td style="text-align: center;background-color: #dae6e7">{{ucwords(Auth::user()->nombre." ".Auth::user()->apellido)}}</td>
+                            <td style="text-align: center;background-color: #dae6e7">{{ucwords($usuario->nombre." ".$usuario->apellido)}}</td>
                         </tr>
                         <tr style="margin: 5px;">
                             <th style="text-align: center;background-color: #0080c0; color: white;">Correo Electronico</th>
-                            <td style="text-align: center;background-color: #dae6e7">{{Auth::user()->email}}</td>
+                            <td style="text-align: center;background-color: #dae6e7">{{$usuario->email}}</td>
                         </tr>
                     </table>
                     <p style="font-family: Arial, Helvetica, sans-serif;font-size: 12px; ">La solicitud de los articulos tiene el siguiente detalle:</p>
