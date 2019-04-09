@@ -3,6 +3,7 @@ import axios from 'axios';
 Vue.component('pagination', require('laravel-vue-pagination'));
 import swal from 'sweetalert';
 import moment from 'moment';
+import toastr from 'toastr';
 new Vue({
     el  : '#solicitud',
     data: {
@@ -21,6 +22,23 @@ new Vue({
     mounted() {
         this.getResultadoRealizado();
         this.getResultadoPendiente();
+        toastr.options = {
+            "closeButton": true,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          }
+        toastr.success('Datos Cargados Correctamente', {timeOut: 5000})
+
     },
     created(){
         
@@ -30,6 +48,8 @@ new Vue({
             axios.get('/api/solicitud/numero')
             .then(response => {
                 this.solicitud.numero=response.data;
+                toastr.remove()
+                toastr.success('Datos Cargados Correctamente', {timeOut: 3000})
             });
         },
         getResultadoPendiente(page = 1) {
@@ -53,6 +73,7 @@ new Vue({
         getPaginacionRealizado: function(numero){   
             this.paginacionRealizado=numero;
             this.getResultadoRealizado();
+            
         },
         postSolicitud:function()
         {

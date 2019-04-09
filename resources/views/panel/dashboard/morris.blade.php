@@ -2,10 +2,12 @@
 @section('boxes')
 <div class="row">
 @foreach($porcentajeEspecialidad as $especialidad)
-    <div class="col-lg-2 col-xs-6 {{$especialidad->ESPECIALIDAD =='AUTO' ? 'col-lg-offset-1' :''}}">
-        <p class="text-center"><b>{{$especialidad->nombre}}</b></p>
-        <svg id="Porcentaje-{{$especialidad->ESPECIALIDAD}}" width="100%" height="100%"></svg>
-        <div class="small-box">
+    <div class="col-lg-2 col-xs-6 {{$especialidad->ESPECIALIDAD =='AUTO' ? 'col-lg-offset-1' :''}} " style="background-color=white;">
+        <div style="background-color:white">
+            <p  class="text-center"><b>{{$especialidad->nombre}}</b></p>
+            <svg id="Porcentaje-{{$especialidad->ESPECIALIDAD}}" width="100%" height="100%"></svg>
+        </div>
+        <div class="small-box" style="background-color:white">
             <div class="inner text-center">
                 <h5>Meta : <b>${{number_format($especialidad->META,2)}}</b></h5>
                 <h5>Ejecutado : <b>${{number_format($especialidad->EJECUTADO,2)}}</b></h5>
@@ -478,7 +480,7 @@
 @endforeach
 </script>
 <script>
-    toastr.info('\Session::get('mensaje')')
+    toastr.info("{{Session::get("mensaje")}}")
 </script>
 @endsection 
 @stop

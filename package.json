@@ -30,6 +30,7 @@
         "moment": "^2.24.0",
         "select2": "^4.0.6-rc.1",
         "sweetalert": "^2.1.2",
+        "toastr": "^2.1.4",
         "vee-validate": "^2.2.0",
         "vue-paginate": "^3.6.0",
         "vue-router": "^3.0.2",

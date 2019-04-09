@@ -1,6 +1,6 @@
 <?php
 //Autentificacion
-Route::get('/','Log\controllerAuth@inicio')->name('inicio');
+Route::get('/','Login\controllerLogin@log')->name('login');
 
 
 //Panel
