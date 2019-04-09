@@ -58,6 +58,26 @@
                 </div>   
             </div>
         </div>
-        
+        <div class="row" style="width: 50%">
+            <img src="{{asset('images\levcorp.png')}}" alt="">
+            <div style="margin-bottom: 0px;padding-bottom: 0px;">
+                <hr style="color: red ">  
+                <p style="color:#1f497d; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;">{{strtoupper($usuario->nombre." ".$usuario->apellido)}}</p>
+                <p style="color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;">{{ucwords($usuario->cargo)}}</p>
+                <hr style="color: red" >
+                <div style="background-color:#d5dcdd ">
+                    <p  style="font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;"><span style="color:red">&#9742;</span><b> Telf  : </b> (591-2) -  2815658 </p>	
+                    <p style="font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;"><span style="color:red">&#128224;</span><b> Fax  : </b> (591-2) -  2782126 </p>
+                    <p style="font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;"> <span style="color:red">&#128222;</span> <b> Cel.  : </b> </p>
+                    <p style="font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;"><span style="color:red">&#128231;</span><b> Email  : </b> {{$usuario->email}}</p>
+                    <p style="font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;"><span style="color:red"> &#1698;</span><b> C. 15 de Agosto No. 1789 esq. Villa de Oropeza 
+                        <p style="padding-left:5px;font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;">&nbsp;Zona Villa Galindo</p>
+                        <p style="padding-left:5px;font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;">&nbsp;Cochabamba - Bolivia</p>
+                    </b> </p>	
+                    <p style="padding-left:5px;font-size:14px;color:#1f497d ; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin: 0px 0px;padding: 0px 0px;">&nbsp;www.levcorp.bo</p>
+                </div>  
+            </div>
+        </div>
+
         </body>
     </html>
