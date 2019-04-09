@@ -131,7 +131,7 @@ class controllerABMSolicitud extends Controller
     }
     public function sendMail($id,$fecha)
     {
-      //  Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();
+        Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();
         $asunto='Articulos ABM';
         $usuario=User::findOrFail(Solicitud::findOrFail($id)->usuario_id);
         $para =['sistemas@levcorp.bo',$usuario->email];
@@ -145,11 +145,6 @@ class controllerABMSolicitud extends Controller
     }
     public function index()
     {
-       
-        //$articulos=DetalleSolicitud::select(DB::raw('count(solicitud_id) as solictud, solicitud_id'))->groupBy('solicitud_id')->where('solicitud_id','>',0)->get();
-        //dd($articulos->all());
-        //config(['mail.username'=>'gpinto@levcorp.bo']);
-        //config(['mail.password'=>'Larcos1']);
         Auth::attempt(['email' => 'gpinto@levcorp.bo', 'password' => '12345678']);
         $articulos=DetalleSolicitud::where('solicitud_id',1)->orderBy('id','desc')->get();
         $solicitudesR=Solicitud::where('estado','Realizado')->orderBy('id','desc')->paginate(10);
@@ -169,6 +164,8 @@ class controllerABMSolicitud extends Controller
     }
     public function destroy($id)
     {
+        $detalles=DetalleSolicitud::select('id')->where('solicitud_id',$id)->get()->toArray();
+        DetalleSolicitud::destroy($detalles);
         Solicitud::findOrFail($id)->delete();
     }
 }

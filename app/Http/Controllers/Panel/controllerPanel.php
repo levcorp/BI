@@ -12,6 +12,7 @@ class controllerPanel extends Controller
 {
     public function inicio()
     {
+        Auth::attempt(['email' => 'gpinto@levcorp.bo', 'password' => '12345678']);
         $titulo="General";
         $meses = EspecialidadMeses::select('PERIODO', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))
         ->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')
