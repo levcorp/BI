@@ -53,7 +53,7 @@
                         <td><span class="label label-warning">@{{solicitud.estado}}</span></td>
                         <td>
                             <form method="DELETE" v-on:submit.prevent="deleteSolicitud(solicitud.id)">
-                                <a @click.prevent="sendMail(solicitud.id)" class="btn btn-success btn-xs"><i class="fa fa-check"></i></a>
+                                <a @click.prevent="sendMail(solicitud.id)" class="btn btn-success btn-xs"><i class="fa fa-envelope"></i></a>
                                 <a :href="'solicitud/detalle/'+solicitud.id"  class="btn btn-info btn-xs"><i class="fa fa-plus"></i></a>
                                 <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
                             </form>

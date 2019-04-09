@@ -4,6 +4,7 @@ import swal from 'sweetalert';
 import vSelect from 'vue-select';
 import VeeValidate , { Validator }from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
+import toastr from 'toastr';
 Vue.config.devtools=false
 Vue.component('v-select', vSelect)
 Vue.component('pagination', require('laravel-vue-pagination'));
@@ -167,6 +168,22 @@ new Vue({
             this.getEspecialidades();
             this.getProveedores();
             this.getFabricantes();
+            toastr.options = {
+                "closeButton": true,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+              }
+            toastr.info('Datos Cargados Correctamente', {timeOut: 5000})
     },
     methods:{
         getResultadoDetalle(page=1){
@@ -179,6 +196,8 @@ new Vue({
         {   
             this.paginacion=numero;
             this.getResultadoDetalle();
+            toastr.remove()
+            toastr.success('Datos Cargados Correctamente', {timeOut: 3000})
         },
         getEspecialidades:function()
         {

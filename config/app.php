@@ -177,6 +177,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Proengsoft\JsValidation\JsValidationServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Watson\Active\ActiveServiceProvider::class
     ],
 
     /*
@@ -231,5 +232,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Active' => Watson\Active\Facades\Active::class
     ],
 ];

@@ -17,7 +17,8 @@
         "maatwebsite/excel": "^3.1",
         "proengsoft/laravel-jsvalidation": "^2.4",
         "spatie/array-to-xml": "^2.8",
-        "usmanhalalit/laracsv": "^2.0"
+        "usmanhalalit/laracsv": "^2.0",
+        "watson/active": "^3.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
