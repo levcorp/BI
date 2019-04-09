@@ -25,7 +25,6 @@
                     <table style="font-size: 12px; font-family: Arial, Helvetica, sans-serif;"> 
                         <thead style="margin: 5px;">
                             <tr style=" background-color: #0080c0; color: white; ">
-                                <th style="text-align: center">Serie</th>
                                 <th style="text-align: center">Fabricante</th>
                                 <th style="text-align: center">Proveedor</th>
                                 <th style="text-align: center">Especialidad</th>
@@ -41,7 +40,6 @@
                         <tbody style="margin: 5px;">
                             @foreach ($articulos as $articulo)
                             <tr style="background-color: #dae6e7">
-                                <td style="text-align: center">{{$articulo->serie}}</td>
                                 <td style="text-align: center">{{$articulo->fabricante}}</td>
                                 <td style="text-align: center">{{$articulo->proveedor}}</td>
                                 <td style="text-align: center">{{$articulo->especialidad}}</td>

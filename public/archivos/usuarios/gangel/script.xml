@@ -1,0 +1,83 @@
+
+        <Transfer>
+            <Logon>
+                <UserName>sist_lp1</UserName>
+                <Password>TJiLkKvLkLrDrEuBsC</Password>
+                <Company>LEVCORP_PRUEBA</Company>
+                <Server>saphana:30015</Server>
+                <UserAuthentication>False</UserAuthentication>
+                <Language />
+                <LicenseServer>
+                </LicenseServer>
+                <ChooseDB>True</ChooseDB>
+                <DBType>9</DBType>
+                <DBUser>
+                </DBUser>
+                <SybasePort />
+                <DBPassword>
+                </DBPassword>
+            </Logon>
+        <ObjectCode>oItems</ObjectCode>
+        <FileExtractor>
+          <Extorlogin>
+            <ExID />
+            <ExPW />
+            <ExDSN />
+            <ExDB />
+            <ExbHANA />
+            <ExbSSL />
+          </Extorlogin>
+          <FilesTypes>1</FilesTypes>
+          <Files>
+            <Items>C:\laragon\www\Levcorp\public\archivos\usuarios\gangel\articulo\2019-04-09T10-27-59.csv</Items>
+          </Files>
+        </FileExtractor>
+        <Map>
+          <Fields>
+            <Items>
+              <SourceFields>
+                <RecordKey />
+                <ItemCode />
+                <ItemName />
+                <Manufacturer />
+                <Mainsupplier />
+                <Series />
+                <InventoryUOM />
+                <U_Cod_Vent />
+                <U_Cod_comp />
+                <U_Codigo_BR />
+                <U_FAMILIA />
+                <U_SUBFAMILIA />
+                <User_Text />
+              </SourceFields>
+              <TargetFields>
+                <RecordKey>RecordKey</RecordKey>
+                <ItemCode>ItemCode</ItemCode>
+                <ItemName>ItemName</ItemName>
+                <Manufacturer>Manufacturer</Manufacturer>
+                <Mainsupplier>Mainsupplier</Mainsupplier>
+                <Series>Series</Series>
+                <InventoryUOM>InventoryUOM</InventoryUOM>
+                <U_Cod_Vent>U_Cod_Vent</U_Cod_Vent>
+                <U_Cod_comp>U_Cod_comp</U_Cod_comp>
+                <U_Codigo_BR>U_Codigo_BR</U_Codigo_BR>
+                <U_FAMILIA>U_FAMILIA</U_FAMILIA>
+                <U_SUBFAMILIA>U_SUBFAMILIA</U_SUBFAMILIA>
+                <User_Text>User_Text</User_Text>
+              </TargetFields>
+            </Items>
+          </Fields>
+        </Map>
+        <Run>
+          <Import>1</Import>
+          <Rollback>False</Rollback>
+          <MaxError>10</MaxError>
+          <Update>0</Update>
+          <TestRun>0</TestRun>
+          <AddAllItems>Checked</AddAllItems>
+          <LineData>0</LineData>
+          <DataType>1</DataType>
+          <MultiThread>False</MultiThread>
+          <ThreadNum>4</ThreadNum>
+        </Run>
+    </Transfer>

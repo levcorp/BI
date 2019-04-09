@@ -13,5 +13,6 @@ Route::resource('panel/usuarios','Panel\controllerUsuario');
 
 
 //ABM articulos SAP
+Route::get('panel/solicitud/export','Panel\controllerABMSolicitud@exportCSV')->name('exportCSV');
 Route::resource('panel/solicitud/detalle','Panel\controllerDetalleSolicitud')->except(['create','store','edit','update','destroy']);
-Route::resource('panel/solicitud','Panel\controllerABMSolicitud')->except(['create','store','edit','update','destroy']);
+Route::resource('panel/solicitud','Panel\controllerABMSolicitud')->except(['show','create','store','edit','update','destroy']);

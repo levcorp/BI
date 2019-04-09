@@ -2,7 +2,7 @@ import Vue from 'vue';
 import axios from 'axios';
 Vue.component('pagination', require('laravel-vue-pagination'));
 import swal from 'sweetalert';
-
+import moment from 'moment';
 new Vue({
     el  : '#solicitud',
     data: {
@@ -16,6 +16,7 @@ new Vue({
             usuario_id:22,
         },
         numero:0,
+        fecha:'',
     },
     mounted() {
         this.getResultadoRealizado();
@@ -92,7 +93,7 @@ new Vue({
             this.mail.solicitud_id=id;
         },
         sendMail:function(id)
-        {
+        {    
             swal({
                 title: "Enviar Correo",
                 text: "¿ Esta seguro en enviar el correo electronico con la lista de articulos ?",
@@ -102,11 +103,10 @@ new Vue({
               })
               .then((willDelete) => {
                 if (willDelete) {
-                    var url='/api/solicitud/mail/'+id;
+                    var url='/api/solicitud/mail/'+id+"/"+moment().format('Y-MM-DDTh-mm-ss');
                     axios.get(url).then(response=>{
                         this.getResultadoPendiente();
                         this.getResultadoRealizado();
-                       
                     });
                     swal("¡ Correo Enviado Correctamente ! ", {
                         icon: "success",

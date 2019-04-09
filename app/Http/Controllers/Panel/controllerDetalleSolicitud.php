@@ -56,10 +56,37 @@ class controllerDetalleSolicitud extends Controller
     public function index(){   
         //dd(FYS::all());
     }
+    public function serie($serie)
+    {
+        switch($serie)
+        {
+            case "BELDEN":
+                return  "186";
+            break;
+            case "ENDRESS + HAUSER":
+                return "183";
+            break;
+            case "FESTO":
+                return "182";
+            break;
+            case "KAESER" :
+                return "184";
+            break;
+            case "MANUAL":
+                return  "3";
+            break;
+            case "ROCKWELL AUTOMATION":
+                return "181";
+            break;
+            case "YALE":
+                return "185";
+            break;          
+        }
+    }
     public function store(RArticulos $request)
     {
         Detalle::create([
-            'serie'=>$request->serie,
+            'serie'=>$this->serie($request->serie),
             'fabricante'=>$request->fabricante,
             'cod_fabricante'=>$request->cod_fabricante,
             'proveedor'=>$request->proveedor,
@@ -87,7 +114,7 @@ class controllerDetalleSolicitud extends Controller
     public function update(Request $request, $id)
     {
         Detalle::findOrFail($id)->fill([
-            'serie'=>$request->serie,
+            'serie'=>$this->serie($request->serie),
             'fabricante'=>$request->fabricante,
             'cod_fabricante'=>$request->cod_fabricante,
             'proveedor'=>$request->proveedor,
