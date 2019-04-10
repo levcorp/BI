@@ -17,7 +17,6 @@ class controllerDetalleSolicitud extends Controller
 {
     public function datos($opcion,$fabricante=null,$especialidad=null,$familia=null)
     {
-        //dd($especialidad." ".$fabricante);
         switch($opcion)
         {
             case "fabricantes":
@@ -55,6 +54,8 @@ class controllerDetalleSolicitud extends Controller
     }
     public function index(){   
         //dd(FYS::all());
+
+        return DB::select('EXEC ultimo_codigo 3') ;
     }
     public function serie($serie)
     {

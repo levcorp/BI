@@ -20,7 +20,7 @@ class controllerLogin extends Controller
             return redirect()->route('login');            
         }
     }
-    public function logout()
+    public function salir()
     {
         Auth::logout();
         return redirect()->route('login');

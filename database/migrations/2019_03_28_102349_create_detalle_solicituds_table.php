@@ -17,8 +17,8 @@ class CreateDetalleSolicitudsTable extends Migration
             $table->string('cod_proveedor');
             $table->string('especialidad');
             $table->string('cod_especialidad');
-            $table->string('familia');
-            $table->string('subfamilia');
+            $table->string('familia')->nullable();
+            $table->string('subfamilia')->nullable();
             $table->string('medida');
             $table->string('cod_venta');
             $table->string('cod_compra');

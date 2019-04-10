@@ -20,11 +20,13 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('cargo');
-            $table->enum('estado',['activo','no activo']);
-            $table->enum('global',['si','no']);
+            $table->string('cargo')->nullable();
+            $table->enum('estado',['activo','no activo'])->nullable();
+            $table->enum('global',['si','no'])->nullable();
             $table->string('especialidad')->nullable();
             $table->string('sector')->nullable();
+            $table->string('objectguid')->nullable();            
+            $table->string('celular')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

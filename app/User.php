@@ -18,7 +18,9 @@ class User extends Authenticatable
         'estado',
         'global',
         'especialidad',
-        'sector'
+        'sector',
+        'celular',
+        'objectguid'
     ];
     protected $hidden = [
         'password', 'remember_token',

@@ -18,7 +18,9 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3 col-xs-6"></div>
+                <div class="col-sm-3 col-xs-6">
+                    <a v-if="estado_solicitud=='Pendiente'" @click.prevent="sendMail()" class="btn btn-success btn-sm"><i class="fa fa-envelope-o"></i> Enviar Correo</a>
+                </div>
                 <div class="col-sm-3 col-xs-6">
                     <a data-toggle="modal" data-target="#myModal" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Crear Solicitud</a>
                 </div>

@@ -5,6 +5,7 @@ import vSelect from 'vue-select';
 import VeeValidate , { Validator }from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
 import toastr from 'toastr';
+import moment from 'moment';
 Vue.config.devtools=false
 Vue.component('v-select', vSelect)
 Vue.component('pagination', require('laravel-vue-pagination'));
@@ -51,6 +52,7 @@ new Vue({
         descripcion:'',
         comentarios:'',
         detalle_id:'',
+        estado_solicitud:null,
     },
     watch:{
         serie:function(){
@@ -186,10 +188,18 @@ new Vue({
             toastr.info('Datos Cargados Correctamente', {timeOut: 5000})
     },
     methods:{
+        getSolicitudEstado:function()
+        {
+            var url='/api/solicitud/'+ID;
+            axios.get(url).then(response=>{
+                this.estado_solicitud=response.data;
+            })
+        },
         getResultadoDetalle(page=1){
            var url='/api/solicitud/'+ID+'/'+this.paginacion+'/detalles?page=' + page;
            axios.get(url).then(response=>{
                this.detalles=response.data;
+               this.getSolicitudEstado();               
            })
         },
         getPaginacionDetalle:function(numero)
@@ -432,6 +442,26 @@ new Vue({
                     icon: "success",
                 });
                 this.borrarCampos();
+            });
+        },
+        sendMail:function()
+        {    
+            swal({
+                title: "Enviar Correo",
+                text: "¿ Esta seguro en enviar el correo electronico con la lista de articulos ?",
+                icon: "warning",
+                buttons: ["Cancelar","Enviar"],
+                dangerMode: false,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                    var url='/api/solicitud/mail/'+ID+"/"+moment().format('Y-MM-DDTh-mm-ss');
+                    axios.get(url);
+                    this.getSolicitudEstado();
+                    swal("¡ Correo Enviado Correctamente ! ", {
+                        icon: "success",
+                    });
+                }
             });
         }
     }

@@ -154,15 +154,15 @@ new Vue({
               .then((willDelete) => {
                 if (willDelete) {
                     var url='/api/solicitud/mail/'+id+"/"+moment().format('Y-MM-DDTh-mm-ss');
-                    axios.get(url).then(response=>{
-                        this.getResultadoPendiente();
-                        this.getResultadoRealizado();
-                    });
+                    axios.get(url).then(
+                        this.getResultadoPendiente(),
+                    );
                     swal("¡ Correo Enviado Correctamente ! ", {
                         icon: "success",
                     });
                 }
-              });
+            });
+            this.getResultadoPendiente();
         }
     },
 });

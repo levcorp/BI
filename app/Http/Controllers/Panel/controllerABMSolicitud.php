@@ -108,6 +108,12 @@ class controllerABMSolicitud extends Controller
         $fecha=Carbon::now();
         return $fecha->format('Y-m-d-H-m-s');
     }
+    public function show($id)
+    {
+        $solicitud=Solicitud::where('id',$id)->first();
+        $estado=$solicitud->estado;
+        return response()->json($estado);
+    }
     public function exportCSV($nombre,$apellido,$id,$fecha)
     {           
         $usuario=strtolower(substr($nombre,0,1).$apellido);       
@@ -145,7 +151,6 @@ class controllerABMSolicitud extends Controller
     }
     public function index()
     {
-        Auth::attempt(['email' => 'gpinto@levcorp.bo', 'password' => '12345678']);
         $articulos=DetalleSolicitud::where('solicitud_id',1)->orderBy('id','desc')->get();
         $solicitudesR=Solicitud::where('estado','Realizado')->orderBy('id','desc')->paginate(10);
         $solicitudesP=Solicitud::where('estado','Pendiente')->orderBy('id','desc')->paginate(10);

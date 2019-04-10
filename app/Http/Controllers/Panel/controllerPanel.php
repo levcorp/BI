@@ -8,11 +8,22 @@ use App\EspecialidadMeses;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Auth;
+use Adldap\Laravel\Facades\Adldap;
+use Adldap\AdldapInterface;
 class controllerPanel extends Controller
 {
+    protected $ldap;
+    public function __construct(AdldapInterface $ldap)
+    {
+        $this->ldap = $ldap;
+    }
+    public function ldpa()
+    {
+        $users = $this->ldap->search()->users()->get();
+        return $users;
+    }
     public function inicio()
     {
-        Auth::attempt(['email' => 'gpinto@levcorp.bo', 'password' => '12345678']);      
         $titulo="General";
         $meses = EspecialidadMeses::select('PERIODO', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))
         ->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')

@@ -44334,16 +44334,13 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       }).then(function (willDelete) {
         if (willDelete) {
           var url = '/api/solicitud/mail/' + id + "/" + moment__WEBPACK_IMPORTED_MODULE_3___default()().format('Y-MM-DDTh-mm-ss');
-          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-            _this6.getResultadoPendiente();
-
-            _this6.getResultadoRealizado();
-          });
+          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(_this6.getResultadoPendiente());
           sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("¡ Correo Enviado Correctamente ! ", {
             icon: "success"
           });
         }
       });
+      this.getResultadoPendiente();
     }
   }
 });
