@@ -17,6 +17,10 @@ use Storage;
 use Carbon\Carbon;
 class controllerABMSolicitud extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware('panel',['only'=>'index']);
+    }
     public function xml($url)
     {
         return $archivo="

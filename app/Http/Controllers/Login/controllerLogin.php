@@ -23,6 +23,6 @@ class controllerLogin extends Controller
     public function salir()
     {
         Auth::logout();
-        return redirect()->route('login');
+        return redirect()->route('log');
     }
 }

@@ -1,4 +1,4 @@
-import Vue from 'vue/dist/vue.common.dev';
+import Vue from 'vue/dist/vue.common.prod';
 import axios from 'axios';
 import swal from 'sweetalert';
 import vSelect from 'vue-select';

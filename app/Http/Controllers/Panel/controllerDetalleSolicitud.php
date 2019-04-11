@@ -16,6 +16,10 @@ use Validator;
 use App\Http\Requests\RequestArticulosABM as RArticulos;
 class controllerDetalleSolicitud extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware('panel',['only'=>'show']);
+    }
     public function datos($opcion,$fabricante=null,$especialidad=null,$familia=null)
     {
         switch($opcion)

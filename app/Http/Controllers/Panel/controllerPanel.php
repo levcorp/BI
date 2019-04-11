@@ -12,15 +12,10 @@ use Adldap\Laravel\Facades\Adldap;
 use Adldap\AdldapInterface;
 class controllerPanel extends Controller
 {
-    protected $ldap;
-    public function __construct(AdldapInterface $ldap)
+
+    public function __construct()
     {
-        $this->ldap = $ldap;
-    }
-    public function ldpa()
-    {
-        $users = $this->ldap->search()->users()->get();
-        return $users;
+        $this->middleware('panel');
     }
     public function inicio()
     {
