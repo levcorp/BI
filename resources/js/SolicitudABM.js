@@ -18,6 +18,7 @@ new Vue({
         },
         numero:0,
         fecha:'',
+        usuario_id:'',
     },
     mounted() {
         this.getResultadoRealizado();
@@ -28,13 +29,13 @@ new Vue({
     },
     methods: {
         getnumero: function(){
-            axios.get('/api/solicitud/numero')
+            axios.get('/api/solicitud/numero/'+this.usuario_id)
             .then(response => {
                 this.solicitud.numero=response.data;
             });
         },
         getResultadoPendiente(page = 1) {
-			axios.get('/api/solicitud/datos/'+this.paginacionPendiente +'/pendiente?page=' + page)
+			axios.get('/api/solicitud/datos/'+this.paginacionPendiente +'/'+this.usuario_id+'/pendiente?page=' + page)
 				.then(response => {
                     this.solicitudesPendiente = response.data;
                     this.getnumero();
@@ -57,7 +58,7 @@ new Vue({
                 });
         },
         getResultadoRealizado(page = 1){
-            axios.get('/api/solicitud/datos/'+ this.paginacionRealizado +'/realizado?page=' + page)
+            axios.get('/api/solicitud/datos/' + this.paginacionRealizado + '/' + this.usuario_id +'/realizado?page=' + page)
                 .then(response => {
                     this.solicitudesRealizado = response.data;
                     this.getnumero();

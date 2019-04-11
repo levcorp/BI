@@ -23,10 +23,7 @@
                     <a data-toggle="modal" data-target="#myModal" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Crear Solicitud</a>
                 </div>
                 <div class="col-sm-3 col-xs-6">
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3">
-                    </div>
+                    <input type="hidden" :value="usuario_id={{Auth::user()->id}}">
                 </div>
             </div>
         </div>
@@ -38,20 +35,20 @@
                 <table id="tabla" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>N° Solicitud</th>
-                        <th>Fecha Solicictud</th>
-                        <th>Usuario</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th class="text-center">N° Solicitud</th>
+                        <th class="text-center">Fecha Solicictud</th>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="solicitud in solicitudesPendiente.data" :key="solicitud.id">
-                        <td>@{{solicitud.numero}}</td>
-                        <td>@{{solicitud.fecha}}</td>
-                        <td>@{{solicitud.usuario.nombre +' '+ solicitud.usuario.apellido}}</td>
-                        <td><span class="label label-warning">@{{solicitud.estado}}</span></td>
-                        <td>
+                        <td class="text-center">@{{solicitud.numero}}</td>
+                        <td class="text-center">@{{solicitud.fecha}}</td>
+                        <td class="text-center">@{{solicitud.usuario.nombre +' '+ solicitud.usuario.apellido}}</td>
+                        <td class="text-center"><span class="label label-warning">@{{solicitud.estado}}</span></td>
+                        <td class="text-center">
                             <form method="DELETE" v-on:submit.prevent="deleteSolicitud(solicitud.id)">
                                 <a @click.prevent="sendMail(solicitud.id)" class="btn btn-success btn-xs"><i class="fa fa-envelope"></i></a>
                                 <a :href="'solicitud/detalle/'+solicitud.id"  class="btn btn-info btn-xs"><i class="fa fa-plus"></i></a>
@@ -88,10 +85,6 @@
                 <div class="col-sm-3 col-xs-6">
                 </div>
                 <div class="col-sm-3 col-xs-6">
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3">
-                    </div>
                 </div>
             </div>
         </div>
@@ -103,21 +96,21 @@
                 <table id="tabla" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>N° Solicitud</th>
-                        <th>Fecha Solicictud</th>
-                        <th>Usuario</th>
-                        <th>Estado</th>
+                        <th  class="text-center">N° Solicitud</th>
+                        <th  class="text-center">Fecha Solicictud</th>
+                        <th  class="text-center">Usuario</th>
+                        <th  class="text-center">Estado</th>
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="solicitud in solicitudesRealizado.data" :key="solicitud.id">
-                        <td>@{{solicitud.numero}}</td>
-                        <td>@{{solicitud.fecha}}</td>
-                        <td>@{{solicitud.usuario.nombre +' '+ solicitud.usuario.apellido}}</td>
-                        <td><span class="label label-success">@{{solicitud.estado}}</span></td>
+                        <td class="text-center">@{{solicitud.numero}}</td>
+                        <td class="text-center">@{{solicitud.fecha}}</td>
+                        <td class="text-center">@{{solicitud.usuario.nombre +' '+ solicitud.usuario.apellido}}</td>
+                        <td class="text-center"><span class="label label-success">@{{solicitud.estado}}</span></td>
                         <td class="text-center">
-                            <a href="" class="btn btn-info btn-xs"><i class="fa fa-plus"></i></a>
+                            <a :href="'solicitud/detalle/'+solicitud.id"  class="btn btn-info btn-xs"><i class="fa fa-plus"></i></a>
                         </td>
                     </tr>
                 </tbody>

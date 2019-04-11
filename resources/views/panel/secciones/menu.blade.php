@@ -23,7 +23,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="{{active(['panel/*','panel.*'])}}"><a href="{{route('panel')}}"><i class="fa fa-line-chart"></i> Ventas</a></li>
+              <li class="{{active(['panel/dashboard/*','panel'])}}"><a href="{{route('panel')}}"><i class="fa fa-line-chart"></i> Ventas</a></li>
             </ul>
           </li>
           <li class="treeview {{active(['solicitud.*','detalle.*'])}}">

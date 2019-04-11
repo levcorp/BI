@@ -129,9 +129,9 @@ class controllerABMSolicitud extends Controller
         //shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\xampp\htdocs\BI\public\archivos\usuarios\\'.$usuario.'\script.xml');
         shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\laragon\www\Levcorp\public\archivos\usuarios\\'.$usuario.'\script.xml');
     }
-    public function numero()
+    public function numero($id)
     {
-        $numero=Solicitud::all();
+        $numero=Solicitud::where('usuario_id',$id)->get();
         $numero->last();
         if($numero->last()==null){
           $numero=1;
@@ -140,9 +140,9 @@ class controllerABMSolicitud extends Controller
           return response()->json($numero->last()->numero+1);
         }
     }
-    public function datos($paginacion,$tipo)
+    public function datos($paginacion,$id,$tipo)
     {
-        $solicitudes=Solicitud::where('estado',ucfirst($tipo))->orderBy('id','desc')->with('usuario')->paginate($paginacion);
+        $solicitudes=Solicitud::where('usuario_id',$id)->where('estado',ucfirst($tipo))->orderBy('id','desc')->with('usuario')->paginate($paginacion);
         return response()->json($solicitudes);
     }
     public function sendMail($id,$fecha)
@@ -161,10 +161,7 @@ class controllerABMSolicitud extends Controller
     }
     public function index()
     {
-        $articulos=DetalleSolicitud::where('solicitud_id',1)->orderBy('id','desc')->get();
-        $solicitudesR=Solicitud::where('estado','Realizado')->orderBy('id','desc')->paginate(10);
-        $solicitudesP=Solicitud::where('estado','Pendiente')->orderBy('id','desc')->paginate(10);
-        return view('panel.abm.index',compact('solicitudesR','solicitudesP'));
+        return view('panel.abm.index');
     }
     public function store(Request $request)
     {

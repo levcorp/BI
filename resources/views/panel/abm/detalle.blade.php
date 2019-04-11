@@ -4,32 +4,37 @@
     <div class="box box-primary">
         <div class="box-body">
             <div class="row">
-                <div class="col-sm-3 col-xs-6">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Paginacion : @{{paginacion}} <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a v-on:click.prevent="getPaginacionDetalle('5')">5</a></li>
-                            <li><a v-on:click.prevent="getPaginacionDetalle('10')">10</a></li>
-                            <li><a v-on:click.prevent="getPaginacionDetalle('20')">20</a></li>
-                            <li><a v-on:click.prevent="getPaginacionDetalle('50')">50</a></li>
-                            <li><a v-on:click.prevent="getPaginacionDetalle('100')">100</a></li>
-                        </ul>
+                <div class="col-sm-1 col-xs-3">
+                    <div class="pull-left">
+                        <a href="{{route('solicitud.index')}}" class="btn btn-primary btn-sm">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="col-sm-3 col-xs-6">
-                    <a v-if="estado_solicitud=='Pendiente'" @click.prevent="sendMail()" class="btn btn-success btn-sm"><i class="fa fa-envelope-o"></i> Enviar Correo</a>
+                <div class="col-sm-3 col-xs-4" style="margin-bottom: 0.5rem">
+                    <div class="pull-left">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Paginacion : @{{paginacion}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a v-on:click.prevent="getPaginacionDetalle('5')">5</a></li>
+                                <li><a v-on:click.prevent="getPaginacionDetalle('10')">10</a></li>
+                                <li><a v-on:click.prevent="getPaginacionDetalle('20')">20</a></li>
+                                <li><a v-on:click.prevent="getPaginacionDetalle('50')">50</a></li>
+                                <li><a v-on:click.prevent="getPaginacionDetalle('100')">100</a></li>
+                            </ul>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-sm-3 col-xs-4">
+                    <a v-if="estado_solicitud=='Pendiente'" @click.prevent="sendMail()" class="btn btn-primary btn-sm"><i class="fa fa-envelope-o"></i> Enviar Correo</a>
                 </div>
                 <div class="col-sm-3 col-xs-6">
-                    <a data-toggle="modal" data-target="#myModal" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Crear Solicitud</a>
+                    <a v-if="estado_solicitud=='Pendiente'" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Crear Articulo</a>
                 </div>
-                <div class="col-sm-3 col-xs-6">
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3">
-                    </div>
-                </div>
+              
             </div>
         </div>
     </div>
@@ -40,23 +45,23 @@
                 <table id="tabla" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Codigo Item</th>
-                        <th>Fabricante</th>
-                        <th>Proveedor</th>
-                        <th>Especialidad</th>
-                        <th>Familia</th>
-                        <th>Sub Familia</th>
-                        <th>Unidad Medida</th>
-                        <th>Cod Venta</th>
-                        <th>Cod Compra</th>
-                        <th>Descripcion</th>
-                        <th>Comentario</th>
-                        <th>Acciones</th>
+                        <th class="text-center">Codigo Item</th>
+                        <th class="text-center">Fabricante</th>
+                        <th class="text-center">Proveedor</th>
+                        <th class="text-center">Especialidad</th>
+                        <th class="text-center">Familia</th>
+                        <th class="text-center">Sub Familia</th>
+                        <th class="text-center">Unidad Medida</th>
+                        <th class="text-center">Cod Venta</th>
+                        <th class="text-center">Cod Compra</th>
+                        <th class="text-center">Descripcion</th>
+                        <th class="text-center">Comentario</th>
+                        <th v-if="estado_solicitud=='Pendiente'" class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="detalle in detalles.data" :key="detalle.id">
-                        <td>@{{detalle.cod_item}}</td>
+                        <td >@{{detalle.cod_item}}</td>
                         <td>@{{detalle.fabricante}}</td>
                         <td>@{{detalle.proveedor}}</td>
                         <td>@{{detalle.especialidad}}</td>
@@ -67,7 +72,7 @@
                         <td>@{{detalle.cod_compra}}</td>
                         <td>@{{detalle.descripcion}}</td>
                         <td>@{{detalle.comentarios}}</td>
-                        <td class="text-center">
+                        <td v-if="estado_solicitud=='Pendiente'" class="text-center">
                             <form method="DELETE" @submit.prevent="deleteSolicitud(detalle.id)">
                                 <a v-on:click.prevent="putArticulo(detalle.id)" data-toggle="modal" data-target="#EditSolicitud" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>    
                                 <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>

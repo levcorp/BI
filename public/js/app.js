@@ -32237,7 +32237,8 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       usuario_id: ''
     },
     numero: 0,
-    fecha: ''
+    fecha: '',
+    usuario_id: ''
   },
   mounted: function mounted() {
     this.getResultadoRealizado();
@@ -32248,7 +32249,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
     getnumero: function getnumero() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/numero').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/numero/' + this.usuario_id).then(function (response) {
         _this.solicitud.numero = response.data;
       });
     },
@@ -32256,7 +32257,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/datos/' + this.paginacionPendiente + '/pendiente?page=' + page).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/datos/' + this.paginacionPendiente + '/' + this.usuario_id + '/pendiente?page=' + page).then(function (response) {
         _this2.solicitudesPendiente = response.data;
 
         _this2.getnumero();
@@ -32285,7 +32286,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       var _this3 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/datos/' + this.paginacionRealizado + '/realizado?page=' + page).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/datos/' + this.paginacionRealizado + '/' + this.usuario_id + '/realizado?page=' + page).then(function (response) {
         _this3.solicitudesRealizado = response.data;
 
         _this3.getnumero();

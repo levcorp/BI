@@ -20,6 +20,10 @@ class controllerDetalleSolicitud extends Controller
     {
       $this->middleware('panel',['only'=>'show']);
     }
+    public function index()
+    {
+      return $this->codigo(1);
+    }
     public function datos($opcion,$fabricante=null,$especialidad=null,$familia=null)
     {
         switch($opcion)
