@@ -55282,13 +55282,23 @@ new vue_dist_vue_common_dev__WEBPACK_IMPORTED_MODULE_0___default.a({
     },
     selectEspecialidad: function selectEspecialidad() {
       if (this.selectEspecialidad != null) {
-        this.selectFamilia.Familia = null;
+        if (this.selectFamilia) {
+          this.selectFamilia.Familia = null;
+        }
+
         this.familias = [];
         this.subfamilias = [];
-        this.selectSubfamilia.subfamilia = null;
+
+        if (this.selectSubfamilia) {
+          this.selectSubfamilia.subfamilia = null;
+        }
+
         this.getFamilias();
       } else {
-        this.selectFamilia.Familia = null;
+        if (this.selectFamilia) {
+          this.selectFamilia.Familia = null;
+        }
+
         this.subfamilias.Subfamilia = [];
         this.familias = [];
         this.subfamilias = [];
@@ -55300,7 +55310,6 @@ new vue_dist_vue_common_dev__WEBPACK_IMPORTED_MODULE_0___default.a({
         this.selectSubfamilia.Subfamilia = null;
         this.getsubfamilias();
       } else {
-        this.selectSubfamilia.Subfamilia = null;
         this.getFamilias();
       }
     }
@@ -55410,10 +55419,12 @@ new vue_dist_vue_common_dev__WEBPACK_IMPORTED_MODULE_0___default.a({
         }
       }
 
-      var url = '/api/solicitud/detalle/datos/subfamilias/' + fab + '/' + this.selectEspecialidad.Especialidad + '/' + this.selectFamilia.Familia;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (responce) {
-        _this7.subfamilias = responce.data;
-      });
+      if (this.selectFamilia) {
+        var url = '/api/solicitud/detalle/datos/subfamilias/' + fab + '/' + this.selectEspecialidad.Especialidad + '/' + this.selectFamilia.Familia;
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (responce) {
+          _this7.subfamilias = responce.data;
+        });
+      }
     },
     postDetalle: function postDetalle() {
       var _this8 = this;
@@ -55440,6 +55451,18 @@ new vue_dist_vue_common_dev__WEBPACK_IMPORTED_MODULE_0___default.a({
         }
       }
 
+      if (this.selectFamilia != null) {
+        var familia = this.selectFamilia.Familia;
+      } else {
+        var familia = null;
+      }
+
+      if (this.selectSubfamilia != null) {
+        var subfamilia = this.selectSubfamilia.Subfamilia;
+      } else {
+        var subfamilia = null;
+      }
+
       if (pro != null && fab != null) {
         var datos = {
           serie: this.serie,
@@ -55449,8 +55472,8 @@ new vue_dist_vue_common_dev__WEBPACK_IMPORTED_MODULE_0___default.a({
           cod_proveedor: cod_pro,
           especialidad: this.selectEspecialidad.Descripcion,
           cod_especialidad: this.selectEspecialidad.Especialidad,
-          familia: this.selectFamilia.Familia,
-          subfamilia: this.selectSubfamilia.Subfamilia,
+          familia: familia,
+          subfamilia: subfamilia,
           medida: this.medida,
           cod_venta: this.cod_venta,
           cod_compra: this.cod_compra,
@@ -55504,8 +55527,15 @@ new vue_dist_vue_common_dev__WEBPACK_IMPORTED_MODULE_0___default.a({
       this.selectFabricante.FirmCode = null;
       this.selectProveedor.CardName = null;
       this.selectProveedor.CardCode = null;
-      this.selectFamilia.Familia = null;
-      this.selectSubfamilia.Subfamilia = null;
+
+      if (this.selectFamilia) {
+        this.selectFamilia.Familia = null;
+      }
+
+      if (this.selectSubfamilia) {
+        this.selectSubfamilia.Subfamilia = null;
+      }
+
       this.medida = '';
       this.cod_venta = '';
       this.cod_compra = '';

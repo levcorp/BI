@@ -122,13 +122,19 @@ class controllerABMSolicitud extends Controller
         Excel::store(new ArticulosExport($id), $nombre, 'usuarios', \Maatwebsite\Excel\Excel::CSV);
         $xml=$this->xml($url);
         Storage::disk('usuarios')->put($usuario.'\script.xml', $xml);
+        //shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\xampp\htdocs\BI\public\archivos\usuarios\\'.$usuario.'\script.xml');
         shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\laragon\www\Levcorp\public\archivos\usuarios\\'.$usuario.'\script.xml');
     }
     public function numero()
     {
         $numero=Solicitud::all();
         $numero->last();
-        return response()->json($numero->last()->numero+1);
+        if($numero->last()==null){
+          $numero=1;
+          return response()->json($numero);          
+        }else {
+          return response()->json($numero->last()->numero+1);
+        }
     }
     public function datos($paginacion,$tipo)
     {

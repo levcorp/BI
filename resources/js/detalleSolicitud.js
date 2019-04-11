@@ -142,13 +142,19 @@ new Vue({
         },
         selectEspecialidad:function(){
             if(this.selectEspecialidad !=null){
-                this.selectFamilia.Familia=null;
+                if(this.selectFamilia){
+                    this.selectFamilia.Familia=null;
+                }
                 this.familias=[];
                 this.subfamilias=[];
-                this.selectSubfamilia.subfamilia=null;
+                if(this.selectSubfamilia){
+                    this.selectSubfamilia.subfamilia=null;
+                }
                 this.getFamilias();
             }else{
-                this.selectFamilia.Familia=null;                
+                if(this.selectFamilia){
+                    this.selectFamilia.Familia=null;
+                }
                 this.subfamilias.Subfamilia=[];
                 this.familias=[];
                 this.subfamilias=[];
@@ -160,7 +166,6 @@ new Vue({
                 this.selectSubfamilia.Subfamilia=null
                 this.getsubfamilias();
             }else{
-                this.selectSubfamilia.Subfamilia=null
                 this.getFamilias();
             }
         }
@@ -255,10 +260,12 @@ new Vue({
                 var fab  = this.selectFabricante.FirmName;
                 }   
               }
-            var url='/api/solicitud/detalle/datos/subfamilias/'+fab+'/'+this.selectEspecialidad.Especialidad+'/'+this.selectFamilia.Familia;
-            axios.get(url).then(responce=>{
-                this.subfamilias=responce.data;
-            });
+            if(this.selectFamilia){
+                var url='/api/solicitud/detalle/datos/subfamilias/'+fab+'/'+this.selectEspecialidad.Especialidad+'/'+this.selectFamilia.Familia;
+                axios.get(url).then(responce=>{
+                    this.subfamilias=responce.data;
+                });
+            }
         },
         postDetalle:function(){
             this.$validator.validate();
@@ -280,6 +287,18 @@ new Vue({
                     var cod_pro = this.selectProveedor.CardCode;              
                 }   
             }
+            if(this.selectFamilia!=null)
+            {
+                var familia = this.selectFamilia.Familia;
+            }else{
+               var familia = null;
+            }
+            if(this.selectSubfamilia!=null)
+            {
+                var subfamilia = this.selectSubfamilia.Subfamilia;
+            }else{
+               var subfamilia = null;
+            }
             if(pro !=null && fab !=null)
             {
                 var datos={
@@ -290,8 +309,8 @@ new Vue({
                     cod_proveedor:cod_pro,
                     especialidad:this.selectEspecialidad.Descripcion,
                     cod_especialidad:this.selectEspecialidad.Especialidad,
-                    familia:this.selectFamilia.Familia,
-                    subfamilia:this.selectSubfamilia.Subfamilia,
+                    familia:familia,
+                    subfamilia:subfamilia,
                     medida:this.medida,
                     cod_venta:this.cod_venta,
                     cod_compra:this.cod_compra,
@@ -343,8 +362,12 @@ new Vue({
             this.selectFabricante.FirmCode=null;
             this.selectProveedor.CardName=null;
             this.selectProveedor.CardCode=null;
-            this.selectFamilia.Familia=null;
-            this.selectSubfamilia.Subfamilia=null;
+            if(this.selectFamilia){
+                this.selectFamilia.Familia=null;
+            }
+            if(this.selectSubfamilia){
+                this.selectSubfamilia.Subfamilia=null;
+            }
             this.medida='';
             this.cod_venta='';
             this.cod_compra='';

@@ -40,7 +40,7 @@
                 <table id="tabla" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Serie</th>
+                        <th>Codigo Item</th>
                         <th>Fabricante</th>
                         <th>Proveedor</th>
                         <th>Especialidad</th>
@@ -56,7 +56,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="detalle in detalles.data" :key="detalle.id">
-                        <td>@{{detalle.serie}}</td>
+                        <td>@{{detalle.cod_item}}</td>
                         <td>@{{detalle.fabricante}}</td>
                         <td>@{{detalle.proveedor}}</td>
                         <td>@{{detalle.especialidad}}</td>

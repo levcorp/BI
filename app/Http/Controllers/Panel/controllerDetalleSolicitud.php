@@ -9,6 +9,7 @@ use App\Fabricante;
 use App\Especialidad;
 use App\Proveedor;
 use App\EspecialidadMeses as FYS;
+use App\Familia;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Validator;
@@ -29,14 +30,14 @@ class controllerDetalleSolicitud extends Controller
                 return response()->json(Proveedor::select('CardName','CardCode')->get());
             break;
             case "familias":
-                return response()->json(FYS::select('Familia')
+                return response()->json(Familia::select('Familia')
                                         ->where('Especialidad','like',$especialidad)
                                         ->where('Marca','like',$fabricante)
                                         ->groupBy('Familia')->get());
             break;
             case "subfamilias":
                 return response()->json(
-                    FYS::select('Subfamilia')
+                    Familia::select('Subfamilia')
                         ->where('Especialidad','like',$especialidad)
                         ->where('Marca','like',$fabricante)
                         ->where('Familia',$familia)
@@ -52,10 +53,24 @@ class controllerDetalleSolicitud extends Controller
     {
         return response()->json(Detalle::where('solicitud_id',$id)->orderBy('id','desc')->paginate($paginacion));
     }
-    public function index(){   
-        //dd(FYS::all());
-
-        return DB::select('EXEC ultimo_codigo 3') ;
+    public function codigo($cod_fabricante){
+        $codigo=DB::select('Select dbo.ULTIMO_CODIGO('.$cod_fabricante.') as Codigo');
+        $parte=json_encode($codigo[0],true);
+        $codigo=$parte[11].$parte[12].$parte[13].$parte[14].$parte[15].$parte[16].$parte[17].$parte[18].$parte[19];
+        $separar=explode("-",$codigo);
+        $base=$separar[0];
+        $numero=$separar[1];
+        $suma =(int) $numero+1;
+        $vector=str_split((string)$suma);
+        $contar=count($vector);
+        $ceros=5-$contar;
+        $addcero='';
+        for($i=1;$i<=$ceros;$i++)
+        {
+            $addcero=$addcero."0";
+        }
+        $newcodigo=$base."-".$addcero.(string)$suma;
+        return $newcodigo;
     }
     public function serie($serie)
     {
@@ -88,6 +103,7 @@ class controllerDetalleSolicitud extends Controller
     {
         Detalle::create([
             'serie'=>$this->serie($request->serie),
+            'cod_item'=>$this->codigo($request->cod_fabricante),
             'fabricante'=>$request->fabricante,
             'cod_fabricante'=>$request->cod_fabricante,
             'proveedor'=>$request->proveedor,

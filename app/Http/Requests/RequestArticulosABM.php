@@ -16,8 +16,6 @@ class RequestArticulosABM extends FormRequest
         'fabricante'=>'required',
         'proveedor'=>'required',
         'especialidad'=>'required',
-        'familia'=>'required',
-        'subfamilia'=>'required',
         'medida'=>'required',
         'cod_venta'=>'required',
         'cod_compra'=>'required',

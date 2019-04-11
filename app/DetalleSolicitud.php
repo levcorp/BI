@@ -9,6 +9,7 @@ class DetalleSolicitud extends Model
     protected $table='detalle_solicituds';
     protected $fillable=[
         'serie',
+        'cod_item',
         'fabricante',
         'cod_fabricante',
         'proveedor',

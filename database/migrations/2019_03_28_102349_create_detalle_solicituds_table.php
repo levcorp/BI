@@ -11,6 +11,7 @@ class CreateDetalleSolicitudsTable extends Migration
         Schema::create('detalle_solicituds', function (Blueprint $table) {
             $table->increments('id');
             $table->string('serie');
+            $table->string('cod_item');
             $table->string('fabricante');
             $table->string('cod_fabricante');
             $table->string('proveedor');

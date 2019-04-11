@@ -50,7 +50,7 @@ class ArticulosExport implements FromQuery, WithMapping,WithHeadings
     public function map($solicitud): array
     {
         return [
-            $solicitud->id,
+            $solicitud->cod_item,
             $solicitud->descripcion,
             $solicitud->cod_fabricante,
             $solicitud->cod_proveedor,

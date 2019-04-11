@@ -44181,7 +44181,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     solicitud: {
       numero: '',
       fecha: new Date(),
-      usuario_id: 22
+      usuario_id: ''
     },
     numero: 0,
     fecha: ''
@@ -44223,7 +44223,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
         };
-        toastr__WEBPACK_IMPORTED_MODULE_4___default.a.info('Solicitudes Pendientes Cargadas Correctamente', {
+        toastr__WEBPACK_IMPORTED_MODULE_4___default.a.info('Solicitudes Cargadas Correctamente', {
           timeOut: 5000
         });
       });
@@ -44236,48 +44236,11 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         _this3.solicitudesRealizado = response.data;
 
         _this3.getnumero();
-
-        toastr__WEBPACK_IMPORTED_MODULE_4___default.a.options = {
-          "closeButton": true,
-          "newestOnTop": false,
-          "progressBar": true,
-          "positionClass": "toast-bottom-right",
-          "preventDuplicates": false,
-          "showDuration": "300",
-          "hideDuration": "1000",
-          "timeOut": "5000",
-          "extendedTimeOut": "1000",
-          "showEasing": "swing",
-          "hideEasing": "linear",
-          "showMethod": "fadeIn",
-          "hideMethod": "fadeOut"
-        };
-        toastr__WEBPACK_IMPORTED_MODULE_4___default.a.info('Solicitudes Pendientes Cargadas Correctamente', {
-          timeOut: 5000
-        });
       });
     },
     getPaginacionPendiente: function getPaginacionPendiente(numero) {
       this.paginacionPendiente = numero;
       this.getResultadoPendiente();
-      toastr__WEBPACK_IMPORTED_MODULE_4___default.a.options = {
-        "closeButton": true,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-bottom-right",
-        "preventDuplicates": false,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-      };
-      toastr__WEBPACK_IMPORTED_MODULE_4___default.a.success('Datos Cargados Correctamente', {
-        timeOut: 5000
-      });
     },
     getPaginacionRealizado: function getPaginacionRealizado(numero) {
       this.paginacionRealizado = numero;
