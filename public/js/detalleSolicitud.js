@@ -86,29 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/axios-timing/index.js":
-/*!********************************************!*\
-  !*** ./node_modules/axios-timing/index.js ***!
-  \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ((instance, callback) => {
-    instance.interceptors.request.use((request) => {
-        request.ts = performance.now()
-        return request
-    })
-
-    instance.interceptors.response.use((response) => {
-        callback(Number(performance.now() - response.config.ts))
-        return response
-    })
-});
-
-/***/ }),
-
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -43222,8 +43199,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var axios_timing__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios-timing */ "./node_modules/axios-timing/index.js");
-
 
 
 
@@ -43412,6 +43387,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
     this.getEspecialidades();
     this.getProveedores();
     this.getFabricantes();
+    $.LoadingOverlay("hide");
     toastr__WEBPACK_IMPORTED_MODULE_6___default.a.options = {
       "closeButton": true,
       "newestOnTop": false,
@@ -43430,6 +43406,14 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
     toastr__WEBPACK_IMPORTED_MODULE_6___default.a.info('Datos Cargados Correctamente', {
       timeOut: 5000
     });
+  },
+  beforeMount: function beforeMount() {
+    $.LoadingOverlaySetup({
+      background: "rgba(0,192,239, 0.1)",
+      image: "/images/spiner.gif",
+      imageAnimation: ""
+    });
+    $.LoadingOverlay("show");
   },
   methods: {
     getSolicitudEstado: function getSolicitudEstado() {

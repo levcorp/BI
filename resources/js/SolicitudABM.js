@@ -23,9 +23,9 @@ new Vue({
         usuario_id:'',
     },
     mounted() {
+
         this.getResultadoRealizado();
         this.getResultadoPendiente();
-       
     },
     created(){
         

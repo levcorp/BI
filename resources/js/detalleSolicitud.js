@@ -6,7 +6,6 @@ import VeeValidate , { Validator }from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
 import toastr from 'toastr';
 import moment from 'moment';
-import axiosTiming from 'axios-timing';
 
 Vue.config.devtools=false
 Vue.component('v-select', vSelect)
@@ -178,6 +177,7 @@ new Vue({
             this.getEspecialidades();
             this.getProveedores();
             this.getFabricantes();
+            $.LoadingOverlay("hide");
             toastr.options = {
                 "closeButton": true,
                 "newestOnTop": false,
@@ -194,6 +194,14 @@ new Vue({
                 "hideMethod": "fadeOut"
               }
             toastr.info('Datos Cargados Correctamente', {timeOut: 5000});
+    },
+    beforeMount() {
+        $.LoadingOverlaySetup({
+            background: "rgba(0,192,239, 0.1)",
+            image: "/images/spiner.gif",
+            imageAnimation: "",
+        });
+        $.LoadingOverlay("show");
     },
     methods:{
         getSolicitudEstado:function()
