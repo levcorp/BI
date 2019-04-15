@@ -43253,7 +43253,8 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
     descripcion: '',
     comentarios: '',
     detalle_id: '',
-    estado_solicitud: null
+    estado_solicitud: null,
+    isloading: true
   },
   watch: {
     serie: function serie() {
@@ -43618,6 +43619,37 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       this.getFamilias();
       this.getsubfamilias();
     },
+    series: function series(serie) {
+      switch (serie) {
+        case "186":
+          return "BELDEN";
+          break;
+
+        case "183":
+          return "ENDRESS + HAUSER";
+          break;
+
+        case "182":
+          return "FESTO";
+          break;
+
+        case "184":
+          return "KAESER";
+          break;
+
+        case "3":
+          return "MANUAL";
+          break;
+
+        case "181":
+          return "ROCKWELL AUTOMATION";
+          break;
+
+        case "185":
+          return "YALE";
+          break;
+      }
+    },
     putArticulo: function putArticulo(id) {
       var _this10 = this;
 
@@ -43635,7 +43667,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
           _this10.cod_proveedor = response.data.cod_proveedor;
         }
 
-        _this10.serie = response.data.serie;
+        _this10.serie = _this10.series(response.data.serie);
         _this10.selectEspecialidad.Descripcion = response.data.especialidad;
         _this10.selectEspecialidad.Especialidad = response.data.cod_especialidad;
         _this10.selectFamilia.Familia = response.data.familia;
@@ -43723,10 +43755,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       }).then(function (willDelete) {
         if (willDelete) {
           var url = '/api/solicitud/mail/' + ID + "/" + moment__WEBPACK_IMPORTED_MODULE_7___default()().format('Y-MM-DDTh-mm-ss');
-          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
-
-          _this12.getSolicitudEstado();
-
+          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(_this12.getResultadoDetalle(), _this12.getSolicitudEstado());
           sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("¡ Correo Enviado Correctamente ! ", {
             icon: "success"
           });

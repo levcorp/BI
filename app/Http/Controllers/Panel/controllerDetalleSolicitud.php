@@ -109,6 +109,7 @@ class controllerDetalleSolicitud extends Controller
     }
     public function store(RArticulos $request)
     {
+        
         Detalle::create([
             'serie'=>$this->serie($request->serie),
             'cod_item'=>$this->codigo($request->cod_fabricante),

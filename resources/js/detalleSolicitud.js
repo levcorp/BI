@@ -53,6 +53,7 @@ new Vue({
         comentarios:'',
         detalle_id:'',
         estado_solicitud:null,
+        isloading:true,
     },
     watch:{
         serie:function(){
@@ -383,6 +384,31 @@ new Vue({
             this.getFamilias();
             this.getsubfamilias();
         },
+        series:function(serie){
+            switch (serie) {
+                case "186":
+                    return "BELDEN";
+                    break;
+                case "183":
+                    return "ENDRESS + HAUSER";
+                    break;
+                case "182":
+                    return "FESTO";
+                    break;
+                case "184":
+                    return "KAESER";
+                    break;
+                case "3":
+                    return "MANUAL";
+                    break;
+                case "181":
+                    return "ROCKWELL AUTOMATION";
+                    break;
+                case "185":
+                    return "YALE";
+                    break;
+            }
+        },
         putArticulo:function(id){
             var url='/api/solicitud/detalle/'+id+'/edit';
             axios.get(url).then(response=>{
@@ -397,7 +423,7 @@ new Vue({
                     this.cod_fabricante=response.data.cod_fabricante;
                     this.cod_proveedor=response.data.cod_proveedor;
                 }
-                this.serie=response.data.serie;  
+                this.serie=this.series(response.data.serie);  
                 this.selectEspecialidad.Descripcion=response.data.especialidad;
                 this.selectEspecialidad.Especialidad=response.data.cod_especialidad;
                 this.selectFamilia.Familia=response.data.familia;
@@ -479,8 +505,10 @@ new Vue({
               .then((willDelete) => {
                 if (willDelete) {
                     var url='/api/solicitud/mail/'+ID+"/"+moment().format('Y-MM-DDTh-mm-ss');
-                    axios.get(url);
-                    this.getSolicitudEstado();
+                    axios.get(url).then(
+                        this.getResultadoDetalle(),
+                        this.getSolicitudEstado(),
+                    );
                     swal("¡ Correo Enviado Correctamente ! ", {
                         icon: "success",
                     });

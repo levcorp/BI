@@ -385,7 +385,7 @@
             </form>
           </div>
         </div>
-    </div>
+    </div>    
 </div>
 <script>
     window.ID = {{$id}};
