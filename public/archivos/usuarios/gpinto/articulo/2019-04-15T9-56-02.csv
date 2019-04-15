@@ -1,5 +1,0 @@
-ItemCode;ItemName;Manufacturer;Mainsupplier;Series;InventoryUOM;U_Cod_Vent;U_Cod_comp;U_Codigo_BR;U_FAMILIA;U_SUBFAMILIA;User_Text
-ItemCode;ItemName;Manufacturer;Mainsupplier;Series;InventoryUOM;U_Cod_Vent;U_Cod_comp;U_Codigo_BR;U_FAMILIA;U_SUBFAMILIA;User_Text
-150-01696;prueba articulo 4;3;PE-0010134;3;MT;prueba venta 4;prueba compra 4;AUTO;OTROS;;prueba articulo 4
-071-00052;articulo prueba 6;31;PE-0010159;3;LT;prueba venta 6;prueba compra 6;INST;;;articulo prueba 6
-142-06226;articulo prueba 7;1;PE-0010001;181;MT;prueba venta 7;prueba compra 7;AUTO;Components;MCP;articulo prueba 7

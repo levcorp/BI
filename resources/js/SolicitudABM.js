@@ -4,6 +4,8 @@ Vue.component('pagination', require('laravel-vue-pagination'));
 import swal from 'sweetalert';
 import moment from 'moment';
 import toastr from 'toastr';
+import axiosTiming from 'axios-timing';
+
 new Vue({
     el  : '#solicitud',
     data: {
@@ -23,6 +25,7 @@ new Vue({
     mounted() {
         this.getResultadoRealizado();
         this.getResultadoPendiente();
+       
     },
     created(){
         
@@ -57,12 +60,23 @@ new Vue({
                     toastr.info('Solicitudes Cargadas Correctamente', {timeOut: 5000})
                 });
         },
-        getResultadoRealizado(page = 1){
+        getResultadoRealizado(page = 1){  
+            $.LoadingOverlaySetup({
+                background: "rgba(0,192,239, 0.1)",
+                image: "/images/spiner.gif",
+                imageAnimation: "",
+            });     
+            $.LoadingOverlay("show");
             axios.get('/api/solicitud/datos/' + this.paginacionRealizado + '/' + this.usuario_id +'/realizado?page=' + page)
                 .then(response => {
-                    this.solicitudesRealizado = response.data;
-                    this.getnumero();
-                });
+                    if (response.status) {
+                        $.LoadingOverlay("hide");
+                        this.solicitudesRealizado = response.data;
+                        this.getnumero();
+                    }
+                }).catch(function (error) {
+                    $.LoadingOverlay("hide");
+                });;
         },
         getPaginacionPendiente: function(numero){   
             this.paginacionPendiente=numero;
@@ -121,16 +135,25 @@ new Vue({
               })
               .then((willDelete) => {
                 if (willDelete) {
+                    $.LoadingOverlaySetup({
+                        background: "rgba(0,192,239, 0.1)",
+                        image: "/images/spiner.gif",
+                        imageAnimation: "",
+                    });
+                    $.LoadingOverlay("show");
                     var url='/api/solicitud/mail/'+id+"/"+moment().format('Y-MM-DDTh-mm-ss');
-                    axios.get(url).then(
-                        this.getResultadoPendiente(),
-                    );
-                    swal("¡ Correo Enviado Correctamente ! ", {
-                        icon: "success",
+                    axios.get(url).then(response=>{
+                        if (response.status) {
+                            this.getResultadoPendiente();
+                            this.getResultadoRealizado();
+                            $.LoadingOverlay("hide");
+                            swal("¡ Correo Enviado Correctamente ! ", {
+                                icon: "success",
+                            });
+                        }
                     });
                 }
             });
-            this.getResultadoPendiente();
         }
     },
 });

@@ -150,7 +150,7 @@ class controllerABMSolicitud extends Controller
         Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();
         $asunto='Articulos ABM';
         $usuario=User::findOrFail(Solicitud::findOrFail($id)->usuario_id);
-        $para =[$usuario->email];
+        $para =['sistemas@levcorp.bo',$usuario->email];
         $articulos=DetalleSolicitud::where('solicitud_id',$id)->orderBy('id','desc')->get();
         $this->exportCSV($usuario->nombre,$usuario->apellido,$id,$fecha);
         Mail::send('mails.articulosABM',['articulos' => $articulos,'usuario'=>$usuario],function($mensaje) use($para,$asunto){

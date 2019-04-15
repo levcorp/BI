@@ -6,6 +6,8 @@ import VeeValidate , { Validator }from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
 import toastr from 'toastr';
 import moment from 'moment';
+import axiosTiming from 'axios-timing';
+
 Vue.config.devtools=false
 Vue.component('v-select', vSelect)
 Vue.component('pagination', require('laravel-vue-pagination'));
@@ -191,7 +193,7 @@ new Vue({
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
               }
-            toastr.info('Datos Cargados Correctamente', {timeOut: 5000})
+            toastr.info('Datos Cargados Correctamente', {timeOut: 5000});
     },
     methods:{
         getSolicitudEstado:function()
@@ -210,6 +212,7 @@ new Vue({
         },
         getPaginacionDetalle:function(numero)
         {   
+
             this.paginacion=numero;
             this.getResultadoDetalle();
             toastr.remove()
@@ -322,16 +325,28 @@ new Vue({
             }else{
                 var datos={};
             }
-            var url='/api/solicitud/detalle';   
-            axios.post(url,datos).then(responce=>{
+            var url='/api/solicitud/detalle';  
+            $.LoadingOverlaySetup({
+                background: "rgba(0,192,239, 0.1)",
+                image: "/images/spiner.gif",
+                imageAnimation: "",
+            });
+            $.LoadingOverlay("show");
+            axios.post(url,datos).then(response=>{
                 this.getResultadoDetalle();
                 this.borrarCampos();
                 $('#myModal').modal('hide');
-                swal({
-                    title: "Exito!!!!",
-                    text: "Articulo registrado correctamente.",
-                    icon: "success",
-                });
+                if (response.status)
+                {
+                    $.LoadingOverlay("hide");
+                    swal({
+                        title: "Exito!!!!",
+                        text: "Articulo registrado correctamente.",
+                        icon: "success",
+                    });
+                }
+            }).catch(function (error) {
+                $.LoadingOverlay("hide");
             });
         },
         deleteSolicitud:function(id)
@@ -494,7 +509,7 @@ new Vue({
             });
         },
         sendMail:function()
-        {    
+        {
             swal({
                 title: "Enviar Correo",
                 text: "¿ Esta seguro en enviar el correo electronico con la lista de articulos ?",
@@ -504,13 +519,24 @@ new Vue({
               })
               .then((willDelete) => {
                 if (willDelete) {
+                    $.LoadingOverlaySetup({
+                        background: "rgba(0,192,239, 0.1)",
+                        image: "/images/spiner.gif",
+                        imageAnimation: "",
+                    });
+                    $.LoadingOverlay("show");
                     var url='/api/solicitud/mail/'+ID+"/"+moment().format('Y-MM-DDTh-mm-ss');
-                    axios.get(url).then(
-                        this.getResultadoDetalle(),
-                        this.getSolicitudEstado(),
-                    );
-                    swal("¡ Correo Enviado Correctamente ! ", {
-                        icon: "success",
+                    axios.get(url).then(response=>{
+                        if (response.status) {
+                            $.LoadingOverlay("hide");
+                            this.getResultadoDetalle();
+                            this.getSolicitudEstado();
+                            swal("¡ Correo Enviado Correctamente ! ", {
+                                icon: "success",
+                            });
+                        }
+                    }).catch(function (error) {
+                        $.LoadingOverlay("hide");
                     });
                 }
             });

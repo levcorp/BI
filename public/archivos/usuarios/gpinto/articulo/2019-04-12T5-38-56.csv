@@ -1,5 +1,0 @@
-ItemCode;ItemName;Manufacturer;Mainsupplier;Series;InventoryUOM;U_Cod_Vent;U_Cod_comp;U_Codigo_BR;U_FAMILIA;U_SUBFAMILIA;User_Text
-ItemCode;ItemName;Manufacturer;Mainsupplier;Series;InventoryUOM;U_Cod_Vent;U_Cod_comp;U_Codigo_BR;U_FAMILIA;U_SUBFAMILIA;User_Text
-150-01693;articulo prueba 1;3;PE-0010166;3;MT;prueba venta 1;pruebacompra 1;AUTO;;;articulo prueba 1
-150-01694;articulo prueba 2;3;PE-0010130;3;MT;prueba venta 2;Prueba_cod_compra 2;AUTO;;;articulo prueba 2
-142-06224;articulo prueba e3;1;PE-0010001;181;BOLSA;prueba venta 3;prueba venta 3;AUTO;Controllers & I-O;CLX;articulo prueba e3

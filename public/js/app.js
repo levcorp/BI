@@ -86,6 +86,29 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/axios-timing/index.js":
+/*!********************************************!*\
+  !*** ./node_modules/axios-timing/index.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ((instance, callback) => {
+    instance.interceptors.request.use((request) => {
+        request.ts = performance.now()
+        return request
+    })
+
+    instance.interceptors.response.use((response) => {
+        callback(Number(performance.now() - response.config.ts))
+        return response
+    })
+});
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -32218,9 +32241,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
 /* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var axios_timing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios-timing */ "./node_modules/axios-timing/index.js");
 
 
 vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
+
 
 
 
@@ -32286,11 +32311,23 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       var _this3 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/datos/' + this.paginacionRealizado + '/' + this.usuario_id + '/realizado?page=' + page).then(function (response) {
-        _this3.solicitudesRealizado = response.data;
-
-        _this3.getnumero();
+      $.LoadingOverlaySetup({
+        background: "rgba(0,192,239, 0.1)",
+        image: "/images/spiner.gif",
+        imageAnimation: ""
       });
+      $.LoadingOverlay("show");
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/solicitud/datos/' + this.paginacionRealizado + '/' + this.usuario_id + '/realizado?page=' + page).then(function (response) {
+        if (response.status) {
+          $.LoadingOverlay("hide");
+          _this3.solicitudesRealizado = response.data;
+
+          _this3.getnumero();
+        }
+      }).catch(function (error) {
+        $.LoadingOverlay("hide");
+      });
+      ;
     },
     getPaginacionPendiente: function getPaginacionPendiente(numero) {
       this.paginacionPendiente = numero;
@@ -32350,14 +32387,27 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
         dangerMode: false
       }).then(function (willDelete) {
         if (willDelete) {
+          $.LoadingOverlaySetup({
+            background: "rgba(0,192,239, 0.1)",
+            image: "/images/spiner.gif",
+            imageAnimation: ""
+          });
+          $.LoadingOverlay("show");
           var url = '/api/solicitud/mail/' + id + "/" + moment__WEBPACK_IMPORTED_MODULE_3___default()().format('Y-MM-DDTh-mm-ss');
-          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(_this6.getResultadoPendiente());
-          sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("¡ Correo Enviado Correctamente ! ", {
-            icon: "success"
+          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+            if (response.status) {
+              _this6.getResultadoPendiente();
+
+              _this6.getResultadoRealizado();
+
+              $.LoadingOverlay("hide");
+              sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("¡ Correo Enviado Correctamente ! ", {
+                icon: "success"
+              });
+            }
           });
         }
       });
-      this.getResultadoPendiente();
     }
   }
 });
@@ -32371,7 +32421,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\Levcorp\resources\js\SolicitudABM.js */"./resources/js/SolicitudABM.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BI\resources\js\SolicitudABM.js */"./resources/js/SolicitudABM.js");
 
 
 /***/ })
