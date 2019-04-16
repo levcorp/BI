@@ -127,7 +127,7 @@ class controllerABMSolicitud extends Controller
         $xml=$this->xml($url);
         Storage::disk('usuarios')->put($usuario.'\script.xml', $xml);
         //shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\xampp\htdocs\BI\public\archivos\usuarios\\'.$usuario.'\script.xml');
-        shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\laragon\www\Levcorp\public\archivos\usuarios\\'.$usuario.'\script.xml');
+        shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\laragon\www\BI\public\archivos\usuarios\\'.$usuario.'\script.xml');
     }
     public function numero($id)
     {

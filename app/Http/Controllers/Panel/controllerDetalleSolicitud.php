@@ -61,8 +61,12 @@ class controllerDetalleSolicitud extends Controller
     {
         return response()->json(Detalle::where('solicitud_id',$id)->orderBy('id','desc')->paginate($paginacion));
     }
-    public function codigo($cod_fabricante){
-        $codigo=DB::select('Select dbo.ULTIMO_CODIGO('.$cod_fabricante.') as Codigo');
+    public function codigo($cod_fabricante,$cod_proveedor){
+        if ($cod_proveedor=="PE-0010046") {
+            $codigo=DB::select('Select dbo.ULTIMO_CODIGO_IN('.$cod_fabricante.') as Codigo');            
+        }else{
+            $codigo=DB::select('Select dbo.ULTIMO_CODIGO('.$cod_fabricante.') as Codigo');
+        }
         $parte=json_encode($codigo[0],true);
         $codigo=$parte[11].$parte[12].$parte[13].$parte[14].$parte[15].$parte[16].$parte[17].$parte[18].$parte[19];
         $separar=explode("-",$codigo);
@@ -80,8 +84,7 @@ class controllerDetalleSolicitud extends Controller
         $newcodigo=$base."-".$addcero.(string)$suma;
         return $newcodigo;
     }
-    public function serie($serie)
-    {
+    public function serie($serie){
         switch($serie)
         {
             case "BELDEN":
@@ -107,12 +110,10 @@ class controllerDetalleSolicitud extends Controller
             break;          
         }
     }
-    public function store(RArticulos $request)
-    {
-        
+    public function store(RArticulos $request){
         Detalle::create([
             'serie'=>$this->serie($request->serie),
-            'cod_item'=>$this->codigo($request->cod_fabricante),
+            'cod_item'=>$this->codigo($request->cod_fabricante,$request->cod_proveedor),
             'fabricante'=>$request->fabricante,
             'cod_fabricante'=>$request->cod_fabricante,
             'proveedor'=>$request->proveedor,
