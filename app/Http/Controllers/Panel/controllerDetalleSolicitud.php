@@ -13,6 +13,7 @@ use App\Familia;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Validator;
+use App\OITM;
 use App\Http\Requests\RequestArticulosABM as RArticulos;
 class controllerDetalleSolicitud extends Controller
 {
@@ -160,5 +161,23 @@ class controllerDetalleSolicitud extends Controller
     }
     public function destroy($id){
         Detalle::findOrFail($id)->delete();
+    }
+    public function codVent(){
+        $datos=OITM::select('U_Cod_Vent')->get();
+        $codVenta=array();
+        foreach($datos as $dato)
+        {
+            array_push($codVenta,$dato->U_Cod_Vent);
+        }
+        return $codVenta;
+    }
+    public function codComp(){
+        $datos=OITM::select('U_Cod_comp')->get();
+        $codComp=array();
+        foreach($datos as $dato)
+        {
+            array_push($codComp,$dato->U_Cod_comp);
+        }
+        return $codComp;
     }
 }

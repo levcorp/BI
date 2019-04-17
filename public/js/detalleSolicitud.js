@@ -43254,7 +43254,11 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
     comentarios: '',
     detalle_id: '',
     estado_solicitud: null,
-    isloading: true
+    codVent: [],
+    codComp: [],
+    mensajeVenta: null,
+    mensajeCompra: null,
+    button: false
   },
   watch: {
     serie: function serie() {
@@ -43380,13 +43384,39 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       } else {
         this.getFamilias();
       }
+    },
+    cod_venta: function cod_venta() {
+      if (this.codVent.includes(this.cod_venta)) {
+        this.mensajeVenta = 'El codigo de venta ya existe';
+        this.button = true;
+      } else {
+        this.mensajeVenta = null;
+        this.button = false;
+      }
+    },
+    cod_compra: function cod_compra() {
+      if (this.codComp.includes(this.cod_compra)) {
+        this.mensajeCompra = 'El codigo de Compra ya existe';
+        this.button = true;
+      } else {
+        this.mensajeCompra = null;
+        this.button = false;
+      }
     }
   },
   mounted: function mounted() {
+    $.LoadingOverlaySetup({
+      background: "rgba(0,192,239, 0.1)",
+      image: "/images/spiner.gif",
+      imageAnimation: ""
+    });
+    $.LoadingOverlay("show");
     this.getResultadoDetalle();
     this.getEspecialidades();
     this.getProveedores();
     this.getFabricantes();
+    this.getCodCompra();
+    this.getCodVenta();
     $.LoadingOverlay("hide");
     toastr__WEBPACK_IMPORTED_MODULE_6___default.a.options = {
       "closeButton": true,
@@ -43407,32 +43437,41 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       timeOut: 5000
     });
   },
-  beforeMount: function beforeMount() {
-    $.LoadingOverlaySetup({
-      background: "rgba(0,192,239, 0.1)",
-      image: "/images/spiner.gif",
-      imageAnimation: ""
-    });
-    $.LoadingOverlay("show");
-  },
+  beforeMount: function beforeMount() {},
   methods: {
-    getSolicitudEstado: function getSolicitudEstado() {
+    getCodCompra: function getCodCompra() {
       var _this = this;
+
+      var url = '/api/solicitud/detalle/codcomp';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this.codComp = response.data;
+      });
+    },
+    getCodVenta: function getCodVenta() {
+      var _this2 = this;
+
+      var url = '/api/solicitud/detalle/codvent';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this2.codVent = response.data;
+      });
+    },
+    getSolicitudEstado: function getSolicitudEstado() {
+      var _this3 = this;
 
       var url = '/api/solicitud/' + ID;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this.estado_solicitud = response.data;
+        _this3.estado_solicitud = response.data;
       });
     },
     getResultadoDetalle: function getResultadoDetalle() {
-      var _this2 = this;
+      var _this4 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       var url = '/api/solicitud/' + ID + '/' + this.paginacion + '/detalles?page=' + page;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this2.detalles = response.data;
+        _this4.detalles = response.data;
 
-        _this2.getSolicitudEstado();
+        _this4.getSolicitudEstado();
       });
     },
     getPaginacionDetalle: function getPaginacionDetalle(numero) {
@@ -43444,31 +43483,31 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       });
     },
     getEspecialidades: function getEspecialidades() {
-      var _this3 = this;
+      var _this5 = this;
 
       var url = '/api/solicitud/detalle/datos/especialidades';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (responce) {
-        _this3.especialidades = responce.data;
+        _this5.especialidades = responce.data;
       });
     },
     getProveedores: function getProveedores() {
-      var _this4 = this;
+      var _this6 = this;
 
       var url = '/api/solicitud/detalle/datos/proveedores';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (responce) {
-        _this4.proveedores = responce.data;
+        _this6.proveedores = responce.data;
       });
     },
     getFabricantes: function getFabricantes() {
-      var _this5 = this;
+      var _this7 = this;
 
       var url = '/api/solicitud/detalle/datos/fabricantes';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (responce) {
-        _this5.fabricantes = responce.data;
+        _this7.fabricantes = responce.data;
       });
     },
     getFamilias: function getFamilias() {
-      var _this6 = this;
+      var _this8 = this;
 
       if (this.fabricante != null) {
         var fab = this.fabricante;
@@ -43481,12 +43520,12 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       if (fab != null && this.selectEspecialidad != null) {
         var url = '/api/solicitud/detalle/datos/familias/' + fab + '/' + this.selectEspecialidad.Especialidad;
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (responce) {
-          _this6.familias = responce.data;
+          _this8.familias = responce.data;
         });
       }
     },
     getsubfamilias: function getsubfamilias() {
-      var _this7 = this;
+      var _this9 = this;
 
       if (this.fabricante != null) {
         var fab = this.fabricante;
@@ -43499,12 +43538,12 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       if (this.selectFamilia) {
         var url = '/api/solicitud/detalle/datos/subfamilias/' + fab + '/' + this.selectEspecialidad.Especialidad + '/' + this.selectFamilia.Familia;
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (responce) {
-          _this7.subfamilias = responce.data;
+          _this9.subfamilias = responce.data;
         });
       }
     },
     postDetalle: function postDetalle() {
-      var _this8 = this;
+      var _this10 = this;
 
       this.$validator.validate();
 
@@ -43570,9 +43609,13 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       });
       $.LoadingOverlay("show");
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, datos).then(function (response) {
-        _this8.getResultadoDetalle();
+        _this10.getResultadoDetalle();
 
-        _this8.borrarCampos();
+        _this10.getCodCompra();
+
+        _this10.getCodVenta();
+
+        _this10.borrarCampos();
 
         $('#myModal').modal('hide');
 
@@ -43589,7 +43632,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       });
     },
     deleteSolicitud: function deleteSolicitud(id) {
-      var _this9 = this;
+      var _this11 = this;
 
       sweetalert__WEBPACK_IMPORTED_MODULE_2___default()({
         title: "Eliminar Registro",
@@ -43601,7 +43644,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
         if (willDelete) {
           var url = '/api/solicitud/detalle/' + id;
           axios__WEBPACK_IMPORTED_MODULE_1___default.a.delete(url).then(function (response) {
-            _this9.getResultadoDetalle();
+            _this11.getResultadoDetalle();
           });
           sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("¡ Registro Eliminado Correctamente ! ", {
             icon: "success"
@@ -43672,41 +43715,41 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       }
     },
     putArticulo: function putArticulo(id) {
-      var _this10 = this;
+      var _this12 = this;
 
       var url = '/api/solicitud/detalle/' + id + '/edit';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
         if (response.data.serie == "MANUAL") {
-          _this10.selectFabricante.FirmName = response.data.fabricante;
-          _this10.selectFabricante.FirmCode = response.data.cod_fabricante;
-          _this10.selectProveedor.CardName = response.data.proveedor;
-          _this10.selectProveedor.CardCode = response.data.cod_proveedor;
+          _this12.selectFabricante.FirmName = response.data.fabricante;
+          _this12.selectFabricante.FirmCode = response.data.cod_fabricante;
+          _this12.selectProveedor.CardName = response.data.proveedor;
+          _this12.selectProveedor.CardCode = response.data.cod_proveedor;
         } else {
-          _this10.proveedor = response.data.proveedor;
-          _this10.fabricante = response.data.fabricante;
-          _this10.cod_fabricante = response.data.cod_fabricante;
-          _this10.cod_proveedor = response.data.cod_proveedor;
+          _this12.proveedor = response.data.proveedor;
+          _this12.fabricante = response.data.fabricante;
+          _this12.cod_fabricante = response.data.cod_fabricante;
+          _this12.cod_proveedor = response.data.cod_proveedor;
         }
 
-        _this10.serie = _this10.series(response.data.serie);
-        _this10.selectEspecialidad.Descripcion = response.data.especialidad;
-        _this10.selectEspecialidad.Especialidad = response.data.cod_especialidad;
-        _this10.selectFamilia.Familia = response.data.familia;
-        _this10.selectSubfamilia.Subfamilia = response.data.subfamilia;
-        _this10.medida = response.data.medida;
-        _this10.cod_venta = response.data.cod_venta;
-        _this10.cod_compra = response.data.cod_compra;
-        _this10.descripcion = response.data.descripcion;
-        _this10.comentarios = response.data.comentarios;
-        _this10.detalle_id = response.data.id;
+        _this12.serie = _this12.series(response.data.serie);
+        _this12.selectEspecialidad.Descripcion = response.data.especialidad;
+        _this12.selectEspecialidad.Especialidad = response.data.cod_especialidad;
+        _this12.selectFamilia.Familia = response.data.familia;
+        _this12.selectSubfamilia.Subfamilia = response.data.subfamilia;
+        _this12.medida = response.data.medida;
+        _this12.cod_venta = response.data.cod_venta;
+        _this12.cod_compra = response.data.cod_compra;
+        _this12.descripcion = response.data.descripcion;
+        _this12.comentarios = response.data.comentarios;
+        _this12.detalle_id = response.data.id;
 
-        _this10.getFamilias();
+        _this12.getFamilias();
 
-        _this10.getsubfamilias();
+        _this12.getsubfamilias();
       });
     },
     updateArticulo: function updateArticulo() {
-      var _this11 = this;
+      var _this13 = this;
 
       if (this.fabricante != null) {
         var fab = this.fabricante;
@@ -43752,7 +43795,11 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
 
       var url = '/api/solicitud/detalle/' + this.detalle_id;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(url, datos).then(function (response) {
-        _this11.getResultadoDetalle();
+        _this13.getResultadoDetalle();
+
+        _this13.getCodCompra();
+
+        _this13.getCodVenta();
 
         $('#EditSolicitud').modal('hide');
         sweetalert__WEBPACK_IMPORTED_MODULE_2___default()({
@@ -43761,11 +43808,11 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
           icon: "success"
         });
 
-        _this11.borrarCampos();
+        _this13.borrarCampos();
       });
     },
     sendMail: function sendMail() {
-      var _this12 = this;
+      var _this14 = this;
 
       sweetalert__WEBPACK_IMPORTED_MODULE_2___default()({
         title: "Enviar Correo",
@@ -43786,9 +43833,9 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
             if (response.status) {
               $.LoadingOverlay("hide");
 
-              _this12.getResultadoDetalle();
+              _this14.getResultadoDetalle();
 
-              _this12.getSolicitudEstado();
+              _this14.getSolicitudEstado();
 
               sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("¡ Correo Enviado Correctamente ! ", {
                 icon: "success"

@@ -11,8 +11,7 @@ Route::get('panel/dashboard/{sector}','Panel\controllerPanel@sector')->name('fil
 
 //Usuarios
 //Route::resource('panel/usuarios','Panel\controllerUsuario');
-
-
+Route::get('/demo','Panel\controllerABMSolicitud@a');
 //ABM articulos SAP
 Route::get('panel/solicitud/export','Panel\controllerABMSolicitud@exportCSV')->name('exportCSV');
 Route::resource('panel/solicitud/detalle','Panel\controllerDetalleSolicitud')->except(['create','store','edit','update','destroy']);

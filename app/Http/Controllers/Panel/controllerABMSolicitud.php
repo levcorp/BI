@@ -15,6 +15,8 @@ use App\Exports\ArticulosExport;
 use Spatie\ArrayToXml\ArrayToXml;
 use Storage;
 use Carbon\Carbon;
+use App\Mail\Articulos;
+use App\Prefijo;
 class controllerABMSolicitud extends Controller
 {
     public function __construct()
@@ -23,11 +25,10 @@ class controllerABMSolicitud extends Controller
     }
     public function xml($url)
     {
-        return $archivo=
-        "<Transfer>
+        return $archivo="<Transfer>
           <Logon>
             <UserName>sist_lp1</UserName>
-            <Password>VLjKjNsIlKpFnAxCtD</Password>
+            <Password>UKkNmIsImJtBoDyFqA</Password>
             <Company>LEVCORP_PRUEBA</Company>
             <Server>saphana:30015</Server>
             <UserAuthentication>False</UserAuthentication>
@@ -74,6 +75,10 @@ class controllerABMSolicitud extends Controller
                   <U_FAMILIA />
                   <U_SUBFAMILIA />
                   <User_Text />
+                  <PurchaseUnit />
+                  <SalesUnit />
+                  <PlanningSystem />
+                  <Properties6 />
                 </SourceFields>
                 <TargetFields>
                   <RecordKey>RecordKey</RecordKey>
@@ -89,6 +94,10 @@ class controllerABMSolicitud extends Controller
                   <U_FAMILIA>U_FAMILIA</U_FAMILIA>
                   <U_SUBFAMILIA>U_SUBFAMILIA</U_SUBFAMILIA>
                   <User_Text>User_Text</User_Text>
+                  <PurchaseUnit>PurchaseUnit</PurchaseUnit>
+                  <SalesUnit>SalesUnit</SalesUnit>
+                  <PlanningSystem>PlanningSystem</PlanningSystem>
+                  <Properties6>Properties6</Properties6>
                 </TargetFields>
               </Items>
             </Fields>
@@ -148,16 +157,11 @@ class controllerABMSolicitud extends Controller
     public function sendMail($id,$fecha)
     {
         Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();
-        $asunto='Articulos ABM';
         $usuario=User::findOrFail(Solicitud::findOrFail($id)->usuario_id);
         $para =['sistemas@levcorp.bo',$usuario->email];
         $articulos=DetalleSolicitud::where('solicitud_id',$id)->orderBy('id','desc')->get();
         $this->exportCSV($usuario->nombre,$usuario->apellido,$id,$fecha);
-        Mail::send('mails.articulosABM',['articulos' => $articulos,'usuario'=>$usuario],function($mensaje) use($para,$asunto){
-            $mensaje->from('admin@levcorp.bo','Sistemas');
-            $mensaje->to($para);
-            $mensaje->subject($asunto);
-        });     
+        Mail::to($para)->send( new Articulos($articulos,$usuario));
     }
     public function index()
     {
@@ -179,5 +183,15 @@ class controllerABMSolicitud extends Controller
         $detalles=DetalleSolicitud::select('id')->where('solicitud_id',$id)->get()->toArray();
         DetalleSolicitud::destroy($detalles);
         Solicitud::findOrFail($id)->delete();
+    }
+    public function a()
+    {
+      return Prefijo::all();
+     // return (\App\Fabricante::all());
+      $para =['gpinto@levcorp.bo'];
+      $articulos=DetalleSolicitud::where('solicitud_id',1)->get();
+      $usuario=User::findOrFail(2);
+      //return new Articulos($articulos);
+      Mail::to($para)->send( new Articulos($articulos,$usuario));
     }
 }

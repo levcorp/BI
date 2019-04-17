@@ -54,7 +54,11 @@ new Vue({
         comentarios:'',
         detalle_id:'',
         estado_solicitud:null,
-        isloading:true,
+        codVent:[],
+        codComp:[],
+        mensajeVenta:null,
+        mensajeCompra:null,
+        button:false,
     },
     watch:{
         serie:function(){
@@ -170,13 +174,41 @@ new Vue({
             }else{
                 this.getFamilias();
             }
+        },
+        cod_venta:function()
+        {
+            if(this.codVent.includes(this.cod_venta)){
+                this.mensajeVenta='El codigo de venta ya existe';
+                this.button = true;
+            }else{
+                this.mensajeVenta = null;      
+                this.button = false;
+            }    
+        },
+        cod_compra:function()
+        {
+            if(this.codComp.includes(this.cod_compra)){
+                this.mensajeCompra = 'El codigo de Compra ya existe';
+                this.button=true;
+            }else{
+                this.mensajeCompra = null;
+                this.button = false;
+            }
         }
     },
     mounted(){
+            $.LoadingOverlaySetup({
+                background: "rgba(0,192,239, 0.1)",
+                image: "/images/spiner.gif",
+                imageAnimation: "",
+            });
+            $.LoadingOverlay("show");
             this.getResultadoDetalle();
             this.getEspecialidades();
             this.getProveedores();
             this.getFabricantes();
+            this.getCodCompra();
+            this.getCodVenta();
             $.LoadingOverlay("hide");
             toastr.options = {
                 "closeButton": true,
@@ -196,16 +228,22 @@ new Vue({
             toastr.info('Datos Cargados Correctamente', {timeOut: 5000});
     },
     beforeMount() {
-        $.LoadingOverlaySetup({
-            background: "rgba(0,192,239, 0.1)",
-            image: "/images/spiner.gif",
-            imageAnimation: "",
-        });
-        $.LoadingOverlay("show");
+      
     },
     methods:{
-        getSolicitudEstado:function()
-        {
+        getCodCompra:function(){
+            var url ='/api/solicitud/detalle/codcomp';
+            axios.get(url).then(response=>{
+                this.codComp=response.data;
+            });
+        },
+        getCodVenta:function(){
+            var url = '/api/solicitud/detalle/codvent';
+            axios.get(url).then(response=>{
+                this.codVent=response.data;
+            });
+        },
+        getSolicitudEstado:function(){
             var url='/api/solicitud/'+ID;
             axios.get(url).then(response=>{
                 this.estado_solicitud=response.data;
@@ -220,7 +258,6 @@ new Vue({
         },
         getPaginacionDetalle:function(numero)
         {   
-
             this.paginacion=numero;
             this.getResultadoDetalle();
             toastr.remove()
@@ -342,6 +379,8 @@ new Vue({
             $.LoadingOverlay("show");
             axios.post(url,datos).then(response=>{
                 this.getResultadoDetalle();
+                this.getCodCompra();
+                this.getCodVenta();
                 this.borrarCampos();
                 $('#myModal').modal('hide');
                 if (response.status)
@@ -507,6 +546,8 @@ new Vue({
             var url='/api/solicitud/detalle/'+this.detalle_id;
             axios.put(url,datos).then(response=>{
                 this.getResultadoDetalle();
+                this.getCodCompra();
+                this.getCodVenta();
                 $('#EditSolicitud').modal('hide');
                 swal({
                     title: "Exito!!!!",

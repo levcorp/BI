@@ -21,10 +21,9 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "vue": "^2.6.10",
-        "vue-template-compiler": "^2.6.10"
+        "vue-template-compiler": "^2.6.9"
     },
     "dependencies": {
-        "@saeris/vue-spinners": "^1.0.8",
         "axios-timing": "^1.0.2",
         "datatables.net": "^1.10.19",
         "datatables.net-dt": "^1.10.19",

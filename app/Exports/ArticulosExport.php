@@ -1,6 +1,5 @@
 <?php
 namespace App\Exports;
-
 use App\DetalleSolicitud as Articulos;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -29,7 +28,11 @@ class ArticulosExport implements FromQuery, WithMapping,WithHeadings
                 'U_Codigo_BR',
                 'U_FAMILIA',
                 'U_SUBFAMILIA',
-                'User_Text'
+                'User_Text',
+                'PurchaseUnit',
+                'SalesUnit',
+                'PlanningSystem',
+                'Properties6'
             ],
             [
                 'ItemCode',
@@ -43,7 +46,11 @@ class ArticulosExport implements FromQuery, WithMapping,WithHeadings
                 'U_Codigo_BR',
                 'U_FAMILIA',
                 'U_SUBFAMILIA',
-                'User_Text'
+                'User_Text',
+                'PurchaseUnit',
+                'SalesUnit',
+                'PlanningSystem',
+                'Properties6'
             ],
         ];
     }
@@ -61,7 +68,11 @@ class ArticulosExport implements FromQuery, WithMapping,WithHeadings
             $solicitud->cod_especialidad,
             $solicitud->familia,
             $solicitud->subfamilia,
-            $solicitud->comentarios
+            $solicitud->comentarios,
+            $solicitud->medida,
+            $solicitud->medida,
+            "M",
+            'Y',
         ];
     }
     public function query()

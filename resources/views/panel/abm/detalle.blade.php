@@ -339,20 +339,22 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="message-text" class="control-label">Codigo de Venta : </label>
-                                <div class="input-group" :class="{'has-error': errors.has('Codigo Venta') }">
+                                <div class="input-group" :class="{'has-error': errors.has('Codigo Venta'),'has-error': mensajeVenta!=null }">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-chain"></i></span>
                                     <input v-model="cod_venta"  v-validate="'required'" type="text" name="Codigo Venta" class="form-control" aria-describedby="sizing-addon3">
                                 </div>
+                                <p class="text-danger" v-if="mensajeVenta">@{{ mensajeVenta }}</p>                                                                                                        
                                 <p class="text-danger" v-if="errors.has('Codigo Venta')">@{{ errors.first('Codigo Venta') }}</p>                                                                        
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="message-text" class="control-label">Codigo de Compra : </label>
-                                <div class="input-group"  :class="{'has-error': errors.has('Codigo Compra') }">
+                                <div class="input-group"  :class="{'has-error': errors.has('Codigo Compra'),'has-error': mensajeCompra!=null}">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-chain"></i></span>
                                     <input v-model="cod_compra" v-validate="'required'" type="text" name="Codigo Compra" class="form-control" aria-describedby="sizing-addon3">
                                 </div>
+                                <p class="text-danger" v-if="mensajeCompra">@{{ mensajeCompra }}</p>                                                                                                        
                                 <p class="text-danger" v-if="errors.has('Codigo Compra')">@{{ errors.first('Codigo Compra') }}</p>                                
                             </div>
                         </div>
@@ -380,7 +382,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-danger" v-on:click.prevent="borrarCampos()" data-dismiss="modal"><i class="fa fa-remove"></i> Cancelar</a>
-                    <button type="submit" class="btn btn-info"><i class="fa fa-check"></i> Guardar Solicitud</button>
+                    <button type="submit" v-bind:disabled="button" class="btn btn-info"><i class="fa fa-check"></i> Guardar Solicitud</button>
                 </div>
             </form>
           </div>

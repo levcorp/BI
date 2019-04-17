@@ -1,7 +1,7 @@
 <Transfer>
           <Logon>
             <UserName>sist_lp1</UserName>
-            <Password>VLjKjNsIlKpFnAxCtD</Password>
+            <Password>UKkNmIsImJtBoDyFqA</Password>
             <Company>LEVCORP_PRUEBA</Company>
             <Server>saphana:30015</Server>
             <UserAuthentication>False</UserAuthentication>
@@ -28,7 +28,7 @@
             </Extorlogin>
             <FilesTypes>1</FilesTypes>
             <Files>
-              <Items>C:\laragon\www\BI\public\archivos\usuarios\gpinto\articulo\2019-04-16T12-07-47.csv</Items>
+              <Items>C:\laragon\www\BI\public\archivos\usuarios\gpinto\articulo\2019-04-17T11-39-58.csv</Items>
             </Files>
           </FileExtractor>
           <Map>
@@ -48,6 +48,10 @@
                   <U_FAMILIA />
                   <U_SUBFAMILIA />
                   <User_Text />
+                  <PurchaseUnit />
+                  <SalesUnit />
+                  <PlanningSystem />
+                  <Properties6 />
                 </SourceFields>
                 <TargetFields>
                   <RecordKey>RecordKey</RecordKey>
@@ -63,6 +67,10 @@
                   <U_FAMILIA>U_FAMILIA</U_FAMILIA>
                   <U_SUBFAMILIA>U_SUBFAMILIA</U_SUBFAMILIA>
                   <User_Text>User_Text</User_Text>
+                  <PurchaseUnit>PurchaseUnit</PurchaseUnit>
+                  <SalesUnit>SalesUnit</SalesUnit>
+                  <PlanningSystem>PlanningSystem</PlanningSystem>
+                  <Properties6>Properties6</Properties6>
                 </TargetFields>
               </Items>
             </Fields>
