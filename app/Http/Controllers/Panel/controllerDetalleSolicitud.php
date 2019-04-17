@@ -15,6 +15,8 @@ use Session;
 use Validator;
 use App\OITM;
 use App\Http\Requests\RequestArticulosABM as RArticulos;
+use App\Prefijo;
+use App\Solicitud;
 class controllerDetalleSolicitud extends Controller
 {
     public function __construct()
@@ -91,7 +93,7 @@ class controllerDetalleSolicitud extends Controller
             case "BELDEN":
                 return  "186";
             break;
-            case "ENDRESS + HAUSER":
+            case "ENDRESS+HAUSER":
                 return "183";
             break;
             case "FESTO":
@@ -125,7 +127,7 @@ class controllerDetalleSolicitud extends Controller
             'subfamilia'=>$request->subfamilia,
             'medida'=>$request->medida,
             'cod_venta'=>$request->cod_venta,
-            'cod_compra'=>$request->cod_compra,
+            'cod_compra'=>$this->prefijo($request->cod_fabricante,$request->cod_compra),
             'descripcion'=>$request->descripcion,
             'comentarios'=>$request->comentarios,
             'solicitud_id'=>$request->solicitud_id,
@@ -164,20 +166,35 @@ class controllerDetalleSolicitud extends Controller
     }
     public function codVent(){
         $datos=OITM::select('U_Cod_Vent')->get();
+        $local=Detalle::select('cod_venta')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
         $codVenta=array();
         foreach($datos as $dato)
         {
             array_push($codVenta,$dato->U_Cod_Vent);
+           
+        }
+        foreach($local as $dato)
+        {
+            array_push($codVenta,$dato->cod_venta);
         }
         return $codVenta;
     }
     public function codComp(){
         $datos=OITM::select('U_Cod_comp')->get();
+        $local=Detalle::select('cod_compra')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
         $codComp=array();
         foreach($datos as $dato)
         {
             array_push($codComp,$dato->U_Cod_comp);
         }
+        foreach($local as $dato)
+        {
+            array_push($codComp,$dato->cod_compra);            
+        }
         return $codComp;
     }
+    public function prefijo($cod_fabricante,$cod_compra){
+        $prefijo=Prefijo::where('FirmCode',$cod_fabricante)->where('PREFIJO','!=',null)->first();        
+        return $prefijo->PREFIJO.$cod_compra;
+    } 
 }

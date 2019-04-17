@@ -59,6 +59,7 @@ new Vue({
         mensajeVenta:null,
         mensajeCompra:null,
         button:false,
+        solicitud_id:ID,
     },
     watch:{
         serie:function(){
@@ -244,13 +245,13 @@ new Vue({
             });
         },
         getSolicitudEstado:function(){
-            var url='/api/solicitud/'+ID;
+            var url='/api/solicitud/'+this.solicitud_id;
             axios.get(url).then(response=>{
                 this.estado_solicitud=response.data;
             })
         },
         getResultadoDetalle(page=1){
-           var url='/api/solicitud/'+ID+'/'+this.paginacion+'/detalles?page=' + page;
+           var url='/api/solicitud/'+this.solicitud_id+'/'+this.paginacion+'/detalles?page=' + page;
            axios.get(url).then(response=>{
                this.detalles=response.data;
                this.getSolicitudEstado();               
@@ -365,7 +366,7 @@ new Vue({
                     cod_compra:this.cod_compra,
                     descripcion:this.descripcion,
                     comentarios:this.comentarios,
-                    solicitud_id:ID,
+                    solicitud_id:this.solicitud_id,
                 };
             }else{
                 var datos={};
@@ -538,7 +539,7 @@ new Vue({
                       cod_compra:this.cod_compra,
                       descripcion:this.descripcion,
                       comentarios:this.comentarios,
-                      solicitud_id:ID,
+                      solicitud_id:this.solicitud_id,
                   };
               }else{
                   var datos={};
@@ -574,7 +575,7 @@ new Vue({
                         imageAnimation: "",
                     });
                     $.LoadingOverlay("show");
-                    var url='/api/solicitud/mail/'+ID+"/"+moment().format('Y-MM-DDTh-mm-ss');
+                    var url='/api/solicitud/mail/'+this.solicitud_id+"/"+moment().format('Y-MM-DDTh-mm-ss');
                     axios.get(url).then(response=>{
                         if (response.status) {
                             $.LoadingOverlay("hide");

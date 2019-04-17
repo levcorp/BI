@@ -9,13 +9,11 @@ class controllerUsuario extends Controller
 {
     public function index()
     {
-        $usuarios=User::orderBy('id','asc')
-                ->get();
-        return view('panel.registros.usuarios.index',compact('usuarios'));
+        return view('panel.registros.usuarios.index');
     }
     public function create()
     {
-        //
+        
     }
     public function store(Request $request)
     {

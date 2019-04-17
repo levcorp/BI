@@ -43258,7 +43258,8 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
     codComp: [],
     mensajeVenta: null,
     mensajeCompra: null,
-    button: false
+    button: false,
+    solicitud_id: ID
   },
   watch: {
     serie: function serie() {
@@ -43458,7 +43459,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
     getSolicitudEstado: function getSolicitudEstado() {
       var _this3 = this;
 
-      var url = '/api/solicitud/' + ID;
+      var url = '/api/solicitud/' + this.solicitud_id;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
         _this3.estado_solicitud = response.data;
       });
@@ -43467,7 +43468,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
       var _this4 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var url = '/api/solicitud/' + ID + '/' + this.paginacion + '/detalles?page=' + page;
+      var url = '/api/solicitud/' + this.solicitud_id + '/' + this.paginacion + '/detalles?page=' + page;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
         _this4.detalles = response.data;
 
@@ -43595,7 +43596,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
           cod_compra: this.cod_compra,
           descripcion: this.descripcion,
           comentarios: this.comentarios,
-          solicitud_id: ID
+          solicitud_id: this.solicitud_id
         };
       } else {
         var datos = {};
@@ -43787,7 +43788,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
           cod_compra: this.cod_compra,
           descripcion: this.descripcion,
           comentarios: this.comentarios,
-          solicitud_id: ID
+          solicitud_id: this.solicitud_id
         };
       } else {
         var datos = {};
@@ -43828,7 +43829,7 @@ new vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a({
             imageAnimation: ""
           });
           $.LoadingOverlay("show");
-          var url = '/api/solicitud/mail/' + ID + "/" + moment__WEBPACK_IMPORTED_MODULE_7___default()().format('Y-MM-DDTh-mm-ss');
+          var url = '/api/solicitud/mail/' + _this14.solicitud_id + "/" + moment__WEBPACK_IMPORTED_MODULE_7___default()().format('Y-MM-DDTh-mm-ss');
           axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
             if (response.status) {
               $.LoadingOverlay("hide");

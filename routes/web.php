@@ -10,6 +10,7 @@ Route::get('panel/dashboard/{sector}','Panel\controllerPanel@sector')->name('fil
 
 
 //Usuarios
+Route::resource('panel/usuario','Panel\ControllerUsuario');
 //Route::resource('panel/usuarios','Panel\controllerUsuario');
 Route::get('/demo','Panel\controllerABMSolicitud@a');
 //ABM articulos SAP

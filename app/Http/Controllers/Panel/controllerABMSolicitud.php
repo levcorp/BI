@@ -123,7 +123,7 @@ class controllerABMSolicitud extends Controller
     }
     public function show($id)
     {
-        $solicitud=Solicitud::where('id',$id)->first();
+        $solicitud=Solicitud::where('id',(int)$id)->first();
         $estado=$solicitud->estado;
         return response()->json($estado);
     }
@@ -156,7 +156,7 @@ class controllerABMSolicitud extends Controller
     }
     public function sendMail($id,$fecha)
     {
-        Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();
+        Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();    
         $usuario=User::findOrFail(Solicitud::findOrFail($id)->usuario_id);
         $para =['sistemas@levcorp.bo',$usuario->email];
         $articulos=DetalleSolicitud::where('solicitud_id',$id)->orderBy('id','desc')->get();
@@ -186,9 +186,26 @@ class controllerABMSolicitud extends Controller
     }
     public function a()
     {
-      return Prefijo::all();
-     // return (\App\Fabricante::all());
-      $para =['gpinto@levcorp.bo'];
+        $datos=\App\OITM::select('U_Cod_comp')->get();
+        $local=DetalleSolicitud::select('cod_compra')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
+        $codComp=array();
+        foreach($datos as $dato)
+        {
+            array_push($codComp,$dato->U_Cod_comp);
+        }
+        foreach($local as $dato)
+        {
+            array_push($codComp,$dato->cod_compra);            
+        }
+        return $codComp;
+      return  $local=DetalleSolicitud::select('cod_venta')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
+
+      return $local=DetalleSolicitud::all();
+
+      return \App\Familia::all();
+      return $prefijo=Prefijo::where('FirmCode',3)->where('PREFIJO','!=',null)->get();
+      //return (\App\Fabricante::all());
+      $para =['gpinto@levcorp.bo','sistemas@levcor.bo'];
       $articulos=DetalleSolicitud::where('solicitud_id',1)->get();
       $usuario=User::findOrFail(2);
       //return new Articulos($articulos);
