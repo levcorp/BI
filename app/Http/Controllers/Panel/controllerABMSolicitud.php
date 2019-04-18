@@ -160,8 +160,8 @@ class controllerABMSolicitud extends Controller
         $usuario=User::findOrFail(Solicitud::findOrFail($id)->usuario_id);
         $para =['sistemas@levcorp.bo',$usuario->email];
         $articulos=DetalleSolicitud::where('solicitud_id',$id)->orderBy('id','desc')->get();
-        $this->exportCSV($usuario->nombre,$usuario->apellido,$id,$fecha);
         Mail::to($para)->send( new Articulos($articulos,$usuario));
+        $this->exportCSV($usuario->nombre,$usuario->apellido,$id,$fecha);
     }
     public function index()
     {
