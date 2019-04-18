@@ -186,29 +186,11 @@ class controllerABMSolicitud extends Controller
     }
     public function a()
     {
-        $datos=\App\OITM::select('U_Cod_comp')->get();
-        $local=DetalleSolicitud::select('cod_compra')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
-        $codComp=array();
-        foreach($datos as $dato)
-        {
-            array_push($codComp,$dato->U_Cod_comp);
-        }
-        foreach($local as $dato)
-        {
-            array_push($codComp,$dato->cod_compra);            
-        }
-        return $codComp;
-      return  $local=DetalleSolicitud::select('cod_venta')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
-
-      return $local=DetalleSolicitud::all();
-
-      return \App\Familia::all();
-      return $prefijo=Prefijo::where('FirmCode',3)->where('PREFIJO','!=',null)->get();
       //return (\App\Fabricante::all());
-      $para =['gpinto@levcorp.bo','sistemas@levcor.bo'];
+      $para =['gpinto@levcorp.bo','sistemas@levcorp.bo'];
       $articulos=DetalleSolicitud::where('solicitud_id',1)->get();
-      $usuario=User::findOrFail(2);
-      //return new Articulos($articulos);
+      $usuario=User::findOrFail(1);
       Mail::to($para)->send( new Articulos($articulos,$usuario));
+      return new Articulos($articulos,$usuario);
     }
 }
