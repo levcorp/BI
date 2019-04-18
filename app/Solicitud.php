@@ -26,4 +26,8 @@ class Solicitud extends Model
         $value = Carbon::now(); 
         return  $value->toFormattedDateString();   
     }
+    public function articulos()
+    {
+        return $this->hasMany(\App\DetalleSolicitud::class);
+    }
 }

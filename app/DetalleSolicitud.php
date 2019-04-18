@@ -26,4 +26,9 @@ class DetalleSolicitud extends Model
         'solicitud_id'
     ];
     public $timestamps = false;
+    
+    public function solicitud()
+    {
+        return $this->belongsTo(Solicitud::class,'solicitud_id');
+    }
 }

@@ -21,7 +21,7 @@ class controllerDetalleSolicitud extends Controller
 {
     public function __construct()
     {
-      $this->middleware('panel',['only'=>'show']);
+      $this->middleware('panel',['only'=>'show']);        
     }
     public function index()
     {
@@ -166,29 +166,34 @@ class controllerDetalleSolicitud extends Controller
     }
     public function codVent(){
         $datos=OITM::select('U_Cod_Vent')->get();
-        $local=Detalle::select('cod_venta')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
-        $codVenta=array();
-        foreach($datos as $dato)
-        {
-            array_push($codVenta,$dato->U_Cod_Vent);
-           
+        $solictudes=Solicitud::select('id')->where('estado','Pendiente')->get();
+        $id=array(); 
+        foreach($solictudes as $solicitud){
+            array_push($id,$solicitud->id);
         }
-        foreach($local as $dato)
-        {
+        $local=Detalle::select('cod_venta')->whereIn('solicitud_id',$id)->get();
+        $codVenta=array();
+        foreach($datos as $dato){
+            array_push($codVenta,$dato->U_Cod_Vent);
+        }
+        foreach($local as $dato){
             array_push($codVenta,$dato->cod_venta);
         }
         return $codVenta;
     }
     public function codComp(){
         $datos=OITM::select('U_Cod_comp')->get();
-        $local=Detalle::select('cod_compra')->where('solicitud_id',Solicitud::where('estado','Pendiente')->first()->id)->get();
+        $solictudes=Solicitud::select('id')->where('estado','Pendiente')->get();
+        $id=array(); 
+        foreach($solictudes as $solicitud){
+            array_push($id,$solicitud->id);
+        }
+        $local=Detalle::select('cod_compra')->whereIn('solicitud_id',$id)->get();        
         $codComp=array();
-        foreach($datos as $dato)
-        {
+        foreach($datos as $dato){
             array_push($codComp,$dato->U_Cod_comp);
         }
-        foreach($local as $dato)
-        {
+        foreach($local as $dato){
             array_push($codComp,$dato->cod_compra);            
         }
         return $codComp;
