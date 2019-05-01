@@ -6,7 +6,7 @@
   <title>Levcorp | </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  @include('panel.secciones.styles.css')
+  @include('panel.registros.styles.css')
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- Site wrapper -->
@@ -48,7 +48,7 @@
     <div class="control-sidebar-bg"></div>
   </div>
 <!-- ./wrapper -->
-  @include('panel.secciones.styles.js')
+  @include('panel.registros.styles.js')
   @yield('script')
 
 </body>

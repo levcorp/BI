@@ -279,7 +279,7 @@ new Vue({
             })
         },
         getFabricantes:function()
-        {
+        {           
             var url='/api/solicitud/detalle/datos/fabricantes';
             axios.get(url).then(responce=>{
                 this.fabricantes=responce.data;
@@ -295,7 +295,7 @@ new Vue({
                 }
             }
             if(fab!=null && this.selectEspecialidad!=null){
-                var url='/api/solicitud/detalle/datos/familias/'+fab+'/'+this.selectEspecialidad.Especialidad;
+            var url='/api/solicitud/detalle/datos/familias/'+fab+'/'+this.selectEspecialidad.Especialidad;
             axios.get(url).then(responce=>{
                 this.familias=responce.data;
             });

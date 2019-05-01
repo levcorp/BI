@@ -1,4 +1,8 @@
 <?php
+////////////////////////EDI/////////////////////////////////////
+Route::get('edi','controllerEDI@edi')->name('edis');
+Route::get('panel/edi','controllerEDI@index')->name('edi');
+////////////////////////////////////////////////////////////////
 //Autentificacion
 Route::get('logout','Login\controllerLogin@salir')->name('salir');
 Route::get('/','Login\controllerLogin@log')->name('log');
@@ -10,7 +14,8 @@ Route::get('panel/dashboard/{sector}','Panel\controllerPanel@sector')->name('fil
 
 
 //Usuarios
-Route::resource('panel/usuario','Panel\ControllerUsuario');
+Route::get('panel/usuarios','Panel\ControllerPanel@usuarios')->name('usuarios');
+//Route::resource('panel/usuario','Panel\ControllerUsuario');
 //Route::resource('panel/usuarios','Panel\controllerUsuario');
 Route::get('/demo','Panel\controllerABMSolicitud@a');
 //ABM articulos SAP

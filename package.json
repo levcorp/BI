@@ -27,6 +27,7 @@
         "axios-timing": "^1.0.2",
         "bootstrap-vue": "^2.0.0-rc.18",
         "datatables.net": "^1.10.19",
+        "datatables.net-bs": "^1.10.19",
         "datatables.net-dt": "^1.10.19",
         "epic-spinners": "^1.0.4",
         "gasparesganga-jquery-loading-overlay": "^2.1.6",
@@ -36,9 +37,11 @@
         "sweetalert": "^2.1.2",
         "toastr": "^2.1.4",
         "vee-validate": "^2.2.0",
+        "vue-data-tables": "^3.4.4",
         "vue-loading-spinner": "^1.0.11",
         "vue-paginate": "^3.6.0",
         "vue-router": "^3.0.2",
-        "vue-select": "^2.6.3"
+        "vue-select": "^2.6.3",
+        "vuetify": "^1.5.12"
     }
 }

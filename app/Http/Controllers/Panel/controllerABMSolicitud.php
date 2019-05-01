@@ -23,8 +23,7 @@ class controllerABMSolicitud extends Controller
     {
       $this->middleware('panel',['only'=>'index']);
     }
-    public function xml($url)
-    {
+    public function xml($url){
         return $archivo="<Transfer>
           <Logon>
             <UserName>sist_lp1</UserName>
@@ -42,7 +41,7 @@ class controllerABMSolicitud extends Controller
             <SybasePort />
             <DBPassword>
             </DBPassword>
-          </Logon>
+            </Logon>
           <ObjectCode>oItems</ObjectCode>
           <FileExtractor>
             <Extorlogin>
@@ -121,14 +120,12 @@ class controllerABMSolicitud extends Controller
         $fecha=Carbon::now();
         return $fecha->format('Y-m-d-H-m-s');
     }
-    public function show($id)
-    {
+    public function show($id){
         $solicitud=Solicitud::where('id',(int)$id)->first();
         $estado=$solicitud->estado;
         return response()->json($estado);
     }
-    public function exportCSV($nombre,$apellido,$id,$fecha)
-    {           
+    public function exportCSV($nombre,$apellido,$id,$fecha){           
         $usuario=strtolower(substr($nombre,0,1).$apellido);       
         $nombre=$usuario."\articulo\\".$fecha.'.csv';
         $url=base_path()."\public\archivos\usuarios\\".$nombre;
@@ -138,8 +135,7 @@ class controllerABMSolicitud extends Controller
         shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\xampp\htdocs\BI\public\archivos\usuarios\\'.$usuario.'\script.xml');
         //shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\laragon\www\BI\public\archivos\usuarios\\'.$usuario.'\script.xml');
     }
-    public function numero($id)
-    {
+    public function numero($id){
         $numero=Solicitud::where('usuario_id',$id)->get();
         $numero->last();
         if($numero->last()==null){
@@ -149,13 +145,11 @@ class controllerABMSolicitud extends Controller
           return response()->json($numero->last()->numero+1);
         }
     }
-    public function datos($paginacion,$id,$tipo)
-    {
+    public function datos($paginacion,$id,$tipo){
         $solicitudes=Solicitud::where('usuario_id',$id)->where('estado',ucfirst($tipo))->orderBy('id','desc')->with('usuario')->paginate($paginacion);
         return response()->json($solicitudes);
     }
-    public function sendMail($id,$fecha)
-    {
+    public function sendMail($id,$fecha){
         Solicitud::findOrFail($id)->fill(['estado'=>'Realizado'])->save();    
         $usuario=User::findOrFail(Solicitud::findOrFail($id)->usuario_id);
         $para =['sistemas@levcorp.bo',$usuario->email];

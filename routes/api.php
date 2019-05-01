@@ -1,5 +1,13 @@
 <?php
+/////////////////////EDI//////////////////////////////////
+Route::get('edi/lp/download/{name}','controllerEDI@downloadLP');
+Route::get('edi/lp/generar','controllerEDI@ediLP');
+Route::get('edi/lp','controllerEDI@archivosLP');
+//////////////////////////////////////////////////////////////
 
+/////////////////////USUARIOS//////////////////////////////////
+Route::resource('usuarios', 'Panel\controllerUsuario');
+//////////////////////////////////////////////////////////////
 Route::get('solicitud/fecha','Panel\controllerABMSolicitud@fecha');
 Route::get('solicitud/mail/{id}/{fecha}','Panel\controllerABMSolicitud@sendMail');
 Route::get('solicitud/{id}/{paginacion}/detalles','Panel\controllerDetalleSolicitud@detalles');

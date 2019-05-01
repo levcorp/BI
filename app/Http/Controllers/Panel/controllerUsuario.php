@@ -9,7 +9,7 @@ class controllerUsuario extends Controller
 {
     public function index()
     {
-        return view('panel.registros.usuarios.index');
+        return response()->json(User::all());
     }
     public function create()
     {

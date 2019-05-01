@@ -31,7 +31,7 @@ class User extends Authenticatable
     protected $appends = ['correo'];
     public function getCorreoAttribute()
     {
-        return $this->attributes['email'];
+        return $this->attribute['email'];
     }
     public function asignacionDashboard()
     {

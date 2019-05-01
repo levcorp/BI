@@ -1,58 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Levcorp | </title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  @include('panel.secciones.styles.css')
-</head>
-<body class="hold-transition skin-red sidebar-mini">
-<!-- Site wrapper -->
-  <div class="wrapper" >
-
-    @include('panel.secciones.header.header')
-
-    <!-- =============================================== -->
-
-    <!-- Left side column. contains the sidebar -->
-    @include('panel.secciones.menu')
-
-    <!-- =============================================== -->
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-      <section class="content-header">
-        @yield('titulo')
-      </section> 
-
-    <!-- Main content -->
-      <section class="content" id="app">
-        <div class="row">
-         <router-link to="/panel/usuario/bar">Go to Bar</router-link>
-        </div>
-        <!-- /.row -->
-        <router-view></router-view>
-
-      </section>
-    <!-- /.content -->
+@extends('layouts.usuarios')
+@section('titulo')
+@endsection
+@section('contenido')
+<div class="row" id="app">
+  <div class="col-xs-12">
+    <div class="box box-info">
+      <div class="box-header">
+        <h3 class="box-title">Usuarios Registrados</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body table-responsive">
+          <data-tables :data="usuarios" :pagination-props="{ pageSizes: [5, 10, 15] }">
+              | <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
+              </el-table-column>
+          </data-tables>
+      </div>
+      <!-- /.box-body -->
     </div>
-    <!-- /.content-wrapper -->
-
-    @include('panel.secciones.footer')
-
-    <!-- Control Sidebar -->
-    <!--code is here -->    
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-        immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
+    <!-- /.box -->
   </div>
-<!-- ./wrapper -->
-  @include('panel.secciones.styles.js')
-  @yield('script')
-  {!!Html::script('js/usuario.js')!!}
-</body>
-</html>
+  <!-- /.col -->
+</div>
+@section('script')
+{!!Html::script('js/usuarios.js')!!}
+<link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+@endsection
+@stop

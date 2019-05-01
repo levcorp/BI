@@ -12,13 +12,10 @@ use Adldap\Laravel\Facades\Adldap;
 use Adldap\AdldapInterface;
 class controllerPanel extends Controller
 {
-
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('panel');
     }
-    public function inicio()
-    {
+    public function inicio(){
         $titulo="General";
         $meses = EspecialidadMeses::select('PERIODO', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))
         ->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')
@@ -56,8 +53,7 @@ class controllerPanel extends Controller
         Session::flash('mensaje','Datos cargados correctamente');
         return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
     }
-    public function sector($dato)
-    {
+    public function sector($dato){
         $meses = EspecialidadMeses::select('PERIODO','SECTOR', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))
                                     ->where('SECTOR','like',$dato)
                                     ->groupBy('PERIODO','SECTOR')
@@ -106,5 +102,8 @@ class controllerPanel extends Controller
         });
         Session::flash('mensaje','Datos cargados correctamente');
         return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
+    }   
+    public function usuarios(){
+        return view('panel.registros.usuarios.index');
     }
 }
