@@ -28,7 +28,7 @@ class controllerABMSolicitud extends Controller
           <Logon>
             <UserName>sist_lp1</UserName>
             <Password>UKkNmIsImJtBoDyFqA</Password>
-            <Company>LEVCORP_PRUEBA</Company>
+            <Company>LEVCORP</Company>
             <Server>saphana:30015</Server>
             <UserAuthentication>False</UserAuthentication>
             <Language />
