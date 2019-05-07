@@ -10,6 +10,10 @@ use Storage;
 //use EDI;
 class controllerEDI extends Controller
 {    
+    public function __construct()
+    {
+      $this->middleware('panel',['only'=>'index']);
+    }
     public function index(){  
         return view('panel.registros.edi.index');
     }

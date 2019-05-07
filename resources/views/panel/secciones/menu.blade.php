@@ -26,16 +26,19 @@
               <li class="{{active(['panel/dashboard/*','panel'])}}"><a href="{{route('panel')}}"><i class="fa fa-line-chart"></i> Ventas</a></li>
             </ul>
           </li>
-          <li class="treeview {{active(['solicitud.*','detalle.*'])}}">
-          <a href="#">
-            <i class="fa fa-files-o"></i> <span>Solicitudes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{active(['solicitud.*','detalle.*'])}}"><a href="{{route('solicitud.index')}}"><i class="fa fa-file-text-o"></i> Articulos ABM</a></li>
-          </ul>
+        <li class="treeview {{active(['solicitud.*','detalle.*'])}}">
+            <a href="#">
+              <i class="fa fa-files-o"></i> <span>Solicitudes</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="{{active(['solicitud.*','detalle.*'])}}"><a href="{{route('solicitud.index')}}"><i class="fa fa-file-text-o"></i> Articulos ABM</a></li>
+            </ul>
+        </li>
+        <li class="{{active(['edi'])}}">
+          <a href="{{route('edi')}}"><i class="fa fa-th"></i> <span>EDI</span></a>
         </li>
         </ul>
       </section>
