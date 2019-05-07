@@ -9,22 +9,22 @@ use Carbon\Carbon;
 class EDI
 {
     public function text_hub(){
-        $head=$this->head('LARCO0000');              
+        $head=$this->head('LARCOS000');              
         $body=$this->body(EdiHUB::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
         return $head.$body;
     }
     public function text_co(){
-        $head=$this->head('LARCO0002');              
+        $head=$this->head('LARCOS002');              
         $body=$this->body(EdiCO::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
         return $head.$body;
     }
     public function text_sc(){
-        $head=$this->head('LARCO0001');        
+        $head=$this->head('LARCOS001');        
         $body=$this->body(EdiSC::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
         return $head.$body;
     }
     public function text_lp(){
-        $head=$this->head('LARCO0003');
+        $head=$this->head('LARCOS003');
         $body=$this->body(EdiLP::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
         return $head.$body;
     }
