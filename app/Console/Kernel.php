@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('edi:send')
-                  ->everyTenMinutes();
+                  ->dailyAt('23:00');
     }
     protected function commands()
     {

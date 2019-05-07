@@ -1,6 +1,6 @@
 <?php
 ////////////////////////EDI/////////////////////////////////////
-Route::get('edi','controllerEDI@edi')->name('edis');
+//Route::get('edi','controllerEDI@ediLP')->name('ediLP');
 Route::get('panel/edi','controllerEDI@index')->name('edi');
 ////////////////////////////////////////////////////////////////
 //Autentificacion

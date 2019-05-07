@@ -37,6 +37,22 @@ return [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\edi\LaPaz',
         ],
+        'ediCO' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\edi\Cochabamba',
+        ],
+        'ediSC' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\edi\SantaCruz',
+        ],
+        'ediHUB' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\edi\Hub',
+        ],
+        'logdtw'=>[
+            'driver' => 'local',
+            'root' =>'C:\Program Files (x86)\SAP\Data Transfer Workbench\error files',
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

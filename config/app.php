@@ -235,6 +235,6 @@ return [
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Active' => Watson\Active\Facades\Active::class,
-        'Adldap' => Adldap\Laravel\Facades\Adldap::class
+        'Adldap' => Adldap\Laravel\Facades\Adldap::class,
     ],
 ];

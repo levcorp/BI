@@ -180,11 +180,19 @@ class controllerABMSolicitud extends Controller
     }
     public function a()
     {
-      //return (\App\Fabricante::all());
-      $para =['gpinto@levcorp.bo','sistemas@levcorp.bo'];
-      $articulos=DetalleSolicitud::where('solicitud_id',1)->get();
-      $usuario=User::findOrFail(1);
-      Mail::to($para)->send( new Articulos($articulos,$usuario));
-      return new Articulos($articulos,$usuario);
+        //dd(base_path());
+        //dd($files=Storage::disk('logdtw')->allDirectories());
+        $list=array();
+        $exception=0;
+        $files=Storage::disk('logdtw')->allFiles();
+        foreach ($files as $file) {
+            if($exception!=0){
+              array_push($list,['dir'=>$file]);
+            }
+            $exception++;
+        }
+        
+        dd(Storage::disk('logdtw')->get($list["98"]["dir"]));
+        dd($list["17"]["dir"]);
     }
 }

@@ -221,7 +221,7 @@
                                 <label for="message-text" class="control-label">Comentarios : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-indent"></i></span>
-                                    <textarea v-model="comentarios"type="text" class="form-control" aria-describedby="sizing-addon3"></textarea>
+                                    <textarea maxlength="254" v-model="comentarios"type="text" class="form-control" aria-describedby="sizing-addon3"></textarea>
                                 </div>
                             </div>
                         </div>                 
@@ -373,7 +373,7 @@
                                 <label for="message-text" class="control-label">Comentarios : </label>
                                 <div class="input-group has-feedback" :class="{'has-error': errors.has('Comentarios') }">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-indent"></i></span>
-                                    <textarea v-model="comentarios" v-validate="'required'" name="Comentarios" type="text" class="form-control" aria-describedby="sizing-addon3"></textarea>
+                                    <textarea maxlength="254" v-model="comentarios" v-validate="'required'" name="Comentarios" type="text" class="form-control" aria-describedby="sizing-addon3"></textarea>
                                 </div>
                                 <p class="text-danger" v-if="errors.has('Comentarios')">@{{ errors.first('Comentarios') }}</p>
                             </div>

@@ -1,8 +1,8 @@
 <?php
 /////////////////////EDI//////////////////////////////////
-Route::get('edi/lp/download/{name}','controllerEDI@downloadLP');
-Route::get('edi/lp/generar','controllerEDI@ediLP');
-Route::get('edi/lp','controllerEDI@archivosLP');
+Route::get('edi/download/{city}/{name}','controllerEDI@download');
+Route::get('edi/generar/{city}','controllerEDI@edis');
+Route::get('edi/{city}','controllerEDI@archivos');
 //////////////////////////////////////////////////////////////
 
 /////////////////////USUARIOS//////////////////////////////////
