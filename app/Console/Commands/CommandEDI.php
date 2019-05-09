@@ -20,11 +20,14 @@ class CommandEDI extends Command
     public function handle()
     {
         $edi=new EDI;
-        $date=Carbon::now()->format('Ymd');
-        Storage::disk('edi')->put('\LaPaz\LaPaz_'.$date.'.txt', $edi->text_lp());            
-        Storage::disk('edi')->put('\SantaCruz\SantaCruz_'.$date.'.txt', $edi->text_sc());                                 
-        Storage::disk('edi')->put('\Cochabamba\Cochabamba_'.$date.'.txt', $edi->text_co());                                  
-        Storage::disk('edi')->put('\Hub\Hub_'.$date.'.txt', $edi->text_hub());      
+        //$datef=Carbon::yesterday()->format('Ymd');
+        //$date=Carbon::yesterday()->format('Y-m-d');
+        $datef=Carbon::now()->format('Ymd');
+        $date=Carbon::now()->format('Y-m-d');
+        Storage::disk('edi')->put('\LaPaz\LaPaz_'.$datef.'.txt', $edi->text_lp($date));            
+        Storage::disk('edi')->put('\SantaCruz\SantaCruz_'.$datef.'.txt', $edi->text_sc($date));                                 
+        Storage::disk('edi')->put('\Cochabamba\Cochabamba_'.$datef.'.txt', $edi->text_co($date));                                  
+        Storage::disk('edi')->put('\Hub\Hub_'.$datef.'.txt', $edi->text_hub($date));      
         $this->info('Comando ejecutado correctamente');  
     }
 }

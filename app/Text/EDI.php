@@ -8,36 +8,38 @@ use App\EdiHUB;
 use Carbon\Carbon;
 class EDI
 {
-    public function text_hub(){
-        $head=$this->head('LARCOS000');              
-        $body=$this->body(EdiHUB::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
+    public function text_hub($date){
+        $format=Carbon::parse($date)->format('Ymd');
+        $head=$this->head('LARCOS000',$format);              
+        $body=$this->body(EdiHUB::whereDate('Fecha',$date)->get(),$format);
         return $head.$body;
     }
-    public function text_co(){
-        $head=$this->head('LARCOS002');              
-        $body=$this->body(EdiCO::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
+    public function text_co($date){
+        $format=Carbon::parse($date)->format('Ymd');
+        $head=$this->head('LARCOS002',$format);              
+        $body=$this->body(EdiCO::whereDate('Fecha',$date)->get(),$format);
         return $head.$body;
     }
-    public function text_sc(){
-        $head=$this->head('LARCOS001');        
-        $body=$this->body(EdiSC::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
+    public function text_sc($date){
+        $format=Carbon::parse($date)->format('Ymd');
+        $head=$this->head('LARCOS001',$format);        
+        $body=$this->body(EdiSC::whereDate('Fecha',$date)->get(),$format);
         return $head.$body;
     }
-    public function text_lp(){
-        $head=$this->head('LARCOS003');
-        $body=$this->body(EdiLP::whereDate('Fecha',Carbon::now()->format('Y-m-d'))->get());
+    public function text_lp($date){
+        $format=Carbon::parse($date)->format('Ymd');
+        $head=$this->head('LARCOS003',$format);
+        $body=$this->body(EdiLP::whereDate('Fecha',$date)->get(),$format);
         return $head.$body;
     }
-    public function head($city)
+    public function head($city,$date)
     {
-        $date=Carbon::now()->format('Ymd');
         $SYS=$this->etiqueta(15,'SYS','802068825').$this->etiqueta(6,'X','004010').$this->etiqueta(6,'','852').$this->etiqueta(0,'P','').PHP_EOL;
         $XQ=$this->etiqueta(2,'XQ','G').$date.PHP_EOL;
         $N1=$this->etiqueta(3,'N1','ST').$this->etiqueta(60,'','LARCOS, S. A.').$this->etiqueta(2,'','9').$this->etiqueta(80,'',$city).PHP_EOL;
         return $SYS.$XQ.$N1;
     }
-    public function body($datos){
-        $date=Carbon::now()->format('Ymd');
+    public function body($datos,$date){
         $body="";
         $count=0;
          foreach ($datos as $dato) {

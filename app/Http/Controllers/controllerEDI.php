@@ -54,21 +54,21 @@ class controllerEDI extends Controller
             break;
         }
     }
-    public function edis($city){
+    public function edis($city,$date){
         $edi=new EDI;
-        $date=Carbon::now()->format('Ymd');
+        $datef=Carbon::parse($date)->format('Ymd');
         switch ($city) {
             case 'lapaz':
-                Storage::disk('edi')->put('\LaPaz\LaPaz_'.$date.'.txt', $edi->text_lp());            
+                Storage::disk('edi')->put('\LaPaz\LaPaz_'.$datef.'.txt', $edi->text_lp($date));            
             break;
             case 'santacruz':
-                Storage::disk('edi')->put('\SantaCruz\SantaCruz_'.$date.'.txt', $edi->text_sc());                                 
+                Storage::disk('edi')->put('\SantaCruz\SantaCruz_'.$datef.'.txt', $edi->text_sc($date));                                 
             break;
             case 'cochabamba':
-                Storage::disk('edi')->put('\Cochabamba\Cochabamba_'.$date.'.txt', $edi->text_co());                                  
+                Storage::disk('edi')->put('\Cochabamba\Cochabamba_'.$datef.'.txt', $edi->text_co($date));                                  
             break;
             case 'hub':
-                Storage::disk('edi')->put('\Hub\Hub_'.$date.'.txt', $edi->text_hub());        
+                Storage::disk('edi')->put('\Hub\Hub_'.$datef.'.txt', $edi->text_hub($date));        
             break;
         }
     }

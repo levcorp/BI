@@ -10,14 +10,16 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive">
-        <el-row slot="tool" style="margin: 10px 0">
-            <el-col :span="15">
+        <el-row slot="tool" style="margin: 5px 0">
+            <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-            </el-col>
-            <el-col :span="5" :offset="4">
-                <el-input v-model="filters[0].value" placeholder="Buscar">
-                </el-input>
-            </el-col>
+            </div>
+            <div class="col-sm-4 col-xs-6" style="margin: 5px 0">
+                <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+            </div>
+             <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
+                  <input type="date" class="el-input__inner" v-model="date" @keyup.enter="dateEDI" :max="new Date().toISOString().slice(0, 10)">
+            </div>
         </el-row>
         <data-tables  :filters="filters" :data="archivosLP" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
@@ -35,14 +37,16 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive">
-        <el-row slot="tool" style="margin: 10px 0">
-            <el-col :span="15">
+         <el-row slot="tool" style="margin: 5px 0">
+            <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-            </el-col>
-            <el-col :span="5" :offset="4">
-                <el-input v-model="filters[0].value" placeholder="Buscar">
-                </el-input>
-            </el-col>
+            </div>
+            <div class="col-sm-4 col-xs-6" style="margin: 5px 0">
+                <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+            </div>
+             <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
+                  <input type="date" class="el-input__inner" v-model="date" @keyup.enter="dateEDI" :max="new Date().toISOString().slice(0, 10)">
+            </div>
         </el-row>
         <data-tables  :filters="filters" :data="archivosCO" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
@@ -62,14 +66,16 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive">
-        <el-row slot="tool" style="margin: 10px 0">
-            <el-col :span="15">
+         <el-row slot="tool" style="margin: 5px 0">
+            <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-            </el-col>
-            <el-col :span="5" :offset="4">
-                <el-input v-model="filters[0].value" placeholder="Buscar">
-                </el-input>
-            </el-col>
+            </div>
+            <div class="col-sm-4 col-xs-6" style="margin: 5px 0">
+                <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+            </div>
+             <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
+                  <input type="date" class="el-input__inner" v-model="date" @keyup.enter="dateEDI" :max="new Date().toISOString().slice(0, 10)">
+            </div>
         </el-row>
         <data-tables  :filters="filters" :data="archivosSC" :table-props="table"  :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
@@ -87,14 +93,16 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive">
-        <el-row slot="tool" style="margin: 10px 0">
-            <el-col :span="15">
+         <el-row slot="tool" style="margin: 5px 0">
+            <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-            </el-col>
-            <el-col :span="5" :offset="4">
-                <el-input v-model="filters[0].value" placeholder="Buscar">
-                </el-input>
-            </el-col>
+            </div>
+            <div class="col-sm-4 col-xs-6" style="margin: 5px 0">
+                <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+            </div>
+             <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
+                  <input type="date" class="el-input__inner" v-model="date" @keyup.enter="dateEDI" :max="new Date().toISOString().slice(0, 10)">
+            </div>
         </el-row>
         <data-tables  :filters="filters" :data="archivosHUB" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">

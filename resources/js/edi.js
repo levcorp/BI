@@ -9,10 +9,13 @@ import locale from 'element-ui/lib/locale';
 locale.use(lang);
 Vue.use(VueDataTables)
 Vue.use(ElementUI);
+
 /////////////////////////LA PAZ///////////////////////////////////////
 var EDILP = {
     data() {
         return {
+            now: new Date().toISOString().slice(0, 10),
+            date: new Date().toISOString().slice(0, 10),
             archivosLP: [],
             table: {
                 border: true,
@@ -62,6 +65,12 @@ var EDILP = {
         this.getEdiLP();
     },
     methods: {
+        dateEDI: function() {
+            var url = '/api/edi/generar/lapaz/' + this.date;     
+            axios.get(url).then(response => {
+                this.getEdiLP();
+            })                   
+        },
         getEdiLP: function () {
             var url = '/api/edi/lapaz';
             axios.get(url).then(response => {
@@ -69,7 +78,7 @@ var EDILP = {
             });
         },
         generar:function(){
-            var url ='/api/edi/generar/lapaz';
+            var url = '/api/edi/generar/lapaz/'+this.now;
             axios.get(url).then(response=>{
                 this.getEdiLP();
             })
@@ -82,6 +91,8 @@ new LP().$mount('#lp');
 var EDICO = {
     data() {
         return {
+            now: new Date().toISOString().slice(0, 10),
+            date: new Date().toISOString().slice(0, 10),
             archivosCO: [],
             table: {
                 border: true,
@@ -131,6 +142,12 @@ var EDICO = {
         this.getEdiCO();
     },
     methods: {
+        dateEDI: function () {
+            var url = '/api/edi/generar/cochabamba/' + this.date;
+            axios.get(url).then(response => {
+                this.getEdiCO();
+            })
+        },
         getEdiCO: function () {
             var url = '/api/edi/cochabamba';
             axios.get(url).then(response => {
@@ -138,7 +155,7 @@ var EDICO = {
             });
         },
         generar: function () {
-            var url = '/api/edi/generar/cochabamba';
+            var url = '/api/edi/generar/cochabamba/' + this.now;
             axios.get(url).then(response => {
                 this.getEdiCO();
             })
@@ -151,6 +168,8 @@ new CO().$mount('#co');
 var EDISC = {
     data() {
         return {
+            now: new Date().toISOString().slice(0, 10),
+            date: new Date().toISOString().slice(0, 10),
             archivosSC: [],
             table: {
                 border: true,
@@ -200,6 +219,12 @@ var EDISC = {
         this.getEdiSC();
     },
     methods: {
+        dateEDI: function () {
+            var url = '/api/edi/generar/santacruz/' + this.date;
+            axios.get(url).then(response => {
+                this.getEdiSC();
+            })
+        },
         getEdiSC: function () {
             var url = '/api/edi/santacruz';
             axios.get(url).then(response => {
@@ -207,7 +232,7 @@ var EDISC = {
             });
         },
         generar: function () {
-            var url = '/api/edi/generar/santacruz';
+            var url = '/api/edi/generar/santacruz/' + this.now;
             axios.get(url).then(response => {
                 this.getEdiSC();
             })
@@ -220,6 +245,8 @@ new SC().$mount('#sc');
 var EDIHUB = {
     data() {
         return {
+            now: new Date().toISOString().slice(0, 10),
+            date: new Date().toISOString().slice(0, 10),
             archivosHUB: [],
             table: {
                 border: true,
@@ -269,6 +296,12 @@ var EDIHUB = {
         this.getEdiHUB();
     },
     methods: {
+        dateEDI: function () {
+            var url = '/api/edi/generar/hub/' + this.date;
+            axios.get(url).then(response => {
+                this.getEdiHUB();
+            })
+        },
         getEdiHUB: function () {
             var url = '/api/edi/hub';
             axios.get(url).then(response => {
@@ -276,7 +309,7 @@ var EDIHUB = {
             });
         },
         generar: function () {
-            var url = '/api/edi/generar/hub';
+            var url = '/api/edi/generar/hub/' + this.now;
             axios.get(url).then(response => {
                 this.getEdiHUB();
             })

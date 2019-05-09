@@ -182,6 +182,11 @@ class controllerABMSolicitud extends Controller
     {
         //dd(base_path());
         //dd($files=Storage::disk('logdtw')->allDirectories());
+        $fecha=Carbon::now();
+        //return $fecha->diffForHumans();
+        //return $fecha->format('l jS \\of F Y h:i:s A');
+        setlocale(LC_ALL, 'es_ES');
+        return $fecha->formatLocalized('%B');
         $list=array();
         $exception=0;
         $files=Storage::disk('logdtw')->allFiles();

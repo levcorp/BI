@@ -13,12 +13,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('edi:send')
-                  ->dailyAt('23:00');
+                  ->dailyAt('23:30');
     }
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /////////////////////EDI//////////////////////////////////
 Route::get('edi/download/{city}/{name}','controllerEDI@download');
-Route::get('edi/generar/{city}','controllerEDI@edis');
+Route::get('edi/generar/{city}/{date}','controllerEDI@edis');
 Route::get('edi/{city}','controllerEDI@archivos');
 //////////////////////////////////////////////////////////////
 
