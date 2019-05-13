@@ -40,6 +40,9 @@
         <li class="{{active(['edi'])}}">
           <a href="{{route('edi')}}"><i class="fa fa-th"></i> <span>EDI</span></a>
         </li>
+        <li class="{{active(['gpos'])}}">
+          <a href="{{route('gpos')}}"><i class="fa fa-th"></i> <span>GPOS</span></a>
+        </li>
         </ul>
       </section>
       <!-- /.sidebar -->
