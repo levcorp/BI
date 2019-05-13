@@ -8,7 +8,7 @@ return [
 
     'debug' => env('APP_DEBUG', false),
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://bi.levcorp.bo'),
 
     'asset_url' => env('ASSET_URL', null),
 

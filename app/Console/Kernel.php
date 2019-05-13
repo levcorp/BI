@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     ];
     protected function scheduleTimezone()
     {
-        return 'America/Chicago';
+        return 'America/La_Paz';
     }
     protected function schedule(Schedule $schedule)
     {

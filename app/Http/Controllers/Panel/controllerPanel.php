@@ -106,4 +106,7 @@ class controllerPanel extends Controller
     public function usuarios(){
         return view('panel.registros.usuarios.index');
     }
+    public function gpos(){
+        return view('panel.registros.gpos.index');
+    }
 }

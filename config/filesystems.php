@@ -33,6 +33,18 @@ return [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\edi',
         ],
+        'gposLP' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\gpos\LaPaz',
+        ],
+        'gposCO' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\gpos\Cochabamba',
+        ],
+        'gposSC' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\gpos\SantaCruz',
+        ],
         'ediLP' => [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\edi\LaPaz',
