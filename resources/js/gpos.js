@@ -5,15 +5,24 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueDataTables from 'vue-data-tables';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
-
+import moment from  'moment';
+import 'moment/locale/es';
 locale.use(lang);
 Vue.use(VueDataTables)
 Vue.use(ElementUI);
+
+import VCalendar from 'v-calendar/lib/v-calendar.umd';
+Vue.use(VCalendar, {
+    componentPrefix: 'v',  // Use <vc-calendar /> instead of <v-calendar />
+});
 var EDILP = {
     data() {
         return {
+            selectedDate: {
+                start: new Date(2018, 0, 9),
+                end: new Date(2018, 0, 18)
+            },
             now: new Date().toISOString().slice(0, 10),
-            date: new Date().toISOString().slice(0, 10),
             archivosLP: [],
             table: {
                 border: true,
@@ -60,10 +69,10 @@ var EDILP = {
         }
     },
     mounted() {
-        this.getEdiLP();
+        this.getLP();
     },
     methods: {
-        getEdiLP: function () {
+        getLP: function () {
             var url = '/api/gpos/lapaz';
             axios.get(url).then(response => {
                 this.archivosLP = response.data;
@@ -72,8 +81,18 @@ var EDILP = {
         generar: function () {
             var url = '/api/gpos/generar/lapaz/';
             axios.get(url).then(response => {
-                this.getEdiLP();
+                this.getLP();
             })
+        },
+         formatDates(dateOne, dateTwo) {
+            let formattedDates = ''
+            if (dateOne) {
+                formattedDates = format(dateOne, this.dateFormat)
+            }
+            if (dateTwo) {
+                formattedDates += ' - ' + format(dateTwo, this.dateFormat)
+            }
+            return formattedDates
         }
     },
 }

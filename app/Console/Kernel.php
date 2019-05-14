@@ -10,7 +10,7 @@ use App\Mail\Edi\Failure;
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        //
+        
     ];
     protected function scheduleTimezone()
     {

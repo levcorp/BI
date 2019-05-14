@@ -80,6 +80,15 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        'EDIftp' => [
+            'driver'   => 'ftp',
+            'host'     => '192.168.10.45',
+            'username' => 'Administrador',
+            'password' => 'Manager1',
+            'port'     => 22,
+            'ssl'      => false,
+            'root'     =>'/send/commit',
+        ],
 
     ],
 

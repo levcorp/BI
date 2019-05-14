@@ -17,7 +17,7 @@ class Failure extends Mailable
     public function build()
     {
         return $this->markdown('emails.edi.failure')
-                    ->to('gpinto@levcorp.bo')
+                    ->to('sistemas@levcorp.bo')
                     ->subject('Generacion EDI Fallida');
     }
 }

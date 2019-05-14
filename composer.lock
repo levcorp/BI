@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9334fa7b468c5aff31a2f1f4defdc907",
+    "content-hash": "a96d1910eb95f531bc82af40d4333bdf",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -116,6 +116,50 @@
                 "ldap"
             ],
             "time": "2019-04-18T16:02:45+00:00"
+        },
+        {
+            "name": "anchu/ftp",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/harishanchu/Laravel-FTP.git",
+                "reference": "6f1533d6b491adddab9ac87989ca96dc04ec6fee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/harishanchu/Laravel-FTP/zipball/6f1533d6b491adddab9ac87989ca96dc04ec6fee",
+                "reference": "6f1533d6b491adddab9ac87989ca96dc04ec6fee",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.x",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Anchu\\Ftp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Harish Anchu",
+                    "email": "harishanchu@gmail.com"
+                }
+            ],
+            "description": "A simple Laravel 4/5 ftp service provider",
+            "keywords": [
+                "L4",
+                "ftp",
+                "l5",
+                "laravel",
+                "service provider"
+            ],
+            "time": "2017-01-28T09:18:31+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

@@ -17,7 +17,7 @@ class Success extends Mailable
     public function build()
     {
         return $this->markdown('emails.edi.success')
-                    ->to('gpinto@levcorp.bo')
+                    ->to('sistemas@levcorp.bo')
                     ->subject('Generacion EDI Exitosa');
     }
 }

@@ -65,7 +65,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Watson\Active\ActiveServiceProvider::class,
         Adldap\Laravel\AdldapServiceProvider::class,
-        Adldap\Laravel\AdldapAuthServiceProvider::class
+        Adldap\Laravel\AdldapAuthServiceProvider::class,
+        Anchu\Ftp\FtpServiceProvider::class,
     ],
     'aliases' => [
 

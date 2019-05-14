@@ -2,7 +2,6 @@ import Vue from 'vue/dist/vue.common.prod';
 import axios from 'axios';
 Vue.component('pagination', require('laravel-vue-pagination'));
 import swal from 'sweetalert';
-import moment from 'moment';
 import toastr from 'toastr';
 
 new Vue({
