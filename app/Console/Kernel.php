@@ -7,6 +7,8 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Mail;
 use App\Mail\Edi\Success;
 use App\Mail\Edi\Failure;
+use App\Text\EDI;
+
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
@@ -18,10 +20,13 @@ class Kernel extends ConsoleKernel
     }
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('edi:send')
+        $edi=new EDI;
+        $count=$edi->count();
+        $names=$edi->names();
+        $schedule->command('edi:send')
                   ->dailyAt('23:30')
                   ->onSuccess(function () {
-                    Mail::send(new Success);
+                    Mail::send(new Success($count,$names));
                   })
                   ->onFailure(function () {
                     Mail::send(new Failure);

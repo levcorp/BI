@@ -10,14 +10,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class Success extends Mailable
 {
     use Queueable, SerializesModels;
-    public function __construct()
+    protected $count;
+    protected $names;
+    public function __construct($count,$names)
     {
-        //
+        $this->count=$count;
+        $this->names=$names;
     }
     public function build()
     {
         return $this->markdown('emails.edi.success')
                     ->to('sistemas@levcorp.bo')
-                    ->subject('Generacion EDI Exitosa');
+                    ->subject('Generacion EDI Exitosa')
+                    ->with(['count'=> $this->count,'names'=> $this->names]);
     }
 }
