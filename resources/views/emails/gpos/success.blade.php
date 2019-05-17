@@ -91,7 +91,7 @@
                     <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                       <h3
                         style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #557187;font-size: 17px;line-height: 26px;">
-                        Generacion de EDI La Paz</h3>
+                        Generacion de GPOS La Paz</h3>
                       <h4 style="font-size: 12px;Margin-top: 16px;Margin-bottom: 10px;">Generacion de Archivo : <span
                           style="Margin-top: 16px;Margin-bottom: 10px; color:{{$count[0]['lp']==0 ? '#fe7575':'#557187'}};">
                           {{$count[0]['lp']==0 ? 'No Realizado':'Realizado'}}</span></h4>
@@ -139,7 +139,7 @@
                               <tr>
                                 <td width="80%"
                                   style="font-weight: bold;padding:5px 1px;border-radius:15px;background-color: #557187;font-family: Roboto, Tahoma, sans-serif;font-size:11px;line-height:22px;color:#ffffff;text-align:center;vertical-align:top;">
-                                  <a href="{{'http://bi.levcorp.bo/api/edi/download/lapaz/'.$names[0]['lp']}}"
+                                  <a href="{{'http://bi.levcorp.bo/api/gpos/download/lapaz/'.$names[0]['lp']}}"
                                     title="linked to Call to action. " name="button"
                                     style="text-decoration:none;color:#ffffff;display:block;cursor:pointer;"
                                     tabindex="1">
@@ -175,7 +175,7 @@
                     <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                       <h3
                         style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #557187;font-size: 17px;line-height: 26px;">
-                        Generacion de EDI Cochabamba</h3>
+                        Generacion de GPOS Cochabamba</h3>
                       <h4 style="font-size: 12px;Margin-top: 16px;Margin-bottom: 10px;">Generacion de Archivo : <span
                           style="Margin-top: 16px;Margin-bottom: 10px; color:{{$count[0]['co']==0 ? '#fe7575':'#557187'}};">
                           {{$count[0]['co']==0 ? 'No Realizado':'Realizado'}}</span></h4>
@@ -223,7 +223,7 @@
                               <tr>
                                 <td width="80%"
                                   style="font-weight: bold;padding:5px 1px;border-radius:15px;background-color: #557187;font-family: Roboto, Tahoma, sans-serif;font-size:11px;line-height:22px;color:#ffffff;text-align:center;vertical-align:top;">
-                                  <a href="{{'http://bi.levcorp.bo/api/edi/download/cochabamba/'.$names[0]['co']}}"
+                                  <a href="{{'http://bi.levcorp.bo/api/gpos/download/cochabamba/'.$names[0]['co']}}"
                                     title="linked to Call to action. " name="button"
                                     style="text-decoration:none;color:#ffffff;display:block;cursor:pointer;"
                                     tabindex="1">
@@ -260,7 +260,7 @@
                     <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
                       <h3
                         style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #557187;font-size: 17px;line-height: 26px;">
-                        Generacion de EDI Santa Cruz.</h3>
+                        Generacion de GPOS Santa Cruz.</h3>
                       <h4 style="font-size: 12px;Margin-top: 16px;Margin-bottom: 10px;">Generacion de Archivo : <span
                           style="Margin-top: 16px;Margin-bottom: 10px; color:{{$count[0]['sc']==0 ? '#fe7575':'#557187'}};">
                           {{$count[0]['sc']==0 ? 'No Realizado':'Realizado'}}</span></h4>
@@ -312,7 +312,7 @@
                               <tr>
                                 <td width="80%"
                                   style="font-weight: bold;padding:5px 1px;border-radius:15px;background-color: #557187;font-family: Roboto, Tahoma, sans-serif;font-size:11px;line-height:22px;color:#ffffff;text-align:center;vertical-align:top;">
-                                  <a href="{{'http://bi.levcorp.bo/api/edi/download/santacruz/'.$names[0]['sc']}}"
+                                  <a href="{{'http://bi.levcorp.bo/api/gpos/download/santacruz/'.$names[0]['sc']}}"
                                     title="linked to Call to action. " name="button"
                                     style="text-decoration:none;color:#ffffff;display:block;cursor:pointer;"
                                     tabindex="1">
@@ -337,98 +337,6 @@
                 <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
               </div>
             </div>
-
-            <div class="layout two-col fixed-width"
-              style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
-              <div class="layout__inner"
-                style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
-                <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 300px" valign="top" class="w260"><![endif]-->
-                <div class="column"
-                  style="text-align: left;color: #757575;font-size: 14px;line-height: 21px;font-family: Roboto,Tahoma,sans-serif;Float: left;max-width: 320px;min-width: 300px; width: 320px;width: calc(12300px - 2000%);">
-
-                  <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 12px;">
-                    <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-                      <h3
-                        style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #557187;font-size: 17px;line-height: 26px;">
-                        Generacion de EDI HUB</h3>
-                      <h4 style="font-size: 12px;Margin-top: 16px;Margin-bottom: 10px;">Generacion de Archivo : <span
-                          style="Margin-top: 16px;Margin-bottom: 10px; color:{{$count[0]['hub']==0 ? '#fe7575':'#557187'}};">
-                          {{$count[0]['hub']==0 ? 'No Realizado':'Realizado'}}</span></h4>
-                      <h4 style="font-size: 12px;Margin-top: 5px;Margin-bottom: 10px;">Total de registros generados:
-                        <span
-                          style="Margin-top: 5px;Margin-bottom: 10px; color:{{$count[0]['hub']==0 ? '#fe7575':'#557187'}};">
-                          {{$count[0]['hub']}}</span></h4>
-                    </div>
-                  </div>
-
-                  <div style="Margin-left: 20px;Margin-right: 20px;">
-                    <div style="mso-line-height-rule: exactly;line-height: 10px;font-size: 1px;">&nbsp;</div>
-                  </div>
-
-                  <div style="Margin-left: 20px;Margin-right: 20px;Margin-bottom: 12px;">
-                    <div style="mso-line-height-rule: exactly;line-height: 21px;font-size: 1px;">&nbsp;</div>
-                  </div>
-
-                </div>
-                <!--[if (mso)|(IE)]></td><td style="width: 300px" valign="top" class="w260"><![endif]-->
-                <div class="column"
-                  style="text-align: left;color: #757575;font-size: 14px;line-height: 21px;font-family: Roboto,Tahoma,sans-serif;Float: left;max-width: 320px;min-width: 300px; width: 320px;width: calc(12300px - 2000%);">
-
-                  <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 0px;">
-                    <div style="mso-line-height-rule: exactly;line-height: 6px;font-size: 1px;">&nbsp;</div>
-                  </div>
-
-                  <div style="Margin-left: 20px;Margin-right: 20px;">
-                    <div style="mso-line-height-rule: exactly;line-height: 15px;font-size: 1px;">&nbsp;</div>
-                  </div>
-
-                  <div style="font-size: 12px;font-style: normal;font-weight: normal;line-height: 19px;" align="center">
-                    <img style="border: 0;display: block;height: auto;width: 100%;max-width: 80px;" alt="" width="80"
-                      src="{{$count[0]['hub']==0 ? asset('images/error.png'):asset('images/correct.png')}}" />
-                  </div>
-
-                  <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 5px;Margin-bottom: 12px;" align="center">
-                    <div style="mso-line-height-rule: exactly;line-height: 15px;font-size: 1px;">
-                      @if($count[0]['hub']>0)
-                      <table width="80%" style="border-spacing:0;">
-                        <tr>
-                          <td align="center" style="padding:0;">
-                            <!--[if (gte mso 9)|(IE)]>
-                                <table width="300">
-                                    <tr>
-                                        <td width="80%" valign="top"  style="font-weight: bold;padding:5px 1px;border-radius:15px;background-color: #557187;font-family: Roboto, Tahoma, sans-serif;font-size:11px;line-height:22px;color:#ffffff;text-align:center;vertical-align:top;">
-                                        <![endif]-->
-                            <table width="70%" style="Margin:0;border-spacing:0;max-width:300px;">
-                              <tr>
-                                <td width="80%"
-                                  style="font-weight: bold;padding:5px 1px;border-radius:15px;background-color: #557187;font-family: Roboto, Tahoma, sans-serif;font-size:11px;line-height:22px;color:#ffffff;text-align:center;vertical-align:top;">
-                                  <a href="{{'http://bi.levcorp.bo/api/edi/download/hub/'.$names[0]['hub']}}"
-                                    title="linked to Call to action. " name="button"
-                                    style="text-decoration:none;color:#ffffff;display:block;cursor:pointer;"
-                                    tabindex="1">
-                                    Descargar Documento
-                                  </a>
-                                </td>
-                              </tr>
-                            </table>
-                            <!--[if (gte mso 9)|(IE)]>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <![endif]-->
-                          </td>
-                        </tr>
-                      </table>
-                      @endif
-                    </div>
-                  </div>
-
-                </div>
-                <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-              </div>
-            </div>
-
-
             <div role="contentinfo">
               <div class="layout email-footer"
                 style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">

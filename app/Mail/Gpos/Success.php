@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\Edi;
+namespace App\Mail\Gpos;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -10,18 +10,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class Success extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $count;
+    protected $counts;
     protected $names;
-    public function __construct($count,$names)
+    public function __construct($counts,$names)
     {
-        $this->count=$count;
+        $this->counts=$counts;
         $this->names=$names;
     }
     public function build()
     {
-        return $this->markdown('emails.edi.success')
+        return $this->markdown('emails.gpos.success')
                     ->to('sistemas@levcorp.bo')
-                    ->subject('Generacion EDI 852 Exitosa')
-                    ->with(['count'=> $this->count,'names'=> $this->names]);
+                    ->subject('Generacion GPOS Exitosa')
+                    ->with(['count'=> $this->counts,'names'=> $this->names]);
     }
 }

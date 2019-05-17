@@ -3,22 +3,7 @@
 return [
 
     'default' => env('FILESYSTEM_DRIVER', 'local'),
-
     'cloud' => env('FILESYSTEM_CLOUD', 's3'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Filesystem Disks
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure as many filesystem "disks" as you wish, and you
-    | may even configure multiple disks of the same driver. Defaults have
-    | been setup for each driver as an example of the required options.
-    |
-    | Supported Drivers: "local", "ftp", "sftp", "s3", "rackspace"
-    |
-    */
-
     'disks' => [
 
         'local' => [
@@ -32,6 +17,10 @@ return [
         'edi' => [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\edi',
+        ],
+        'gposExcel' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\gpos\Excel',
         ],
         'gposLP' => [
             'driver' => 'local',
@@ -71,7 +60,6 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

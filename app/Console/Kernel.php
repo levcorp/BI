@@ -4,10 +4,14 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Mail;
 use App\Mail\Edi\Success;
 use App\Mail\Edi\Failure;
+use App\Mail\Gpos\Failure as FailureGPOS;
+use App\Mail\Gpos\Success as SuccessGPOS;
+use App\Mail\Gpos\SuccessExcel as SuccessGPOSExcel;
+use App\Text\EDIGPOS;
 use App\Text\EDI;
+use Mail;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,17 +23,31 @@ class Kernel extends ConsoleKernel
         return 'America/La_Paz';
     }
     protected function schedule(Schedule $schedule)
-    {
-        $edi=new EDI;
-        $count=$edi->count();
-        $names=$edi->names();
+    { 
         $schedule->command('edi:send')
-                  ->dailyAt('23:30')
-                  ->onSuccess(function () {
+                 ->dailyAt('23:30')
+                 ->onSuccess(function () {
+                    $edi=new EDI;
+                    $count=$edi->count();
+                    $names=$edi->names();
                     Mail::send(new Success($count,$names));
                   })
-                  ->onFailure(function () {
+                 ->onFailure(function () {
                     Mail::send(new Failure);
+                  });
+        $schedule->command('gpos:send')
+                 ->weeklyOn(7, '23:00')
+                 ->onSuccess(function () {
+                    $gpos=new EDIGPOS;
+                    $counts=$gpos->counts();
+                    $names=$gpos->names();
+                    $count=$gpos->count();
+                    $name=$gpos->name();
+                    Mail::send(new SuccessGPOSExcel($count,$name));
+                    Mail::send(new SuccessGPOS($counts,$names));      
+                  })
+                 ->onFailure(function () {
+                    Mail::send(new FailureGPOS);
                   });
     }
     protected function commands()

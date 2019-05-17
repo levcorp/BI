@@ -110076,15 +110076,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 element_ui_lib_locale__WEBPACK_IMPORTED_MODULE_6___default.a.use(element_ui_lib_locale_lang_es__WEBPACK_IMPORTED_MODULE_5___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_data_tables__WEBPACK_IMPORTED_MODULE_4___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(element_ui__WEBPACK_IMPORTED_MODULE_2___default.a);
-
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_calendar_lib_v_calendar_umd__WEBPACK_IMPORTED_MODULE_9___default.a, {
   componentPrefix: 'v' // Use <vc-calendar /> instead of <v-calendar />
 
 });
-var EDILP = {
+var GPOSLP = {
   data: function data() {
     var _this = this;
 
@@ -110178,8 +110178,296 @@ var EDILP = {
     }
   }
 };
-var LP = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(EDILP);
+var LP = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(GPOSLP);
 new LP().$mount('#lp');
+var GPOSCO = {
+  data: function data() {
+    var _this4 = this;
+
+    return {
+      selectedDate: {
+        start: new Date(2018, 0, 9),
+        end: new Date(2018, 0, 18)
+      },
+      now: new Date().toISOString().slice(0, 10),
+      archivosCO: [],
+      table: {
+        border: true //stripe: true,
+
+      },
+      titles: [{
+        prop: "name",
+        label: "Archivo",
+        align: 'center'
+      }],
+      filters: [{
+        prop: 'name'
+      }],
+      dowload: {
+        label: 'Acciones',
+        props: {
+          align: 'center'
+        },
+        buttons: [{
+          props: {
+            type: 'primary',
+            icon: 'el-icon-download',
+            size: 'small'
+          },
+          handler: function handler(row) {
+            var name = row.name;
+            var urlApi = '/api/gpos/download/cochabamba/' + name;
+            axios__WEBPACK_IMPORTED_MODULE_1___default()({
+              url: urlApi,
+              method: 'GET',
+              responseType: 'blob' // important
+
+            }).then(function (response) {
+              var url = window.URL.createObjectURL(new Blob([response.data]));
+              var link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', row.name); //or any other extension
+
+              document.body.appendChild(link);
+              link.click();
+
+              _this4.$message('Se descargo el archivo ' + JSON.stringify(row.name));
+            });
+          },
+          label: ''
+        }]
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.getCO();
+  },
+  methods: {
+    getCO: function getCO() {
+      var _this5 = this;
+
+      var url = '/api/gpos/cochabamba';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this5.archivosCO = response.data;
+      });
+    },
+    generar: function generar() {
+      var _this6 = this;
+
+      var url = '/api/gpos/generar/cochabamba/';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this6.getCO();
+      });
+    },
+    formatDates: function formatDates(dateOne, dateTwo) {
+      var formattedDates = '';
+
+      if (dateOne) {
+        formattedDates = format(dateOne, this.dateFormat);
+      }
+
+      if (dateTwo) {
+        formattedDates += ' - ' + format(dateTwo, this.dateFormat);
+      }
+
+      return formattedDates;
+    }
+  }
+};
+var CO = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(GPOSCO);
+new CO().$mount('#co');
+var GPOSSC = {
+  data: function data() {
+    var _this7 = this;
+
+    return {
+      selectedDate: {
+        start: new Date(2018, 0, 9),
+        end: new Date(2018, 0, 18)
+      },
+      now: new Date().toISOString().slice(0, 10),
+      archivosSC: [],
+      table: {
+        border: true //stripe: true,
+
+      },
+      titles: [{
+        prop: "name",
+        label: "Archivo",
+        align: 'center'
+      }],
+      filters: [{
+        prop: 'name'
+      }],
+      dowload: {
+        label: 'Acciones',
+        props: {
+          align: 'center'
+        },
+        buttons: [{
+          props: {
+            type: 'primary',
+            icon: 'el-icon-download',
+            size: 'small'
+          },
+          handler: function handler(row) {
+            var name = row.name;
+            var urlApi = '/api/gpos/download/santacruz/' + name;
+            axios__WEBPACK_IMPORTED_MODULE_1___default()({
+              url: urlApi,
+              method: 'GET',
+              responseType: 'blob' // important
+
+            }).then(function (response) {
+              var url = window.URL.createObjectURL(new Blob([response.data]));
+              var link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', row.name); //or any other extension
+
+              document.body.appendChild(link);
+              link.click();
+
+              _this7.$message('Se descargo el archivo ' + JSON.stringify(row.name));
+            });
+          },
+          label: ''
+        }]
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.getSC();
+  },
+  methods: {
+    getSC: function getSC() {
+      var _this8 = this;
+
+      var url = '/api/gpos/santacruz';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this8.archivosSC = response.data;
+      });
+    },
+    generar: function generar() {
+      var _this9 = this;
+
+      var url = '/api/gpos/generar/santacruz/';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this9.getSC();
+      });
+    },
+    formatDates: function formatDates(dateOne, dateTwo) {
+      var formattedDates = '';
+
+      if (dateOne) {
+        formattedDates = format(dateOne, this.dateFormat);
+      }
+
+      if (dateTwo) {
+        formattedDates += ' - ' + format(dateTwo, this.dateFormat);
+      }
+
+      return formattedDates;
+    }
+  }
+};
+var SC = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(GPOSSC);
+new SC().$mount('#sc');
+var GPOSGEN = {
+  data: function data() {
+    var _this10 = this;
+
+    return {
+      selectedDate: {
+        start: new Date(2018, 0, 9),
+        end: new Date(2018, 0, 18)
+      },
+      now: new Date().toISOString().slice(0, 10),
+      archivosSC: [],
+      table: {
+        border: true //stripe: true,
+
+      },
+      titles: [{
+        prop: "name",
+        label: "Archivo",
+        align: 'center'
+      }],
+      filters: [{
+        prop: 'name'
+      }],
+      dowload: {
+        label: 'Acciones',
+        props: {
+          align: 'center'
+        },
+        buttons: [{
+          props: {
+            type: 'primary',
+            icon: 'el-icon-download',
+            size: 'small'
+          },
+          handler: function handler(row) {
+            var name = row.name;
+            var urlApi = '/api/gpos/download/general/' + name;
+            axios__WEBPACK_IMPORTED_MODULE_1___default()({
+              url: urlApi,
+              method: 'GET',
+              responseType: 'blob' // important
+
+            }).then(function (response) {
+              var url = window.URL.createObjectURL(new Blob([response.data]));
+              var link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', row.name); //or any other extension
+
+              document.body.appendChild(link);
+              link.click();
+
+              _this10.$message('Se descargo el archivo ' + JSON.stringify(row.name));
+            });
+          },
+          label: ''
+        }]
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.getSC();
+  },
+  methods: {
+    getSC: function getSC() {
+      var _this11 = this;
+
+      var url = '/api/gpos/general';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this11.archivosSC = response.data;
+      });
+    },
+    generar: function generar() {
+      var _this12 = this;
+
+      var url = '/api/gpos/generar/general/';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this12.getSC();
+      });
+    },
+    formatDates: function formatDates(dateOne, dateTwo) {
+      var formattedDates = '';
+
+      if (dateOne) {
+        formattedDates = format(dateOne, this.dateFormat);
+      }
+
+      if (dateTwo) {
+        formattedDates += ' - ' + format(dateTwo, this.dateFormat);
+      }
+
+      return formattedDates;
+    }
+  }
+};
+var GENERAL = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(GPOSGEN);
+new GENERAL().$mount('#general');
 
 /***/ }),
 

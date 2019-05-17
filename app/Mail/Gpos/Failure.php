@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\Edi;
+namespace App\Mail\Gpos;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,11 +12,10 @@ class Failure extends Mailable
     use Queueable, SerializesModels;
     public function __construct()
     {
-        
     }
     public function build()
     {
-        return $this->markdown('emails.edi.failure')
+          return $this->markdown('emails.edi.failure')
                     ->to('sistemas@levcorp.bo')
                     ->subject('Generacion EDI 852 Fallida');
     }

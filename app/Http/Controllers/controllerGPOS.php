@@ -9,21 +9,29 @@ use App\GPOS;
 use Mail;
 use App\Mail\Edi\Success;
 use App\Mail\Edi\Failure;
+use App\Mail\Gpos\Failure as FailureGPOS;
+use App\Mail\Gpos\Success as SuccessGPOS;
+use App\Mail\Gpos\SuccessExcel as SuccessGPOSExcel;
 use Carbon\Carbon;
 use Storage;
+use Excel;
+use App\Exports\GposExport;
 class controllerGPOS extends Controller
 {
-    public function datos()
-    {   
-        $edi=new EDI;
-        $names=$edi->names();
-        $count=array([
-            'lp'=>1,
-            'co'=>2,
-            'sc'=>2,
-            'hub'=>12
-        ]);
-        return Mail::send(new Success($count,$names));
+    public function datos(){   
+        $gpos=new EDIGPOS;
+        $count=$gpos->count();
+        $name=$gpos->name();
+        return Mail::send(new SuccessGPOSExcel($count,$name));
+    }
+    public function excel()
+    {
+        $nextSaturday= new Carbon('last saturday');
+        Carbon::setTestNow($nextSaturday);       
+        $lastSunday=new Carbon('last sunday');
+        Carbon::setTestNow();
+        Excel::store(new GposExport($lastSunday,$nextSaturday), 'GPOS'.$lastSunday->format('Y-m-d').'a'.$nextSaturday->format('Y-m-d').'.xlsx','gposExcel');
+        return Excel::download(new GposExport($lastSunday,$nextSaturday), 'GPOS'.$lastSunday->format('Y-m-d').'a'.$nextSaturday->format('Y-m-d').'.xlsx');
     }
     public function archivos($city){
         $average=array();
@@ -36,6 +44,9 @@ class controllerGPOS extends Controller
             break;
             case 'cochabamba':
                 $files=Storage::disk('gposCO')->files();                          
+            break;
+            case 'general':
+                $files=Storage::disk('gposExcel')->files();                          
             break;
         }
         foreach ($files as $file) {
@@ -54,10 +65,13 @@ class controllerGPOS extends Controller
             case 'cochabamba':
                 return Storage::disk('gposCO')->download($name);                              
             break;
+            case 'general':
+                return Storage::disk('gposExcel')->download($name);                              
+            break;
         }
     }
     public function gpos($city){
-        $edi=new EDIGPOS;
+        $gpos=new EDIGPOS;
         $lastMonday= new Carbon('last monday');
         Carbon::setTestNow($lastMonday);       
         $lastSunday=new Carbon('last sunday');
@@ -65,13 +79,13 @@ class controllerGPOS extends Controller
         Carbon::setTestNow();    
         switch ($city) {
             case 'lapaz':
-                Storage::disk('gposLP')->put('\LaPaz_'.$lastSunday->format('Ymd').'to'.$nextSaturday->format('Ymd').'.txt', $edi->text_lp());            
+                Storage::disk('gposLP')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS000','0000863151'));            
             break;
             case 'santacruz':
-                //Storage::disk('gposCO')->put('\SantaCruz_'.$datef.'.txt', $edi->text_sc());                                 
+                Storage::disk('gposSC')->put('\SantaCruz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS001','0000863153'));            
             break;
             case 'cochabamba':
-                //Storage::disk('gposSC')->put('\Cochabamba_'.$datef.'.txt', $edi->text_co());                                  
+                Storage::disk('gposCO')->put('\Cochabamba_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS002','0000863152'));            
             break;
         }
     }
