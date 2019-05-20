@@ -1,7 +1,8 @@
 <?php
 /////////////////////GPOS//////////////////////////////////
-Route::get('gpos/generar/{city}','controllerGPOS@gpos');
+//Route::get('gpos/dates','controllerGPOS@dates');
 Route::get('gpos/download/{city}/{name}','controllerGPOS@download');
+Route::post('gpos/generar','controllerGPOS@gpos');
 Route::get('gpos/{city}','controllerGPOS@archivos');
 /////////////////////EDI//////////////////////////////////
 Route::get('edi/download/{city}/{name}','controllerEDI@download');

@@ -17,6 +17,13 @@ class EDIGPOS
         $body=$this->body($this->gpos($gpos),$lastSunday,$nextSaturday,$now,$city,$codCity);
         return $head.$body;
     }
+    public function text_date($city,$codCity,$start,$end){
+        $gpos=GPOS::whereDate('DocDate','>=',$start)->whereDate('DocDate','<=',$end)->where('ShipFromDistributorDUNS+4','=',$city)->get();
+        $head=$this->head($start,$end);
+        $now=Carbon::now()->format('Ymd');
+        $body=$this->body($this->gpos($gpos),$start,$end,$now,$city,$codCity);
+        return $head.$body;
+    }
     public function gpos($gpos){
         $docs=$this->docs($gpos);
         $count=0;

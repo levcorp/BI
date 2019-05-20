@@ -1,3 +1,25 @@
 {
-    "sqltools.connections": []
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 30,
+            "database": "BI",
+            "dialect": "MSSQL",
+            "name": "BI",
+            "password": "Sa123",
+            "port": 1433,
+            "server": "192.168.10.45",
+            "username": "sa"
+        },
+        {
+            "askForPassword": false,
+            "connectionTimeout": 30,
+            "database": "LEVCORP",
+            "dialect": "SAPHana",
+            "name": "Hanna DB",
+            "password": "M*nager1000",
+            "port": 30015,
+            "server": "192.168.10.40",
+            "username": "B1ADMIN"
+        }
+    ]
 }

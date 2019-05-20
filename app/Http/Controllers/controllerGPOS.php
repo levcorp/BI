@@ -19,10 +19,11 @@ use App\Exports\GposExport;
 class controllerGPOS extends Controller
 {
     public function datos(){   
-        $gpos=new EDIGPOS;
-        $count=$gpos->count();
-        $name=$gpos->name();
-        return Mail::send(new SuccessGPOSExcel($count,$name));
+        $nextSaturday= new Carbon('last saturday');
+        Carbon::setTestNow($nextSaturday);       
+        $lastSunday=new Carbon('last sunday');
+        Carbon::setTestNow();
+        return Gpos::whereDate('DocDate','>=',$lastSunday)->whereDate('DocDate','<=',$nextSaturday)->get();
     }
     public function excel()
     {
@@ -70,22 +71,22 @@ class controllerGPOS extends Controller
             break;
         }
     }
-    public function gpos($city){
+    public function gpos(Request $request){
         $gpos=new EDIGPOS;
-        $lastMonday= new Carbon('last monday');
-        Carbon::setTestNow($lastMonday);       
-        $lastSunday=new Carbon('last sunday');
-        $nextSaturday=new Carbon('next saturday');
-        Carbon::setTestNow();    
-        switch ($city) {
+        $start=Carbon::parse($request->start);
+        $end=Carbon::parse($request->end);
+        switch ($request->city) {
             case 'lapaz':
-                Storage::disk('gposLP')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS000','0000863151'));            
+                Storage::disk('gposLP')->put('\LaPaz_'.$start->format('Ymd').'a'.$end->format('Ymd').'.txt', $gpos->text_date('LARCOS000','0000863151',$start,$end));            
             break;
             case 'santacruz':
-                Storage::disk('gposSC')->put('\SantaCruz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS001','0000863153'));            
+                Storage::disk('gposSC')->put('\SantaCruz_'.$start->format('Ymd').'a'.$end->format('Ymd').'.txt', $gpos->text_date('LARCOS001','0000863153',$start,$end));            
             break;
             case 'cochabamba':
-                Storage::disk('gposCO')->put('\Cochabamba_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS002','0000863152'));            
+                Storage::disk('gposCO')->put('\Cochabamba_'.$start->format('Ymd').'a'.$end->format('Ymd').'.txt', $gpos->text_date('LARCOS002','0000863152',$start,$end));            
+            break;
+            case 'general':
+                Excel::store(new GposExport($start,$end), 'GPOS'.$start->format('Y-m-d').'a'.$end->format('Y-m-d').'.xlsx','gposExcel');
             break;
         }
     }

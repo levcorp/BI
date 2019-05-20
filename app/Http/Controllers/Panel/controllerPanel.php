@@ -10,6 +10,7 @@ use Session;
 use Auth;
 use Adldap\Laravel\Facades\Adldap;
 use Adldap\AdldapInterface;
+use Carbon\Carbon;
 class controllerPanel extends Controller
 {
     public function __construct(){

@@ -110090,8 +110090,8 @@ var GPOSLP = {
 
     return {
       selectedDate: {
-        start: new Date(2018, 0, 9),
-        end: new Date(2018, 0, 18)
+        start: new Date(),
+        end: new Date()
       },
       now: new Date().toISOString().slice(0, 10),
       archivosLP: [],
@@ -110156,12 +110156,13 @@ var GPOSLP = {
       });
     },
     generar: function generar() {
-      var _this3 = this;
-
-      var url = '/api/gpos/generar/lapaz/';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this3.getLP();
-      });
+      var datos = {
+        start: this.selectedDate.start,
+        end: this.selectedDate.end,
+        city: 'lapaz'
+      };
+      var url = '/api/gpos/generar/';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, datos).then(this.getLP());
     },
     formatDates: function formatDates(dateOne, dateTwo) {
       var formattedDates = '';
@@ -110182,12 +110183,12 @@ var LP = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(GPOSLP);
 new LP().$mount('#lp');
 var GPOSCO = {
   data: function data() {
-    var _this4 = this;
+    var _this3 = this;
 
     return {
       selectedDate: {
-        start: new Date(2018, 0, 9),
-        end: new Date(2018, 0, 18)
+        start: new Date(),
+        end: new Date()
       },
       now: new Date().toISOString().slice(0, 10),
       archivosCO: [],
@@ -110231,7 +110232,7 @@ var GPOSCO = {
               document.body.appendChild(link);
               link.click();
 
-              _this4.$message('Se descargo el archivo ' + JSON.stringify(row.name));
+              _this3.$message('Se descargo el archivo ' + JSON.stringify(row.name));
             });
           },
           label: ''
@@ -110244,20 +110245,21 @@ var GPOSCO = {
   },
   methods: {
     getCO: function getCO() {
-      var _this5 = this;
+      var _this4 = this;
 
       var url = '/api/gpos/cochabamba';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this5.archivosCO = response.data;
+        _this4.archivosCO = response.data;
       });
     },
     generar: function generar() {
-      var _this6 = this;
-
-      var url = '/api/gpos/generar/cochabamba/';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this6.getCO();
-      });
+      var datos = {
+        start: this.selectedDate.start,
+        end: this.selectedDate.end,
+        city: 'cochabamba'
+      };
+      var url = '/api/gpos/generar/';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, datos).then(this.getCO());
     },
     formatDates: function formatDates(dateOne, dateTwo) {
       var formattedDates = '';
@@ -110278,12 +110280,12 @@ var CO = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(GPOSCO);
 new CO().$mount('#co');
 var GPOSSC = {
   data: function data() {
-    var _this7 = this;
+    var _this5 = this;
 
     return {
       selectedDate: {
-        start: new Date(2018, 0, 9),
-        end: new Date(2018, 0, 18)
+        start: new Date(),
+        end: new Date()
       },
       now: new Date().toISOString().slice(0, 10),
       archivosSC: [],
@@ -110327,7 +110329,7 @@ var GPOSSC = {
               document.body.appendChild(link);
               link.click();
 
-              _this7.$message('Se descargo el archivo ' + JSON.stringify(row.name));
+              _this5.$message('Se descargo el archivo ' + JSON.stringify(row.name));
             });
           },
           label: ''
@@ -110340,20 +110342,21 @@ var GPOSSC = {
   },
   methods: {
     getSC: function getSC() {
-      var _this8 = this;
+      var _this6 = this;
 
       var url = '/api/gpos/santacruz';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this8.archivosSC = response.data;
+        _this6.archivosSC = response.data;
       });
     },
     generar: function generar() {
-      var _this9 = this;
-
-      var url = '/api/gpos/generar/santacruz/';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this9.getSC();
-      });
+      var datos = {
+        start: this.selectedDate.start,
+        end: this.selectedDate.end,
+        city: 'santacruz'
+      };
+      var url = '/api/gpos/generar/';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, datos).then(this.getSC());
     },
     formatDates: function formatDates(dateOne, dateTwo) {
       var formattedDates = '';
@@ -110374,15 +110377,15 @@ var SC = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend(GPOSSC);
 new SC().$mount('#sc');
 var GPOSGEN = {
   data: function data() {
-    var _this10 = this;
+    var _this7 = this;
 
     return {
       selectedDate: {
-        start: new Date(2018, 0, 9),
-        end: new Date(2018, 0, 18)
+        start: new Date(),
+        end: new Date()
       },
       now: new Date().toISOString().slice(0, 10),
-      archivosSC: [],
+      archivosGEN: [],
       table: {
         border: true //stripe: true,
 
@@ -110423,7 +110426,7 @@ var GPOSGEN = {
               document.body.appendChild(link);
               link.click();
 
-              _this10.$message('Se descargo el archivo ' + JSON.stringify(row.name));
+              _this7.$message('Se descargo el archivo ' + JSON.stringify(row.name));
             });
           },
           label: ''
@@ -110432,24 +110435,25 @@ var GPOSGEN = {
     };
   },
   mounted: function mounted() {
-    this.getSC();
+    this.getGEN();
   },
   methods: {
-    getSC: function getSC() {
-      var _this11 = this;
+    getGEN: function getGEN() {
+      var _this8 = this;
 
       var url = '/api/gpos/general';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this11.archivosSC = response.data;
+        _this8.archivosGEN = response.data;
       });
     },
     generar: function generar() {
-      var _this12 = this;
-
-      var url = '/api/gpos/generar/general/';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this12.getSC();
-      });
+      var datos = {
+        start: this.selectedDate.start,
+        end: this.selectedDate.end,
+        city: 'general'
+      };
+      var url = '/api/gpos/generar/';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, datos).then(this.getGEN());
     },
     formatDates: function formatDates(dateOne, dateTwo) {
       var formattedDates = '';

@@ -11,19 +11,26 @@
       <!-- /.box-header -->
       <div class="box-body table-responsive">
         <el-row slot="tool" style="margin: 5px 0">
-            <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
-                <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-            </div>
-             <div class="col-sm-5 col-xs-6" style="margin: 5px 0">
-                  <v-date-picker
-                    mode='range'
-                    v-model='selectedDate'
-                    show-caps>
+          <form method="POST" @submit.prevent="generar">
+              <div class="col-sm-5 col-xs-6" style="margin: 5px 0">
+                <div class="pull-right">
+                <v-date-picker
+                locale="es"
+                  mode='range'
+                  v-model='selectedDate'
+                  show-caps>
                   </v-date-picker>
+                </div>
               </div>
-              <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
-                <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+              <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
+                <div class="pull-left">
+                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
+                </div>
               </div>
+          </form>
+            <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
+              <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+            </div>
         </el-row>
         <data-tables  :filters="filters" :data="archivosLP" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
@@ -42,19 +49,26 @@
         <!-- /.box-header -->
         <div class="box-body table-responsive">
           <el-row slot="tool" style="margin: 5px 0">
-              <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
-                  <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-              </div>
+              <form method="POST" @submit.prevent="generar">
               <div class="col-sm-5 col-xs-6" style="margin: 5px 0">
-                    <v-date-picker
-                      mode='range'
-                      v-model='selectedDate'
-                      show-caps>
-                    </v-date-picker>
+                <div class="pull-right">
+                <v-date-picker
+                locale="es"
+                  mode='range'
+                  v-model='selectedDate'
+                  show-caps>
+                  </v-date-picker>
                 </div>
-                <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
-                  <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+              </div>
+              <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
+                <div class="pull-left">
+                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
                 </div>
+              </div>
+          </form>
+            <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
+              <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+            </div>
           </el-row>
           <data-tables  :filters="filters" :data="archivosCO" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
               <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
@@ -74,19 +88,26 @@
         <!-- /.box-header -->
         <div class="box-body table-responsive">
           <el-row slot="tool" style="margin: 5px 0">
-              <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
-                  <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-              </div>
+              <form method="POST" @submit.prevent="generar">
               <div class="col-sm-5 col-xs-6" style="margin: 5px 0">
-                    <v-date-picker
-                      mode='range'
-                      v-model='selectedDate'
-                      show-caps>
-                    </v-date-picker>
+                <div class="pull-right">
+                <v-date-picker
+                locale="es"
+                  mode='range'
+                  v-model='selectedDate'
+                  show-caps>
+                  </v-date-picker>
                 </div>
-                <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
-                  <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+              </div>
+              <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
+                <div class="pull-left">
+                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
                 </div>
+              </div>
+          </form>
+            <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
+              <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+            </div>
           </el-row>
           <data-tables  :filters="filters" :data="archivosSC" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
               <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
@@ -104,21 +125,28 @@
         <!-- /.box-header -->
         <div class="box-body table-responsive">
           <el-row slot="tool" style="margin: 5px 0">
-              <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
-                  <el-button @click="generar" type="primary">Generar  <i class="el-icon-files"></i></el-button>
-              </div>
+              <form method="POST" @submit.prevent="generar">
               <div class="col-sm-5 col-xs-6" style="margin: 5px 0">
-                    <v-date-picker
-                      mode='range'
-                      v-model='selectedDate'
-                      show-caps>
-                    </v-date-picker>
+                <div class="pull-right">
+                <v-date-picker
+                locale="es"
+                  mode='range'
+                  v-model='selectedDate'
+                  show-caps>
+                  </v-date-picker>
                 </div>
-                <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
-                  <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+              </div>
+              <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
+                <div class="pull-left">
+                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
                 </div>
+              </div>
+          </form>
+              <div class="col-sm-4 col-xs-12" style="margin: 5px 0">
+                <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
+              </div>
           </el-row>
-          <data-tables  :filters="filters" :data="archivosSC" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
+          <data-tables  :filters="filters" :data="archivosGEN" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
               <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
               </el-table-column>
           </data-tables>
@@ -129,7 +157,6 @@
 </div>
 
   <!-- /.col -->
-
 @section('script')
 {!!Html::script('js/gpos.js')!!}
 <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">

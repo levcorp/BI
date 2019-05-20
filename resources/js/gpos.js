@@ -18,8 +18,8 @@ var GPOSLP = {
     data() {
         return {
             selectedDate: {
-                start: new Date(2018, 0, 9),
-                end: new Date(2018, 0, 18)
+                start: new Date(),
+                end: new Date()
             },
             now: new Date().toISOString().slice(0, 10),
             archivosLP: [],
@@ -68,7 +68,7 @@ var GPOSLP = {
         }
     },
     mounted() {
-        this.getLP();
+        this.getLP()
     },
     methods: {
         getLP: function () {
@@ -78,10 +78,15 @@ var GPOSLP = {
             });
         },
         generar: function () {
-            var url = '/api/gpos/generar/lapaz/';
-            axios.get(url).then(response => {
-                this.getLP();
-            })
+            var datos= {
+                start: this.selectedDate.start,
+                end: this.selectedDate.end,
+                city:'lapaz'
+            };
+            var url = '/api/gpos/generar/';
+            axios.post(url,datos).then(
+                this.getLP()
+            )
         },
          formatDates(dateOne, dateTwo) {
             let formattedDates = ''
@@ -102,8 +107,8 @@ var GPOSCO = {
     data() {
         return {
             selectedDate: {
-                start: new Date(2018, 0, 9),
-                end: new Date(2018, 0, 18)
+                start: new Date(),
+                end: new Date()
             },
             now: new Date().toISOString().slice(0, 10),
             archivosCO: [],
@@ -162,10 +167,15 @@ var GPOSCO = {
             });
         },
         generar: function () {
-            var url = '/api/gpos/generar/cochabamba/';
-            axios.get(url).then(response => {
-                this.getCO();
-            })
+            var datos = {
+                start: this.selectedDate.start,
+                end: this.selectedDate.end,
+                city: 'cochabamba'
+            };
+            var url = '/api/gpos/generar/';
+            axios.post(url, datos).then(
+                this.getCO()
+            )
         },
         formatDates(dateOne, dateTwo) {
             let formattedDates = ''
@@ -186,8 +196,8 @@ var GPOSSC = {
     data() {
         return {
             selectedDate: {
-                start: new Date(2018, 0, 9),
-                end: new Date(2018, 0, 18)
+                start: new Date(),
+                end: new Date()
             },
             now: new Date().toISOString().slice(0, 10),
             archivosSC: [],
@@ -246,10 +256,15 @@ var GPOSSC = {
             });
         },
         generar: function () {
-            var url = '/api/gpos/generar/santacruz/';
-            axios.get(url).then(response => {
-                this.getSC();
-            })
+            var datos = {
+                start: this.selectedDate.start,
+                end: this.selectedDate.end,
+                city: 'santacruz'
+            };
+            var url = '/api/gpos/generar/';
+            axios.post(url, datos).then(
+                this.getSC()
+            )
         },
         formatDates(dateOne, dateTwo) {
             let formattedDates = ''
@@ -270,11 +285,11 @@ var GPOSGEN = {
     data() {
         return {
             selectedDate: {
-                start: new Date(2018, 0, 9),
-                end: new Date(2018, 0, 18)
+                start: new Date(),
+                end: new Date()
             },
             now: new Date().toISOString().slice(0, 10),
-            archivosSC: [],
+            archivosGEN: [],
             table: {
                 border: true,
                 //stripe: true,
@@ -320,20 +335,25 @@ var GPOSGEN = {
         }
     },
     mounted() {
-        this.getSC();
+        this.getGEN();
     },
     methods: {
-        getSC: function () {
+        getGEN: function () {
             var url = '/api/gpos/general';
             axios.get(url).then(response => {
-                this.archivosSC = response.data;
+                this.archivosGEN = response.data;
             });
         },
         generar: function () {
-            var url = '/api/gpos/generar/general/';
-            axios.get(url).then(response => {
-                this.getSC();
-            })
+            var datos = {
+                start: this.selectedDate.start,
+                end: this.selectedDate.end,
+                city: 'general'
+            };
+            var url = '/api/gpos/generar/';
+            axios.post(url, datos).then(
+                this.getGEN()
+            )
         },
         formatDates(dateOne, dateTwo) {
             let formattedDates = ''
