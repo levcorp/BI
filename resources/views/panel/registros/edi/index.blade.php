@@ -18,7 +18,7 @@
             </div>
             <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                <el-button @click="generar" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
+                <el-button @click="dateEDI()" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
                 </div>
             </div>
              <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
@@ -49,7 +49,7 @@
             </div>
             <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                <el-button @click="generar" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
+                <el-button @click="dateEDI()" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
                 </div>
             </div>
              <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
@@ -82,7 +82,7 @@
             </div>
             <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                <el-button @click="generar" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
+                <el-button @click="dateEDI()" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
                 </div>
             </div>
              <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
@@ -113,7 +113,7 @@
             </div>
             <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                <el-button @click="generar" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
+                <el-button @click="dateEDI()" type="primary"><i class="fa fa-arrow-circle-right"></i></el-button>
                 </div>
             </div>
              <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
