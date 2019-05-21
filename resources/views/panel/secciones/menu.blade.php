@@ -49,7 +49,7 @@
                 <a href="{{route('edi')}}"><i class="fa fa-bookmark-o"></i> <span>EDI 852</span></a>
               </li>
               <li class="{{active(['gpos'])}}">
-                <a href="{{route('gpos')}}"><i class="fa fa-bookmark-o"></i> <span>EDI 867</span></a>
+                <a href="{{route('gpos')}}"><i class="fa fa-bookmark-o"></i> <span>EDI 867 (GPOS)</span></a>
               </li>
             </ul>
         </li>
