@@ -37,11 +37,21 @@
               <li class="{{active(['solicitud.*','detalle.*'])}}"><a href="{{route('solicitud.index')}}"><i class="fa fa-file-text-o"></i> Articulos ABM</a></li>
             </ul>
         </li>
-        <li class="{{active(['edi'])}}">
-          <a href="{{route('edi')}}"><i class="fa fa-th"></i> <span>EDI</span></a>
-        </li>
-        <li class="{{active(['gpos'])}}">
-          <a href="{{route('gpos')}}"><i class="fa fa-th"></i> <span>GPOS</span></a>
+        <li class="treeview {{active(['edi','gpos'])}}">
+            <a href="#">
+              <i class="fa fa-tasks"></i> <span>Generacion de EDIS</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="{{active(['edi'])}}">
+                <a href="{{route('edi')}}"><i class="fa fa-bookmark-o"></i> <span>EDI 852</span></a>
+              </li>
+              <li class="{{active(['gpos'])}}">
+                <a href="{{route('gpos')}}"><i class="fa fa-bookmark-o"></i> <span>EDI 867</span></a>
+              </li>
+            </ul>
         </li>
         </ul>
       </section>

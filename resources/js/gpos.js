@@ -9,6 +9,7 @@ import moment from  'moment';
 const dateformat = require('dateformat');
 import 'moment/locale/es';
 import VCalendar from 'v-calendar/lib/v-calendar.umd';
+import swal from 'sweetalert';
 locale.use(lang);
 Vue.use(VueDataTables)
 Vue.use(ElementUI);
@@ -79,11 +80,27 @@ var GPOSLP = {
             });
         },
         generar: function () {
-            var url = '/api/gpos/doc/generar/lapaz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(response => {
-                this.getLP()
+            swal("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy')+" ?", {
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
+            })
+            .then((value) => {
+                switch (value) {
+                    case "catch":
+                        var url = '/api/gpos/doc/generar/lapaz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+                        axios.get(url).then(response => {
+                            swal("Exito!", "Archivo generado correctamente", "success");
+                            this.getLP()
+                        })
+                        break;
                 }
-            )
+            });    
         }
     },
 }
@@ -154,11 +171,27 @@ var GPOSCO = {
             });
         },
         generar: function () {
-            var url = '/api/gpos/doc/generar/cochabamba/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(response => {
-                this.getCO()
+            swal("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy') + " ?", {            
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
+            })
+            .then((value) => {
+                switch (value) {
+                    case "catch":
+                        var url = '/api/gpos/doc/generar/cochabamba/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+                        axios.get(url).then(response => {
+                            swal("Exito!", "Archivo generado correctamente", "success");
+                            this.getCO()
+                        })
+                    break;
                 }
-            ) 
+            });
         }
     },
 }
@@ -229,11 +262,27 @@ var GPOSSC = {
             });
         },
         generar: function () {
-            var url = '/api/gpos/doc/generar/santacruz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(response => {
-                this.getSC();
-                }
-            )
+            swal("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy') + " ?", {            
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
+            })
+                .then((value) => {
+                    switch (value) {
+                        case "catch":
+                            var url = '/api/gpos/doc/generar/santacruz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+                            axios.get(url).then(response => {
+                                swal("Exito!", "Archivo generado correctamente", "success");
+                                this.getSC();
+                            })
+                        break;
+                    }
+                });
         }
     },
 }
@@ -304,12 +353,27 @@ var GPOSGEN = {
             });
         },
         generar: function () {
-            var url = '/api/gpos/doc/generar/general/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(response => {
-                this.getGEN();
-                }
-            )
-        }
+            swal("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy') + " ?", {
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
+            }).then((value) => {
+                    switch (value) {
+                        case "catch":
+                            var url = '/api/gpos/doc/generar/general/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+                            axios.get(url).then(response => {
+                                swal("Exito!", "Archivo generado correctamente", "success");
+                                this.getGEN();
+                            })
+                            break;
+                    }
+                });
+        },
     },
 }
 var GENERAL = Vue.extend(GPOSGEN);

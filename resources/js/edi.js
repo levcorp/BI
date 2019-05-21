@@ -5,7 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueDataTables from 'vue-data-tables';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
-
+import swal from 'sweetalert';
 locale.use(lang);
 Vue.use(VueDataTables)
 Vue.use(ElementUI);
@@ -66,10 +66,27 @@ var EDILP = {
     },
     methods: {
         dateEDI: function() {
-            var url = '/api/edi/generar/lapaz/' + this.date;     
-            axios.get(url).then(response => {
-                this.getEdiLP();
-            })                   
+            swal("¿Generar archivo de la fecha " + this.date+" ?", {
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
+            })
+            .then((value) => {
+                switch (value) {
+                    case "catch":
+                        var url = '/api/edi/generar/lapaz/' + this.date;
+                        axios.get(url).then(response => {
+                            swal("Exito!", "Archivo generado correctamente", "success");
+                            this.getEdiLP();
+                        })   
+                    break;
+                }
+            });        
         },
         getEdiLP: function () {
             var url = '/api/edi/lapaz';
@@ -77,12 +94,6 @@ var EDILP = {
                 this.archivosLP = response.data;
             });
         },
-        generar:function(){
-            var url = '/api/edi/generar/lapaz/'+this.now;
-            axios.get(url).then(response=>{
-                this.getEdiLP();
-            })
-        }
     },
 }
 var LP = Vue.extend(EDILP);
@@ -143,10 +154,27 @@ var EDICO = {
     },
     methods: {
         dateEDI: function () {
-            var url = '/api/edi/generar/cochabamba/' + this.date;
-            axios.get(url).then(response => {
-                this.getEdiCO();
+            swal("¿Generar archivo de la fecha " + this.date + " ?", {
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
             })
+                .then((value) => {
+                    switch (value) {
+                        case "catch":
+                            var url = '/api/edi/generar/cochabamba/' + this.date;
+                            axios.get(url).then(response => {
+                                swal("Exito!", "Archivo generado correctamente", "success");
+                                this.getEdiCO();
+                            })
+                            break;
+                    }
+                });
         },
         getEdiCO: function () {
             var url = '/api/edi/cochabamba';
@@ -154,12 +182,6 @@ var EDICO = {
                 this.archivosCO = response.data;
             });
         },
-        generar: function () {
-            var url = '/api/edi/generar/cochabamba/' + this.now;
-            axios.get(url).then(response => {
-                this.getEdiCO();
-            })
-        }
     },
 }
 var CO = Vue.extend(EDICO);
@@ -220,10 +242,27 @@ var EDISC = {
     },
     methods: {
         dateEDI: function () {
-            var url = '/api/edi/generar/santacruz/' + this.date;
-            axios.get(url).then(response => {
-                this.getEdiSC();
+            swal("¿Generar archivo de la fecha " + this.date + " ?", {
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
             })
+                .then((value) => {
+                    switch (value) {
+                        case "catch":
+                            var url = '/api/edi/generar/santacruz/' + this.date;
+                            axios.get(url).then(response => {
+                                swal("Exito!", "Archivo generado correctamente", "success");
+                                this.getEdiSC();
+                            })
+                            break;
+                    }
+                });
         },
         getEdiSC: function () {
             var url = '/api/edi/santacruz';
@@ -297,10 +336,27 @@ var EDIHUB = {
     },
     methods: {
         dateEDI: function () {
-            var url = '/api/edi/generar/hub/' + this.date;
-            axios.get(url).then(response => {
-                this.getEdiHUB();
+            swal("¿Generar archivo de la fecha " + this.date + " ?", {
+                buttons: {
+                    cancel: "Cancelar",
+                    catch: {
+                        text: "Generar",
+                        value: "catch",
+                    },
+                },
+                icon: "warning",
             })
+                .then((value) => {
+                    switch (value) {
+                        case "catch":
+                            var url = '/api/edi/generar/hub/' + this.date;
+                            axios.get(url).then(response => {
+                                swal("Exito!", "Archivo generado correctamente", "success");
+                                this.getEdiHUB();
+                            })
+                            break;
+                    }
+                });
         },
         getEdiHUB: function () {
             var url = '/api/edi/hub';
@@ -308,12 +364,6 @@ var EDIHUB = {
                 this.archivosHUB = response.data;
             });
         },
-        generar: function () {
-            var url = '/api/edi/generar/hub/' + this.now;
-            axios.get(url).then(response => {
-                this.getEdiHUB();
-            })
-        }
     },
 }
 var HUB = Vue.extend(EDIHUB);
