@@ -71,11 +71,11 @@ class controllerGPOS extends Controller
             break;
         }
     }
-    public function gpos(Request $request){
+    public function gpos($city,$start,$end){
         $gpos=new EDIGPOS;
-        $start=Carbon::parse($request->start);
-        $end=Carbon::parse($request->end);
-        switch ($request->city) {
+        $start=Carbon::parse($start);
+        $end=Carbon::parse($end);
+        switch ($city) {
             case 'lapaz':
                 Storage::disk('gposLP')->put('\LaPaz_'.$start->format('Ymd').'a'.$end->format('Ymd').'.txt', $gpos->text_date('LARCOS000','0000863151',$start,$end));            
             break;
@@ -86,7 +86,7 @@ class controllerGPOS extends Controller
                 Storage::disk('gposCO')->put('\Cochabamba_'.$start->format('Ymd').'a'.$end->format('Ymd').'.txt', $gpos->text_date('LARCOS002','0000863152',$start,$end));            
             break;
             case 'general':
-                Excel::store(new GposExport($start,$end), 'GPOS'.$start->format('Y-m-d').'a'.$end->format('Y-m-d').'.xlsx','gposExcel');
+                Excel::store(new GposExport($start,$end), 'GPOS'.$start->format('Ymd').'a'.$end->format('Ymd').'.xlsx','gposExcel');
             break;
         }
     }

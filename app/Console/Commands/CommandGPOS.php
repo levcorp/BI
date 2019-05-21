@@ -24,7 +24,7 @@ class CommandGPOS extends Command
         Storage::disk('gposLP')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS000','0000863151'));            
         Storage::disk('gposSC')->put('\SantaCruz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS001','0000863153'));           
         Storage::disk('gposCO')->put('\Cochabamba_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS002','0000863152'));
-        Excel::store(new GposExport($lastSunday,$nextSaturday), 'GPOS'.$lastSunday->format('Y-m-d').'a'.$nextSaturday->format('Y-m-d').'.xlsx','gposExcel');
-        $this->info('Comando ejecutado correctamente');
+        Excel::store(new GposExport($lastSunday,$nextSaturday), 'GPOS'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.xlsx','gposExcel');
+        $this->iconfo('Comando ejecutado correctamente');
     }
 }

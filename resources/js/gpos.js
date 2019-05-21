@@ -6,6 +6,7 @@ import VueDataTables from 'vue-data-tables';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
 import moment from  'moment';
+const dateformat = require('dateformat');
 import 'moment/locale/es';
 import VCalendar from 'v-calendar/lib/v-calendar.umd';
 locale.use(lang);
@@ -78,13 +79,8 @@ var GPOSLP = {
             });
         },
         generar: function () {
-            var datos= {
-                start: this.selectedDate.start,
-                end: this.selectedDate.end,
-                city:'lapaz'
-            };
-            var url = '/api/gpos/doc/generar/';
-            axios.post(url,datos).then(
+            var url = '/api/gpos/doc/generar/lapaz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+            axios.get(url).then(
                 this.getLP()
             )
         }
@@ -157,13 +153,8 @@ var GPOSCO = {
             });
         },
         generar: function () {
-            var datos = {
-                start: this.selectedDate.start,
-                end: this.selectedDate.end,
-                city: 'cochabamba'
-            };
-            var url = '/api/gpos/doc/generar/';
-            axios.post(url, datos).then(
+            var url = '/api/gpos/doc/generar/cochabamba/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+            axios.get(url).then(
                 this.getCO()
             )
         }
@@ -236,13 +227,8 @@ var GPOSSC = {
             });
         },
         generar: function () {
-            var datos = {
-                start: this.selectedDate.start,
-                end: this.selectedDate.end,
-                city: 'santacruz'
-            };
-            var url = '/api/gpos/doc/generar/';
-            axios.post(url, datos).then(
+            var url = '/api/gpos/doc/generar/santacruz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+            axios.get(url).then(
                 this.getSC()
             )
         }
@@ -315,13 +301,8 @@ var GPOSGEN = {
             });
         },
         generar: function () {
-            var datos = {
-                start: this.selectedDate.start,
-                end: this.selectedDate.end,
-                city: 'general'
-            };
-            var url = '/api/gpos/doc/generar/';
-            axios.post(url, datos).then(
+            var url = '/api/gpos/doc/generar/general/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+            axios.get(url).then(
                 this.getGEN()
             )
         }
