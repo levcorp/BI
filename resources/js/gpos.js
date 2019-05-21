@@ -80,8 +80,9 @@ var GPOSLP = {
         },
         generar: function () {
             var url = '/api/gpos/doc/generar/lapaz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(
+            axios.get(url).then(response => {
                 this.getLP()
+                }
             )
         }
     },
@@ -154,9 +155,10 @@ var GPOSCO = {
         },
         generar: function () {
             var url = '/api/gpos/doc/generar/cochabamba/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(
+            axios.get(url).then(response => {
                 this.getCO()
-            )
+                }
+            ) 
         }
     },
 }
@@ -228,8 +230,9 @@ var GPOSSC = {
         },
         generar: function () {
             var url = '/api/gpos/doc/generar/santacruz/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(
-                this.getSC()
+            axios.get(url).then(response => {
+                this.getSC();
+                }
             )
         }
     },
@@ -302,8 +305,9 @@ var GPOSGEN = {
         },
         generar: function () {
             var url = '/api/gpos/doc/generar/general/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
-            axios.get(url).then(
-                this.getGEN()
+            axios.get(url).then(response => {
+                this.getGEN();
+                }
             )
         }
     },
