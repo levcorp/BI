@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue/dist/vue.common.prod';
 import axios from 'axios';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
@@ -83,20 +83,10 @@ var GPOSLP = {
                 end: this.selectedDate.end,
                 city:'lapaz'
             };
-            var url = '/api/gpos/generar/';
+            var url = '/api/gpos/doc/generar/';
             axios.post(url,datos).then(
                 this.getLP()
             )
-        },
-         formatDates(dateOne, dateTwo) {
-            let formattedDates = ''
-            if (dateOne) {
-                formattedDates = format(dateOne, this.dateFormat)
-            }
-            if (dateTwo) {
-                formattedDates += ' - ' + format(dateTwo, this.dateFormat)
-            }
-            return formattedDates
         }
     },
 }
@@ -172,20 +162,10 @@ var GPOSCO = {
                 end: this.selectedDate.end,
                 city: 'cochabamba'
             };
-            var url = '/api/gpos/generar/';
+            var url = '/api/gpos/doc/generar/';
             axios.post(url, datos).then(
                 this.getCO()
             )
-        },
-        formatDates(dateOne, dateTwo) {
-            let formattedDates = ''
-            if (dateOne) {
-                formattedDates = format(dateOne, this.dateFormat)
-            }
-            if (dateTwo) {
-                formattedDates += ' - ' + format(dateTwo, this.dateFormat)
-            }
-            return formattedDates
         }
     },
 }
@@ -261,20 +241,10 @@ var GPOSSC = {
                 end: this.selectedDate.end,
                 city: 'santacruz'
             };
-            var url = '/api/gpos/generar/';
+            var url = '/api/gpos/doc/generar/';
             axios.post(url, datos).then(
                 this.getSC()
             )
-        },
-        formatDates(dateOne, dateTwo) {
-            let formattedDates = ''
-            if (dateOne) {
-                formattedDates = format(dateOne, this.dateFormat)
-            }
-            if (dateTwo) {
-                formattedDates += ' - ' + format(dateTwo, this.dateFormat)
-            }
-            return formattedDates
         }
     },
 }
@@ -350,20 +320,10 @@ var GPOSGEN = {
                 end: this.selectedDate.end,
                 city: 'general'
             };
-            var url = '/api/gpos/generar/';
+            var url = '/api/gpos/doc/generar/';
             axios.post(url, datos).then(
                 this.getGEN()
             )
-        },
-        formatDates(dateOne, dateTwo) {
-            let formattedDates = ''
-            if (dateOne) {
-                formattedDates = format(dateOne, this.dateFormat)
-            }
-            if (dateTwo) {
-                formattedDates += ' - ' + format(dateTwo, this.dateFormat)
-            }
-            return formattedDates
         }
     },
 }
