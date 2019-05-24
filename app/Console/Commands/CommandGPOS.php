@@ -21,10 +21,10 @@ class CommandGPOS extends Command
         Carbon::setTestNow($nextSaturday);       
         $lastSunday=new Carbon('last sunday');
         Carbon::setTestNow();       
-        Storage::disk('gposLP')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS000','0000863151'));            
-        Storage::disk('gposSC')->put('\SantaCruz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS001','0000863153'));           
-        Storage::disk('gposCO')->put('\Cochabamba_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS002','0000863152'));
+        Storage::disk('gposLP')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text_date('LARCOS000','0000863151',$lastSunday,$nextSaturday));            
+        Storage::disk('gposSC')->put('\SantaCruz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text_date('LARCOS001','0000863153',$lastSunday,$nextSaturday));           
+        Storage::disk('gposCO')->put('\Cochabamba_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text_date('LARCOS002','0000863152',$lastSunday,$nextSaturday));
         Excel::store(new GposExport($lastSunday,$nextSaturday), 'GPOS'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.xlsx','gposExcel');
-        $this->iconfo('Comando ejecutado correctamente');
+        $this->info('Comando ejecutado correctamente');
     }
 }
