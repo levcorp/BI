@@ -110,4 +110,8 @@ class controllerPanel extends Controller
     public function gpos(){
         return view('panel.registros.gpos.index');
     }
+    public function roles()
+    {
+        return view('panel.roles.index');
+    }
 }

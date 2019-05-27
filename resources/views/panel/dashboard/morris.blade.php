@@ -1,6 +1,6 @@
 @extends('panel.dashboard.layout') 
 @section('boxes')
-<div class="row">
+<!--<div class="row">
 @foreach($porcentajeEspecialidad as $especialidad)
     <div class="col-lg-2 col-xs-6 {{$especialidad->ESPECIALIDAD =='AUTO' ? 'col-lg-offset-1' :''}} " style="background-color=white;">
         <div style="background-color:white">
@@ -15,7 +15,7 @@
         </div>
     </div>
 @endforeach
-</div>
+</div>-->
 @endsection
 @section('opciones')
 <div class="box box-primary">
@@ -104,7 +104,8 @@
     </div>
     <!-- /.box-body -->
 </div>
-@endsection @section('cuarto')
+@endsection 
+@section('cuarto')
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Oportunidades de {{ ucwords($titulo) }}</h3>
@@ -157,7 +158,9 @@
     </div>
     <!-- /.box-body -->
 </div>
-@endsection @section('tercero')
+@endsection 
+@section('tercero')
+<!--
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">
@@ -184,9 +187,10 @@
             style="height:350px"
         ></div>
     </div>
-    <!-- /.box-body -->
 </div>
-@endsection @section('quinto')
+-->
+@endsection 
+@section('quinto')
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Area Chart</h3>

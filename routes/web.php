@@ -1,4 +1,6 @@
 <?php
+////////////////////////ROLES/////////////////////////////////////+
+Route::get('panel/roles','Panel\controllerPanel@roles')->name('roles');  
 ////////////////////////EDI/////////////////////////////////////+
 Route::get('panel/gpos/datos','controllerGPOS@datos');
 Route::get('panel/gpos','Panel\controllerPanel@gpos')->name('gpos');  
@@ -9,11 +11,10 @@ Route::get('panel/edi','controllerEDI@index')->name('edi');
 ///////////////////////////////////////////////////////////////
 
 ////////////////////////AUTH/////////////////////////////////////
-Auth::routes();
-Route::get('logout','Login\controllerLogin@salir')->name('salir');
+Route::post('login','Login\controllerLogin@login')->name('login');
+Route::get('logout','Login\controllerLogin@logout')->name('logout');
 Route::get('/','Login\controllerLogin@log')->name('log');
 ///////////////////////////////////////////////////////////////
-
 ////////////////////////PANEL/////////////////////////////////////
 Route::get('panel','Panel\controllerPanel@inicio')->name('panel');
 ///////////////////////////////////////////////////////////////

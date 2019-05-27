@@ -3,5 +3,6 @@
     "/js/detalleSolicitud.js": "/js/detalleSolicitud.js",
     "/js/edi.js": "/js/edi.js",
     "/js/gpos.js": "/js/gpos.js",
+    "/js/rol.js": "/js/rol.js",
     "/js/usuarios.js": "/js/usuarios.js"
 }

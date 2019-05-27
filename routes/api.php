@@ -1,4 +1,6 @@
 <?php
+/////////////////////ROLES//////////////////////////////////
+Route::resource('roles', 'Panel\controllerRol')->except(['show','create','edit']);
 /////////////////////GPOS//////////////////////////////////
 //Route::get('gpos/dates','controllerGPOS@dates');
 Route::get('gpos/download/{city}/{name}','controllerGPOS@download');

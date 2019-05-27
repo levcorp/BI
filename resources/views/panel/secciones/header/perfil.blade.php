@@ -20,7 +20,7 @@
                     <a href="#" class="btn btn-default btn-flat">Perfil</a>
                   </div>
                   <div class="pull-right">
-                    <a href="{{route('salir')}}" class="btn btn-default btn-flat">Salir</a>
+                    <a href="{{route('logout')}}" class="btn btn-default btn-flat">Salir</a>
                   </div>
                 </li>
               </ul>

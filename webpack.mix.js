@@ -4,6 +4,8 @@ mix.js('resources/js/SolicitudABM.js','public/js/app.js');
 mix.js('resources/js/usuarios.js', 'public/js/usuarios.js');
 mix.js('resources/js/edi.js', 'public/js/edi.js');
 mix.js('resources/js/gpos.js', 'public/js/gpos.js');
+mix.js('resources/js/rol.js', 'public/js/');
+
 
 
 

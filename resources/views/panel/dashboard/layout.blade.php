@@ -41,7 +41,7 @@
       </div>
         @yield('boxes')
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <!-- AREA CHART -->
             @yield('primero')
             <!-- /.box -->
