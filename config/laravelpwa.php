@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'name' => 'LaravelPWA',
+    'name' => 'Levcorp',
     'manifest' => [
-        'name' => env('APP_NAME', 'My PWA App'),
-        'short_name' => 'PWA',
+        'name' => 'Levcorp',
+        'short_name' => 'Levcorp',
         'start_url' => '/',
-        'background_color' => '#ffffff',
-        'theme_color' => '#000000',
+        'background_color' => '#d73925',
+        'theme_color' => '#d73925',
         'display' => 'standalone',
         'orientation'=> 'any',
         'icons' => [
