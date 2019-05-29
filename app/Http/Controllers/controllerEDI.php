@@ -64,22 +64,22 @@ class controllerEDI extends Controller
     public function datos($city,$name){
          switch ($city) {
             case 'lapaz':
-                $characters=array('LaPaz','_','.txt');
+                $characters=array('Cochabamba','LaPaz','SantaCruz','Hub','_','.txt');
                 $date = str_replace($characters,"",$name);
                 return EdiLP::whereDate('Fecha',Carbon::parse($date)->format('Y-m-d'))->orderBy('ItemCode')->get();       
             break;
             case 'santacruz':
-                $characters=array('SantaCruz','_','.txt');
+                $characters=array('Cochabamba','LaPaz','SantaCruz','Hub','_','.txt');
                 $date = str_replace($characters,"",$name);
                 return EdiSC::whereDate('Fecha',Carbon::parse($date)->format('Y-m-d'))->orderBy('ItemCode')->get();             
             break;
             case 'cochabamba':
-                $characters=array('Cochabamba','_','.txt');
+                $characters=array('Cochabamba','LaPaz','SantaCruz','Hub','_','.txt');                
                 $date = str_replace($characters,"",$name);
                 return EdiCO::whereDate('Fecha',Carbon::parse($date)->format('Y-m-d'))->orderBy('ItemCode')->get();                               
             break;
             case 'hub':
-                $characters=array('Hub','_','.txt');
+                $characters=array('Cochabamba','LaPaz','SantaCruz','Hub','_','.txt');                
                 $date = str_replace($characters,"",$name);
                 return EdiHUB::whereDate('Fecha',Carbon::parse($date)->format('Y-m-d'))->orderBy('ItemCode')->get();      
             break;

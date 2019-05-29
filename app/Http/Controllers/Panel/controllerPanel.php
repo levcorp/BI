@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Panel;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\EspecialidadMeses;
+use Adldap\Laravel\Facades\Adldap;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Adldap\AdldapInterface;
+use App\EspecialidadMeses;
+use Carbon\Carbon;
 use Session;
 use Auth;
-use Adldap\Laravel\Facades\Adldap;
-use Adldap\AdldapInterface;
-use Carbon\Carbon;
 class controllerPanel extends Controller
 {
     public function __construct(){
@@ -19,8 +19,8 @@ class controllerPanel extends Controller
     public function inicio(){
         $titulo="General";
         $meses = EspecialidadMeses::select('PERIODO', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))
-        ->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')
-        ->get();
+                ->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')
+                ->get();
         $todo=EspecialidadMeses::all()->toJson();
         //consulta oportunidades
         $oportunidades=DB::table('ReporteOportunidad')

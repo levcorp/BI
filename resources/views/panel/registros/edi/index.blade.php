@@ -6,7 +6,7 @@
   <div class="col-sm-6" id="lp">
     <div class="box box-info">
       <div class="box-header">
-        <h3 class="box-title">EDI LA PAZ</h3>
+        <h3 class="box-title">EDI SANTA CRUZ</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
@@ -104,7 +104,7 @@
   <div class="col-sm-6" id=sc>
     <div class="box box-info">
       <div class="box-header">
-        <h3 class="box-title">EDI SANTA CRUZ</h3>
+        <h3 class="box-title">EDI HUB</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive">
@@ -152,7 +152,7 @@
   <div class="col-sm-6" id=hub>
     <div class="box box-info">
       <div class="box-header">
-        <h3 class="box-title">EDI HUB</h3>
+        <h3 class="box-title">EDI LA PAZ</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive">

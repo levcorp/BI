@@ -17,17 +17,22 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Entra para comenzar la sesión</p>
+    @if(Session::has('message'))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:white"><span aria-hidden="true">&times;</span></button>
+          <strong>{{Session::get('message')}}</strong>
+        </div>
+    @endif
 
     <form action="{{ route('login') }}" method="post">
         @csrf
-      <div c#3c8dbclass="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
+      <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
         <input type="text" class="form-control" placeholder="Correo Electronico"  name="email" value="{{ old('email') }}" autofocus>
         @if ($errors->has('email'))
             <span id="helpBlock2" class="help-block">{{ $errors->first('email') }}</span>
         @endif
       </div>
-      <br>  
-      <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
+      <div class="form-group has-feedback {{ $errors->has('password') ? ' has-error' : '' }}">
         <input type="password" class="form-control" placeholder="Contraseña" name="password" value="{{ old('password') }}">
         @if ($errors->has('password'))
             <span id="helpBlock2" class="help-block">{{ $errors->first('password') }}</span>
@@ -50,7 +55,6 @@
     </form>
     <!-- /.social-auth-links -->
 
-    <a href="#">Olvide mi contraseña</a><br>
   </div>
   <!-- /.login-box-body -->
 </div>

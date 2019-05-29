@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Http\Requests\RequestLogin;
+use Session;
+use App\User;
 class controllerLogin extends Controller
 {
     public function __construct(){
@@ -21,7 +23,13 @@ class controllerLogin extends Controller
             Auth::login($user,true);
             return redirect()->route('panel');
         }else {
-            return back()->withInput();         
+            if(User::where('email',$request->email."@levcorp.bo")->count()>0){
+                Session::flash('message','Contraseña incorrecta');    
+                return back()->withInput();         
+            }else{
+                Session::flash('message','El usuario no existe');
+                return back()->withInput();         
+            }
         }
     }
     public function logout(){
