@@ -1,4 +1,8 @@
 <?php
+/////////////////////Proyecto//////////////////////////////////
+Route::resource('equipos', 'Panel\Proyecto\controllerEquipo')->except(['show','create','edit']);
+/////////////////////Proyecto//////////////////////////////////
+Route::resource('proyectos', 'Panel\Proyecto\controllerProyectos')->except(['show','create','edit']);
 /////////////////////ROLES//////////////////////////////////
 Route::resource('roles', 'Panel\controllerRol')->except(['show','create','edit']);
 /////////////////////GPOS//////////////////////////////////
@@ -9,6 +13,7 @@ Route::get('gpos/{city}','controllerGPOS@archivos');
 /////////////////////EDI//////////////////////////////////
 Route::get('edi/download/{city}/{name}','controllerEDI@download');
 Route::get('edi/generar/{city}/{date}','controllerEDI@edis');
+Route::get('edi/datos/{city}/{name}','controllerEDI@datos');
 Route::get('edi/{city}','controllerEDI@archivos');
 //////////////////////////////////////////////////////////////
 

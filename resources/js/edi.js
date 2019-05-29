@@ -17,48 +17,8 @@ var EDILP = {
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosLP: [],
-            table: {
-                border: true,
-                //stripe: true,
-            },
-            titles: [
-                { prop: "name", label: "Archivo", align: 'center'},
-            ],
-            filters: [{
-                    prop: 'name',
-                }
-            ],
-            dowload: {
-                label: 'Acciones',
-                props: {
-                    align: 'center',
-                },
-                buttons: [{
-                    props: {
-                        type: 'primary',
-                        icon: 'el-icon-download',   
-                        size: 'small',
-                    },
-                    handler: row => {
-                        var name=row.name;
-                        var urlApi = '/api/edi/download/lapaz/'+name;
-                        axios({
-                            url: urlApi,
-                            method: 'GET',
-                            responseType: 'blob', // important
-                        }).then(response => {
-                            const url = window.URL.createObjectURL(new Blob([response.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', row.name); //or any other extension
-                            document.body.appendChild(link);
-                            link.click();     
-                            this.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-                        });
-                    },
-                    label: ''
-                }]
-            }
+            search: '',
+            EDILP:[]
         }
     },
     mounted() {
@@ -94,6 +54,33 @@ var EDILP = {
                 this.archivosLP = response.data;
             });
         },
+        handleDownload(index, row) {
+            var name = row.name;
+            var urlApi = '/api/edi/download/lapaz/' + name;
+            axios({
+                url: urlApi,
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then(response => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', row.name); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                this.$message({
+                    message: 'Se descargo el archivo' +row.name,
+                    type: 'success'
+                });
+            });
+        },
+        handleTable(index, row) {
+            var urlApi = '/api/edi/datos/lapaz/' + row.name;
+            axios.get(urlApi).then(response => {
+                this.EDILP = response.data;
+                $('#modalLP').modal('show'); 
+            }); 
+        }
     },
 }
 var LP = Vue.extend(EDILP);
@@ -105,48 +92,8 @@ var EDICO = {
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosCO: [],
-            table: {
-                border: true,
-                //stripe: true,
-            },
-            titles: [
-                { prop: "name", label: "Archivo", align: 'center' },
-            ],
-            filters: [{
-                prop: 'name',
-            }
-            ],
-            dowload: {
-                label: 'Acciones',
-                props: {
-                    align: 'center',
-                },
-                buttons: [{
-                    props: {
-                        type: 'primary',
-                        icon: 'el-icon-download',
-                        size: 'small',
-                    },
-                    handler: row => {
-                        var name = row.name;
-                        var urlApi = '/api/edi/download/cochabamba/' + name;
-                        axios({
-                            url: urlApi,
-                            method: 'GET',
-                            responseType: 'blob', // important
-                        }).then(response => {
-                            const url = window.URL.createObjectURL(new Blob([response.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', row.name); //or any other extension
-                            document.body.appendChild(link);
-                            link.click();
-                            this.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-                        });
-                    },
-                    label: ''
-                }]
-            }
+            search: '',
+            EDICO: []
         }
     },
     mounted() {
@@ -182,6 +129,33 @@ var EDICO = {
                 this.archivosCO = response.data;
             });
         },
+        handleDownload(index, row) {
+            var name = row.name;
+            var urlApi = '/api/edi/download/cochabamba/' + name;
+            axios({
+                url: urlApi,
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then(response => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', row.name); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                this.$message({
+                    message: 'Se descargo el archivo' + row.name,
+                    type: 'success'
+                });
+            });
+        },
+        handleTable(index, row) {
+            var urlApi = '/api/edi/datos/cochabamba/' + row.name;
+            axios.get(urlApi).then(response => {
+                this.EDICO = response.data;
+                $('#modalCO').modal('show');
+            });
+        }
     },
 }
 var CO = Vue.extend(EDICO);
@@ -193,48 +167,8 @@ var EDISC = {
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosSC: [],
-            table: {
-                border: true,
-                //stripe: true,
-            },
-            titles: [
-                { prop: "name", label: "Archivo", align: 'center' },
-            ],
-            filters: [{
-                prop: 'name',
-            }
-            ],
-            dowload: {
-                label: 'Acciones',
-                props: {
-                    align: 'center',
-                },
-                buttons: [{
-                    props: {
-                        type: 'primary',
-                        icon: 'el-icon-download',
-                        size: 'small',
-                    },
-                    handler: row => {
-                        var name = row.name;
-                        var urlApi = '/api/edi/download/santacruz/' + name;
-                        axios({
-                            url: urlApi,
-                            method: 'GET',
-                            responseType: 'blob', // important
-                        }).then(response => {
-                            const url = window.URL.createObjectURL(new Blob([response.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', row.name); //or any other extension
-                            document.body.appendChild(link);
-                            link.click();
-                            this.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-                        });
-                    },
-                    label: ''
-                }]
-            }
+            search: '',
+            EDISC: []
         }
     },
     mounted() {
@@ -275,6 +209,33 @@ var EDISC = {
             axios.get(url).then(response => {
                 this.getEdiSC();
             })
+        },
+        handleDownload(index, row) {
+            var name = row.name;
+            var urlApi = '/api/edi/download/santacruz/' + name;
+            axios({
+                url: urlApi,
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then(response => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', row.name); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                this.$message({
+                    message: 'Se descargo el archivo' + row.name,
+                    type: 'success'
+                });
+            });
+        },
+        handleTable(index, row) {
+            var urlApi = '/api/edi/datos/santacruz/' + row.name;
+            axios.get(urlApi).then(response => {
+                this.EDISC = response.data;
+                $('#modalSC').modal('show');
+            });
         }
     },
 }
@@ -287,48 +248,8 @@ var EDIHUB = {
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosHUB: [],
-            table: {
-                border: true,
-                //stripe: true,
-            },
-            titles: [
-                { prop: "name", label: "Archivo", align: 'center' },
-            ],
-            filters: [{
-                prop: 'name',
-            }
-            ],
-            dowload: {
-                label: 'Acciones',
-                props: {
-                    align: 'center',
-                },
-                buttons: [{
-                    props: {
-                        type: 'primary',
-                        icon: 'el-icon-download',
-                        size: 'small',
-                    },
-                    handler: row => {
-                        var name = row.name;
-                        var urlApi = '/api/edi/download/hub/' + name;
-                        axios({
-                            url: urlApi,
-                            method: 'GET',
-                            responseType: 'blob', // important
-                        }).then(response => {
-                            const url = window.URL.createObjectURL(new Blob([response.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', row.name); //or any other extension
-                            document.body.appendChild(link);
-                            link.click();
-                            this.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-                        });
-                    },
-                    label: ''
-                }]
-            }
+            search: '',
+            EDIHUB: []
         }
     },
     mounted() {
@@ -364,6 +285,33 @@ var EDIHUB = {
                 this.archivosHUB = response.data;
             });
         },
+        handleDownload(index, row) {
+            var name = row.name;
+            var urlApi = '/api/edi/download/hub/' + name;
+            axios({
+                url: urlApi,
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then(response => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', row.name); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                this.$message({
+                    message: 'Se descargo el archivo' + row.name,
+                    type: 'success'
+                });
+            });
+        },
+        handleTable(index, row) {
+            var urlApi = '/api/edi/datos/hub/' + row.name;
+            axios.get(urlApi).then(response => {
+                this.EDIHUB = response.data;
+                $('#modalHUB').modal('show');
+            });
+        }
     },
 }
 var HUB = Vue.extend(EDIHUB);

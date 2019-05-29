@@ -69,11 +69,11 @@ return [
             'url' => env('AWS_URL'),
         ],
         'EDIftp' => [
-            'driver'   => 'ftp',
-            'host'     => '192.168.10.45',
-            'username' => 'Administrador',
-            'password' => 'Manager1',
-            'port'     => 22,
+            'driver'   => 'ftp',//ftp://98.142.238.22
+            'host'     => '98.142.238.22',
+            'username' => 'SRNNJ001',
+            'password' => '2R,Q6G5J4P',
+            'port'     => 21,
             'ssl'      => false,
             'root'     =>'/send/commit',
         ],

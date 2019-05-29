@@ -66,6 +66,7 @@ return [
         Watson\Active\ActiveServiceProvider::class,
         Adldap\Laravel\AdldapServiceProvider::class,
         Adldap\Laravel\AdldapAuthServiceProvider::class,
+        Jenssegers\Date\DateServiceProvider::class,
     ],
     'aliases' => [
 
@@ -110,5 +111,6 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Active' => Watson\Active\Facades\Active::class,
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+        'Date' => Jenssegers\Date\Date::class
     ],
 ];

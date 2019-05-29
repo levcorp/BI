@@ -1,4 +1,4 @@
-@extends('layouts.usuarios')
+@extends('layouts.table')
 @section('titulo')
 @endsection
 @section('contenido')

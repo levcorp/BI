@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     protected $appends = ['correo'];
+    
     public function getCorreoAttribute()
     {
         return $this->attribute['email'];

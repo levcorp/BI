@@ -70069,58 +70069,12 @@ vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.use(element_ui__
 
 var EDILP = {
   data: function data() {
-    var _this = this;
-
     return {
       now: new Date().toISOString().slice(0, 10),
       date: new Date().toISOString().slice(0, 10),
       archivosLP: [],
-      table: {
-        border: true //stripe: true,
-
-      },
-      titles: [{
-        prop: "name",
-        label: "Archivo",
-        align: 'center'
-      }],
-      filters: [{
-        prop: 'name'
-      }],
-      dowload: {
-        label: 'Acciones',
-        props: {
-          align: 'center'
-        },
-        buttons: [{
-          props: {
-            type: 'primary',
-            icon: 'el-icon-download',
-            size: 'small'
-          },
-          handler: function handler(row) {
-            var name = row.name;
-            var urlApi = '/api/edi/download/lapaz/' + name;
-            axios__WEBPACK_IMPORTED_MODULE_1___default()({
-              url: urlApi,
-              method: 'GET',
-              responseType: 'blob' // important
-
-            }).then(function (response) {
-              var url = window.URL.createObjectURL(new Blob([response.data]));
-              var link = document.createElement('a');
-              link.href = url;
-              link.setAttribute('download', row.name); //or any other extension
-
-              document.body.appendChild(link);
-              link.click();
-
-              _this.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-            });
-          },
-          label: ''
-        }]
-      }
+      search: '',
+      EDILP: []
     };
   },
   mounted: function mounted() {
@@ -70128,7 +70082,7 @@ var EDILP = {
   },
   methods: {
     dateEDI: function dateEDI() {
-      var _this2 = this;
+      var _this = this;
 
       sweetalert__WEBPACK_IMPORTED_MODULE_7___default()("¿Generar archivo de la fecha " + this.date + " ?", {
         buttons: {
@@ -70142,22 +70096,56 @@ var EDILP = {
       }).then(function (value) {
         switch (value) {
           case "catch":
-            var url = '/api/edi/generar/lapaz/' + _this2.date;
+            var url = '/api/edi/generar/lapaz/' + _this.date;
             axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
               sweetalert__WEBPACK_IMPORTED_MODULE_7___default()("Exito!", "Archivo generado correctamente", "success");
 
-              _this2.getEdiLP();
+              _this.getEdiLP();
             });
             break;
         }
       });
     },
     getEdiLP: function getEdiLP() {
-      var _this3 = this;
+      var _this2 = this;
 
       var url = '/api/edi/lapaz';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this3.archivosLP = response.data;
+        _this2.archivosLP = response.data;
+      });
+    },
+    handleDownload: function handleDownload(index, row) {
+      var _this3 = this;
+
+      var name = row.name;
+      var urlApi = '/api/edi/download/lapaz/' + name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: urlApi,
+        method: 'GET',
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', row.name); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+
+        _this3.$message({
+          message: 'Se descargo el archivo' + row.name,
+          type: 'success'
+        });
+      });
+    },
+    handleTable: function handleTable(index, row) {
+      var _this4 = this;
+
+      var urlApi = '/api/edi/datos/lapaz/' + row.name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(urlApi).then(function (response) {
+        _this4.EDILP = response.data;
+        $('#modalLP').modal('show');
       });
     }
   }
@@ -70167,58 +70155,12 @@ new LP().$mount('#lp'); /////////////////////////COCHABAMBA/////////////////////
 
 var EDICO = {
   data: function data() {
-    var _this4 = this;
-
     return {
       now: new Date().toISOString().slice(0, 10),
       date: new Date().toISOString().slice(0, 10),
       archivosCO: [],
-      table: {
-        border: true //stripe: true,
-
-      },
-      titles: [{
-        prop: "name",
-        label: "Archivo",
-        align: 'center'
-      }],
-      filters: [{
-        prop: 'name'
-      }],
-      dowload: {
-        label: 'Acciones',
-        props: {
-          align: 'center'
-        },
-        buttons: [{
-          props: {
-            type: 'primary',
-            icon: 'el-icon-download',
-            size: 'small'
-          },
-          handler: function handler(row) {
-            var name = row.name;
-            var urlApi = '/api/edi/download/cochabamba/' + name;
-            axios__WEBPACK_IMPORTED_MODULE_1___default()({
-              url: urlApi,
-              method: 'GET',
-              responseType: 'blob' // important
-
-            }).then(function (response) {
-              var url = window.URL.createObjectURL(new Blob([response.data]));
-              var link = document.createElement('a');
-              link.href = url;
-              link.setAttribute('download', row.name); //or any other extension
-
-              document.body.appendChild(link);
-              link.click();
-
-              _this4.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-            });
-          },
-          label: ''
-        }]
-      }
+      search: '',
+      EDICO: []
     };
   },
   mounted: function mounted() {
@@ -70257,6 +70199,40 @@ var EDICO = {
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
         _this6.archivosCO = response.data;
       });
+    },
+    handleDownload: function handleDownload(index, row) {
+      var _this7 = this;
+
+      var name = row.name;
+      var urlApi = '/api/edi/download/cochabamba/' + name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: urlApi,
+        method: 'GET',
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', row.name); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+
+        _this7.$message({
+          message: 'Se descargo el archivo' + row.name,
+          type: 'success'
+        });
+      });
+    },
+    handleTable: function handleTable(index, row) {
+      var _this8 = this;
+
+      var urlApi = '/api/edi/datos/cochabamba/' + row.name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(urlApi).then(function (response) {
+        _this8.EDICO = response.data;
+        $('#modalCO').modal('show');
+      });
     }
   }
 };
@@ -70265,58 +70241,12 @@ new CO().$mount('#co'); /////////////////////////SANTA CRUZ/////////////////////
 
 var EDISC = {
   data: function data() {
-    var _this7 = this;
-
     return {
       now: new Date().toISOString().slice(0, 10),
       date: new Date().toISOString().slice(0, 10),
       archivosSC: [],
-      table: {
-        border: true //stripe: true,
-
-      },
-      titles: [{
-        prop: "name",
-        label: "Archivo",
-        align: 'center'
-      }],
-      filters: [{
-        prop: 'name'
-      }],
-      dowload: {
-        label: 'Acciones',
-        props: {
-          align: 'center'
-        },
-        buttons: [{
-          props: {
-            type: 'primary',
-            icon: 'el-icon-download',
-            size: 'small'
-          },
-          handler: function handler(row) {
-            var name = row.name;
-            var urlApi = '/api/edi/download/santacruz/' + name;
-            axios__WEBPACK_IMPORTED_MODULE_1___default()({
-              url: urlApi,
-              method: 'GET',
-              responseType: 'blob' // important
-
-            }).then(function (response) {
-              var url = window.URL.createObjectURL(new Blob([response.data]));
-              var link = document.createElement('a');
-              link.href = url;
-              link.setAttribute('download', row.name); //or any other extension
-
-              document.body.appendChild(link);
-              link.click();
-
-              _this7.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-            });
-          },
-          label: ''
-        }]
-      }
+      search: '',
+      EDISC: []
     };
   },
   mounted: function mounted() {
@@ -70324,7 +70254,7 @@ var EDISC = {
   },
   methods: {
     dateEDI: function dateEDI() {
-      var _this8 = this;
+      var _this9 = this;
 
       sweetalert__WEBPACK_IMPORTED_MODULE_7___default()("¿Generar archivo de la fecha " + this.date + " ?", {
         buttons: {
@@ -70338,30 +70268,64 @@ var EDISC = {
       }).then(function (value) {
         switch (value) {
           case "catch":
-            var url = '/api/edi/generar/santacruz/' + _this8.date;
+            var url = '/api/edi/generar/santacruz/' + _this9.date;
             axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
               sweetalert__WEBPACK_IMPORTED_MODULE_7___default()("Exito!", "Archivo generado correctamente", "success");
 
-              _this8.getEdiSC();
+              _this9.getEdiSC();
             });
             break;
         }
       });
     },
     getEdiSC: function getEdiSC() {
-      var _this9 = this;
+      var _this10 = this;
 
       var url = '/api/edi/santacruz';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this9.archivosSC = response.data;
+        _this10.archivosSC = response.data;
       });
     },
     generar: function generar() {
-      var _this10 = this;
+      var _this11 = this;
 
       var url = '/api/edi/generar/santacruz/' + this.now;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this10.getEdiSC();
+        _this11.getEdiSC();
+      });
+    },
+    handleDownload: function handleDownload(index, row) {
+      var _this12 = this;
+
+      var name = row.name;
+      var urlApi = '/api/edi/download/santacruz/' + name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: urlApi,
+        method: 'GET',
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', row.name); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+
+        _this12.$message({
+          message: 'Se descargo el archivo' + row.name,
+          type: 'success'
+        });
+      });
+    },
+    handleTable: function handleTable(index, row) {
+      var _this13 = this;
+
+      var urlApi = '/api/edi/datos/santacruz/' + row.name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(urlApi).then(function (response) {
+        _this13.EDISC = response.data;
+        $('#modalSC').modal('show');
       });
     }
   }
@@ -70371,58 +70335,12 @@ new SC().$mount('#sc'); /////////////////////////HUB////////////////////////////
 
 var EDIHUB = {
   data: function data() {
-    var _this11 = this;
-
     return {
       now: new Date().toISOString().slice(0, 10),
       date: new Date().toISOString().slice(0, 10),
       archivosHUB: [],
-      table: {
-        border: true //stripe: true,
-
-      },
-      titles: [{
-        prop: "name",
-        label: "Archivo",
-        align: 'center'
-      }],
-      filters: [{
-        prop: 'name'
-      }],
-      dowload: {
-        label: 'Acciones',
-        props: {
-          align: 'center'
-        },
-        buttons: [{
-          props: {
-            type: 'primary',
-            icon: 'el-icon-download',
-            size: 'small'
-          },
-          handler: function handler(row) {
-            var name = row.name;
-            var urlApi = '/api/edi/download/hub/' + name;
-            axios__WEBPACK_IMPORTED_MODULE_1___default()({
-              url: urlApi,
-              method: 'GET',
-              responseType: 'blob' // important
-
-            }).then(function (response) {
-              var url = window.URL.createObjectURL(new Blob([response.data]));
-              var link = document.createElement('a');
-              link.href = url;
-              link.setAttribute('download', row.name); //or any other extension
-
-              document.body.appendChild(link);
-              link.click();
-
-              _this11.$message('Se descargo el archivo ' + JSON.stringify(row.name));
-            });
-          },
-          label: ''
-        }]
-      }
+      search: '',
+      EDIHUB: []
     };
   },
   mounted: function mounted() {
@@ -70430,7 +70348,7 @@ var EDIHUB = {
   },
   methods: {
     dateEDI: function dateEDI() {
-      var _this12 = this;
+      var _this14 = this;
 
       sweetalert__WEBPACK_IMPORTED_MODULE_7___default()("¿Generar archivo de la fecha " + this.date + " ?", {
         buttons: {
@@ -70444,22 +70362,56 @@ var EDIHUB = {
       }).then(function (value) {
         switch (value) {
           case "catch":
-            var url = '/api/edi/generar/hub/' + _this12.date;
+            var url = '/api/edi/generar/hub/' + _this14.date;
             axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
               sweetalert__WEBPACK_IMPORTED_MODULE_7___default()("Exito!", "Archivo generado correctamente", "success");
 
-              _this12.getEdiHUB();
+              _this14.getEdiHUB();
             });
             break;
         }
       });
     },
     getEdiHUB: function getEdiHUB() {
-      var _this13 = this;
+      var _this15 = this;
 
       var url = '/api/edi/hub';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this13.archivosHUB = response.data;
+        _this15.archivosHUB = response.data;
+      });
+    },
+    handleDownload: function handleDownload(index, row) {
+      var _this16 = this;
+
+      var name = row.name;
+      var urlApi = '/api/edi/download/hub/' + name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: urlApi,
+        method: 'GET',
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', row.name); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+
+        _this16.$message({
+          message: 'Se descargo el archivo' + row.name,
+          type: 'success'
+        });
+      });
+    },
+    handleTable: function handleTable(index, row) {
+      var _this17 = this;
+
+      var urlApi = '/api/edi/datos/hub/' + row.name;
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(urlApi).then(function (response) {
+        _this17.EDIHUB = response.data;
+        $('#modalHUB').modal('show');
       });
     }
   }

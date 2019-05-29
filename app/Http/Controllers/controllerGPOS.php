@@ -19,23 +19,7 @@ use App\Exports\GposExport;
 class controllerGPOS extends Controller
 {
     public function datos(){   
-        $cod=mb_strlen('7391002260');
-        $num=mb_strlen('27412');
-        $ceros=20-($cod+$num);
-        $space='';
-        for($i=1;$i<=$ceros;$i++){
-            $space.='0';
-        }
-        return '7391002260'.$space.'27412';
-        //7391002260000000027412
-        //73910022600000027412
-        $nextSaturday= new Carbon('last saturday');
-        Carbon::setTestNow($nextSaturday);       
-        $lastSunday=new Carbon('last sunday');
-        Carbon::setTestNow();
-        $gpos=new EDIGPOS;
-        Storage::disk('gposLP')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text('LARCOS000','0000863151'));            
-        return "hecho";
+        return Storage::disk('EDIftp')->allDirectories();
     }
     public function excel()
     {

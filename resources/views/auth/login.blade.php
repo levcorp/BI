@@ -12,7 +12,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a><b style="color:#0b306c; letter-spacing: 5px">LEV</b><b style="background-color: #0b306c; color: white; letter-spacing: 5px">CORP</b></a>
+    <a><b style="color:#3c8dbc; letter-spacing: 5px">LEV</b><b style="background-color: #3c8dbc; color: white; letter-spacing: 5px; padding: 1px 5px;">CORP</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -20,12 +20,13 @@
 
     <form action="{{ route('login') }}" method="post">
         @csrf
-      <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
+      <div c#3c8dbclass="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
         <input type="text" class="form-control" placeholder="Correo Electronico"  name="email" value="{{ old('email') }}" autofocus>
         @if ($errors->has('email'))
             <span id="helpBlock2" class="help-block">{{ $errors->first('email') }}</span>
         @endif
       </div>
+      <br>  
       <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
         <input type="password" class="form-control" placeholder="Contraseña" name="password" value="{{ old('password') }}">
         @if ($errors->has('password'))
