@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     { 
         $schedule->command('edi:send')
-                 ->dailyAt('23:30')
+                 ->dailyAt('22:00')
                  ->onSuccess(function () {
                     $edi=new EDI;
                     $count=$edi->count();
