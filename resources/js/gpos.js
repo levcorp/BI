@@ -292,6 +292,7 @@ new SC().$mount('#sc');
 var GPOSGEN = {
     data() {
         return {
+            loading:true,
             selectedDate: {
                 start: new Date(),
                 end: new Date()
@@ -350,6 +351,7 @@ var GPOSGEN = {
             var url = '/api/gpos/general';
             axios.get(url).then(response => {
                 this.archivosGEN = response.data;
+                this.loading=false;
             });
         },
         generar: function () {
@@ -366,9 +368,14 @@ var GPOSGEN = {
                     switch (value) {
                         case "catch":
                             var url = '/api/gpos/doc/generar/general/' + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + '/' + dateformat(this.selectedDate.end, 'dd-mm-yyyy');
+                            const loading = this.$loading({
+                                lock: true,
+                                background: 'rgba(0, 0, 0, 0.7)'
+                            });
                             axios.get(url).then(response => {
                                 swal("Exito!", "Archivo generado correctamente", "success");
                                 this.getGEN();
+                                loading.close();
                             })
                             break;
                     }

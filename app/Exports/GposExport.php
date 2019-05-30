@@ -21,9 +21,9 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
     protected $last;
     protected $next;
     protected $gposClass;
+    protected $gpos;
     public function __construct(string $last, string $next){
-        $this->last=$last;
-        $this->next=$next;
+        $this->gpos = GPOS::whereDate('DocDate','>=',$last)->whereDate('DocDate','<=',$next)->get();
         $this->gposClass=new EDIGPOS;
         return $this;
     }
@@ -94,7 +94,7 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
             $date["ShipFromDistributorDUNS+4"],
             $date["ReportFromDistributorDUNS+4"],
             $this->gposClass->charters($date->BillToCustomerName),
-            $this->gposClass->charters($date->BillToAddres1),
+            $this->gposClass->charters($date->BillToAddress1),
             $this->gposClass->charters($date->BillToAddress2),
             $this->gposClass->charters($date->BillToCity),
             $date->BillToRegionState,
@@ -153,7 +153,7 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
     {   
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $count=(int)($this->gposClass->count())+1;
+                $count=(int)($this->gposClass->gpos($this->gpos)->count())+1;
                 $color='4F81BD';
                 $cellRange = 'A1:BD1'; 
                 $event->sheet->getStyle($cellRange)
@@ -178,10 +178,8 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
             }
         ];
     }
-    public function collection()
-    {
-        $gpos = GPOS::whereDate('DocDate','>=',$this->last)->whereDate('DocDate','<=',$this->next)->get();
-        return $this->gposClass->gpos($gpos);
+    public function collection(){
+        return $this->gposClass->gpos($this->gpos);
     }
 }
 

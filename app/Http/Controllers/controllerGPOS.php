@@ -19,7 +19,9 @@ use App\Exports\GposExport;
 class controllerGPOS extends Controller
 {
     public function datos(){   
-        return Storage::disk('EDIftp')->allDirectories();
+        $find = array('#[^a-z 0-9A-Z./]#');
+        $cadena= preg_replace($find,"", "*+?¿}'<>/¿ []´+{-nn---+++****><#---++-°°°\..FASD  __:..,ñ--|1$#%$&()ASDÑÑ?=)(/&%#/&%$)(!$)]}¡?¡hola°,;¿}¿9901293");	
+        return $cadena;
     }
     public function excel()
     {

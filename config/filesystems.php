@@ -77,6 +77,15 @@ return [
             'ssl'      => false,
             'root'     =>'/send/commit',
         ],
+        'EDIftp_PRUEBA' => [
+            'driver'   => 'ftp',//ftp://98.142.238.22
+            'host'     => '192.168.10.45',
+            'username' => 'Administrador',
+            'password' => 'Manager1',
+            'port'     => 22,
+            'ssl'      => false,
+            'root'     =>'/send/commit',
+        ],
 
     ],
 

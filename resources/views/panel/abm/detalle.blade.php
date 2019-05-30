@@ -394,6 +394,6 @@
 </script>
 @section('script')
 {{Html::script('https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.6/dist/loadingoverlay.min.js')}}
-  {{Html::script('js/detalleSolicitud.js')}}
+{{Html::script('js/detalleSolicitud.js')}}
 @endsection
 @stop

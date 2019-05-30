@@ -1,6 +1,7 @@
 import Vue from 'vue/dist/vue.common.prod';
 import axios from 'axios';
 import ElementUI from 'element-ui'
+Vue.config.devtools = false;
 import 'element-ui/lib/theme-chalk/index.css';
 import VueDataTables from 'vue-data-tables';
 import lang from 'element-ui/lib/locale/lang/es';
@@ -14,6 +15,8 @@ Vue.use(ElementUI);
 var EDILP = {
     data() {
         return {
+            loading:false,
+            loadingTable:false,
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosLP: [],
@@ -50,8 +53,10 @@ var EDILP = {
         },
         getEdiLP: function () {
             var url = '/api/edi/lapaz';
+            this.loadingTable= true;
             axios.get(url).then(response => {
                 this.archivosLP = response.data;
+                this.loadingTable = false;
             });
         },
         handleDownload(index, row) {
@@ -76,9 +81,11 @@ var EDILP = {
         },
         handleTable(index, row) {
             var urlApi = '/api/edi/datos/lapaz/' + row.name;
+            this.loading = true;
+            $('#modalLP').modal('show'); 
             axios.get(urlApi).then(response => {
                 this.EDILP = response.data;
-                $('#modalLP').modal('show'); 
+                this.loading = false;
             }); 
         }
     },
@@ -89,6 +96,8 @@ new LP().$mount('#lp');
 var EDICO = {
     data() {
         return {
+            loading: false,
+            loadingTable: false,
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosCO: [],
@@ -125,8 +134,10 @@ var EDICO = {
         },
         getEdiCO: function () {
             var url = '/api/edi/cochabamba';
+            this.loadingTable = true;
             axios.get(url).then(response => {
                 this.archivosCO = response.data;
+                this.loadingTable = false;
             });
         },
         handleDownload(index, row) {
@@ -151,9 +162,11 @@ var EDICO = {
         },
         handleTable(index, row) {
             var urlApi = '/api/edi/datos/cochabamba/' + row.name;
+            this.loading= true,
+            $('#modalCO').modal('show');
             axios.get(urlApi).then(response => {
                 this.EDICO = response.data;
-                $('#modalCO').modal('show');
+                this.loading= false;
             });
         }
     },
@@ -164,6 +177,8 @@ new CO().$mount('#co');
 var EDISC = {
     data() {
         return {
+            loading: false,
+            loadingTable: false,
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosSC: [],
@@ -200,8 +215,10 @@ var EDISC = {
         },
         getEdiSC: function () {
             var url = '/api/edi/santacruz';
+            this.loadingTable = true;
             axios.get(url).then(response => {
                 this.archivosSC = response.data;
+                this.loadingTable = false;
             });
         },
         generar: function () {
@@ -232,9 +249,11 @@ var EDISC = {
         },
         handleTable(index, row) {
             var urlApi = '/api/edi/datos/santacruz/' + row.name;
+            this.loading = true;
+            $('#modalSC').modal('show');
             axios.get(urlApi).then(response => {
                 this.EDISC = response.data;
-                $('#modalSC').modal('show');
+                this.loading = false;
             });
         }
     },
@@ -245,6 +264,8 @@ new SC().$mount('#sc');
 var EDIHUB = {
     data() {
         return {
+            loading : false,
+            loadingTable: false,
             now: new Date().toISOString().slice(0, 10),
             date: new Date().toISOString().slice(0, 10),
             archivosHUB: [],
@@ -281,8 +302,10 @@ var EDIHUB = {
         },
         getEdiHUB: function () {
             var url = '/api/edi/hub';
+            this.loadingTable = true;
             axios.get(url).then(response => {
                 this.archivosHUB = response.data;
+                this.loadingTable = false;
             });
         },
         handleDownload(index, row) {
@@ -307,9 +330,11 @@ var EDIHUB = {
         },
         handleTable(index, row) {
             var urlApi = '/api/edi/datos/hub/' + row.name;
+            this.loading = true;
+            $('#modalHUB').modal('show');
             axios.get(urlApi).then(response => {
                 this.EDIHUB = response.data;
-                $('#modalHUB').modal('show');
+                this.loading = false;
             });
         }
     },

@@ -24,7 +24,7 @@
               </div>
               <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
+                  <el-button native-type="submit" type="primary"><i class="el-icon-finished"></i></el-button>
                 </div>
               </div>
           </form>
@@ -62,7 +62,7 @@
               </div>
               <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
+                  <el-button native-type="submit" type="primary"><i class="el-icon-finished"></i></el-button>
                 </div>
               </div>
           </form>
@@ -101,7 +101,7 @@
               </div>
               <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
+                  <el-button native-type="submit" type="primary"><i class="el-icon-finished"></i></el-button>
                 </div>
               </div>
           </form>
@@ -138,7 +138,7 @@
               </div>
               <div class="col-sm-3 col-xs-6" style="margin: 5px 0">
                 <div class="pull-left">
-                  <button type="submit" class="el-button el-button--primary"><i class="fa fa-arrow-circle-right"></i></button>
+                  <el-button native-type="submit" type="primary"><i class="el-icon-finished"></i></el-button>
                 </div>
               </div>
           </form>
@@ -146,7 +146,7 @@
                 <el-input v-model="filters[0].value" placeholder="Buscar"></el-input>
               </div>
           </el-row>
-          <data-tables  :filters="filters" :data="archivosGEN" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
+          <data-tables  v-loading="loading" :filters="filters" :data="archivosGEN" :table-props="table" :page-size="5" :pagination-props="{ pageSizes: [5, 10, 15,20] }" :action-col="dowload">
               <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label" sortable="custom">
               </el-table-column>
           </data-tables>

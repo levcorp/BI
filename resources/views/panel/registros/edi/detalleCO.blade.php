@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body">
             <el-input v-model="search" placeholder="Buscar"></el-input>
-             <el-table highlight-current-row height="430" :data="EDICO.filter(data => !search || data.ItemCode.toLowerCase().includes(search.toLowerCase()) || data.U_Cod_comp.toLowerCase().includes(search.toLowerCase()) || data.U_cat_id.toLowerCase().includes(search.toLowerCase()))" style="width: 100%">
+             <el-table v-loading="loading" highlight-current-row height="430" :data="EDICO.filter(data => !search || data.ItemCode.toLowerCase().includes(search.toLowerCase()) || data.U_Cod_comp.toLowerCase().includes(search.toLowerCase()) || data.U_cat_id.toLowerCase().includes(search.toLowerCase()))" style="width: 100%">
                 <el-table-column align="center" sortable width="110" label="Item Code" prop="ItemCode"></el-table-column>
                 <el-table-column align="center" sortable width="120" label="Cod Compra" prop="U_Cod_comp"></el-table-column>
                 <el-table-column align="center" sortable width="130" label="UPC" prop="U_cat_id"></el-table-column>

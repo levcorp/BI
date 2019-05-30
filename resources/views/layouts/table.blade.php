@@ -50,8 +50,8 @@
     <div class="control-sidebar-bg"></div>
   </div>
 <!-- ./wrapper -->
-  @include('panel.registros.styles.js')
-  @yield('script')
+@include('panel.registros.styles.js')
+@yield('script')
 
 </body>
 </html>

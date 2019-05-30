@@ -20,13 +20,13 @@ class EDIGPOS
     public function charters($pharse){
         $replace =    array(
                             "Á","É","Í","Ó","Ú","Ñ",
-                            ",",";","'"
                         );
         $characters = array(
                             "A","E","I","O","U","N",
-                            "","",""
                         );
-        return  str_replace($replace, $characters, $pharse);               
+        $find = array('#[^a-z0-9 A-Z./]#');        
+        $string=  str_replace($replace, $characters, $pharse);               
+        return preg_replace($find, "", $string);	
     }
     public function text_date($city,$codCity,$start,$end){
         $gpos=GPOS::whereDate('DocDate','>=',$start)->whereDate('DocDate','<=',$end)->where('ShipFromDistributorDUNS+4','=',$city)->get();
