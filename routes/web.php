@@ -1,6 +1,6 @@
 <?php
 ////////////////////////ROLES/////////////////////////////////////+
-Route::get('panel/roles','Panel\controllerPanel@roles')->name('roles');  
+Route::get('panel/modulos','Panel\controllerPanel@modulos')->name('modulos');  
 ////////////////////////EDI/////////////////////////////////////+
 Route::get('panel/gpos/datos','controllerGPOS@datos');
 Route::get('panel/gpos','Panel\controllerPanel@gpos')->name('gpos');  

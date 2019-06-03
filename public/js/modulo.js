@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -70018,10 +70018,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./resources/js/usuarios.js":
-/*!**********************************!*\
-  !*** ./resources/js/usuarios.js ***!
-  \**********************************/
+/***/ "./resources/js/modulo.js":
+/*!********************************!*\
+  !*** ./resources/js/modulo.js ***!
+  \********************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -70054,80 +70054,36 @@ vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.use(element_ui__
 var Main = {
   data: function data() {
     return {
-      title: '',
-      Form: {
-        create: '',
-        update: '',
-        delete: '',
-        usuario_id: '',
-        modulo_id: ''
-      },
-      searchUsuarios: '',
-      searchModulos: '',
-      usuarios: [],
       modulos: []
     };
   },
-  created: function created() {
-    this.getUsuarios();
-    this.getModulos();
+  mounted: function mounted() {
+    this.get();
   },
   methods: {
-    getUsuarios: function getUsuarios() {
+    get: function get() {
       var _this = this;
 
-      var url = '/api/usuarios/';
+      var url = '/api/modulos';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this.usuarios = response.data;
-      });
-    },
-    getModulos: function getModulos() {
-      var _this2 = this;
-
-      var url = '/api/modulos/';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this2.modulos = response.data;
-      });
-    },
-    handleModulo: function handleModulo(index, row) {
-      $('#modulo').modal('show');
-      this.Form.usuario_id = row.id;
-    },
-    handlePer: function handlePer(index, row) {
-      $('#permisos').modal('show');
-      this.Form.modulo_id = row.id;
-      this.title = row.titulo;
-    },
-    postPermisos: function postPermisos() {
-      var _this3 = this;
-
-      var url = '/api/usuarios/asignacion';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, this.Form).then(function (response) {
-        console.log(response.data);
-
-        _this3.$message({
-          message: 'Asignacion de permisos realizada correctamente',
-          type: 'success'
-        });
-
-        $('#permisos').modal('hide');
+        _this.modulos = response.data;
       });
     }
   }
 };
 var Ctor = vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.extend(Main);
-new Ctor().$mount('#usuario');
+new Ctor().$mount('#modulo');
 
 /***/ }),
 
-/***/ 2:
-/*!****************************************!*\
-  !*** multi ./resources/js/usuarios.js ***!
-  \****************************************/
+/***/ 5:
+/*!**************************************!*\
+  !*** multi ./resources/js/modulo.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\BI\resources\js\usuarios.js */"./resources/js/usuarios.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BI\resources\js\modulo.js */"./resources/js/modulo.js");
 
 
 /***/ })

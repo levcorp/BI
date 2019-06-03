@@ -4,7 +4,7 @@ Route::resource('equipos', 'Panel\Proyecto\controllerEquipo')->except(['show','c
 /////////////////////Proyecto//////////////////////////////////
 Route::resource('proyectos', 'Panel\Proyecto\controllerProyectos')->except(['show','create','edit']);
 /////////////////////ROLES//////////////////////////////////
-Route::resource('roles', 'Panel\controllerRol')->except(['show','create','edit']);
+Route::resource('modulos', 'Panel\controllerModulo')->except(['show','create','edit']);
 /////////////////////GPOS//////////////////////////////////
 //Route::get('gpos/dates','controllerGPOS@dates');
 Route::get('gpos/download/{city}/{name}','controllerGPOS@download');
@@ -18,6 +18,7 @@ Route::get('edi/{city}','controllerEDI@archivos');
 //////////////////////////////////////////////////////////////
 
 /////////////////////USUARIOS//////////////////////////////////
+Route::post('usuarios/asignacion/', 'Panel\controllerAsignacionModulo@post');
 Route::resource('usuarios', 'Panel\controllerUsuario');
 ///////////////////////////////////////////////////////////////
 

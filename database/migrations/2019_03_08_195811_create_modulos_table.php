@@ -17,8 +17,6 @@ class CreateModulosTable extends Migration
             $table->increments('id');
             $table->string('titulo');
             $table->string('descripcion')->nullable();
-            $table->unsignedInteger('rol_id');
-            $table->foreign('rol_id')->references('id')->on('rols');
             $table->timestamps();
         });
     }

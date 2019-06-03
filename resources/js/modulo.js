@@ -11,7 +11,7 @@ Vue.use(ElementUI);
 var Main = {
     data() {
         return {
-            roles: [],
+            modulos: [],
         }
     },
     mounted() {
@@ -19,12 +19,12 @@ var Main = {
     },
     methods: {
         get:function(){
-            var url= '/api/roles';
+            var url= '/api/modulos';
             axios.get(url).then(response=>{
-                this.roles=response.data;
+                this.modulos=response.data;
             });
         }
     },
 }
 var Ctor = Vue.extend(Main);
-new Ctor().$mount('#rol');
+new Ctor().$mount('#modulo');

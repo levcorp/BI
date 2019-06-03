@@ -43,11 +43,11 @@ class Kernel extends ConsoleKernel
                     $names=$gpos->names();
                     $count=$gpos->count();
                     $name=$gpos->name();
-                    Mail::send(new SuccessGPOSExcel($count,$name));
-                    Mail::send(new SuccessGPOS($counts,$names));      
+                    Mail::send(new SuccessExcel($count,$name));
+                    Mail::send(new Success($counts,$names));      
                   })
                  ->onFailure(function () {
-                    Mail::send(new FailureGPOS);
+                    Mail::send(new Failure);
                   });
     }
     protected function commands()

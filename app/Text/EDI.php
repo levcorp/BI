@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Text;
 use App\EdiLP;
 use App\EdiCO;

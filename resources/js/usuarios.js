@@ -11,41 +11,23 @@ Vue.use(ElementUI);
 var Main = {
     data() {
         return {
-            usuarios: [],
-            table: {
-                border: true,
-                //stripe: true,
+            title:'',
+            Form:{
+                create:'',
+                update:'',
+                delete: '',
+                usuario_id:'',
+                modulo_id:''
             },
-            titles: [
-                { prop: "nombre", label: "Nombre", align: 'center' },
-                { prop: "apellido", label: "Apellido", align: 'center' },
-                { prop: "email", label: "Correo Electronico", align: 'center' },
-            ],
-            filters: [{
-                prop: 'nombre',
-            }
-            ],
-            dowload: {
-                label: 'Acciones',
-                props: {
-                    align: 'center',
-                },
-                buttons: [{
-                    props: {
-                        type: 'primary',
-                        icon: 'el-icon-download',
-                        size: 'small',
-                    },
-                    handler: row => {
-                        
-                    },
-                    label: ''
-                }]
-            }
+            searchUsuarios:'',
+            searchModulos:'',
+            usuarios: [],
+            modulos:[]
         }
     },
-    mounted() {
+    created() {
         this.getUsuarios();
+        this.getModulos();
     },
     methods: {
         getUsuarios: function () {
@@ -54,7 +36,33 @@ var Main = {
                 this.usuarios = response.data;
             });
         },
+        getModulos: function () {
+            var url = '/api/modulos/';
+            axios.get(url).then(response => {
+                this.modulos = response.data;
+            });
+        },
+        handleModulo: function (index, row){
+            $('#modulo').modal('show');
+            this.Form.usuario_id=row.id;            
+        },
+        handlePer: function (index, row) {
+            $('#permisos').modal('show');
+            this.Form.modulo_id=row.id
+            this.title=row.titulo;
+        },
+        postPermisos:function (){
+            var url='/api/usuarios/asignacion';
+            axios.post(url,this.Form).then(response=>{
+                console.log(response.data);
+                this.$message({
+                    message: 'Asignacion de permisos realizada correctamente',
+                    type: 'success'
+                });
+                $('#permisos').modal('hide');
+            });
+        }
     },
 }
 var Ctor = Vue.extend(Main);
-new Ctor().$mount('#app');
+new Ctor().$mount('#usuario');
