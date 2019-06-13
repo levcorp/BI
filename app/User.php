@@ -6,8 +6,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
+
 class User extends Authenticatable
 {
+    use \HighIdeas\UsersOnline\Traits\UsersOnlineTrait;
     use Notifiable;
     protected $fillable = [
         'nombre', 
@@ -20,6 +22,8 @@ class User extends Authenticatable
         'especialidad',
         'sector',
         'celular',
+        'codigo',
+        'cambiar',
         'objectguid'
     ];
     protected $hidden = [

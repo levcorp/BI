@@ -1,6 +1,6 @@
 @extends('panel.dashboard.layout') 
 @section('boxes')
-<!--<div class="row">
+<div class="row">
 @foreach($porcentajeEspecialidad as $especialidad)
     <div class="col-lg-2 col-xs-6 {{$especialidad->ESPECIALIDAD =='AUTO' ? 'col-lg-offset-1' :''}} " style="background-color=white;">
         <div style="background-color:white">
@@ -15,7 +15,7 @@
         </div>
     </div>
 @endforeach
-</div>-->
+</div>
 @endsection
 @section('opciones')
 <div class="box box-primary">
@@ -36,7 +36,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="{{ route('panel') }}">General</a></li>
+                            <li><a href="{{ route('dashboard') }}">General</a></li>
                             <li>
                                 <a href="{{ route('filtroSector', 'MAN') }}"
                                     >Manufactura</a

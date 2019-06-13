@@ -1,6 +1,8 @@
 <?php
 /////////////////////Proyecto//////////////////////////////////
-Route::resource('equipos', 'Panel\Proyecto\controllerEquipo')->except(['show','create','edit']);
+Route::resource('perfiles', 'Panel\controllerPerfil')->except(['show','create','edit']);
+/////////////////////Proyecto//////////////////////////////////
+//Route::resource('equipos', 'Panel\Proyecto\controllerEquipo')->except(['show','create','edit']);
 /////////////////////Proyecto//////////////////////////////////
 Route::resource('proyectos', 'Panel\Proyecto\controllerProyectos')->except(['show','create','edit']);
 /////////////////////ROLES//////////////////////////////////
@@ -16,8 +18,12 @@ Route::get('edi/generar/{city}/{date}','controllerEDI@edis');
 Route::get('edi/datos/{city}/{name}','controllerEDI@datos');
 Route::get('edi/{city}','controllerEDI@archivos');
 //////////////////////////////////////////////////////////////
+/////////////////////USUARIOS//////////////////////////////////
+Route::post('login/reset','Login\controllerLogin@emailReset');
+//////////////////////////////////////////////////////////////
 
 /////////////////////USUARIOS//////////////////////////////////
+Route::get('usuarios/mostrar/{gui}', 'Panel\controllerUsuario@mostrar');
 Route::post('usuarios/asignacion/', 'Panel\controllerAsignacionModulo@post');
 Route::resource('usuarios', 'Panel\controllerUsuario');
 ///////////////////////////////////////////////////////////////

@@ -16,12 +16,12 @@ use Carbon\Carbon;
 use Storage;
 use Excel;
 use App\Exports\GposExport;
+use App\User;
 class controllerGPOS extends Controller
 {
     public function datos(){   
-        $find = array('#[^a-z 0-9A-Z./]#');
-        $cadena= preg_replace($find,"", "*+?¿}'<>/¿ []´+{-nn---+++****><#---++-°°°\..FASD  __:..,ñ--|1$#%$&()ASDÑÑ?=)(/&%#/&%$)(!$)]}¡?¡hola°,;¿}¿9901293");	
-        return $cadena;
+        $user = new User;
+        return $user->allOnline();
     }
     public function excel()
     {

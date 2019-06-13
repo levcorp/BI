@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Login;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\RequestPassword;
 use App\Http\Controllers\Controller;
-use Auth;
 use App\Http\Requests\RequestLogin;
-use Session;
+use Adldap\Laravel\Facades\Adldap;
+use Illuminate\Http\Request;
+use App\Mail\Usuario\Reset;
 use App\User;
+use Session;
+use Auth;
+use Mail;
+use Str;
 class controllerLogin extends Controller
 {
     public function __construct(){
-        return $this->middleware('guest')->except('logout');
+        return $this->middleware('guest')->except('logout','reset','postReset','emailReset');
     }
     public function log(){
         return view('auth.login');
@@ -19,8 +24,6 @@ class controllerLogin extends Controller
     public function login(RequestLogin $request){
         $remember_me = $request->has('remember') ? true : false;
         if(Auth::attempt(['email' => $request->email."@levcorp.bo", 'password' => $request->password],$remember_me)){
-            $user = auth()->user();
-            Auth::login($user,true);
             return redirect()->route('panel');
         }else {
             if(User::where('email',$request->email."@levcorp.bo")->count()>0){
@@ -35,5 +38,69 @@ class controllerLogin extends Controller
     public function logout(){
         Auth::logout();
         return redirect()->route('log');
+    }
+    public function reset($codigo){
+        if(User::where('codigo',$codigo)->first()){
+            $id=User::where('codigo',$codigo)->first()->id;
+            return view('auth.reset',compact('id'));
+        }else {
+            return redirect()->route('log');            
+        }
+    } 
+    public function emailReset(Request $request){
+        if(User::where('email',$request->email)->count()>0){
+            $random = Str::random(40);
+            $url='http://localhost:8000/login/password/'.$random;
+            User::where('email',$request->email)->first()->fill(['codigo'=>$random])->save();
+            Mail::send(new Reset($url,$request->email));
+        }
+    }
+    public function postReset(RequestPassword $request)
+    {
+        $user=explode("@",User::findOrFail($request->id)->email);
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', 'http://apiad.levcorp.bo/api/password/reset/'.$user[0].'/'.$request->password);
+        if(json_decode($response->getBody())==="Contraseña Cambiada con exito"){
+            User::findOrFail($request->id)->fill(['codigo'=>null])->save();
+            Session::flash('success','Contraseña restablecida correctamente');
+            return redirect()->route('log');
+        }else{
+            if(json_decode($response->getBody())==="Error usuario no encontrado"){
+                Session::flash('message',json_decode($response->getBody()));
+                return back()->withInput();                         
+            }else{
+                if(json_decode($response->getBody())==="Conexion fallida"){
+                    Session::flash('message',json_decode($response->getBody()));
+                    return back()->withInput();         
+                }
+            }
+        }
+    }
+    public function prueba(){
+        $nombre="Maurico";
+        $apellido="Aramayo";
+        return substr(strtolower($nombre), -1, 1)." ".strtolower($apellido);
+        substr(strtolower($nombre), 0, 1)." ".strtolower($apellido)."@lev.local";
+        $nombre." ".$apellido;
+        substr(strtolower($nombre), 0, 1)." ".strtolower($apellido)."@levcorp.bo";
+        return strtolower("HOLA");
+        return substr("hola", 0, 1);
+        $user = Adldap::search()->users()->findByGuid('1e36a3e5-48fb-4b54-9646-ca0bd6a434ba');
+        $search = Adldap::search()->where('cn', '=', 'Martin Gutierrez')->get();
+        $user->cn="Martin Gutierrezz";
+        $user->save();
+        
+        
+        
+        if($user->save())
+        {
+            return "si";
+        }else {
+            return "no";
+        }
+       
+        //return $user;
+        //$user->useraccountcontrol="66048";
+        
     }
 }

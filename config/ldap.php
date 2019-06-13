@@ -61,14 +61,18 @@ return [
                 'base_dn' => env('LDAP_BASE_DN', 'dc=lev,dc=local'),
 
 
-                'username' => 'Administrador@lev.local',
+                'username' => 'Administrador@lev',
                 'password' => 'Manager100',
 
                 'follow_referrals' => false,
 
 
-                'use_ssl' => env('LDAP_USE_SSL', false),
-                'use_tls' => env('LDAP_USE_TLS', false),
+                'use_ssl' => false,
+                'use_tls' => false,
+                'custom_options' => [
+                        LDAP_OPT_PROTOCOL_VERSION => 3,
+                        LDAP_OPT_X_TLS_REQUIRE_CERT => LDAP_OPT_X_TLS_NEVER,
+                    ],
 
             ],
 

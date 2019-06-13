@@ -1,4 +1,6 @@
 <?php
+////////////////////////PERFIL/////////////////////////////////////+
+Route::get('panel/perfiles','Panel\controllerPanel@perfiles')->name('perfiles');  
 ////////////////////////ROLES/////////////////////////////////////+
 Route::get('panel/modulos','Panel\controllerPanel@modulos')->name('modulos');  
 ////////////////////////EDI/////////////////////////////////////+
@@ -11,21 +13,28 @@ Route::get('panel/edi','controllerEDI@index')->name('edi');
 ///////////////////////////////////////////////////////////////
 
 ////////////////////////AUTH/////////////////////////////////////
+Route::get('prueba','Login\controllerLogin@prueba')->name('prueba');
+Route::get('login/password/{codigo}','Login\controllerLogin@reset')->name('reset');
+Route::post('login/reset','Login\controllerLogin@postReset')->name('postReset');
+
 Route::post('login','Login\controllerLogin@login')->name('login');
 Route::get('logout','Login\controllerLogin@logout')->name('logout');
 Route::get('/','Login\controllerLogin@log')->name('log');
 ///////////////////////////////////////////////////////////////
+
+////////////////////////USUARIOS/////////////////////////////////////
+Route::get('panel/usuarios','Panel\ControllerPanel@usuarios')->name('usuarios');
+///////////////////////////////////////////////////////////////
 ////////////////////////PANEL/////////////////////////////////////
-Route::get('panel','Panel\controllerPanel@inicio')->name('panel');
+Route::get('panel/{sector}','Panel\controllerPanel@newSector')->name('newfiltroSector');
+Route::get('panel','Panel\controllerPanel@newInicio')->name('panel');
+Route::get('dashboard','Panel\controllerPanel@inicio')->name('dashboard');
 ///////////////////////////////////////////////////////////////
 
 ////////////////////////DASHBOARD/////////////////////////////////////
 Route::get('panel/dashboard/{sector}','Panel\controllerPanel@sector')->name('filtroSector');
 ///////////////////////////////////////////////////////////////
 
-////////////////////////USUARIOS/////////////////////////////////////
-Route::get('panel/usuarios','Panel\ControllerPanel@usuarios')->name('usuarios');
-///////////////////////////////////////////////////////////////
 
 ////////////////////////TEST/////////////////////////////////////
 Route::get('/demo','Panel\controllerABMSolicitud@a');

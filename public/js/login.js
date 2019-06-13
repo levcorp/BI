@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -70030,10 +70030,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./resources/js/usuarios.js":
-/*!**********************************!*\
-  !*** ./resources/js/usuarios.js ***!
-  \**********************************/
+/***/ "./resources/js/login.js":
+/*!*******************************!*\
+  !*** ./resources/js/login.js ***!
+  \*******************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -70068,325 +70068,54 @@ vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_data_tab
 vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.use(element_ui__WEBPACK_IMPORTED_MODULE_2___default.a);
 var Main = {
   data: function data() {
-    return {
-      search: '',
-      title: '',
-      Form: {
-        create: '',
-        update: '',
-        delete: '',
-        usuario_id: '',
-        modulo_id: ''
-      },
-      searchUsuarios: '',
-      searchModulos: '',
-      usuarios: [],
-      modulos: [],
-      usuario: {
-        nombre: '',
-        apellido: '',
-        email: '',
-        ciudad: '',
-        pais: '',
-        celular: '',
-        telefono: '',
-        puesto: '',
-        departamento: '',
-        organizacion: ''
-      },
-      updateUser: {
-        nombre: '',
-        apellido: '',
-        email: '',
-        ciudad: '',
-        pais: '',
-        celular: '',
-        telefono: '',
-        puesto: '',
-        departamento: '',
-        organizacion: '',
-        objectguid: ''
-      }
-    };
-  },
-  created: function created() {
-    this.getUsuarios();
-    this.getModulos();
+    return {};
   },
   methods: {
-    getUsuarios: function getUsuarios() {
+    reset: function reset() {
       var _this = this;
 
-      var url = '/api/usuarios/';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this.usuarios = response.data;
-      });
-    },
-    getModulos: function getModulos() {
-      var _this2 = this;
+      sweetalert__WEBPACK_IMPORTED_MODULE_7___default()("Necesitamos tu correo electronico para la recuperación:", {
+        content: "input"
+      }).then(function (value) {
+        switch (value) {
+          case null:
+            break;
 
-      var url = '/api/modulos/';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this2.modulos = response.data;
-      });
-    },
-    handleModulo: function handleModulo(index, row) {
-      $('#modulo').modal('show');
-      this.Form.usuario_id = row.id;
-    },
-    handlePer: function handlePer(index, row) {
-      $('#permisos').modal('show');
-      this.Form.modulo_id = row.id;
-      this.title = row.titulo;
-    },
-    handlePassword: function handlePassword(index, row) {
-      swal({
-        title: "",
-        text: "Habilitar cambio de contraseña, en el siguiente inicio de sesión?",
-        icon: "warning",
-        buttons: true,
-        successMode: true
-      }).then(function (willDelete) {
-        if (willDelete) {
-          var url = '/api/usuarios/' + row.objectguid + '/edit';
-          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-            swal("Cambio de contraseña habilitada", {
-              icon: "success"
+          case '':
+            break;
+
+          default:
+            var url = '/api/login/reset';
+
+            var loading = _this.$loading({
+              lock: true,
+              text: 'Enviando....'
             });
-          }).catch(function (error) {
-            swal("Cambio de contraseña no habilitada el usuario no fue autentificado, ni una sola vez", {
-              icon: "error"
+
+            axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
+              'email': value
+            }).then(function (response) {
+              sweetalert__WEBPACK_IMPORTED_MODULE_7___default()('Exito!!', 'Correo electronico enviado a ' + value, 'success');
+              loading.close();
             });
-          });
         }
-      });
-    },
-    postPermisos: function postPermisos() {
-      var _this3 = this;
-
-      var url = '/api/usuarios/asignacion';
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, this.Form).then(function (response) {
-        console.log(response.data);
-
-        _this3.$message({
-          message: 'Asignacion de permisos realizada correctamente',
-          type: 'success'
-        });
-
-        $('#permisos').modal('hide');
-      });
-    },
-    handleEstado: function handleEstado(index, row) {
-      var _this4 = this;
-
-      swal({
-        title: "",
-        text: "Cambiar estado del usuario " + row.givenname,
-        icon: "warning",
-        buttons: true,
-        successMode: true
-      }).then(function (willDelete) {
-        if (willDelete) {
-          var url = '/api/usuarios/' + row.objectguid;
-          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-            _this4.getUsuarios();
-          });
-          swal("Cambio de contraseña habilitada", {
-            icon: "success"
-          });
-        }
-      });
-    },
-    handleShow: function handleShow(index, row) {
-      var _this5 = this;
-
-      this.usuario = {
-        nombre: '',
-        apellido: '',
-        email: '',
-        ciudad: '',
-        pais: '',
-        celular: '',
-        telefono: '',
-        puesto: '',
-        departamento: '',
-        organizacion: ''
-      };
-      var url = '/api/usuarios/mostrar/' + row.objectguid;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        if (response.data.givenname) {
-          _this5.usuario.nombre = response.data.givenname[0];
-        }
-
-        if (response.data.sn) {
-          _this5.usuario.apellido = response.data.sn[0];
-        }
-
-        if (response.data.mail) {
-          _this5.usuario.email = response.data.mail[0];
-        }
-
-        if (response.data.l) {
-          _this5.usuario.ciudad = response.data.l[0];
-        }
-
-        if (response.data.c) {
-          _this5.usuario.pais = response.data.c[0];
-        }
-
-        ;
-
-        if (response.data.mobile) {
-          _this5.usuario.celular = response.data.mobile[0];
-        }
-
-        if (response.data.ipphone) {
-          _this5.usuario.telefono = response.data.ipphone[0];
-        }
-
-        if (response.data.title) {
-          _this5.usuario.puesto = response.data.title[0];
-        }
-
-        if (response.data.department) {
-          _this5.usuario.departamento = response.data.department[0];
-        }
-
-        if (response.data.company) {
-          _this5.usuario.organizacion = response.data.company[0];
-        }
-
-        ;
-        $('#show').modal('show');
-      });
-    },
-    handleEdit: function handleEdit(index, row) {
-      var _this6 = this;
-
-      this.updateUser = {
-        nombre: '',
-        apellido: '',
-        email: '',
-        ciudad: '',
-        pais: '',
-        celular: '',
-        telefono: '',
-        puesto: '',
-        departamento: '',
-        organizacion: '',
-        objectguid: ''
-      };
-      var url = '/api/usuarios/mostrar/' + row.objectguid;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        if (response.data.givenname) {
-          _this6.updateUser.nombre = response.data.givenname[0];
-        }
-
-        if (response.data.sn) {
-          _this6.updateUser.apellido = response.data.sn[0];
-        }
-
-        if (response.data.mail) {
-          _this6.updateUser.email = response.data.mail[0];
-        }
-
-        if (response.data.l) {
-          _this6.updateUser.ciudad = response.data.l[0];
-        }
-
-        if (response.data.c) {
-          _this6.updateUser.pais = response.data.c[0];
-        }
-
-        ;
-
-        if (response.data.mobile) {
-          _this6.updateUser.celular = response.data.mobile[0];
-        }
-
-        if (response.data.ipphone) {
-          _this6.updateUser.telefono = response.data.ipphone[0];
-        }
-
-        if (response.data.title) {
-          _this6.updateUser.puesto = response.data.title[0];
-        }
-
-        if (response.data.department) {
-          _this6.updateUser.departamento = response.data.department[0];
-        }
-
-        if (response.data.company) {
-          _this6.updateUser.organizacion = response.data.company[0];
-        }
-
-        ;
-
-        if (response.data.objectguid) {
-          _this6.updateUser.objectguid = response.data.objectguid;
-        }
-
-        ;
-        $('#edit').modal('show');
-      });
-    },
-    cerrarShow: function cerrarShow() {
-      this.updateUser = {
-        nombre: '',
-        apellido: '',
-        email: '',
-        ciudad: '',
-        pais: '',
-        celular: '',
-        telefono: '',
-        puesto: '',
-        departamento: '',
-        organizacion: '',
-        updateUser: ''
-      };
-      $('#edit').modal('hide');
-    },
-    putUser: function putUser() {
-      var _this7 = this;
-
-      var url = '/api/usuarios/' + this.updateUser.objectguid;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(url, this.updateUser).then(function (response) {
-        $('#edit').modal('hide');
-        _this7.updateUser = {
-          nombre: '',
-          apellido: '',
-          email: '',
-          ciudad: '',
-          pais: '',
-          celular: '',
-          telefono: '',
-          puesto: '',
-          departamento: '',
-          organizacion: '',
-          updateUser: ''
-        };
-        swal("Usuario actualizado correctamente", {
-          icon: "success"
-        });
-
-        _this7.getUsuarios();
       });
     }
   }
 };
 var Ctor = vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.extend(Main);
-new Ctor().$mount('#usuario');
+new Ctor().$mount('#login');
 
 /***/ }),
 
-/***/ 2:
-/*!****************************************!*\
-  !*** multi ./resources/js/usuarios.js ***!
-  \****************************************/
+/***/ 8:
+/*!*************************************!*\
+  !*** multi ./resources/js/login.js ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\BI\resources\js\usuarios.js */"./resources/js/usuarios.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BI\resources\js\login.js */"./resources/js/login.js");
 
 
 /***/ })

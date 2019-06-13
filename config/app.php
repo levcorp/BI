@@ -67,6 +67,7 @@ return [
         Adldap\Laravel\AdldapServiceProvider::class,
         Adldap\Laravel\AdldapAuthServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class
     ],
     'aliases' => [
 
@@ -111,6 +112,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Active' => Watson\Active\Facades\Active::class,
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
-        'Date' => Jenssegers\Date\Date::class
+        'Date' => Jenssegers\Date\Date::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
     ],
 ];

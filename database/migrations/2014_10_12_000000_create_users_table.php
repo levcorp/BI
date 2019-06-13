@@ -6,11 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -27,6 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('sector')->nullable();
             $table->string('objectguid')->nullable();            
             $table->string('celular')->nullable();
+            $table->string('codigo')->nullable();
+            $table->boolean('cambiar')->nullable();
+            $table->integer('perfil_id')->unsigned()->nullable();
+            $table->foreign('perfil_id')->references('id')->on('perfils')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -21,7 +21,7 @@
                 <el-button @click="dateEDI()" type="primary"><i class="el-icon-finished"></i></el-button>
                 </div>
             </div>
-             <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
+            <div class="col-sm-5 col-xs-12" style="margin: 5px 0">
                 <el-input v-model="search" placeholder="Buscar"></el-input>
             </div>
         </el-row>
