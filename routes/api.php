@@ -18,11 +18,13 @@ Route::get('edi/generar/{city}/{date}','controllerEDI@edis');
 Route::get('edi/datos/{city}/{name}','controllerEDI@datos');
 Route::get('edi/{city}','controllerEDI@archivos');
 //////////////////////////////////////////////////////////////
+
 /////////////////////USUARIOS//////////////////////////////////
 Route::post('login/reset','Login\controllerLogin@emailReset');
 //////////////////////////////////////////////////////////////
 
 /////////////////////USUARIOS//////////////////////////////////
+Route::get('usuarios/change/{gui}', 'Panel\controllerUsuario@change');
 Route::get('usuarios/mostrar/{gui}', 'Panel\controllerUsuario@mostrar');
 Route::post('usuarios/asignacion/', 'Panel\controllerAsignacionModulo@post');
 Route::resource('usuarios', 'Panel\controllerUsuario');

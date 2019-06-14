@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Login;
 
+use App\Mail\Usuario\Change;
 use App\Http\Requests\RequestPassword;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestLogin;
@@ -16,7 +17,7 @@ use Str;
 class controllerLogin extends Controller
 {
     public function __construct(){
-        return $this->middleware('guest')->except('logout','reset','postReset','emailReset');
+        return $this->middleware('guest')->except('logout','reset','postReset','emailReset','change','postChange','success');
     }
     public function log(){
         return view('auth.login');
@@ -50,10 +51,10 @@ class controllerLogin extends Controller
     public function emailReset(Request $request){
         if(User::where('email',$request->email)->count()>0){
             $random = Str::random(40);
-            $url='http://localhost:8000/login/password/'.$random;
             User::where('email',$request->email)->first()->fill(['codigo'=>$random])->save();
+            $url='http://localhost:8000/login/password/'.$random;
             Mail::send(new Reset($url,$request->email));
-        }
+        }   
     }
     public function postReset(RequestPassword $request)
     {
@@ -63,7 +64,7 @@ class controllerLogin extends Controller
         if(json_decode($response->getBody())==="Contraseña Cambiada con exito"){
             User::findOrFail($request->id)->fill(['codigo'=>null])->save();
             Session::flash('success','Contraseña restablecida correctamente');
-            return redirect()->route('log');
+            return redirect()->route('success');
         }else{
             if(json_decode($response->getBody())==="Error usuario no encontrado"){
                 Session::flash('message',json_decode($response->getBody()));
@@ -76,7 +77,45 @@ class controllerLogin extends Controller
             }
         }
     }
+    public function change($id){
+        if(User::where('codigo',$id)->first()){
+            $id=User::where('codigo',$id)->first()->id;
+            return view('auth.change',compact('id')); 
+        }else{
+            Session::flash('success',"No es posible realizar el cambiop de contraseña");
+            return redirect()->route('success');            
+        }
+    }
+    public function postChange(Request $request){   
+        if(Auth::attempt(['email' => User::findOrFail($request->id)->email, 'password' => $request->oldpassword])){
+            $user=explode("@",User::findOrFail($request->id)->email);
+            $client = new \GuzzleHttp\Client();
+            $response = $client->request('GET', 'http://apiad.levcorp.bo/api/password/change/'.$user[0].'/'.$request->oldpassword.'/'.$request->password);
+            if(json_decode($response->getBody())==="Contraseña cambiada correctamente"){
+                User::findOrFail($request->id)->fill(['codigo'=>null,'cambiar'=>0])->save();
+                Auth::logout();
+                Session::flash('success','Contraseña fue Cambiada Correctamente');
+                return redirect()->route('log');
+            }else{
+                if(json_decode($response->getBody())==="Error usuario no encontrado"){
+                    Session::flash('message',json_decode($response->getBody()));
+                    return back()->withInput();                         
+                }else{
+                    if(json_decode($response->getBody())==="Conexion fallida"){
+                        Session::flash('message',json_decode($response->getBody()));
+                        return back()->withInput();         
+                    }
+                }
+            }
+        }else{
+            Session::flash('message','La anterior contraseña no es correcta');
+            return back()->withInput();       
+        }
+    }
     public function prueba(){
+        $random = Str::random(40);
+        $url='http://localhost:8000/login/password/'.$random;
+        return new Change($url,'gpinto@levcorp.bo');
         $nombre="Maurico";
         $apellido="Aramayo";
         return substr(strtolower($nombre), -1, 1)." ".strtolower($apellido);
@@ -89,9 +128,6 @@ class controllerLogin extends Controller
         $search = Adldap::search()->where('cn', '=', 'Martin Gutierrez')->get();
         $user->cn="Martin Gutierrezz";
         $user->save();
-        
-        
-        
         if($user->save())
         {
             return "si";
@@ -102,5 +138,8 @@ class controllerLogin extends Controller
         //return $user;
         //$user->useraccountcontrol="66048";
         
+    }
+    public function success(){
+        return view('auth.success');    
     }
 }

@@ -32,7 +32,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    protected $appends = ['correo'];
+    public $timestamps = false;
+    
     
     public function getCorreoAttribute()
     {
@@ -49,14 +50,5 @@ class User extends Authenticatable
     public function asignacionSucursal()
     {
         return $this->hasMany(AsignacionSucursal::class,'id');
-    }
-    public function setCreatedAtAttribute($date)
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
-    }
-
-    public function setUpdatedAtAttribute($date)
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
     }
 }

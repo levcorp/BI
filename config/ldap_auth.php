@@ -34,7 +34,7 @@ return [
         'nombre' => 'givenname',
         'apellido'=>'sn',
         'cargo'=>'title',
-        'celular'=>'telephonenumber',
+        'celular'=>'ipphone',
     ],
     'logging' => [
         'enabled' => env('LDAP_LOGGING', true),

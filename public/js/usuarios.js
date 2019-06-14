@@ -70140,24 +70140,38 @@ var Main = {
       this.title = row.titulo;
     },
     handlePassword: function handlePassword(index, row) {
-      swal({
-        title: "",
-        text: "Habilitar cambio de contraseña, en el siguiente inicio de sesión?",
+      swal("Habilitar cambio de contraseña?", {
         icon: "warning",
-        buttons: true,
-        successMode: true
-      }).then(function (willDelete) {
-        if (willDelete) {
-          var url = '/api/usuarios/' + row.objectguid + '/edit';
-          axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-            swal("Cambio de contraseña habilitada", {
-              icon: "success"
+        buttons: {
+          cancel: "Cancelar",
+          mail: {
+            text: "Correo Electronico",
+            value: "mail"
+          },
+          login: {
+            text: "Inicio de Sesion",
+            value: "login"
+          }
+        }
+      }).then(function (value) {
+        switch (value) {
+          case "mail":
+            var url = '/api/usuarios/change/' + row.objectguid;
+            axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+              swal("Exito!!", "Se envio un correo electronico al usuario para el cambio de contraseña", "success");
             });
-          }).catch(function (error) {
-            swal("Cambio de contraseña no habilitada el usuario no fue autentificado, ni una sola vez", {
-              icon: "error"
+            break;
+
+          case "login":
+            var url = '/api/usuarios/' + row.objectguid + '/edit';
+            axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+              if (response.data == 1) {
+                swal("Exito!!", "El usuario cambiara la contraseña en el siguiente inicio de sesion", "success");
+              } else {
+                swal("Error!!", "El usuario nunca hizo un inicio de sesion", "error");
+              }
             });
-          });
+            break;
         }
       });
     },

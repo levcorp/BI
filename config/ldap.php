@@ -49,7 +49,7 @@ return [
                 'account_suffix' => env('LDAP_ACCOUNT_SUFFIX', ''),
 
 
-                'hosts' => explode(' ', env('LDAP_HOSTS', 'ad-02.lev.local')),
+                'hosts' => explode(' ', env('LDAP_HOSTS', 'ad-01.lev.local')),
 
 
                 'port' => env('LDAP_PORT', 389),
@@ -62,7 +62,7 @@ return [
 
 
                 'username' => 'Administrador@lev',
-                'password' => 'Manager100',
+                'password' => 'Manager1000',
 
                 'follow_referrals' => false,
 

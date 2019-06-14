@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Panel;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\Usuario\Change;
 use App\User;
 use Adldap;
+use Str;
+use Mail;
 class controllerUsuario extends Controller
 {
     public function index()
@@ -43,7 +46,12 @@ class controllerUsuario extends Controller
     }
     public function edit($id)
     {
-        User::where('objectguid',$id)->first()->fill(['cambiar'=>1])->save();
+        if(User::where('objectguid',$id)->first()){
+            User::where('objectguid',$id)->first()->fill(['cambiar'=>1])->save();
+            return 1;
+        }else{
+            return 0;
+        }
     }
     public function update(Request $request, $id)
     {
@@ -62,6 +70,16 @@ class controllerUsuario extends Controller
         $user->department=$request->departamento;
         $user->company=$request->organizacion;
         $user->save();
+        if(User::where('objectguid',$id)->first()){
+            User::where('objectguid',$id)->first()->fill([
+                'email' => substr(strtolower($request->nombre), 0, 1)."".strtolower($request->apellido)."@levcorp.bo",
+                'nombre' => $request->nombre,
+                'apellido'=>$request->apellido,
+                'cargo'=>$request->puesto,
+                'celular'=>$request->telefono,
+            ])->save();
+        }
+       
     }
     public function destroy($id){
         User::findOrFail($id)->delete();
@@ -69,5 +87,28 @@ class controllerUsuario extends Controller
     public function mostrar($gui){
         $user=Adldap::search()->users()->findByGuid($gui);
         return response()->json(Adldap::search()->users()->findByGuid($gui));
+    }
+    public function change($id){
+        if(User::where('objectguid',$id)->first()){
+            $random = Str::random(40);
+            $url='http://localhost:8000/login/change/'.$random;
+            User::where('objectguid',$id)->first()->fill(['codigo'=>$random,'cambiar'=>1])->save();
+            Mail::send(new Change($url,User::where('objectguid',$id)->first()->email));
+        }else{
+            $ad=Adldap::search()->users()->findByGuid($id);
+            User::create([
+                'email' => $ad->mail,
+                'nombre' => $ad->givenname,
+                'apellido'=> $ad->sn,
+                'cargo'=> $ad->title,
+                'celular'=> $ad->telephonenumber,
+                'objectguid'=>$id,
+                'cambiar'=>1,
+            ]);
+            $random = Str::random(40);
+            $url='http://localhost:8000/login/change/'.$random;
+            User::where('objectguid',$id)->first()->fill(['codigo'=>$random])->save();
+            Mail::send(new Change($url,$ad->mail));
+        }   
     }
 }
