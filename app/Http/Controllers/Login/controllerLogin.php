@@ -53,7 +53,7 @@ class controllerLogin extends Controller
         if(User::where('email',$request->email)->count()>0){
             $random = Str::random(40);
             User::where('email',$request->email)->first()->fill(['codigo'=>$random])->save();
-            $url='http://localhost:8000/login/password/'.$random;
+            $url='https://bi.levcorp.bo/login/password/'.$random;
             Mail::send(new Reset($url,$request->email));
         }   
     }
@@ -83,7 +83,7 @@ class controllerLogin extends Controller
             $id=User::where('codigo',$id)->first()->id;
             return view('auth.change',compact('id')); 
         }else{
-            Session::flash('success',"No es posible realizar el cambiop de contraseña");
+            Session::flash('success',"No es posible realizar el cambio de contraseña");
             return redirect()->route('success');            
         }
     }
@@ -96,7 +96,7 @@ class controllerLogin extends Controller
                 User::findOrFail($request->id)->fill(['codigo'=>null,'cambiar'=>0])->save();
                 Auth::logout();
                 Session::flash('success','Contraseña fue Cambiada Correctamente');
-                return redirect()->route('log');
+                return redirect()->route('success');
             }else{
                 if(json_decode($response->getBody())==="Error usuario no encontrado"){
                     Session::flash('message',json_decode($response->getBody()));
@@ -118,7 +118,7 @@ class controllerLogin extends Controller
 
 
         $random = Str::random(40);
-        $url='http://localhost:8000/login/password/'.$random;
+        $url='https://bi.levcorp.bo/login/password/'.$random;
         return new Change($url,'gpinto@levcorp.bo');
         $nombre="Maurico";
         $apellido="Aramayo";

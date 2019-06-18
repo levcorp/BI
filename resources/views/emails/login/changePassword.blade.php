@@ -4,7 +4,7 @@
 Para cambiar la contraseña presione el siguiente boton y complete el formulario.
 
 @component('mail::button', ['url' => $url])
-Cambiar Contrañesa
+Cambiar Contraseña
 @endcomponent
 
 @endcomponent
