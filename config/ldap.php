@@ -2,34 +2,7 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Logging
-    |--------------------------------------------------------------------------
-    |
-    | This option enables logging all LDAP operations on all configured
-    | connections such as bind requests and CRUD operations.
-    |
-    | Log entries will be created in your default logging stack.
-    |
-    | This option is extremely helpful for debugging connectivity issues.
-    |
-    */
-
     'logging' => env('LDAP_LOGGING', false),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Connections
-    |--------------------------------------------------------------------------
-    |
-    | This array stores the connections that are added to Adldap. You can add
-    | as many connections as you like.
-    |
-    | The key is the name of the connection you wish to use and the value is
-    | an array of configuration settings.
-    |
-    */
 
     'connections' => [
 
