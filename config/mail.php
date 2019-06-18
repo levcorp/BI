@@ -4,20 +4,20 @@ return [
 
     'driver' => 'smtp',
 
-    'host' => 'correo.levcorp.bo',
+    'host' => '192.168.10.17',
 
     'port' => 587,
 
     'from' => [
-        'address' => 'admin@levcorp.bo',
+        'address' => 'bi@levcorp.bo',
         'name' => 'Sistemas',
     ],
 
     'encryption' =>'tls',
 
-    'username' => 'admin@levcorp.bo',
+    'username' => 'bi@levcorp.bo',
 
-    'password' => 'larcos',
+    'password' => 'Manager1000',
 
     "sendmail" => "/usr/sbin/sendmail -bs",
 

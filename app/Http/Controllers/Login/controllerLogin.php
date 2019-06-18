@@ -9,6 +9,7 @@ use App\Http\Requests\RequestLogin;
 use Adldap\Laravel\Facades\Adldap;
 use Illuminate\Http\Request;
 use App\Mail\Usuario\Reset;
+use App\Mail\Edi\Failure;
 use App\User;
 use Session;
 use Auth;
@@ -17,7 +18,7 @@ use Str;
 class controllerLogin extends Controller
 {
     public function __construct(){
-        return $this->middleware('guest')->except('logout','reset','postReset','emailReset','change','postChange','success');
+        return $this->middleware('guest')->except('logout','reset','postReset','emailReset','change','postChange','success','prueba');
     }
     public function log(){
         return view('auth.login');
@@ -113,6 +114,9 @@ class controllerLogin extends Controller
         }
     }
     public function prueba(){
+       return  Mail::send( new Failure);
+
+
         $random = Str::random(40);
         $url='http://localhost:8000/login/password/'.$random;
         return new Change($url,'gpinto@levcorp.bo');
