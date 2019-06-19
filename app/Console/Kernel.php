@@ -49,6 +49,8 @@ class Kernel extends ConsoleKernel
                  ->onFailure(function () {
                     Mail::send(new Failure);
                   });
+        $schedule->command('upc:null')
+                 ->dailyAt('17:00');
     }
     protected function commands()
     {

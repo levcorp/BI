@@ -30,4 +30,6 @@ Route::get('dashboard','Panel\controllerPanel@inicio')->name('dashboard');
 Route::get('panel/dashboard/{sector}','Panel\controllerPanel@sector')->name('filtroSector');
 ////////////////////////TEST/////////////////////////////////////
 Route::get('realizado','Login\controllerLogin@success')->name('success');
+Route::get('mobile','Login\controllerMobile@index')->name('index');
+
 Route::get('prueba','Login\controllerLogin@prueba')->name('prueba');

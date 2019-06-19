@@ -58,7 +58,7 @@ class EDIGPOS
     public function head($last,$next){
         $last=Carbon::parse($last)->format('Ymd');
         $next=Carbon::parse($next)->format('Ymd');
-        $SYS=$this->etiqueta(15,'SYS','802068825').$this->etiqueta(9,'X','005010').'867'.'T'.PHP_EOL;
+        $SYS=$this->etiqueta(15,'SYS','006097109AR1').$this->etiqueta(9,'X','005010').'867'.'T'.PHP_EOL;
         return $SYS;
     }
     public function CardCode($gpos)

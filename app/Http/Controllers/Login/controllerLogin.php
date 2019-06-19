@@ -16,6 +16,14 @@ use Session;
 use Auth;
 use Mail;
 use Str;
+
+use App\UPC;
+use App\UPC_OITM;
+use App\FeOCClie;
+use App\Price;
+use App\Track;
+use Carbon\Carbon;
+
 class controllerLogin extends Controller
 {
     public function __construct(){
@@ -126,7 +134,11 @@ class controllerLogin extends Controller
         } 
     }
     public function prueba(){
-        return "Hola";
+        return  UPC_OITM::whereDate('CreateDate','=','2019-06-17')->get();
+        //return UPC::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','<=','2019-06-15')->get();
+        //return FeOCClie::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','>=','2019-06-9')->get();
+        //return Price::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','>=','2019-06-9')->get();
+        //return Track::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','>=','2019-06-9')->get();
     }
     public function success(){
         return view('auth.success');    
