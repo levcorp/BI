@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Login;
 
 use App\Mail\Usuario\Change;
+use App\Http\Requests\RequestChangePassword;
 use App\Http\Requests\RequestPassword;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestLogin;
@@ -87,31 +88,42 @@ class controllerLogin extends Controller
             return redirect()->route('success');            
         }
     }
-    public function postChange(Request $request){   
-        if(Auth::attempt(['email' => User::findOrFail($request->id)->email, 'password' => $request->oldpassword])){
-            $user=explode("@",User::findOrFail($request->id)->email);
-            $client = new \GuzzleHttp\Client();
-            $response = $client->request('GET', 'http://apiad.levcorp.bo/api/password/change/'.$user[0].'/'.$request->oldpassword.'/'.$request->password);
-            if(json_decode($response->getBody())==="Contraseña cambiada correctamente"){
-                User::findOrFail($request->id)->fill(['codigo'=>null,'cambiar'=>0])->save();
-                Auth::logout();
-                Session::flash('success','Contraseña fue Cambiada Correctamente');
-                return redirect()->route('success');
-            }else{
-                if(json_decode($response->getBody())==="Error usuario no encontrado"){
-                    Session::flash('message',json_decode($response->getBody()));
-                    return back()->withInput();                         
-                }else{
-                    if(json_decode($response->getBody())==="Conexion fallida"){
-                        Session::flash('message',json_decode($response->getBody()));
-                        return back()->withInput();         
-                    }
+    public function postChange(RequestChangePassword $request){  
+        $foo = $request->password;
+        if (strlen(stristr($foo,User::findOrFail($request->id)->apellido))<=0) {
+        if (strlen(stristr($foo,User::findOrFail($request->id)->nombre))<=0) {
+                if(Auth::attempt(['email' => User::findOrFail($request->id)->email, 'password' => $request->oldpassword])){
+                    $user=explode("@",User::findOrFail($request->id)->email);
+                    $client = new \GuzzleHttp\Client();
+                    $response = $client->request('GET', 'http://apiad.levcorp.bo/api/password/change/'.$user[0].'/'.$request->oldpassword.'/'.$request->password);
+                    if(json_decode($response->getBody())==="Contraseña cambiada correctamente"){
+                        User::findOrFail($request->id)->fill(['codigo'=>null,'cambiar'=>0])->save();
+                        Auth::logout();
+                        Session::flash('success','Contraseña fue Cambiada Correctamente');
+                        return redirect()->route('success');
+                    }else{
+                        if(json_decode($response->getBody())==="Error usuario no encontrado"){
+                            Session::flash('message',json_decode($response->getBody()));
+                            return back()->withInput();                         
+                        }else{
+                            if(json_decode($response->getBody())==="Conexion fallida"){
+                                Session::flash('message',json_decode($response->getBody()));
+                                return back()->withInput();         
+                            }
+                        }
                 }
+            }else{
+                Session::flash('message','La anterior contraseña no es correcta');
+                return back()->withInput();       
             }
         }else{
-            Session::flash('message','La anterior contraseña no es correcta');
+            Session::flash('message','La contraseña no puede contener tu nombre o apellido');
             return back()->withInput();       
-        }
+        } 
+        }else{
+            Session::flash('message','La contraseña no puede contener tu nombre o apellido');
+            return back()->withInput();       
+        } 
     }
     public function prueba(){
         return "Hola";

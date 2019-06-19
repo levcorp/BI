@@ -90,7 +90,7 @@ class controllerUsuario extends Controller
     public function change($id){
         if(User::where('objectguid',$id)->first()){
             $random = Str::random(40);
-            $url='https://bi.levcorp.bo/login/change/'.$random;
+            $url=' http://localhost:8000/login/change/'.$random;
             User::where('objectguid',$id)->first()->fill(['codigo'=>$random,'cambiar'=>1])->save();
             Mail::send(new Change($url,User::where('objectguid',$id)->first()->email));
         }else{
@@ -105,10 +105,9 @@ class controllerUsuario extends Controller
                 'cambiar'=>1,
             ]);
             $random = Str::random(40);
-            $url='https://bi.levcorp.bo/login/change/'.$random;
+            $url=' http://localhost:8000/login/change/'.$random;
             User::where('objectguid',$id)->first()->fill(['codigo'=>$random])->save();
-            return "enviado";
-            //Mail::send(new Change($url,$ad->mail));
+            Mail::send(new Change($url,$ad->mail));
         }   
     }
 }
