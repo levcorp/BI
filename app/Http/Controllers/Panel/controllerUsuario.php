@@ -96,18 +96,19 @@ class controllerUsuario extends Controller
         }else{
             $ad=Adldap::search()->users()->findByGuid($id);
             User::create([
-                'email' => $ad->mail,
-                'nombre' => $ad->givenname,
-                'apellido'=> $ad->sn,
-                'cargo'=> $ad->title,
-                'celular'=> $ad->telephonenumber,
+                'email' => $ad->mail[0],
+                'nombre' => $ad->givenname[0],
+                'apellido'=> $ad->sn[0],
+                'cargo'=> $ad->title[0],
+                'celular'=> $ad->mobile[0],
                 'objectguid'=>$id,
                 'cambiar'=>1,
             ]);
             $random = Str::random(40);
             $url='https://bi.levcorp.bo/login/change/'.$random;
             User::where('objectguid',$id)->first()->fill(['codigo'=>$random])->save();
-            Mail::send(new Change($url,$ad->mail));
+            return "enviado";
+            //Mail::send(new Change($url,$ad->mail));
         }   
     }
 }

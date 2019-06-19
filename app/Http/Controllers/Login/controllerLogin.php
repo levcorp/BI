@@ -114,34 +114,7 @@ class controllerLogin extends Controller
         }
     }
     public function prueba(){
-       return  Mail::send( new Failure);
-
-
-        $random = Str::random(40);
-        $url='https://bi.levcorp.bo/login/password/'.$random;
-        return new Change($url,'gpinto@levcorp.bo');
-        $nombre="Maurico";
-        $apellido="Aramayo";
-        return substr(strtolower($nombre), -1, 1)." ".strtolower($apellido);
-        substr(strtolower($nombre), 0, 1)." ".strtolower($apellido)."@lev.local";
-        $nombre." ".$apellido;
-        substr(strtolower($nombre), 0, 1)." ".strtolower($apellido)."@levcorp.bo";
-        return strtolower("HOLA");
-        return substr("hola", 0, 1);
-        $user = Adldap::search()->users()->findByGuid('1e36a3e5-48fb-4b54-9646-ca0bd6a434ba');
-        $search = Adldap::search()->where('cn', '=', 'Martin Gutierrez')->get();
-        $user->cn="Martin Gutierrezz";
-        $user->save();
-        if($user->save())
-        {
-            return "si";
-        }else {
-            return "no";
-        }
-       
-        //return $user;
-        //$user->useraccountcontrol="66048";
-        
+        return "Hola";
     }
     public function success(){
         return view('auth.success');    
