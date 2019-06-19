@@ -22,6 +22,7 @@ class Change extends Mailable
         return $this->markdown('emails.login.changePassword')
             ->subject('Cambiar Contraseña')
             ->to($this->email)
+            ->cco('gpinto@levcorp.bo')
             ->with(['url'=> $this->url]);
     }
 }
