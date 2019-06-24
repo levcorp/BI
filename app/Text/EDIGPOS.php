@@ -24,7 +24,7 @@ class EDIGPOS
         $characters = array(
                             "A","E","I","O","U","N",
                         );
-        $find = array('#[^a-z0-9 A-Z./]#');        
+        $find = array('#[^a-z0-9 A-Z.]#');        
         $string=  str_replace($replace, $characters, $pharse);               
         return preg_replace($find, "", $string);	
     }

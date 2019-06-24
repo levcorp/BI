@@ -19,6 +19,9 @@ class CommandUPC extends Command
     {
         if(UPC_OITM::whereDate('CreateDate',Carbon::now())->count()>0){
             Mail::send(new MailUPC(UPC_OITM::whereDate('CreateDate',Carbon::now())->get()));
+            $this->info('El correo fue enviado Correctamente');
+        }else{
+            $this->info('No existen articulos nulos de la fecha '.Carbon::now());
         }
     }
 }

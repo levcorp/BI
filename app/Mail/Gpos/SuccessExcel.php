@@ -21,7 +21,6 @@ class SuccessExcel extends Mailable
     {
          return $this->view('emails.gpos.successExcel')
                     ->to(['sistemas@levcorp.bo','maramayo@levcorp.bo'])
-                    ->subject('Generacion GPOS Exitosa')
                     ->attach($this->name)
                     ->with(['count'=> $this->count]);
     }
