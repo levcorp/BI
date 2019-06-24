@@ -51,8 +51,8 @@ class Kernel extends ConsoleKernel
                   });
         $schedule->command('upc:null')
                  ->dailyAt('17:00');
-        $schedule->command('upc:null')
-                 ->weeklyOn(1,'17:00');
+        $schedule->command('gpos:validate')
+                 ->weeklyOn(5,'17:00');
     }
     protected function commands()
     {
