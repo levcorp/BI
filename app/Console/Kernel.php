@@ -43,11 +43,11 @@ class Kernel extends ConsoleKernel
                     $names=$gpos->names();
                     $count=$gpos->count();
                     $name=$gpos->name();
-                    Mail::send(new SuccessExcel($count,$name));
-                    Mail::send(new Success($counts,$names));      
+                    Mail::send(new SuccessGPOSExcel($count,$name));
+                    Mail::send(new SuccessGPOS($counts,$names));      
                   })
                  ->onFailure(function () {
-                    Mail::send(new Failure);
+                    Mail::send(new FailureGPOS);
                   });
         $schedule->command('upc:null')
                  ->dailyAt('17:00');

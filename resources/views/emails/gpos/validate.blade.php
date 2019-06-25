@@ -1,6 +1,12 @@
 @component('mail::message')
-# Validacion de Gpos 
-Articulos que no cuentan con UPC
+    <h1 style="position: absolute; text-align: center">
+        <strong>
+            Validación de GPOS
+        </strong>
+    </h1>
+<strong>
+    Articulos que no cuentan con UPC
+</strong>
 @if($cUPC>0)
 @component('mail::table')
 | Campo : | U_cat_id | 
@@ -15,10 +21,16 @@ Articulos que no cuentan con UPC
 @endcomponent
 @else
 <br>
-No existen articulos sin UPC
+<ul>
+    <li><p>
+    No existen articulos sin UPC.    
+    </p></li>
+</ul>
 @endif
 <br>
-Facturas que no cuentan con Fecha de Orden de Compra
+<strong>
+    Facturas que no cuentan con Fecha de Orden de Compra.
+</strong>
 @if($cFeOCClie>0)
 @component('mail::table')
 | Campo : | FeOCClie | 
@@ -33,10 +45,18 @@ Facturas que no cuentan con Fecha de Orden de Compra
 @endcomponent
 @else
 <br>
-No existen facturas sin Fecha de Orden de Compra
+<ul>
+    <li>
+        <p>
+            No existen facturas sin Fecha de Orden de Compra
+        </p>
+    </li>
+</ul>
 @endif
 <br>
-Articulos que no cuentan con lista de precio
+<strong>
+    Articulos que no cuentan con lista de precio
+</strong>
 @if($cPrice>0)
 @component('mail::table')
 | Campo : | Lista de Precios | 
@@ -51,10 +71,18 @@ Articulos que no cuentan con lista de precio
 @endcomponent
 @else
 <br>
-No existen articulos sin Precio
+<ul>
+    <li>
+        <p>
+            No existen articulos sin Precio
+        </p>
+    </li>
+</ul>
 @endif
 <br>
-Facturas de anticipo donde el campo TrackNo es vacio
+<strong>
+    Facturas de anticipo donde el campo TrackNo es vacio
+</strong>
 @if($cTrack>0)
 @component('mail::table')
 | Campo : | TrackNo | 
@@ -69,10 +97,20 @@ Facturas de anticipo donde el campo TrackNo es vacio
 @endcomponent
 @else
 <br>
-No existen Facturas donde el campo TrackNo es vacio
+<ul>
+    <li>
+        <p>
+            No existen Facturas donde el campo TrackNo es vacio
+        </p>
+    </li>
+</ul>
 @endif
 <br>
-Este es un mensaje fue enviado automaticamente, no es necesario que responda.
+<div style="position: absolute; text-align: center;">
+    <span style="color: darkgray; font-size: 10px;">
+            Este mensaje fue enviado automaticamente, no es necesario que responda.
+    </span>
+</div>
 @endcomponent   
 
 

@@ -1,6 +1,9 @@
 @component('mail::message')
-# Creación de Articulos ABM
-
+<h1 style="position: absolute; text-align: center">
+    <strong>
+        Creación de Articulos ABM
+    </strong>
+</h1>
 Datos de usuario que realizo el registro:
 @component('mail::table')
 | Nombre :      | {{$usuario->nombre." ".$usuario->apellido}} | 
@@ -15,7 +18,11 @@ Datos de usuario que realizo el registro:
 @endforeach
 @endcomponent
 
-Este es un mensaje fue enviado automaticamente, no es necesario que responda.
+<div style="position: absolute; text-align: center;">
+    <span style="color: darkgray; font-size: 10px;">
+            Este mensaje fue enviado automaticamente, no es necesario que responda.
+    </span>
+</div>
 @endcomponent   
 
 

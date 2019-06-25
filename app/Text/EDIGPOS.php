@@ -84,7 +84,7 @@ class EDIGPOS
                     /*---------Bill To Customer Name--------*/
                     $this->etiqueta(60,'DET',$this->charters($dato->BillToCustomerName)).
                     /*---------Bill To Address 1--------*/
-                    $this->etiqueta(60,'',$this->charters($dato->BillToAddres1)).
+                    $this->etiqueta(60,'',$this->charters($dato->BillToAddress1)).
                     /*---------Bill To Address 2--------*/
                     $this->etiqueta(60,'',$this->charters($dato->BillToAddress2)).
                     /*--------'Bill To City---------*/
@@ -173,9 +173,9 @@ class EDIGPOS
                     /*-------Agreement Number----------*/
                     $this->etiqueta(20,'',$dato->AgreementNumber).
                     /*-------Customer PO Number----------*/
-                    $this->etiqueta(20,'',$dato->CustomerPONumber).
+                    $this->etiqueta(20,'',$this->charters($dato->CustomerPONumber)).
                     /*-------Distributor Invoice Number----------*/
-                    $this->DistributorInvoiceNumber($dato->DistributorInvoiceNumber,$dato->NumAtCard).
+                    $this->DistributorInvoiceNumber($dato->DistributorInvoiceNumber,$dato->NumAtCard,$dato->ObjType).
                     /*-------Distributor Invoice Item----------*/
                     $this->etiqueta(20,'',$dato->NumLine).
                     /*--------Distributor Invoice Date---------*/
@@ -193,15 +193,19 @@ class EDIGPOS
         $body.=$this->etiqueta(10,'CTT',$count);
         return $body;
     }
-    public function DistributorInvoiceNumber($codSAP,$NumAtCard){
+    public function DistributorInvoiceNumber($codSAP,$NumAtCard,$ObjType){
         $cod=mb_strlen($codSAP);
-        $num=mb_strlen($NumAtCard);
-        $ceros=20-($cod+$num);
         $space='';
+        if($ObjType == 14){
+            $num=mb_strlen($NumAtCard.'NC');
+            $NumAtCard.='NC';
+        }else{
+            $num=mb_strlen($NumAtCard);
+        }
+        $ceros=20-($cod+$num);
         for($i=1;$i<=$ceros;$i++){
             $space.='0';
         }
-        //7391002260000000027412
         return $codSAP.$space.$NumAtCard;
     }
     public function etiqueta($max, $name, $value){
@@ -236,7 +240,7 @@ class EDIGPOS
         return $names;
     }
     public function name(){
-        $name=base_path().'\public\archivos\gpos\Excel\GPOS'.$this->lastSunday->format('Y-m-d').'a'.$this->nextSaturday->format('Y-m-d').'.xlsx';
+        $name=base_path().'\public\archivos\gpos\Excel\GPOS'.$this->lastSunday->format('Ymd').'a'.$this->nextSaturday->format('Ymd').'.xlsx';
         return $name;
     }
 }

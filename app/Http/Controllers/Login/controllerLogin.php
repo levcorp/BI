@@ -24,6 +24,10 @@ use App\Price;
 use App\Track;
 use Carbon\Carbon;
 
+use App\GPOS;
+use App\Mail\Gpos\SuccessExcel as SuccessGPOSExcel;
+use App\Text\EDIGPOS;
+
 class controllerLogin extends Controller
 {
     public function __construct(){
@@ -134,7 +138,7 @@ class controllerLogin extends Controller
         } 
     }
     public function prueba(){
-        return  UPC_OITM::whereDate('CreateDate','=','2019-06-17')->get();
+
         //return UPC::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','<=','2019-06-15')->get();
         //return FeOCClie::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','>=','2019-06-9')->get();
         //return Price::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','>=','2019-06-9')->get();
