@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Panel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Modulo;
+use App\AsignacionPerfilModulo;
 class controllerModulo extends Controller
 {
     public function index(){
         return response()->json(Modulo::all());
+    }
+    public function show($id){
     }
     public function store(Request $request){
         Modulo::create(all());

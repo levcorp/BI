@@ -9,30 +9,27 @@ use App\User;
 use Adldap;
 use Str;
 use Mail;
+use Carbon\Carbon;
+use Image;
+use App\Sucursal;
+
 class controllerUsuario extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $users=Adldap::search()->users()->where('name','!=','Administrador')->where('name','!=','Invitado')->where('name','!=','krbtgt')->where('name','!=','dns-NS')->get();
         return response()->json($users);
     }
-    public function create()
-    {
-    
+    //sucursales
+    public function create(){
+        return response()->json(Sucursal::select('nombre','id')->get());
     }
-    public function store(Request $request)
-    {
-        User::create([ 
-            'nombre'=>$request->nombre, 
-            'apellido'=>$request->apellido,
-            'email'=>$request->email,
-            'password'=>$request->password,
-            'cargo'=>$request->cargo,
-            'estado'=>$request->estado,
-            'global'=>$request->global,
-            'especialidad'=>$request->especialidad,
-            'sector'=>$request->sector
-        ]);
+    public function store(Request $request){
+        $imageData = $request->get('image');
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        Image::make($request->get('image'))->resize(160, 160)->save(public_path('archivos\perfil\\img').$fileName);
+        User::findOrFail($request->id)->fill([
+            'avatar'=>'img'.$fileName
+        ])->save();
     }
     public function show($id)
     {
@@ -56,27 +53,28 @@ class controllerUsuario extends Controller
     public function update(Request $request, $id)
     {
         $user=Adldap::search()->users()->findByGuid($id);
-        $user->givenname=$request->nombre;
-        $user->sn=$request->apellido;
-        $user->samaccountname=substr(strtolower($request->nombre), 0, 1)."".strtolower($request->apellido);
-        $user->userprincipalname=substr(strtolower($request->nombre), 0, 1)."".strtolower($request->apellido)."@lev.local";
-        $user->displayname=$request->nombre." ".$request->apellido;
-        $user->mail=substr(strtolower($request->nombre), 0, 1)."".strtolower($request->apellido)."@levcorp.bo";
-        $user->l=$request->ciudad;
-        $user->c=$request->pais;
-        $user->mobile=$request->celular;
-        $user->ipphone=$request->telefono;
-        $user->title=$request->puesto;
-        $user->department=$request->departamento;
-        $user->company=$request->organizacion;
+        $user->givenname=$request->givenname[0];
+        $user->sn=$request->sn;
+        $user->samaccountname=substr(strtolower($request->givenname[0]), 0, 1).strtolower($request->sn[0]);
+        $user->userprincipalname=substr(strtolower($request->givenname[0]), 0, 1).strtolower($request->sn[0])."@lev.local";
+        $user->displayname=$request->givenname[0]." ".$request->sn[0];
+        $user->mail=substr(strtolower($request->givenname[0]), 0, 1)."".strtolower($request->sn[0])."@levcorp.bo";
+        $user->l=$request->l[0];
+        $user->c=$request->c[0];
+        $user->mobile=$request->mobile[0];
+        $user->ipphone=$request->ipphone[0];
+        $user->title=$request->title[0];
+        $user->department=$request->department[0];
+        $user->company=$request->company[0];
         $user->save();
         if(User::where('objectguid',$id)->first()){
             User::where('objectguid',$id)->first()->fill([
-                'email' => substr(strtolower($request->nombre), 0, 1)."".strtolower($request->apellido)."@levcorp.bo",
-                'nombre' => $request->nombre,
-                'apellido'=>$request->apellido,
-                'cargo'=>$request->puesto,
-                'celular'=>$request->telefono,
+                'email' => substr(strtolower($request->givenname[0]), 0, 1).strtolower($request->sn[0])."@levcorp.bo",
+                'nombre' => $request->givenname[0],
+                'apellido'=>$request->sn[0],
+                'cargo'=>$request->title[0],
+                'celular'=>$request->ipphone[0],
+                'sucursal_id'=>$request->sucursal_id
             ])->save();
         } 
     }
@@ -84,8 +82,13 @@ class controllerUsuario extends Controller
         User::findOrFail($id)->delete();
     }
     public function mostrar($gui){
-        $user=Adldap::search()->users()->findByGuid($gui);
-        return response()->json(Adldap::search()->users()->findByGuid($gui));
+        $user=User::where('objectguid',$gui)->with('sucursal')->first();
+        if($user)
+        {
+            return response()->json(Sucursal::where('id',$user->sucursal_id)->first());
+        }else{
+            return response()->json(null);
+        }
     }
     public function change($id){
         if(User::where('objectguid',$id)->first()){

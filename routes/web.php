@@ -6,7 +6,8 @@ Route::resource('panel/solicitud','Panel\controllerABMSolicitud')->except(['show
 ////////////////////////PERFIL/////////////////////////////////////+
 Route::get('panel/perfiles','Panel\controllerPanel@perfiles')->name('perfiles');  
 ////////////////////////ROLES/////////////////////////////////////+
-Route::get('panel/modulos','Panel\controllerPanel@modulos')->name('modulos');  
+Route::get('panel/sucursales','Panel\controllerPanel@sucursales')->name('sucursales');  
+
 ////////////////////////EDI/////////////////////////////////////+
 Route::get('panel/gpos/datos','controllerGPOS@datos');
 Route::get('panel/gpos','Panel\controllerPanel@gpos')->name('gpos');  
@@ -30,6 +31,6 @@ Route::get('dashboard','Panel\controllerPanel@inicio')->name('dashboard');
 Route::get('panel/dashboard/{sector}','Panel\controllerPanel@sector')->name('filtroSector');
 ////////////////////////TEST/////////////////////////////////////
 Route::get('realizado','Login\controllerLogin@success')->name('success');
-Route::get('mobile','Login\controllerMobile@index')->name('index');
+//Route::get('mobile','Login\controllerMobile@index')->name('index');
 
 Route::get('prueba','Login\controllerLogin@prueba')->name('prueba');

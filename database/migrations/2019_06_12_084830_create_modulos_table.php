@@ -16,9 +16,7 @@ class CreateModulosTable extends Migration
         Schema::create('modulos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('menu_principal');
-            $table->string('barra_tareas');
-            $table->string('menu_contextual');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

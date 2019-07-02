@@ -4,8 +4,9 @@
     "/js/edi.js": "/js/edi.js",
     "/js/gpos.js": "/js/gpos.js",
     "/js/login.js": "/js/login.js",
-    "/js/modulo.js": "/js/modulo.js",
     "/js/perfil.js": "/js/perfil.js",
     "/js/reset.js": "/js/reset.js",
+    "/js/sucursal.js": "/js/sucursal.js",
+    "/js/usuario.js": "/js/usuario.js",
     "/js/usuarios.js": "/js/usuarios.js"
 }

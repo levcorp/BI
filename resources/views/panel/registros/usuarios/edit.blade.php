@@ -9,36 +9,42 @@
         <div class="modal-body">
             <el-form ref="form" :model="updateUser" label-width="120px" size="mini">
             <el-form-item label="Nombre">
-                <el-input type="text" v-model="updateUser.nombre"></el-input>
+                <el-input type="text" v-model="updateUser.givenname"></el-input>
             </el-form-item>
             <el-form-item label="Apellido">
-                <el-input type="text" v-model="updateUser.apellido"></el-input>
+                <el-input type="text" v-model="updateUser.sn"></el-input>
             </el-form-item>
             <el-form-item label="Email">
-                <el-input type="email" v-model="updateUser.email" :disabled="true"></el-input>
+                <el-input type="email" v-model="updateUser.mail" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="Ciudad">
-                <el-input type="text" v-model="updateUser.ciudad"></el-input>
+                <el-input type="text" v-model="updateUser.l"></el-input>
             </el-form-item>
             <el-form-item label="Pais">
-                <el-input type="text" v-model="updateUser.pais"></el-input>
+                <el-input type="text" v-model="updateUser.c"></el-input>
             </el-form-item>
               <el-form-item label="Celular">
-                <el-input type="text" v-model="updateUser.celular"></el-input>
+                <el-input type="text" v-model="updateUser.mobile"></el-input>
             </el-form-item>
             <el-form-item label="Telefono">
-                <el-input type="number" v-model="updateUser.telefono"></el-input>
+                <el-input type="number" v-model="updateUser.ipphone"></el-input>
             </el-form-item>
             <el-form-item label="Puesto">
-                <el-input type="text" v-model="updateUser.puesto"></el-input>
+                <el-input type="text" v-model="updateUser.title"></el-input>
             </el-form-item>
-            <el-form-item label="Organizacion">
-                <el-input type="text" v-model="updateUser.organizacion "></el-input>
+            <el-form-item label="Departamento">
+                <el-input type="text" v-model="updateUser.department"></el-input>
+            </el-form-item>
+            <el-form-item label="Sucursal">
+                <el-select v-model="updateUser.sucursal_id" clearable placeholder="Seleccionar Sucursal" style="width: 100%;">
+                    <el-option v-for="item in sucursales" :key="item.id" :label="item.nombre" :value="item.id">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item size="large">
                 <el-button type="primary" @click="putUser()">Actualizar</el-button>
                 <el-button @click="cerrarShow()">Cancel</el-button>
-            </el-form-item>
+            </el-form-item>   
             </el-form>
         </div>
         </div>
@@ -46,4 +52,3 @@
     <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-</div>

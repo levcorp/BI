@@ -4,10 +4,12 @@ mix.js('resources/js/SolicitudABM.js','public/js/app.js');
 mix.js('resources/js/usuarios.js', 'public/js/usuarios.js');
 mix.js('resources/js/edi.js', 'public/js/edi.js');
 mix.js('resources/js/gpos.js', 'public/js/gpos.js');
-mix.js('resources/js/modulo.js', 'public/js/');
 mix.js('resources/js/reset.js', 'public/js/');
 mix.js('resources/js/login.js', 'public/js/');
 mix.js('resources/js/perfil.js', 'public/js/');
+mix.js('resources/js/sucursal.js', 'public/js/');
+mix.js('resources/js/usuario.js', 'public/js/');
+
 
 
 

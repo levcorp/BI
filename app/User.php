@@ -19,12 +19,16 @@ class User extends Authenticatable
         'cargo',
         'estado',
         'global',
-        'especialidad',
-        'sector',
+        'departamento',
+        'ciudad',
         'celular',
         'codigo',
         'cambiar',
-        'objectguid'
+        'perfil_id',
+        'objectguid',
+        'interno',
+        'avatar',
+        'sucursal_id'
     ];
     protected $hidden = [
         'password', 'remember_token',
@@ -33,22 +37,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public $timestamps = false;
+    public function sucursal(){
+        return $this->belongsTo(Sucursal::class,'sucursal_id');
+    }
+    public function perfil(){
+        return $this->belongsTo(Perfil::class,'perfil_id');
+    }
     
-    
-    public function getCorreoAttribute()
-    {
-        return $this->attribute['email'];
-    }
-    public function asignacionDashboard()
-    {
-        return $this->hasMany(AsignacionDashboard::class,'id');
-    }
-    public function asignacionRol()
-    {
-        return $this->hasMany(AsignacionRol::class,'id');
-    }
-    public function asignacionSucursal()
-    {
-        return $this->hasMany(AsignacionSucursal::class,'id');
-    }
 }

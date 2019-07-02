@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,10 +31,10 @@
       </section> 
 
     <!-- Main content -->
-      <section class="content">
+      <section class="content" >
         @yield('contenido')
         <!-- /.row -->
-
+        @include('panel.registros.usuarios.usuario')
       </section>
     <!-- /.content -->
     </div>

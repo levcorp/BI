@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html >
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +15,7 @@
 <!-- Site wrapper -->
   <div class="wrapper">
 
-    @include('panel.secciones.header.header')
+    @include('panel.secciones.header.header') 
 
     <!-- =============================================== -->
 
@@ -33,6 +33,8 @@
 
     <!-- Main content -->
       <section class="content">
+      @if(isset(Auth::user()->perfil->asignacionModulo))
+      @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','4'))
       <div class="row">
         <div class="col-md-12">
           <!-- /.box -->
@@ -67,12 +69,16 @@
           </div>
           <!-- /.col (RIGHT) -->
         </div>
-        <!-- /.row -->
+      @endif
+      @endif
 
+        <!-- /.row -->
       </section>
+
     <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    @include('panel.registros.usuarios.usuario')
 
     @include('panel.secciones.footer')
 
@@ -84,6 +90,7 @@
     <div class="control-sidebar-bg"></div>
   </div>
 <!-- ./wrapper -->
+  <script src="{{asset('js/usuario.js')}}"></script>  
   @include('panel.secciones.styles.js')
   @include('panel.dashboard.styles.js')
   @yield('script')

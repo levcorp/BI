@@ -8,11 +8,20 @@ class Sucursal extends Model
 {
     protected $table='sucursals';
     protected $fillable=[
-        'sucursal'    
+        'nombre',
+        'direccion',
+        'ciudad',
+        'telefono',
+        'fax',
+        'celular',
+        'correo',
+        'create',
+        'update'    
     ];
+    public $timestamps = false;
     
-    public function asignacion()
+    public function usuarios()
     {
-        return $this->hasMany(App\AsignacionSucursal::class);
+        return $this->hasMany(App\User::class,'id');
     }
 }

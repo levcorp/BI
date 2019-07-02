@@ -4,69 +4,100 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Datos del Usuario</h4>
+            <h4 class="modal-title">Datos del usuario</h4>
         </div>
         <div class="modal-body">
         <table class="table">
             <tbody>
             <tr>
                 <td>Nombre</td>
-                <td>
-                    @{{usuario.nombre}}
+                <td v-for="item in usuario.givenname">
+                    @{{item}}
                 </td>
             </tr>
             <tr>
                 <td>Apellido</td>
-                <td>
-                    @{{usuario.apellido}}               
+                <td v-for="item in usuario.sn">
+                      @{{item}}         
                 </td>
             </tr>
             <tr>
                 <td>Correo Electronico</td>
-                <td>
-                    @{{usuario.email}}                           
+                <td v-for="item in usuario.mail">
+                      @{{item}}                         
                 </td>
             </tr>
             <tr>
                 <td>Ciudad</td>
-                <td>
-                    @{{usuario.ciudad}}                                         
+                <td v-for="item in usuario.l">
+                     @{{item}}                                      
                 </td>
             </tr>
             <tr>
                 <td>Pais</td>
-                <td>
-                    @{{usuario.pais}}                                                       
+                <td v-for="item in usuario.c">
+                     @{{item}}                                                    
                 </td>
             </tr>
                  <tr>
                 <td>Movil</td>
-                <td>
-                    @{{usuario.celular}}                                                       
+                <td v-for="item in usuario.mobile">
+                     @{{item}}                                                    
                 </td>
             </tr>
                  <tr>
                 <td>Telefono</td>
-                <td>
-                    @{{usuario.telefono}}
+                <td v-for="item in usuario.ipphone">
+                     @{{item}}
                 </td>
             </tr>
                  <tr>
                 <td>Puesto</td>
-                <td>
-                    @{{usuario.puesto}}              
+                <td v-for="item in usuario.title">
+                     @{{item}}          
                 </td>
             </tr>
                  <tr>
                 <td>Departamento</td>
-                <td>
-                    @{{usuario.departamento}}                                  
+                <td v-for="item in usuario.department">
+                     @{{item}}                              
                 </td>
             </tr>
                  <tr>
                 <td>Organización</td>
+                <td v-for="item in usuario.company">
+                     @{{item}}                                              
+                </td>
+            </tr>
+              <tr>
+                <td>Sucursal</td>
                 <td>
-                    @{{usuario.organizacion}}                                                
+                    <el-popover
+                    placement="top"
+                    width="300"
+                    trigger="click">
+                    <el-row>
+                        <el-col span="12"><strong>Ciudad :</strong></el-col>
+                        <el-col span="12">@{{sucursal.ciudad}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col span="12"><strong>Correo :</strong></el-col>
+                        <el-col span="12">@{{sucursal.correo}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col span="12"><strong>Direccion :</strong></el-col>
+                        <el-col span="12">@{{sucursal.direccion}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col span="12"><strong>Telefono :</strong></el-col>
+                        <el-col span="12">@{{sucursal.telefono}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col span="12"><strong>Fax :</strong></el-col>
+                        <el-col span="12">@{{sucursal.fax}}</el-col>
+                    </el-row>
+                    <el-button slot="reference" size="mini">@{{sucursal.nombre}}</el-button>
+                    </el-popover>                                              
                 </td>
             </tr>
             </tbody>
@@ -74,7 +105,4 @@
         </div>
         </div>
     </div>
-    <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
 </div>

@@ -138,7 +138,15 @@ class controllerLogin extends Controller
         } 
     }
     public function prueba(){
-
+        if(isset(Auth::user()->perfil->asignacionModulo)){
+                if (Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','2')){
+                    return "encontrado";
+                }else{
+                    return "no encontrado";
+                }
+        }else{
+            return "false";
+        }
         //return UPC::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','<=','2019-06-15')->get();
         //return FeOCClie::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','>=','2019-06-9')->get();
         //return Price::whereDate('DocDate','>=','2019-06-9')->whereDate('DocDate','>=','2019-06-9')->get();

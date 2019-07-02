@@ -502,4 +502,5 @@
     toastr.info("{{Session::get("mensaje")}}");
 </script>
 @endsection 
+
 @stop

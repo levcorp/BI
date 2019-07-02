@@ -21,7 +21,8 @@ class controllerDetalleSolicitud extends Controller
 {
     public function __construct()
     {
-      $this->middleware('panel',['only'=>'show']);        
+        $this->middleware('Check',['only'=>'show']);
+        $this->middleware('ArticulosABM',['only'=>'show']);        
     }
     public function index()
     {

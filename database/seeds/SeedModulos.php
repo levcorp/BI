@@ -8,17 +8,33 @@ class SeedModulos extends Seeder
     {
         $data=array(
             [
-                'titulo'=>'ArticulosABM',
-                'descripcion'=>'Registro de Articulos ABM',
+                'nombre'=>'ArticulosABM',
+                'descripcion'=>'Articulos ABM'
             ],
             [
-                'titulo'=>'EDI852',
-                'descripcion'=>'EDI 852 de Articulos',
+                'nombre'=>'EDI852',
+                'descripcion'=>'Articulos reportados a rockwell'
             ],
             [
-                'titulo'=>'EDI867',
-                'descripcion'=>'EDI 867 GPOS',
-            ]
+                'nombre'=>'EDI867',
+                'descripcion'=>'GPOS Faturas reportadas a Rockwell'
+            ],
+            [
+                'nombre'=>'Ventas',
+                'descripcion'=>'Panel de Graficas de Ventas'
+            ],
+            [
+                'nombre'=>'Usuarios',
+                'descripcion'=>'Usuarios',
+            ],
+            [
+                'nombre'=>'Perfiles',
+                'descripcion'=>'Perfiles',
+            ],
+            [
+                'nombre'=>'Sucursales',
+                'descripcion'=>'Sucursales',
+            ],
         );
         Modulo::insert($data);
     }

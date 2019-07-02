@@ -16,7 +16,11 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Entra para comenzar la sesión</p>
+    <p class="login-box-msg">
+      <strong>
+          Entra para comenzar la sesión
+      </strong>
+    </p>
     @if(Session::has('message'))
         <div class="alert alert-danger alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:white"><span aria-hidden="true">&times;</span></button>
@@ -27,36 +31,37 @@
     <form action="{{ route('login') }}" method="post">
         @csrf
       <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
-        <input type="text" class="form-control" placeholder="Correo Electronico"  name="email" value="{{ old('email') }}" autofocus>
+        <el-input placeholder="Correo Electronico" name="email" v-model="email" value="{{ old('email') }}" focus></el-input>
         @if ($errors->has('email'))
             <span id="helpBlock2" class="help-block">{{ $errors->first('email') }}</span>
         @endif
       </div>
       <div class="form-group has-feedback {{ $errors->has('password') ? ' has-error' : '' }}">
-        <input type="password" class="form-control" placeholder="Contraseña" name="password" value="{{ old('password') }}">
+        <el-input type="password" placeholder="Contraseña" name="password" v-model="password" value="{{ old
+        ('password') }}"></el-input>
         @if ($errors->has('password'))
             <span id="helpBlock2" class="help-block">{{ $errors->first('password') }}</span>
         @endif
       </div>
       <div class="row">
-        <div class="col-sm-6">
-            <el-link icon="el-icon-unlock" @click="reset" type="primary">Olvide mi contraseña</el-link>
-        </div>
-      </div>
-      <div class="row">
         <div class="col-xs-8">
-          <div class="checkbox icheck">
             <label>
-              <input type="checkbox" name="remember"> Recuerdame
+               <el-checkbox border name="remember">Recuerdame</el-checkbox>
             </label>
-          </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+          <el-button type="primary" round native-type="submit">Entrar</el-button>
         </div>
         <!-- /.col -->
       </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="text-center">
+              <el-link icon="el-icon-unlock" @click="reset" type="primary">Olvide mi contraseña</el-link>
+            </div>
+          </div>
+        </div>
     </form>
     <!-- /.social-auth-links -->
 

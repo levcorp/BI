@@ -41,7 +41,7 @@
     <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-
+    @include('panel.registros.usuarios.usuario')
     @include('panel.secciones.footer')
 
     <!-- Control Sidebar -->
@@ -53,6 +53,8 @@
   </div>
 <!-- ./wrapper -->
   @include('panel.secciones.styles.js')
+<script src="{{asset('js/usuario.js')}}"></script>
+
   @yield('script')
 </body>
 </html>

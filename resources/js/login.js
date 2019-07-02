@@ -12,7 +12,8 @@ Vue.use(ElementUI);
 var Main = {
     data() {
         return {
-
+            email:'',
+            password:'',
         }
     },
     methods: {

@@ -16,7 +16,7 @@ class CreateAsignacionPerfilModulosTable extends Migration
         Schema::create('asignacion_perfil_modulos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('perfil_id')->unsigned();
-            $table->integer('modulo_id')->unsigned()->nullable();
+            $table->integer('modulo_id')->unsigned();
             $table->foreign('perfil_id')->references('id')->on('perfils')->onDelete('cascade');
             $table->foreign('modulo_id')->references('id')->on('modulos')->onDelete('cascade');
             $table->timestamps();

@@ -17,7 +17,8 @@ class controllerEDI extends Controller
 {    
     public function __construct()
     {
-      $this->middleware('panel',['only'=>'index']);
+        $this->middleware('Check',['only'=>'index']);
+        $this->middleware('EDI852',['only'=>'index']);        
     }
     public function index(){  
         return view('panel.registros.edi.index');

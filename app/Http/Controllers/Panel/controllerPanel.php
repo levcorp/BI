@@ -14,7 +14,11 @@ use Auth;
 class controllerPanel extends Controller
 {
     public function __construct(){
-        $this->middleware('panel');
+        $this->middleware('Check',['only'=>['inicio','newInicio','sector','newSector','usuarios','gpos','perfiles','sucursales']]);
+        $this->middleware('Usuarios',['only'=>'usuarios']);
+        $this->middleware('EDI867',['only'=>'gpos']);
+        $this->middleware('Perfiles',['only'=>'perfiles']);
+        $this->middleware('Sucursales',['only'=>'sucursales']);
     }
     public function newInicio(){
         $titulo="General";
@@ -146,10 +150,10 @@ class controllerPanel extends Controller
     public function gpos(){
         return view('panel.registros.gpos.index');
     }
-    public function modulos(){
-        return view('panel.registros.modulos.index');
-    }
     public function perfiles(){
         return view('panel.registros.perfil.index');
+    }
+    public function sucursales(){
+        return view('panel.registros.sucursal.index');
     }
 }

@@ -21,7 +21,8 @@ class controllerABMSolicitud extends Controller
 {
     public function __construct()
     {
-      $this->middleware('panel',['only'=>'index']);
+      $this->middleware('Check',['only'=>'index']);
+      $this->middleware('ArticulosABM',['only'=>'index']);
     }
     public function xml($url){
         return $archivo="<Transfer>

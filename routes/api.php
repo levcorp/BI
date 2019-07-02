@@ -1,6 +1,14 @@
 <?php
+Route::resource('sucursales', 'Panel\controllerSucursal')->except(['show','create','edit']);
 /////////////////////Proyecto//////////////////////////////////
-Route::resource('perfiles', 'Panel\controllerPerfil')->except(['show','create','edit']);
+Route::post('perfiles/userremove', 'Panel\controllerPerfil@userRemove')->name('userRemove');
+Route::post('perfiles/useradd', 'Panel\controllerPerfil@userAdd')->name('userAdd');
+Route::get('perfiles/useraddlist/{perfil_id}', 'Panel\controllerPerfil@userAddList')->name('userAddList');
+Route::get('perfiles/userremovelist/{perfil_id}', 'Panel\controllerPerfil@userRemoveList')->name('userRemoveList');
+
+Route::get('perfiles/remove/{perfil_id}/{modulo_id}', 'Panel\controllerPerfil@remove')->name('perfilremove');
+Route::get('perfiles/add/{perfil_id}/{modulo_id}', 'Panel\controllerPerfil@add')->name('perfiladd');
+Route::resource('perfiles', 'Panel\controllerPerfil')->except(['create']);
 /////////////////////Proyecto//////////////////////////////////
 //Route::resource('equipos', 'Panel\Proyecto\controllerEquipo')->except(['show','create','edit']);
 /////////////////////Proyecto//////////////////////////////////

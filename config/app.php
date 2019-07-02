@@ -67,7 +67,8 @@ return [
         Adldap\Laravel\AdldapServiceProvider::class,
         Adldap\Laravel\AdldapAuthServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
-        RealRashid\SweetAlert\SweetAlertServiceProvider::class
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
     'aliases' => [
 
@@ -114,5 +115,6 @@ return [
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
         'Date' => Jenssegers\Date\Date::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 ];

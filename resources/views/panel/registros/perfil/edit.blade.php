@@ -1,28 +1,26 @@
-<div class="modal fade" id="edit"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-md" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Modificar Usuario</h4>
-        </div>
-        <div class="modal-body">
-            <el-form ref="form" :model="perfil" label-width="120px" size="mini">
-            <el-form-item label="Nombre">
-                <el-input type="text" v-model="perfil.nombre"></el-input>
-            </el-form-item>
-            <el-form-item label="Descripcion">
-                <el-input type="textarea" v-model="perfil.descripcion"></el-input>
-            </el-form-item>
-            <el-form-item size="large">
-                <el-button type="primary" @click="update()  ">Actualizar</el-button>
-                <el-button @click="closeEdit()">Cancel</el-button>
-            </el-form-item>
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Editar Perfil</h4>
+          </div>
+          <el-form ref="formUpdate" :rules="rules" :model="Uperfil" size="mini">
+          <div class="modal-body">
+                <el-form-item label="Nombre de Perfil" prop="nombre">
+                    <el-input v-model="Uperfil.nombre"></el-input>
+                </el-form-item>
+                <el-form-item label="Descripcion" prop="descripcion">
+                    <el-input type="textarea" v-model="Uperfil.descripcion"></el-input>
+                </el-form-item>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <el-button size="mini" type="default" icon="el-icon-close" data-dismiss="modal"> Cerrar</el-button>
+                    <el-button size="mini" type="primary" icon="el-icon-check" @click="handleUpdate()"> Guardar</el-button>
+                </div>
+            </div>
             </el-form>
         </div>
-        </div>
+      </div>
     </div>
-    <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>

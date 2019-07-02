@@ -22,7 +22,7 @@ return [
                 'account_suffix' => env('LDAP_ACCOUNT_SUFFIX', ''),
 
 
-                'hosts' => explode(' ', env('LDAP_HOSTS', 'ad-01.lev.local')),
+                'hosts' => explode(' ', env('LDAP_HOSTS', '192.168.10.6')),
 
 
                 'port' => env('LDAP_PORT', 389),
