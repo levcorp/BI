@@ -26,7 +26,7 @@
             </template>
             </el-table-column>
             <!---<el-table-column align="center" prop="memberof[0]" label="Miembro" width="180"></el-table-column>-->
-            <el-table-column align="center" label="Operaciones" width="380">
+            <el-table-column align="center" label="Operaciones" width="280">
               <template slot="header" slot-scope="scope">
                 <el-input
                   v-model="search"
