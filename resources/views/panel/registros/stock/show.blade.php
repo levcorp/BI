@@ -19,7 +19,7 @@
                 </div>    
             </div>
             <br>
-            <el-table :data="stock" style="width: 100%" height="330" highlight-current-row v-loading="loadingStock">
+            <el-table :data="stock" style="width: 100%" height="330" highlight-current-row v-loading="loadingStock" header-row-style="font-size: 12px;" border>
                 <el-table-column align="center" prop="EMPRESA" label="Empresa"></el-table-column>
                 <el-table-column align="center" prop="ALMACEN" label="Almacen"></el-table-column>
                 <el-table-column align="center" prop="OnHand" label="En Stock">
@@ -62,7 +62,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="Cantidad OV" >
+                <el-table-column align="center" label="Cant. OV" >
                     <template slot-scope="scope">
                         <el-tag
                         :type="scope.row.OV === '0.00' ? 'info' : 'success'"
@@ -70,7 +70,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="Cantidad Compra">
+                <el-table-column align="center" label="Cant. Compra" width="100">
                     <template slot-scope="scope">
                         <el-tag
                         :type="scope.row.PO === '0.00' ? 'info' : 'success'"
@@ -86,7 +86,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" prop="Clasificacion" label="Clasificación"  width="115"></el-table-column>
+                <el-table-column align="center" prop="Clasificacion" label="Clasificación"  width="100"></el-table-column>
             </el-table>
         </div>
         <div class="modal-footer">
