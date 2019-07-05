@@ -70054,8 +70054,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var CancelToken = axios__WEBPACK_IMPORTED_MODULE_1___default.a.CancelToken;
-var cancel;
 element_ui_lib_locale__WEBPACK_IMPORTED_MODULE_5___default.a.use(element_ui_lib_locale_lang_es__WEBPACK_IMPORTED_MODULE_4___default.a);
 vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.use(element_ui__WEBPACK_IMPORTED_MODULE_2___default.a);
 var Main = {

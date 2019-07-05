@@ -5,8 +5,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
 import round from 'vue-round-filter'
-const CancelToken = axios.CancelToken;
-let cancel;
 
 locale.use(lang);
 Vue.use(ElementUI);
