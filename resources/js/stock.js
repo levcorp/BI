@@ -30,8 +30,8 @@ var Main = {
             this.items=[];
             this.loading=true;
             axios.post(url,{
-                ItemName:this.inputs.ItemName,
-                U_Cod_Vent:this.inputs.U_Cod_Vent
+                ItemName : this.inputs.ItemName,
+                U_Cod_Vent : this.inputs.U_Cod_Vent
             }).then(response=>{
                 if (response.data) {
                     this.items=response.data;
@@ -40,12 +40,14 @@ var Main = {
             });
         },
         handleShow(index,row){
-            var url='/api/stock/'+row.U_Cod_Vent;
+            var url='/api/stock/detalle';
             this.stock=[];
             this.item=[];
             $('#show').modal('show');         
             this.loadingStock=true;
-            axios.get(url).then(response=>{
+            axios.post(url,{
+                U_Cod_Vent : row.U_Cod_Vent
+            }).then(response=>{
                 this.stock=response.data;
                 this.loadingStock=false;
                 this.item=row;

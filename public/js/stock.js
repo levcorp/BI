@@ -70071,12 +70071,14 @@ var Main = {
     handleShow: function handleShow(index, row) {
       var _this2 = this;
 
-      var url = '/api/stock/' + row.U_Cod_Vent;
+      var url = '/api/stock/detalle';
       this.stock = [];
       this.item = [];
       $('#show').modal('show');
       this.loadingStock = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
+        U_Cod_Vent: row.U_Cod_Vent
+      }).then(function (response) {
         _this2.stock = response.data;
         _this2.loadingStock = false;
         _this2.item = row;

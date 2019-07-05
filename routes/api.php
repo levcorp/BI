@@ -1,5 +1,6 @@
 <?php
-Route::resource('stock','Panel\controllerStock')->except(['index','create','edit']);
+Route::post('stock','Panel\controllerStock@stock');
+Route::post('stock/detalle','Panel\controllerStock@stockDetalle');
 Route::resource('sucursales', 'Panel\controllerSucursal')->except(['show','create','edit']);
 /////////////////////Proyecto//////////////////////////////////
 Route::post('perfiles/userremove', 'Panel\controllerPerfil@userRemove')->name('userRemove');

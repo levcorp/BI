@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class controllerStock extends Controller
 {
-    public function store(Request $request){
+    public function stock(Request $request){
         if($request->ItemName==null && $request->U_Cod_Vent!=null){
             return response()->json(DB::table('OITW')->where('U_Cod_Vent','like',$request->U_Cod_Vent.'%')->get());
         }
@@ -21,8 +21,8 @@ class controllerStock extends Controller
             return response()->json('');
         }
     }
-    public function show($id){
-        $datos=DB::table('DISPONIBILIDAD_STOCK')->select('EMPRESA','ALMACEN','ItemCode','U_Cod_Vent','FirmName','WhsCode','OnHand','IsCommited','OnOrder','TRASLADOS_OUT','TRASLADOS_IN','OV','PO','DISPONIBLE','Clasificacion')->where('U_Cod_Vent',$id)->get();
+    public function stockDetalle(Request $request){
+        $datos=DB::table('DISPONIBILIDAD_STOCK')->select('EMPRESA','ALMACEN','ItemCode','U_Cod_Vent','FirmName','WhsCode','OnHand','IsCommited','OnOrder','TRASLADOS_OUT','TRASLADOS_IN','OV','PO','DISPONIBLE','Clasificacion')->where('U_Cod_Vent',$request->U_Cod_Vent)->get();
         foreach ($datos as $key) {
             $key->OnHand=number_format($key->OnHand,2);
             $key->IsCommited=number_format($key->IsCommited,2);
