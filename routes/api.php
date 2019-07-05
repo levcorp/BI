@@ -35,7 +35,6 @@ Route::post('login/reset','Login\controllerLogin@emailReset');
 /////////////////////USUARIOS//////////////////////////////////
 Route::get('usuarios/change/{gui}', 'Panel\controllerUsuario@change');
 Route::get('usuarios/mostrar/{gui}', 'Panel\controllerUsuario@mostrar');
-Route::post('usuarios/asignacion/', 'Panel\controllerAsignacionModulo@post');
 Route::resource('usuarios', 'Panel\controllerUsuario');
 ///////////////////////////////////////////////////////////////
 

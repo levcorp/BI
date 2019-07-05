@@ -29,7 +29,10 @@ var Main = {
             var url = '/api/stock/';
             this.items=[];
             this.loading=true;
-            axios.post(url,this.inputs).then(response=>{
+            axios.post(url,{
+                ItemName:this.inputs.ItemName,
+                U_Cod_Vent:this.inputs.U_Cod_Vent
+            }).then(response=>{
                 if (response.data) {
                     this.items=response.data;
                 }

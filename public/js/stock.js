@@ -70057,7 +70057,10 @@ var Main = {
       var url = '/api/stock/';
       this.items = [];
       this.loading = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, this.inputs).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
+        ItemName: this.inputs.ItemName,
+        U_Cod_Vent: this.inputs.U_Cod_Vent
+      }).then(function (response) {
         if (response.data) {
           _this.items = response.data;
         }
