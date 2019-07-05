@@ -36,13 +36,4 @@ class controllerStock extends Controller
         }
         return response()->json($datos);
     }
-    public function edit($id){
-        //
-    }
-    public function update(Request $request, $id){
-        //
-    }
-    public function destroy($id){
-        //
-    }
 }

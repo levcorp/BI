@@ -32,8 +32,17 @@ var Main = {
             }).then(response=>{
                 if (response.data) {
                     this.items=response.data;
+                    this.$message({
+                        type: 'success',
+                        message: 'Se encontro articulos coincidentes!'
+                    });
+                    this.loading=false
+                }else{
+                    this.loading=false
+                    this.$message({
+                        message: 'No se encontraron articulos coincidentes!'
+                    });
                 }
-                this.loading=false
             });
         },
         handleShow(index,row){
@@ -48,6 +57,9 @@ var Main = {
                 this.stock=response.data;
                 this.loadingStock=false;
                 this.item=row;
+                this.$message({
+                    message: 'Detalle de articulo cargado correctamente!'
+                });
             });
         }
     }
