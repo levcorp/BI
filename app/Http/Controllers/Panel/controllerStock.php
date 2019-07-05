@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class controllerStock extends Controller
 {
-    public function index(){
-    } 
-    public function create(){
-        
-    }
     public function store(Request $request){
         if($request->ItemName==null && $request->U_Cod_Vent!=null){
             return response()->json(DB::table('OITW')->where('U_Cod_Vent','like',$request->U_Cod_Vent.'%')->get());
