@@ -16,7 +16,7 @@ class controllerStock extends Controller
             return response()->json(DB::table('OITW')->where('ItemName','like',$request->ItemName.'%')->get());                
         }
         if($request->U_Cod_Vent!=null && $request->ItemName!=null){
-            return response()->json(DB::table('OITW')->where('ItemName','like',$request->ItemName.'%')->where('U_Cod_Vent','like',$request->U_Cod_Vent.'%')->get());                            
+            return response()->json(DB::table('OITW')->where('ItemName','like',$request->ItemName.'%')->orWhere('U_Cod_Vent','like',$request->U_Cod_Vent.'%')->get());                            
         }else{
             return response()->json('');
         }
