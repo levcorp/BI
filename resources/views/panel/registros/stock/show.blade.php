@@ -19,7 +19,7 @@
                 </div>    
             </div>
             <br>
-            <el-table :data="stock" style="width: 100%" height="400" highlight-current-row v-loading="loadingStock">
+            <el-table :data="stock" style="width: 100%" height="330" highlight-current-row v-loading="loadingStock">
                 <el-table-column align="center" prop="EMPRESA" label="Empresa"></el-table-column>
                 <el-table-column align="center" prop="ALMACEN" label="Almacen"></el-table-column>
                 <el-table-column align="center" prop="OnHand" label="En Stock">

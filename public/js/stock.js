@@ -70049,12 +70049,11 @@ var Main = {
       item: []
     };
   },
-  created: function created() {},
   methods: {
     handleGet: function handleGet() {
       var _this = this;
 
-      var url = '/api/stock/';
+      var url = '/api/stock';
       this.items = [];
       this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {

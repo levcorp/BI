@@ -21,12 +21,9 @@ var Main = {
             item:[]
         }
     },
-    created() {
-     
-    },
     methods: {
         handleGet(){
-            var url = '/api/stock/';
+            var url = '/api/stock';
             this.items=[];
             this.loading=true;
             axios.post(url,{
