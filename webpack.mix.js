@@ -9,6 +9,9 @@ mix.js('resources/js/login.js', 'public/js/');
 mix.js('resources/js/perfil.js', 'public/js/');
 mix.js('resources/js/sucursal.js', 'public/js/');
 mix.js('resources/js/usuario.js', 'public/js/');
+mix.js('resources/js/mobile/mobile.js', 'public/js/');
+mix.js('resources/js/stock.js', 'public/js/');
+
 
 
 

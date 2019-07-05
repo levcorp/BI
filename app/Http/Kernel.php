@@ -47,7 +47,7 @@ class Kernel extends HttpKernel
         'Sucursales' => \App\Http\Middleware\Sucursales::class,
         'ArticulosABM' => \App\Http\Middleware\ArticulosABM::class,
         'Check' => \App\Http\Middleware\Check::class,
-
+        'Stock' => \App\Http\Middleware\Stock::class,
     ];
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,

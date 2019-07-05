@@ -110,6 +110,27 @@
           </li>
           @endif
           @endif
+          @if(isset(Auth::user()->perfil->asignacionModulo))
+          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','8') )
+          <li class="treeview {{active(['stock'])}}">
+              <a href="#">
+                <i class="fa fa-shopping-bag"></i> <span>Ventas</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','8'))
+                  <li class="{{active(['stock'])}}">
+                    <a href="{{route('stock')}}"><i class="fa fa-cubes"></i> <span>Stock Articulos</span></a>
+                  </li>
+                  @endif
+                  @endif
+              </ul>
+          </li>
+          @endif
+          @endif
         </ul>
       </section>
       <!-- /.sidebar -->

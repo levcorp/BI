@@ -14,11 +14,12 @@ use Auth;
 class controllerPanel extends Controller
 {
     public function __construct(){
-        $this->middleware('Check',['only'=>['inicio','newInicio','sector','newSector','usuarios','gpos','perfiles','sucursales']]);
+        $this->middleware('Check',['only'=>['inicio','newInicio','sector','newSector','usuarios','gpos','perfiles','sucursales','stock']]);
         $this->middleware('Usuarios',['only'=>'usuarios']);
         $this->middleware('EDI867',['only'=>'gpos']);
         $this->middleware('Perfiles',['only'=>'perfiles']);
         $this->middleware('Sucursales',['only'=>'sucursales']);
+        $this->middleware('Stock',['only'=>'stock']);
     }
     public function newInicio(){
         $titulo="General";
@@ -155,5 +156,8 @@ class controllerPanel extends Controller
     }
     public function sucursales(){
         return view('panel.registros.sucursal.index');
+    }
+    public function stock(){
+        return view('panel.registros.stock.index');
     }
 }

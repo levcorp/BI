@@ -1,9 +1,13 @@
 <?php
+////////////////////////MOBILE/////////////////////////////////////
+Route::get('mobile','Mobile\controllerMobile@index')->name('login');
 ////////////////////////ARTICULOS ABM/////////////////////////////////////
 Route::get('panel/solicitud/export','Panel\controllerABMSolicitud@exportCSV')->name('exportCSV');
 Route::resource('panel/solicitud/detalle','Panel\controllerDetalleSolicitud')->except(['create','store','edit','update','destroy']);
 Route::resource('panel/solicitud','Panel\controllerABMSolicitud')->except(['show','create','store','edit','update','destroy']);
+Route::get('panel/stock','Panel\controllerPanel@stock')->name('stock');
 ////////////////////////PERFIL/////////////////////////////////////+
+
 Route::get('panel/perfiles','Panel\controllerPanel@perfiles')->name('perfiles');  
 ////////////////////////ROLES/////////////////////////////////////+
 Route::get('panel/sucursales','Panel\controllerPanel@sucursales')->name('sucursales');  
