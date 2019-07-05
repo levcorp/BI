@@ -30,7 +30,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" prop="IsCommited" label="Comprometido" width="115">
+                <el-table-column align="center" prop="IsCommited" label="Pedido OV" width="115">
                     <template slot-scope="scope">
                         <el-tag
                         :type="scope.row.IsCommited === '0.00' ? 'info' : 'success'"
@@ -38,7 +38,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="Pedido" >
+                <el-table-column align="center" label="Compra OC" width="100">
                     <template slot-scope="scope">
                         <el-tag
                         :type="scope.row.OnOrder === '0.00' ? 'info' : 'success'"
@@ -70,7 +70,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="Cant. Compra" width="100">
+                <el-table-column align="center" label="Cant. OC">
                     <template slot-scope="scope">
                         <el-tag
                         :type="scope.row.PO === '0.00' ? 'info' : 'success'"
