@@ -24,10 +24,9 @@
                 />
             </van-cell-group>
             <br>
-            <van-cell-group>
               <a @click="handleShow()">¿ Olvide mi contraseña ?</a>
-            </van-cell-group>
             <br>    
+            <br>
             <br>
             <van-button type="info" round to="panel">Iniciar Sesión</van-button>
         </div>

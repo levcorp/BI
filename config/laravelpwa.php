@@ -5,9 +5,9 @@ return [
     'manifest' => [
         'name' => 'Levcorp',
         'short_name' => 'Levcorp',
-        'start_url' => '/',
-        'background_color' => '#d73925',
-        'theme_color' => '#d73925',
+        'start_url' => '/mobile',
+        'background_color' => '#fff',
+        'theme_color' => '#fff',
         'display' => 'standalone',
         'orientation'=> 'any',
         'icons' => [
