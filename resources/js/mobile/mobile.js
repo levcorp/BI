@@ -7,7 +7,6 @@ import Login from './components/Login.vue';
 import 'vant/lib/index.css';
 Vue.use(VueRouter)
 Vue.use(Vant);
-
 const routes = [
     {
         path: '/',

@@ -9,6 +9,20 @@ locale.use(lang);
 Vue.use(ElementUI);
 var Main = {
     data() {
+        var validateU_Cod_Vent = (rule, value, callback) => {
+            if (value === '' && this.inputs.ItemName==='') {
+                callback(new Error('El campo de Cod. Venta es requerido'));
+            }else {
+            callback();
+            }
+        };
+        var validateItemName = (rule, value, callback) => {
+            if (value === '' && this.inputs.U_Cod_Vent==='') {
+                callback(new Error('El campo de ItemName es requerido'));
+            }else {
+            callback();
+            }
+        };
         return {
             inputs:{
                 ItemName:'',
@@ -18,32 +32,53 @@ var Main = {
             loading:false,
             stock:[],
             loadingStock:false,
-            item:[]
+            item:[],
+            rules: {
+                U_Cod_Vent: [
+                    { validator: validateU_Cod_Vent, trigger: 'change' },
+                    { min: 2, message: 'El minimo de caracteres es 2', trigger: 'change' }
+                ],
+                ItemName: [
+                    { validator: validateItemName, trigger: 'change' },
+                    { min: 3, message: 'El minimo de caracteres es 3', trigger: 'change' }
+                ]
+            }
         }
     },
     methods: {
+        
         handleGet(){
-            var url = '/api/stock';
-            this.items=[];
-            this.loading=true;
-            axios.post(url,{
-                ItemName : this.inputs.ItemName,
-                U_Cod_Vent : this.inputs.U_Cod_Vent
-            }).then(response=>{
-                if (response.data) {
-                    this.items=response.data;
-                    this.$message({
-                        type: 'success',
-                        message: 'Se encontro articulos coincidentes!'
+            this.$refs['inputs'].validate((valid) => {
+                if (valid) {
+                      var url = '/api/stock';
+                    this.items=[];
+                    this.loading=true;
+                    axios.post(url,{
+                        ItemName : this.inputs.ItemName,
+                        U_Cod_Vent : this.inputs.U_Cod_Vent
+                    }).then(response=>{
+                        if (response.data) {
+                            this.items=response.data;
+                            this.$message({
+                                type: 'success',
+                                message: 'Se encontro articulos coincidentes!'
+                            });
+                            this.loading=false;
+                            this.$refs['inputs'].resetFields();
+                        }else{
+                            this.loading=false
+                            this.$message({
+                                message: 'No se encontraron articulos coincidentes!'
+                            });
+                            this.$refs['inputs'].resetFields();
+                        }
                     });
-                    this.loading=false
-                }else{
-                    this.loading=false
-                    this.$message({
-                        message: 'No se encontraron articulos coincidentes!'
-                    });
+                } 
+                else {
+                    return false;
                 }
             });
+          
         },
         handleShow(index,row){
             var url='/api/stock/detalle';

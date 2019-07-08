@@ -6,13 +6,13 @@
     <div class="box box-info">
        <div class="box-header">
             <h3 class="box-title">Datos de Inventario</h3>
-            <el-form :inline="true" :model="inputs" class="demo-form-inline">
+            <el-form :inline="true" :model="inputs" :rules="rules" ref="inputs" class="demo-form-inline">
             <br>
-            <el-form-item >
-                 <input type="text" class="el-input__inner" placeholder="Codigo de Venta" v-model="inputs.U_Cod_Vent" @keyup.enter="handleGet()">
+            <el-form-item prop="U_Cod_Vent">
+                 <el-input type="text" placeholder="Codigo de Venta" v-model="inputs.U_Cod_Vent" @keyup.enter="handleGet()"></el-input>
             </el-form-item>
-            <el-form-item>
-                <input type="text" class="el-input__inner" placeholder="Descripcion" v-model="inputs.ItemName" @keyup.enter="handleGet()">
+            <el-form-item prop="ItemName">
+                 <el-input type="text" placeholder="Descripcion" v-model="inputs.ItemName" @keyup.enter="handleGet()"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="handleGet()" v-on:keyup.enter="handleGet()" autofocus>Buscar</el-button>
