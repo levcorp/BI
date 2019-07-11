@@ -44,7 +44,7 @@ return [
 
         'BI' => [
             'driver' => 'sqlsrv',
-            'host' =>'192.168.10.45',
+            'host' =>'192.168.10.4',
             'port' => '1433',
             'database' =>'BI',
             'username' =>'sa',
@@ -55,7 +55,7 @@ return [
         ],
         'BI_PRUEBA' => [
             'driver' => 'sqlsrv',
-            'host' =>'192.168.10.222',
+            'host' =>'192.168.10.4',
             'port' => '1433',
             'database' =>'BI',
             'username' =>'sa',
