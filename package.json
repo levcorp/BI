@@ -24,8 +24,10 @@
         "vue-template-compiler": "^2.6.9"
     },
     "dependencies": {
+        "apexcharts": "^3.8.2",
         "axios-timing": "^1.0.2",
         "bootstrap-vue": "^2.0.0-rc.18",
+        "chart.js": "^2.8.0",
         "datatables.net": "^1.10.19",
         "datatables.net-bs": "^1.10.19",
         "datatables.net-dt": "^1.10.19",
@@ -42,7 +44,9 @@
         "v-calendar": "^1.0.0-beta.10",
         "vant": "^2.0.2",
         "vee-validate": "^2.2.0",
+        "vue-apexcharts": "^1.4.0",
         "vue-axios-interceptors": "^0.3.0",
+        "vue-chartjs": "^3.4.2",
         "vue-data-tables": "^3.4.4",
         "vue-event-hub": "^1.0.2",
         "vue-loading-spinner": "^1.0.11",
@@ -51,6 +55,7 @@
         "vue-round-filter": "^1.1.2",
         "vue-router": "^3.0.2",
         "vue-select": "^2.6.3",
-        "vuescroll": "^4.13.0"
+        "vuescroll": "^4.13.0",
+        "vuetify": "^1.5.16"
     }
 }

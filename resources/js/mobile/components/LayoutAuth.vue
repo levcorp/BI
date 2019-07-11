@@ -40,7 +40,7 @@ export default {
 @media (orientation: portrait) {
     footer{
         font-size:11px;
-        position: fixed;
+        position: absolute;
         right: 0;
         bottom: 0;
         left: 0;

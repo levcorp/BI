@@ -1,14 +1,13 @@
 <template>
     <div>
-        <van-nav-bar
-        title="Panel">
-            <van-button plain icon="arrow-left" size="mini" type="default" slot="right" to="/">Salir</van-button>
+        <van-nav-bar title="LEVCORP">
+            <van-button plain hairline type="info" size="mini" slot="right">Salir</van-button>      
         </van-nav-bar>
+        <router-view></router-view>
         <van-tabbar v-model="active">
-            <van-tabbar-item icon="home-o">Tab</van-tabbar-item>
-            <van-tabbar-item icon="search">Tab</van-tabbar-item>
-            <van-tabbar-item icon="friends-o">Tab</van-tabbar-item>
-            <van-tabbar-item icon="setting-o">Tab</van-tabbar-item>
+            <van-tabbar-item to="/panel" icon="home-o">Inicio</van-tabbar-item>
+            <van-tabbar-item to="/menu" icon="apps-o">Menu</van-tabbar-item>
+            <van-tabbar-item to="/perfil" icon="user-o">Perfil</van-tabbar-item>
         </van-tabbar>
     </div>
 </template>

@@ -3,16 +3,13 @@
 return [
 
     'default' => 'BI_PRUEBA',
-
     'connections' => [
-
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
-
         'mysql' => [
             'driver' => 'mysql',
             'host' => '127.0.0.1',
@@ -31,7 +28,6 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -59,9 +55,9 @@ return [
         ],
         'BI_PRUEBA' => [
             'driver' => 'sqlsrv',
-            'host' =>'192.168.10.45',
+            'host' =>'192.168.10.222',
             'port' => '1433',
-            'database' =>'BI_PRUEBA',
+            'database' =>'BI',
             'username' =>'sa',
             'password' =>'Sa123',
             'charset' => 'utf8',

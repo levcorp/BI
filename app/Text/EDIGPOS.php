@@ -98,9 +98,9 @@ class EDIGPOS
                     /*--------'Bill To Customer Account Number---------*/
                     $this->etiqueta(15,'',$dato->BillToCustomerAccountNumber).
                     /*-------'Bill To National ID----------*/
+                    $this->etiqueta(15,'',$dato->BillToRACustomerID).
                     $this->etiqueta(15,'',$dato->BillToNationalID).
                     /*-------'Bill To RA Customer ID----------*/
-                    $this->etiqueta(15,'',$dato->BillToRACustomerID).
                     /*------'Bill To Distributor Contact   Sales Person-----------*/
                     $this->etiqueta(15,'',$this->charters($dato->BillToDistributorContactSalesPerson)).
                     ////////////////////////////////////SHIP///////////////////////////////////////////////////
@@ -121,9 +121,9 @@ class EDIGPOS
                     /*-----Ship To Customer Account Number------------*/
                     $this->etiqueta(15,'',$dato->ShipToCustomerAccountNumber).
                     /*-----Ship To National ID------------*/
+                    $this->etiqueta(15,'',$dato->ShipToRACustomerID).
                     $this->etiqueta(15,'',$dato->ShipToNationalID).
                     /*--------Ship To RA Customer ID---------*/
-                    $this->etiqueta(15,'',$dato->ShipToRACustomerID).
                     /*-------Ship to Distributor Contact   Sales Person----------*/
                     $this->etiqueta(15,'',$this->charters($dato->ShiptoDistributorContactSalesPerson)).
                     ////////////////////////////////////SOLD///////////////////////////////////////////////////
@@ -144,9 +144,9 @@ class EDIGPOS
                     /*-------Sold To Customer Account Number----------*/
                     $this->etiqueta(15,'',$dato->SoldToCustomerAccountNumber).
                     /*------Sold To National ID-----------*/
+                    $this->etiqueta(15,'',$dato->SoldToRACustomerID).
                     $this->etiqueta(15,'',$dato->SoldToNationalID).
                     /*------Sold To RA Customer ID-----------*/
-                    $this->etiqueta(15,'',$dato->SoldToRACustomerID).
                     /*-------Sold to Distributor Contact / Sales Person----------*/
                     $this->etiqueta(15,'',$this->charters($dato->SoldToDistributorContactSalesPerson)).
                     ////////////////////////////////////OTROS///////////////////////////////////////////////////
