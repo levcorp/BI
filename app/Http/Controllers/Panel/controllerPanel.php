@@ -160,4 +160,25 @@ class controllerPanel extends Controller
     public function stock(){
         return view('panel.registros.stock.index');
     }
+    public function tareas(){
+        return view('panel.registros.tareas.index');
+    }
+    public function estados(){
+        return view('panel.registros.estadoAccionTarea.index');
+    }
+    public function tareasEspecialidad(){
+        return view('panel.registros.tareas.tareasEspecialidad');
+    }
+    public function tareasSector(){
+        return view('panel.registros.tareas.tareasSector');
+    }
+    public function tareasCusuario(){
+        return view('panel.registros.tareas.tareasCusuario');
+    }
+    public function tareasUsuario(){
+        return view('panel.registros.tareas.tareasUsuario');
+    }
+    public function mercados(){
+        return view('panel.registros.mercado.index');
+    }
 }

@@ -9,11 +9,13 @@ import Menu from './components/Menu.vue';
 import Perfil from './components/Perfil.vue';
 import 'vant/lib/index.css';
 import VueApexCharts from "vue-apexcharts";
-
-
-Vue.component("apexchart", VueApexCharts);
+import Vuex from 'vuex'
+import {Lazyload} from 'vant';
+Vue.use(Lazyload);
+Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(Vant);
+Vue.component("apexchart", VueApexCharts);
 const routes = [
     {
         path: '/',
@@ -49,13 +51,26 @@ const router = new VueRouter({
     //mode:'history',
     routes
 });
-
+const store = new Vuex.Store({
+  state: {
+    user:{},
+  },
+  mutations: {
+    getUser (state,user) {
+      state.user=user
+    }
+  }
+});
 new Vue({
     el:"#app",
     router,
+    store,
     data() {
         return {
             
         }
     },
+    mounted() {
+        console.log(store.state.count) // -> 1
+    },    
 });

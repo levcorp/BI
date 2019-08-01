@@ -37,7 +37,8 @@ return [
         'celular'=>'mobile',
         'ciudad'=>'l',
         'departamento'=>'department',
-        'interno'=>'ipphone'
+        'interno'=>'ipphone',
+        'brand'=>'company'    
     ],
     'logging' => [
         'enabled' => env('LDAP_LOGGING', true),

@@ -11,6 +11,16 @@ mix.js('resources/js/sucursal.js', 'public/js/');
 mix.js('resources/js/usuario.js', 'public/js/');
 mix.js('resources/js/mobile/mobile.js', 'public/js/');
 mix.js('resources/js/stock.js', 'public/js/');
+mix.js('resources/js/tareas.js', 'public/js/');
+mix.js('resources/js/estadoTareaAccion.js', 'public/js/');
+mix.js('resources/js/tareasUsuario.js', 'public/js/');
+mix.js('resources/js/tareasCusuario.js', 'public/js/');
+mix.js('resources/js/tareasSector.js', 'public/js/');
+mix.js('resources/js/tareasBrand.js', 'public/js/');
+mix.js('resources/js/mercado.js', 'public/js/');
+
+
+
 
 
 

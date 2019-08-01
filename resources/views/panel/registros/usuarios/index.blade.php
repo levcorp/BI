@@ -22,7 +22,6 @@
                 <div slot="reference" class="name-wrapper" v-else="scope.row.useraccountcontrol[0]==66050">
                   <el-tag type="danger" size="medium">Deshabilitado</el-tag>
                 </div>
-              </el-popover>
             </template>
             </el-table-column>
             <!---<el-table-column align="center" prop="memberof[0]" label="Miembro" width="180"></el-table-column>-->

@@ -111,7 +111,7 @@
           @endif
           @endif
           @if(isset(Auth::user()->perfil->asignacionModulo))
-          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','8') )
+          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','8') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','9') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','10') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','11') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','12') )
           <li class="treeview {{active(['stock'])}}">
               <a href="#">
                 <i class="fa fa-shopping-bag"></i> <span>Ventas</span>
@@ -124,6 +124,34 @@
                   @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','8'))
                   <li class="{{active(['stock'])}}">
                     <a href="{{route('stock')}}"><i class="fa fa-cubes"></i> <span>Stock Articulos</span></a>
+                  </li>
+                  @endif
+                  @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','9'))
+                  <li class="{{active(['tareas'])}}">
+                    <a href="{{route('tareas')}}"><i class="fa fa-cubes"></i> <span>Tareas Ventas (General)</span></a>
+                  </li>
+                  @endif
+                  @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','10'))
+                  <li class="{{active(['tareasUsuario'])}}">
+                    <a href="{{route('tareasUsuario')}}"><i class="fa fa-cubes"></i> <span>Tareas Asignadas</span></a>
+                  </li>
+                  @endif
+                  @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','11'))
+                  <li class="{{active(['tareasCusuario'])}}">
+                    <a href="{{route('tareasCusuario')}}"><i class="fa fa-cubes"></i> <span>Tareas Creadas</span></a>
+                  </li>
+                  @endif
+                  @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','12'))
+                  <li class="{{active(['tareasEspecialidad'])}}">
+                    <a href="{{route('tareasEspecialidad')}}"><i class="fa fa-cubes"></i> <span>Tareas Especialidad</span></a>
                   </li>
                   @endif
                   @endif

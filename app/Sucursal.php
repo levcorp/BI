@@ -15,8 +15,8 @@ class Sucursal extends Model
         'fax',
         'celular',
         'correo',
-        'create',
-        'update'    
+        'created',
+        'updated'    
     ];
     public $timestamps = false;
     

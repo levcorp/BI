@@ -28,8 +28,8 @@ class controllerSucursal extends Controller
             'fax'=>$request->fax,
             'celular'=>$request->celular,
             'correo'=>$request->correo,
-            'create'=>Carbon::now()->format('d-m-Y H:i:s'),
-            'update'=>Carbon::now()->format('d-m-Y H:i:s'),
+            'created'=>Carbon::now()->format('d-m-Y H:i:s'),
+            'updated'=>Carbon::now()->format('d-m-Y H:i:s'),
         ]);
     }
     public function show($id)
@@ -50,7 +50,7 @@ class controllerSucursal extends Controller
             'fax'=>$request->fax,
             'celular'=>$request->celular,
             'correo'=>$request->correo,
-            'update'=>Carbon::now()->format('d-m-Y H:i:s'),
+            'updated'=>Carbon::now()->format('d-m-Y H:i:s'),
         ])->save();
     }
     public function destroy($id)

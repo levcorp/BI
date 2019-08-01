@@ -139,7 +139,8 @@ class controllerLogin extends Controller
         } 
     }
     public function prueba(){
-        return DB::table('OCRD')->select('*')->get();
+         return \App\ClientesH2::select('Nombre')->where('Nombre','like','%soboce%')->groupBy('Nombre')->get();
+       
     }
     public function success(){
         return view('auth.success');    

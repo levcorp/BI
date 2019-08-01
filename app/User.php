@@ -28,7 +28,9 @@ class User extends Authenticatable
         'objectguid',
         'interno',
         'avatar',
-        'sucursal_id'
+        'sucursal_id',
+        'brand',
+        'sector'
     ];
     protected $hidden = [
         'password', 'remember_token',

@@ -11,6 +11,8 @@ class AsignacionPerfilModulo extends Model
         'perfil_id',
         'modulo_id',
     ];
+    public $timestamps = false;
+
     public function perfil(){
         return $this->belongsTo(App\Perfil::class, 'perfil_id');
     }

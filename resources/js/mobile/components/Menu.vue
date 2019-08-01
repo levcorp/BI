@@ -57,6 +57,9 @@
             </van-cell>
         </van-collapse-item>
     </van-collapse>
+    <br>
+    <br>
+    <br>
     </div>
 </template>
 <script>

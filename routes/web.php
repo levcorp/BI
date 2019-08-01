@@ -1,4 +1,14 @@
 <?php
+////////////////////////MERCADO/////////////////////////////////////
+Route::get('panel/mercados','Panel\controllerPanel@mercados')->name('mercados');
+////////////////////////TAREAS/////////////////////////////////////
+Route::get('panel/estados','Panel\controllerPanel@estados')->name('estadosTA');
+
+Route::get('panel/tareas/especialidad','Panel\controllerPanel@tareasEspecialidad')->name('tareasEspecialidad');
+Route::get('panel/tareas/sector','Panel\controllerPanel@tareasSector')->name('tareasSector');
+Route::get('panel/tareas/cusuario','Panel\controllerPanel@tareasCusuario')->name('tareasCusuario');
+Route::get('panel/tareas/usuario','Panel\controllerPanel@tareasUsuario')->name('tareasUsuario');
+Route::get('panel/tareas','Panel\controllerPanel@tareas')->name('tareas');
 ////////////////////////MOBILE/////////////////////////////////////
 Route::get('mobile','Mobile\controllerMobile@index')->name('login');
 ////////////////////////ARTICULOS ABM/////////////////////////////////////

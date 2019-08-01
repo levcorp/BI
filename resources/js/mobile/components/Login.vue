@@ -10,25 +10,32 @@
                     left-icon="contact"
                     placeholder="Usuario"
                     label="Usuario"
+                    v-model="log.user"
                     required
                 />
             </van-cell-group>
             <br>
             <van-cell-group>
                 <van-field
-                    type="password"
+                    :type="typePassword"
                     left-icon="edit"
                     label="Contraseña"
                     placeholder="Contraseña"
                     required
-                />
+                    v-model="log.password"
+                >
+                <div slot="right-icon">
+                    <van-icon v-if="!showPassword" name="eye-o" color="#1989fa" @click="hanldeShowPassword()"/>
+                    <van-icon v-else name="closed-eye" color="#1989fa" @click="hanldeShowPassword()"/>
+                </div>
+                </van-field>
             </van-cell-group>
             <br>
               <a @click="handleShow()">¿ Olvide mi contraseña ?</a>
             <br>    
             <br>
             <br>
-            <van-button type="info" round to="panel">Iniciar Sesión</van-button>
+            <van-button @clik="handleLogin()" type="info" round to="panel">Iniciar Sesión</van-button>
         </div>
         <van-action-sheet v-model="show" title="Olvide mi contraseña">
             <van-row class="background">
@@ -61,6 +68,12 @@ export default {
     data() {
         return {
             show:false,
+            showPassword:false,
+            typePassword:'password',
+            log:{
+                user:'',
+                password:''
+            }
         }
     },
     methods: {
@@ -74,6 +87,19 @@ export default {
                 duration: 1000,
                 background: '#1989fa'
             });
+        },
+        handleLogin(){
+
+        },
+        hanldeShowPassword(){
+            if(this.showPassword){
+                this.showPassword=false;
+                this.typePassword="password";
+            }else{
+                this.showPassword=true;
+                this.typePassword="text";
+            }
+
         }
     },
 }

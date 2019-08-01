@@ -1680,7 +1680,6 @@ var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
 var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/axios/lib/helpers/isURLSameOrigin.js");
 var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/axios/lib/core/createError.js");
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ "./node_modules/axios/lib/helpers/btoa.js");
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1692,22 +1691,6 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ( true &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
 
     // HTTP basic authentication
     if (config.auth) {
@@ -1722,8 +1705,8 @@ module.exports = function xhrAdapter(config) {
     request.timeout = config.timeout;
 
     // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
         return;
       }
 
@@ -1740,9 +1723,8 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        status: request.status,
+        statusText: request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
@@ -2551,54 +2533,6 @@ module.exports = function bind(fn, thisArg) {
     return fn.apply(thisArg, args);
   };
 };
-
-
-/***/ }),
-
-/***/ "./node_modules/axios/lib/helpers/btoa.js":
-/*!************************************************!*\
-  !*** ./node_modules/axios/lib/helpers/btoa.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
 
 
 /***/ }),
@@ -55530,19 +55464,9 @@ module.exports = deepmerge_1;
  * @license  MIT
  */
 
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
@@ -76571,6 +76495,21 @@ const addHorizontalSwipeHandler = (element, handler, _ref) => {
 
 /***/ }),
 
+/***/ "07a1":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vc-grid-container[data-v-7cb272a6]{position:relative;flex-shrink:1;display:grid;overflow:auto;-webkit-overflow-scrolling:touch}.vc-grid-cell[data-v-7cb272a6]{display:flex;justify-content:center;align-items:center}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "07c7":
 /***/ (function(module, exports) {
 
@@ -76592,28 +76531,6 @@ function stubFalse() {
 }
 
 module.exports = stubFalse;
-
-
-/***/ }),
-
-/***/ "07d8":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var strong = __webpack_require__("5aee");
-var validate = __webpack_require__("9f79");
-var SET = 'Set';
-
-// 23.2 Set Objects
-module.exports = __webpack_require__("ada4")(SET, function (get) {
-  return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
-}, {
-  // 23.2.3.1 Set.prototype.add(value)
-  add: function add(value) {
-    return strong.def(validate(this, SET), value = value === 0 ? 0 : value, value);
-  }
-}, strong);
 
 
 /***/ }),
@@ -76708,21 +76625,6 @@ module.exports = strictIndexOf;
 
 /***/ }),
 
-/***/ "0a27":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("6670");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("26e85c3f", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "0b07":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -76743,29 +76645,6 @@ function getNative(object, key) {
 }
 
 module.exports = getNative;
-
-
-/***/ }),
-
-/***/ "0b64":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("f772");
-var isArray = __webpack_require__("9003");
-var SPECIES = __webpack_require__("5168")('species');
-
-module.exports = function (original) {
-  var C;
-  if (isArray(original)) {
-    C = original.constructor;
-    // cross-realm fallback
-    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
-    if (isObject(C)) {
-      C = C[SPECIES];
-      if (C === null) C = undefined;
-    }
-  } return C === undefined ? Array : C;
-};
 
 
 /***/ }),
@@ -76851,6 +76730,17 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
+/***/ "0e9c":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_b0867174_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a93e");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_b0867174_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_b0867174_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_b0867174_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "0f0f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -76871,6 +76761,21 @@ function baseAssignIn(object, source) {
 }
 
 module.exports = baseAssignIn;
+
+
+/***/ }),
+
+/***/ "0f21":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vc-nav-container{width:var(--nav-container-width)}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -76974,18 +76879,6 @@ function copySymbolsIn(source, object) {
 }
 
 module.exports = copySymbolsIn;
-
-
-/***/ }),
-
-/***/ "1173":
-/***/ (function(module, exports) {
-
-module.exports = function (it, Constructor, name, forbiddenField) {
-  if (!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)) {
-    throw TypeError(name + ': incorrect invocation!');
-  } return it;
-};
 
 
 /***/ }),
@@ -77119,29 +77012,6 @@ function isMasked(func) {
 }
 
 module.exports = isMasked;
-
-
-/***/ }),
-
-/***/ "13c8":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getKeys = __webpack_require__("c3a1");
-var toIObject = __webpack_require__("36c3");
-var isEnum = __webpack_require__("355d").f;
-module.exports = function (isEntries) {
-  return function (it) {
-    var O = toIObject(it);
-    var keys = getKeys(O);
-    var length = keys.length;
-    var i = 0;
-    var result = [];
-    var key;
-    while (length > i) if (isEnum.call(O, key = keys[i++])) {
-      result.push(isEntries ? [key, O[key]] : O[key]);
-    } return result;
-  };
-};
 
 
 /***/ }),
@@ -77393,12 +77263,11 @@ const childMixin = {
 
   }
 };
+// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js + 1 modules
+var objectSpread = __webpack_require__("cebc");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.replace.js
 var es6_regexp_replace = __webpack_require__("a481");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js
-var define_property = __webpack_require__("85f2");
-var define_property_default = /*#__PURE__*/__webpack_require__.n(define_property);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/slicedToArray.js + 3 modules
 var slicedToArray = __webpack_require__("768b");
@@ -77406,14 +77275,10 @@ var slicedToArray = __webpack_require__("768b");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js + 1 modules
-var objectSpread = __webpack_require__("cebc");
-
 // EXTERNAL MODULE: ./src/utils/_.js
 var utils_ = __webpack_require__("9404");
 
 // CONCATENATED MODULE: ./src/utils/theme.js
-
 
 
 
@@ -77435,7 +77300,7 @@ class theme_Theme {
       let _ref2 = Object(slicedToArray["a" /* default */])(_ref, 1),
           prop = _ref2[0];
 
-      define_property_default()(this, prop, {
+      Object.defineProperty(this, prop, {
         enumerable: true,
 
         get() {
@@ -77502,10 +77367,10 @@ class theme_Theme {
         color = _ref5$color === void 0 ? this._config.color : _ref5$color,
         _ref5$isDark = _ref5.isDark,
         isDark = _ref5$isDark === void 0 ? this._config.isDark : _ref5$isDark;
-    if (!Object(utils_["f" /* has */])(this._config, prop)) return undefined;
-    let propVal = Object(utils_["e" /* get */])(this._config, prop);
+    if (!Object(utils_["e" /* has */])(this._config, prop)) return undefined;
+    let propVal = Object(utils_["d" /* get */])(this._config, prop);
 
-    if (Object(utils_["l" /* isObject */])(propVal) && Object(utils_["g" /* hasAny */])(propVal, ['light', 'dark'])) {
+    if (Object(utils_["l" /* isObject */])(propVal) && Object(utils_["f" /* hasAny */])(propVal, ['light', 'dark'])) {
       propVal = isDark ? propVal.dark : propVal.light;
     }
 
@@ -77531,7 +77396,7 @@ class theme_Theme {
 
       root = Object(objectSpread["a" /* default */])({}, normAttr);
     } else if (Object(utils_["l" /* isObject */])(config)) {
-      if (Object(utils_["g" /* hasAny */])(config, targetProps)) {
+      if (Object(utils_["f" /* hasAny */])(config, targetProps)) {
         // Mixin target configs
         root = Object(objectSpread["a" /* default */])({}, config);
       } else {
@@ -77563,7 +77428,7 @@ class theme_Theme {
           color: targetColor
         };
       } else if (Object(utils_["l" /* isObject */])(targetConfig)) {
-        if (Object(utils_["g" /* hasAny */])(targetConfig, displayProps)) {
+        if (Object(utils_["f" /* hasAny */])(targetConfig, displayProps)) {
           root[targetType] = Object(objectSpread["a" /* default */])({}, targetConfig);
         } else {
           root[targetType] = {};
@@ -77573,7 +77438,7 @@ class theme_Theme {
 
       Object(utils_["b" /* defaults */])(root[targetType], normAttr[targetType]); // Set the theme color if it is missing
 
-      if (!Object(utils_["f" /* has */])(root, `${targetType}.color`)) {
+      if (!Object(utils_["e" /* has */])(root, `${targetType}.color`)) {
         Object(utils_["s" /* set */])(root, `${targetType}.color`, targetColor);
       }
     });
@@ -77687,15 +77552,10 @@ var es6_regexp_search = __webpack_require__("386d");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.match.js
 var es6_regexp_match = __webpack_require__("4917");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/parse-int.js
-var parse_int = __webpack_require__("e814");
-var parse_int_default = /*#__PURE__*/__webpack_require__.n(parse_int);
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.constructor.js
 var es6_regexp_constructor = __webpack_require__("3b2b");
 
 // CONCATENATED MODULE: ./src/utils/fecha.js
-
 
 
 
@@ -77862,7 +77722,7 @@ const parseFlags = {
     d.day = v;
   }],
   Do: [new RegExp(twoDigits.source + word.source), (d, v) => {
-    d.day = parse_int_default()(v, 10);
+    d.day = parseInt(v, 10);
   }],
   d: [twoDigits, noop],
   W: [word, noop],
@@ -77911,8 +77771,7 @@ const parseFlags = {
     const parts = `${v}`.match(/([+-]|\d\d)/gi);
 
     if (parts) {
-      const minutes = +(parts[1] * 60) + parse_int_default()(parts[2], 10);
-
+      const minutes = +(parts[1] * 60) + parseInt(parts[2], 10);
       d.timezoneOffset = parts[0] === '+' ? minutes : -minutes;
     }
   }]
@@ -78012,13 +77871,14 @@ const parse = (dateStr, mask, locale) => {
 
 
 
+const daysInWeek = 7;
 const daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 class locale_Locale {
   constructor(id, _ref) {
     let firstDayOfWeek = _ref.firstDayOfWeek,
         masks = _ref.masks;
     this.id = id;
-    this.firstDayOfWeek = Object(utils_["a" /* clamp */])(firstDayOfWeek, 1, 7);
+    this.firstDayOfWeek = Object(utils_["a" /* clamp */])(firstDayOfWeek, 1, daysInWeek);
     this.masks = masks;
     this.dayNames = this.getDayNames('long');
     this.dayNamesShort = this.getDayNames('short');
@@ -78093,7 +77953,7 @@ class locale_Locale {
 
     const dates = [];
 
-    for (let i = 1, j = 0; j < 7; i++) {
+    for (let i = 1, j = 0; j < daysInWeek; i++) {
       const d = utc ? new Date(Date.UTC(year, 0, i)) : new Date(year, 0, i);
       const day = utc ? d.getUTCDay() : d.getDay();
 
@@ -78126,7 +77986,7 @@ class locale_Locale {
       const inLeapYear = year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
       const firstWeekday = new Date(year, month - 1, 1).getDay() + 1;
       const days = month === 2 && inLeapYear ? 29 : daysInMonths[month - 1];
-      const weeks = Math.ceil((days + Math.abs(firstWeekday - this.firstDayOfWeek)) / 7);
+      const weeks = Math.ceil((days + Math.abs(firstWeekday - this.firstDayOfWeek)) / daysInWeek);
       comps = {
         firstDayOfWeek: this.firstDayOfWeek,
         inLeapYear,
@@ -78161,22 +78021,28 @@ class locale_Locale {
   } // Buils day components for a given page
 
 
-  getCalendarDays(_ref3, disabledAttribute) {
+  getCalendarDays(_ref3) {
     let monthComps = _ref3.monthComps,
         prevMonthComps = _ref3.prevMonthComps,
-        nextMonthComps = _ref3.nextMonthComps,
-        trimMaxWeek = _ref3.trimMaxWeek;
+        nextMonthComps = _ref3.nextMonthComps;
     const days = [];
     const firstDayOfWeek = monthComps.firstDayOfWeek,
           firstWeekday = monthComps.firstWeekday;
-    const prevMonthDaysToShow = firstWeekday + (firstWeekday < firstDayOfWeek ? 7 : 0) - firstDayOfWeek;
+    const prevMonthDaysToShow = firstWeekday + (firstWeekday < firstDayOfWeek ? daysInWeek : 0) - firstDayOfWeek;
     let prevMonth = true;
     let thisMonth = false;
-    let nextMonth = false; // Init counters with previous month's data
+    let nextMonth = false; // Formatter for aria labels
+
+    const formatter = new Intl.DateTimeFormat(this.id, {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }); // Init counters with previous month's data
 
     let day = prevMonthComps.days - prevMonthDaysToShow + 1;
     let dayFromEnd = prevMonthComps.days - day + 1;
-    let weekdayOrdinal = Math.floor((day - 1) / 7 + 1);
+    let weekdayOrdinal = Math.floor((day - 1) / daysInWeek + 1);
     let weekdayOrdinalFromEnd = 1;
     let week = prevMonthComps.weeks;
     let weekFromEnd = 1;
@@ -78188,16 +78054,16 @@ class locale_Locale {
     const todayMonth = today.getMonth() + 1;
     const todayYear = today.getFullYear(); // Cycle through 6 weeks (max in month)
 
-    for (let w = 1; w <= 6 && (!nextMonth || !trimMaxWeek); w++) {
-      // Cycle through 7 days
-      for (let i = 1, weekday = firstDayOfWeek; i <= 7; i++, weekday += weekday === 7 ? -6 : 1) {
+    for (let w = 1; w <= 6; w++) {
+      // Cycle through days in week
+      for (let i = 1, weekday = firstDayOfWeek; i <= daysInWeek; i++, weekday += weekday === daysInWeek ? 1 - daysInWeek : 1) {
         // We need to know when to start counting actual month days
         if (prevMonth && weekday === firstWeekday) {
           // Reset counters for current month
           day = 1;
           dayFromEnd = monthComps.days;
-          weekdayOrdinal = Math.floor((day - 1) / 7 + 1);
-          weekdayOrdinalFromEnd = Math.floor((monthComps.days - day) / 7 + 1);
+          weekdayOrdinal = Math.floor((day - 1) / daysInWeek + 1);
+          weekdayOrdinalFromEnd = Math.floor((monthComps.days - day) / daysInWeek + 1);
           week = 1;
           weekFromEnd = monthComps.weeks;
           month = monthComps.month;
@@ -78212,21 +78078,25 @@ class locale_Locale {
 
 
         const date = new Date(year, month - 1, day);
+        const id = this.format(date, 'YYYY-MM-DD');
         const weekdayPosition = i;
+        const weekdayPositionFromEnd = daysInWeek - i;
         const isToday = day === todayDay && month === todayMonth && year === todayYear;
         const isFirstDay = thisMonth && day === 1;
         const isLastDay = thisMonth && day === monthComps.days;
         const onTop = w === 1;
         const onBottom = w === 6;
         const onLeft = i === 1;
-        const onRight = i === 7;
-        const dayObject = {
-          id: `${month}-${day}`,
+        const onRight = i === daysInWeek;
+        days.push({
+          id,
           label: day.toString(),
+          ariaLabel: formatter.format(date),
           day,
           dayFromEnd,
           weekday,
           weekdayPosition,
+          weekdayPositionFromEnd,
           weekdayOrdinal,
           weekdayOrdinalFromEnd,
           week,
@@ -78245,7 +78115,7 @@ class locale_Locale {
           onBottom,
           onLeft,
           onRight,
-          classes: [`day-${day}`, `day-from-end-${dayFromEnd}`, `weekday-${weekday}`, `weekday-position-${weekdayPosition}`, `weekday-ordinal-${weekdayOrdinal}`, `weekday-ordinal-from-end-${weekdayOrdinalFromEnd}`, `week-${week}`, `week-from-end-${weekFromEnd}`, {
+          classes: [`id-${id}`, `day-${day}`, `day-from-end-${dayFromEnd}`, `weekday-${weekday}`, `weekday-position-${weekdayPosition}`, `weekday-ordinal-${weekdayOrdinal}`, `weekday-ordinal-from-end-${weekdayOrdinalFromEnd}`, `week-${week}`, `week-from-end-${weekFromEnd}`, {
             'is-today': isToday,
             'is-first-day': isFirstDay,
             'is-last-day': isLastDay,
@@ -78257,10 +78127,7 @@ class locale_Locale {
             'on-left': onLeft,
             'on-right': onRight
           }]
-        }; // Set the day disabled state
-
-        dayObject.isDisabled = !!(disabledAttribute && disabledAttribute.includesDay(dayObject));
-        days.push(dayObject); // See if we've hit the last day of the month
+        }); // See if we've hit the last day of the month
 
         if (thisMonth && isLastDay) {
           thisMonth = false;
@@ -78269,7 +78136,7 @@ class locale_Locale {
           day = 1;
           dayFromEnd = nextMonthComps.days;
           weekdayOrdinal = 1;
-          weekdayOrdinalFromEnd = Math.floor((nextMonthComps.days - day) / 7 + 1);
+          weekdayOrdinalFromEnd = Math.floor((nextMonthComps.days - day) / daysInWeek + 1);
           week = 1;
           weekFromEnd = nextMonthComps.weeks;
           month = nextMonthComps.month;
@@ -78277,8 +78144,8 @@ class locale_Locale {
         } else {
           day++;
           dayFromEnd--;
-          weekdayOrdinal = Math.floor((day - 1) / 7 + 1);
-          weekdayOrdinalFromEnd = Math.floor((monthComps.days - day) / 7 + 1);
+          weekdayOrdinal = Math.floor((day - 1) / daysInWeek + 1);
+          weekdayOrdinalFromEnd = Math.floor((monthComps.days - day) / daysInWeek + 1);
         }
       } // Append week days
 
@@ -78292,6 +78159,7 @@ class locale_Locale {
 
 }
 // CONCATENATED MODULE: ./src/utils/mixins/root.js
+
 
 
 
@@ -78326,12 +78194,11 @@ const rootMixin = {
       const detLocale = new Intl.DateTimeFormat().resolvedOptions().locale;
       let config = this.locale; // Resolve the locale id
 
-      let id = Object(utils_["m" /* isString */])(config) ? config : Object(utils_["f" /* has */])(config, 'id') ? config.id : detLocale;
-      id = [id, id.substring(0, 2)].find(i => Object(utils_["f" /* has */])(locales, i)) || detLocale; // Get the default locale, but prioritize the default masks
+      let id = Object(utils_["m" /* isString */])(config) ? config : Object(utils_["e" /* has */])(config, 'id') ? config.id : detLocale;
+      id = [id, id.substring(0, 2)].find(i => Object(utils_["e" /* has */])(locales, i)) || detLocale; // Spread the default locale to prevent repetitive update loops
 
-      const defLocale = Object(utils_["c" /* defaultsDeep */])({
-        masks: this.$vc.masks
-      }, locales[id]); // Let props override locale settings
+      const defLocale = Object(objectSpread["a" /* default */])({}, locales[id]); // Let props override locale settings
+
 
       defLocale.firstDayOfWeek = this.passedProp('firstDayOfWeek', defLocale.firstDayOfWeek);
       defLocale.masks = Object(utils_["c" /* defaultsDeep */])(this.masks, defLocale.masks); // Assign or merge defaults with provided config
@@ -78352,11 +78219,11 @@ const rootMixin = {
 const propOrDefaultMixin = {
   methods: {
     propOrDefault(prop, defaultPath, strategy) {
-      return this.passedProp(prop, Object(utils_["e" /* get */])(this.$vc.defaults, defaultPath), strategy);
+      return this.passedProp(prop, Object(utils_["d" /* get */])(this.$vc.defaults, defaultPath), strategy);
     },
 
     passedProp(prop, fallback, strategy) {
-      if (Object(utils_["f" /* has */])(this.$options.propsData, prop)) {
+      if (Object(utils_["e" /* has */])(this.$options.propsData, prop)) {
         const propValue = this[prop];
 
         if (Object(utils_["l" /* isObject */])(propValue) && strategy === 'merge') {
@@ -78371,16 +78238,30 @@ const propOrDefaultMixin = {
 
   }
 };
+// CONCATENATED MODULE: ./src/utils/mixins/safeScopedSlot.js
+
+const safeScopedSlotMixin = {
+  methods: {
+    safeScopedSlot(name, args) {
+      let def = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      return Object(utils_["j" /* isFunction */])(this.$scopedSlots[name]) ? this.$scopedSlots[name](args) : def;
+    }
+
+  }
+};
 // CONCATENATED MODULE: ./src/utils/mixins/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mixins_childMixin; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mixins_rootMixin; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mixins_propOrDefaultMixin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return mixins_safeScopedSlotMixin; });
+
 
 
 
 const mixins_childMixin = childMixin;
 const mixins_rootMixin = rootMixin;
 const mixins_propOrDefaultMixin = propOrDefaultMixin;
+const mixins_safeScopedSlotMixin = safeScopedSlotMixin;
 
 /***/ }),
 
@@ -78620,6 +78501,17 @@ module.exports = equalByTag;
 
 /***/ }),
 
+/***/ "1ceb":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_18514c08_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("398a");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_18514c08_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_18514c08_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_18514c08_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "1cec":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -78669,21 +78561,6 @@ function hashDelete(key) {
 
 module.exports = hashDelete;
 
-
-/***/ }),
-
-/***/ "1f01":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("d3eb");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("6f0ef00f", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -78739,22 +78616,6 @@ function matchesStrictComparable(key, srcValue) {
 }
 
 module.exports = matchesStrictComparable;
-
-
-/***/ }),
-
-/***/ "20fd":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $defineProperty = __webpack_require__("d9f6");
-var createDesc = __webpack_require__("aebd");
-
-module.exports = function (object, index, value) {
-  if (index in object) $defineProperty.f(object, index, createDesc(0, value));
-  else object[index] = value;
-};
 
 
 /***/ }),
@@ -78863,6 +78724,17 @@ module.exports = function (KEY, length, exec) {
 
 /***/ }),
 
+/***/ "2285":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_5be4b00c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6f6a");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_5be4b00c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_5be4b00c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_5be4b00c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "2286":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -78903,17 +78775,6 @@ function overRest(func, start, transform) {
 
 module.exports = overRest;
 
-
-/***/ }),
-
-/***/ "22f6":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_543ec9f5_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("92d6");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_543ec9f5_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_543ec9f5_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_543ec9f5_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -79356,21 +79217,6 @@ function isNil(value) {
 
 module.exports = isNil;
 
-
-/***/ }),
-
-/***/ "27f3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("dee3");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("6c593d32", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -80063,13 +79909,13 @@ module.exports = createAssigner;
 
 "use strict";
 /* unused harmony export evalFn */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return pageIsValid; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return pageIsBeforePage; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return pageIsAfterPage; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return pageIsBetweenPages; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return pageForDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return pageIsValid; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return pageIsBeforePage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return pageIsAfterPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return pageIsBetweenPages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return pageForDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addPages; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return pageForThisMonth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return pageForThisMonth; });
 /* unused harmony export pageForNextMonth */
 /* unused harmony export pageForPrevMonth */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getMaxPage; });
@@ -80079,12 +79925,13 @@ module.exports = createAssigner;
 /* unused harmony export elementHasAncestor */
 /* unused harmony export elementPositionInAncestor */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return mixinOptionalProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return createGuid; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return on; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return off; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return elementContains; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return onSpaceOrEnter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return createGuid; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return hash; });
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("cebc");
+/* harmony import */ var _Users_nreyes_Code_Web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("cebc");
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("6b54");
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("ac6a");
@@ -80188,7 +80035,7 @@ const mixinOptionalProps = (source, target, props) => {
 
     if (Object.prototype.hasOwnProperty.call(source, name)) {
       const value = validate ? validate(source[name]) : source[name];
-      target[name] = mixin && Object(___WEBPACK_IMPORTED_MODULE_3__[/* isObject */ "l"])(value) ? Object(C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, mixin, value) : value;
+      target[name] = mixin && Object(___WEBPACK_IMPORTED_MODULE_3__[/* isObject */ "l"])(value) ? Object(_Users_nreyes_Code_Web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, mixin, value) : value;
       assigned.push(name);
     }
   });
@@ -80196,13 +80043,6 @@ const mixinOptionalProps = (source, target, props) => {
     target,
     assigned: assigned.length ? assigned : null
   };
-};
-const createGuid = () => {
-  function S4() {
-    return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
-  }
-
-  return `${S4() + S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`;
 };
 const on = (element, event, handler) => {
   if (element && event && handler) {
@@ -80215,6 +80055,21 @@ const off = (element, event, handler) => {
   }
 };
 const elementContains = (element, child) => !!element && !!child && (element === child || element.contains(child));
+const onSpaceOrEnter = (event, handler) => {
+  if (event.key === ' ' || event.key === 'Enter') {
+    handler(event);
+    event.preventDefault();
+  }
+};
+/* eslint-disable no-bitwise */
+
+const createGuid = () => {
+  function S4() {
+    return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+  }
+
+  return `${S4() + S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`;
+};
 function hash(str) {
   let hashcode = 0;
   let i = 0;
@@ -80229,6 +80084,7 @@ function hash(str) {
 
   return hashcode;
 }
+/* eslint-enable no-bitwise */
 
 /***/ }),
 
@@ -80483,17 +80339,6 @@ module.exports = assignValue;
 
 /***/ }),
 
-/***/ "32c5":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_691b83c4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("27f3");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_691b83c4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_691b83c4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_691b83c4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "32e9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80627,29 +80472,26 @@ module.exports = baseIsNative;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return install; });
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a4bb");
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("ac6a");
-/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("c192");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _components_Calendar__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ac6a");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("c192");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _components_Calendar__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
-/* harmony import */ var _components_DatePicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("e94a");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _components_DatePicker__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+/* harmony import */ var _components_DatePicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("e94a");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _components_DatePicker__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
-/* harmony import */ var _components_Popover__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("cc8d");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "c", function() { return _components_Popover__WEBPACK_IMPORTED_MODULE_4__["a"]; });
+/* harmony import */ var _components_Popover__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("cc8d");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "c", function() { return _components_Popover__WEBPACK_IMPORTED_MODULE_3__["a"]; });
 
-/* harmony import */ var _components_PopoverRef__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("e0a0");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "d", function() { return _components_PopoverRef__WEBPACK_IMPORTED_MODULE_5__["a"]; });
+/* harmony import */ var _components_PopoverRef__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("e0a0");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "d", function() { return _components_PopoverRef__WEBPACK_IMPORTED_MODULE_4__["a"]; });
 
-/* harmony import */ var _components_PopoverRow__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("a832");
-/* harmony import */ var _utils_setup__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("844c");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "f", function() { return _utils_setup__WEBPACK_IMPORTED_MODULE_7__["a"]; });
+/* harmony import */ var _components_PopoverRow__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("a832");
+/* harmony import */ var _utils_setup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("844c");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "f", function() { return _utils_setup__WEBPACK_IMPORTED_MODULE_6__["a"]; });
 
-/* harmony import */ var _styles_tailwind_lib_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("bdab");
-/* harmony import */ var _styles_tailwind_lib_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_styles_tailwind_lib_css__WEBPACK_IMPORTED_MODULE_8__);
-
+/* harmony import */ var _styles_tailwind_lib_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("bdab");
+/* harmony import */ var _styles_tailwind_lib_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_styles_tailwind_lib_css__WEBPACK_IMPORTED_MODULE_7__);
 
 
 
@@ -80662,11 +80504,11 @@ module.exports = baseIsNative;
  // Installs the library as a plugin
 
 const components = {
-  Calendar: _components_Calendar__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"],
-  DatePicker: _components_DatePicker__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"],
-  Popover: _components_Popover__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"],
-  PopoverRef: _components_PopoverRef__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"],
-  PopoverRow: _components_PopoverRow__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"]
+  Calendar: _components_Calendar__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"],
+  DatePicker: _components_DatePicker__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"],
+  Popover: _components_Popover__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"],
+  PopoverRef: _components_PopoverRef__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"],
+  PopoverRow: _components_PopoverRow__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]
 }; // Declare install function executed by Vue.use()
 
 function install(Vue, opts) {
@@ -80674,9 +80516,8 @@ function install(Vue, opts) {
   if (install.installed) return;
   install.installed = true; // Setup plugin with options
 
-  const $vc = Object(_utils_setup__WEBPACK_IMPORTED_MODULE_7__[/* setupCalendar */ "a"])(Vue, opts);
-
-  C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default()(components).forEach(k => Vue.component(`${$vc.defaults.componentPrefix}${k}`, components[k]));
+  const $vc = Object(_utils_setup__WEBPACK_IMPORTED_MODULE_6__[/* setupCalendar */ "a"])(Vue, opts);
+  Object.keys(components).forEach(k => Vue.component(`${$vc.defaults.componentPrefix}${k}`, components[k]));
 } // Create module definition for Vue.use()
 
 const plugin = {
@@ -80778,21 +80619,6 @@ var IObject = __webpack_require__("335c");
 var defined = __webpack_require__("25eb");
 module.exports = function (it) {
   return IObject(defined(it));
-};
-
-
-/***/ }),
-
-/***/ "3702":
-/***/ (function(module, exports, __webpack_require__) {
-
-// check on default Array iterator
-var Iterators = __webpack_require__("481b");
-var ITERATOR = __webpack_require__("5168")('iterator');
-var ArrayProto = Array.prototype;
-
-module.exports = function (it) {
-  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
 };
 
 
@@ -81159,6 +80985,21 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 /***/ }),
 
+/***/ "398a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("7be9");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("5b039b7a", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "39ff":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -81282,6 +81123,17 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
+
+/***/ }),
+
+/***/ "3c55":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarNav_vue_vue_type_style_index_0_lang_postcss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c4af");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarNav_vue_vue_type_style_index_0_lang_postcss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarNav_vue_vue_type_style_index_0_lang_postcss___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarNav_vue_vue_type_style_index_0_lang_postcss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -81624,21 +81476,6 @@ module.exports = copyArray;
 
 /***/ }),
 
-/***/ "43d9":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vc-day[data-v-1b5be871]{position:relative;min-height:--day-min-height;height:100%;z-index:1}.vc-day-layer[data-v-1b5be871]{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none}.vc-day-box-center-center[data-v-1b5be871]{display:flex;justify-content:center;align-items:center;height:100%;transform-origin:50% 50%}.vc-day-box-left-center[data-v-1b5be871]{display:flex;justify-content:flex-start;align-items:center;height:100%;transform-origin:0 50%}.vc-day-box-right-center[data-v-1b5be871]{display:flex;justify-content:flex-end;align-items:center;height:100%;transform-origin:100% 50%}.vc-day-box-center-bottom[data-v-1b5be871]{display:flex;justify-content:center;align-items:flex-end}.vc-day-content[data-v-1b5be871]{display:flex;justify-content:center;align-items:center;width:var(--day-content-width);height:var(--day-content-height);margin:var(--day-content-margin);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vc-day-content[data-v-1b5be871]:hover{background-color:var(--day-content-bg-color-hover)}.vc-day-content:hover.vc-is-dark[data-v-1b5be871]{background-color:var(--day-content-dark-bg-color-hover)}.vc-day-content[data-v-1b5be871]:focus{background-color:var(--day-content-bg-color-focus)}.vc-day-content:focus.vc-is-dark[data-v-1b5be871]{background-color:var(--day-content-dark-bg-color-focus)}.vc-highlights[data-v-1b5be871]{overflow:hidden;pointer-events:none;z-index:-1}.vc-highlight[data-v-1b5be871]{width:var(--highlight-height);height:var(--highlight-height)}.vc-highlight.vc-highlight-base-start[data-v-1b5be871]{width:50%!important;border-radius:0!important;border-right-width:0!important}.vc-highlight.vc-highlight-base-end[data-v-1b5be871]{width:50%!important;border-radius:0!important;border-left-width:0!important}.vc-highlight.vc-highlight-base-middle[data-v-1b5be871]{width:100%;border-radius:0!important;border-left-width:0!important;border-right-width:0!important;margin:0 -1px}.vc-dots[data-v-1b5be871]{display:flex;justify-content:center;align-items:center}.vc-dot[data-v-1b5be871]{width:var(--dot-diameter);height:var(--dot-diameter);border-radius:var(--dot-border-radius);transition:all var(--day-content-transition-time)}.vc-dot[data-v-1b5be871]:not(:last-child){margin-right:var(--dot-spacing)}.vc-bars[data-v-1b5be871]{display:flex;justify-content:flex-start;align-items:center;width:var(--bars-width)}.vc-bar[data-v-1b5be871]{flex-grow:1;height:var(--bar-height);transition:all var(--day-content-transition-time)}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "4416":
 /***/ (function(module, exports) {
 
@@ -81666,17 +81503,18 @@ module.exports = last;
 
 /***/ }),
 
-/***/ "4517":
+/***/ "44ec":
 /***/ (function(module, exports, __webpack_require__) {
 
-var forOf = __webpack_require__("a22a");
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-module.exports = function (iter, ITERATOR) {
-  var result = [];
-  forOf(iter, false, result.push, result, ITERATOR);
-  return result;
-};
-
+// load the styles
+var content = __webpack_require__("7ba6");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("13d0e2e0", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -82204,28 +82042,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "4c95":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var global = __webpack_require__("e53d");
-var core = __webpack_require__("584a");
-var dP = __webpack_require__("d9f6");
-var DESCRIPTORS = __webpack_require__("8e60");
-var SPECIES = __webpack_require__("5168")('species');
-
-module.exports = function (KEY) {
-  var C = typeof core[KEY] == 'function' ? core[KEY] : global[KEY];
-  if (DESCRIPTORS && C && !C[SPECIES]) dP.f(C, SPECIES, {
-    configurable: true,
-    get: function () { return this; }
-  });
-};
-
-
-/***/ }),
-
 /***/ "4caa":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82307,6 +82123,17 @@ module.exports = isUndefined;
 
 /***/ }),
 
+/***/ "4d4c":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_5dd7f738_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6f39");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_5dd7f738_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_5dd7f738_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_5dd7f738_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "4d8c":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82332,35 +82159,6 @@ function flatten(array) {
 }
 
 module.exports = flatten;
-
-
-/***/ }),
-
-/***/ "4ee1":
-/***/ (function(module, exports, __webpack_require__) {
-
-var ITERATOR = __webpack_require__("5168")('iterator');
-var SAFE_CLOSING = false;
-
-try {
-  var riter = [7][ITERATOR]();
-  riter['return'] = function () { SAFE_CLOSING = true; };
-  // eslint-disable-next-line no-throw-literal
-  Array.from(riter, function () { throw 2; });
-} catch (e) { /* empty */ }
-
-module.exports = function (exec, skipClosing) {
-  if (!skipClosing && !SAFE_CLOSING) return false;
-  var safe = false;
-  try {
-    var arr = [7];
-    var iter = arr[ITERATOR]();
-    iter.next = function () { return { done: safe = true }; };
-    arr[ITERATOR] = function () { return iter; };
-    exec(arr);
-  } catch (e) { /* empty */ }
-  return safe;
-};
 
 
 /***/ }),
@@ -82463,6 +82261,21 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 
 module.exports = baseMergeDeep;
 
+
+/***/ }),
+
+/***/ "4f51":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("07a1");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("8b251f56", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -82640,6 +82453,17 @@ exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
 
+/***/ "52be":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_7cb272a6_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("4f51");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_7cb272a6_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_7cb272a6_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Grid_vue_vue_type_style_index_0_id_7cb272a6_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "53e2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82656,51 +82480,6 @@ module.exports = Object.getPrototypeOf || function (O) {
     return O.constructor.prototype;
   } return O instanceof Object ? ObjectProto : null;
 };
-
-
-/***/ }),
-
-/***/ "549b":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var ctx = __webpack_require__("d864");
-var $export = __webpack_require__("63b6");
-var toObject = __webpack_require__("241e");
-var call = __webpack_require__("b0dc");
-var isArrayIter = __webpack_require__("3702");
-var toLength = __webpack_require__("b447");
-var createProperty = __webpack_require__("20fd");
-var getIterFn = __webpack_require__("7cd6");
-
-$export($export.S + $export.F * !__webpack_require__("4ee1")(function (iter) { Array.from(iter); }), 'Array', {
-  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
-  from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
-    var O = toObject(arrayLike);
-    var C = typeof this == 'function' ? this : Array;
-    var aLen = arguments.length;
-    var mapfn = aLen > 1 ? arguments[1] : undefined;
-    var mapping = mapfn !== undefined;
-    var index = 0;
-    var iterFn = getIterFn(O);
-    var length, result, step, iterator;
-    if (mapping) mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
-    // if object isn't iterable or it's array with default iterator - use simple case
-    if (iterFn != undefined && !(C == Array && isArrayIter(iterFn))) {
-      for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
-        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
-      }
-    } else {
-      length = toLength(O.length);
-      for (result = new C(length); length > index; index++) {
-        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
-      }
-    }
-    result.length = index;
-    return result;
-  }
-});
 
 
 /***/ }),
@@ -82793,66 +82572,6 @@ module.exports = nativeKeys;
 
 /***/ }),
 
-/***/ "57b1":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 0 -> Array#forEach
-// 1 -> Array#map
-// 2 -> Array#filter
-// 3 -> Array#some
-// 4 -> Array#every
-// 5 -> Array#find
-// 6 -> Array#findIndex
-var ctx = __webpack_require__("d864");
-var IObject = __webpack_require__("335c");
-var toObject = __webpack_require__("241e");
-var toLength = __webpack_require__("b447");
-var asc = __webpack_require__("bfac");
-module.exports = function (TYPE, $create) {
-  var IS_MAP = TYPE == 1;
-  var IS_FILTER = TYPE == 2;
-  var IS_SOME = TYPE == 3;
-  var IS_EVERY = TYPE == 4;
-  var IS_FIND_INDEX = TYPE == 6;
-  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-  var create = $create || asc;
-  return function ($this, callbackfn, that) {
-    var O = toObject($this);
-    var self = IObject(O);
-    var f = ctx(callbackfn, that, 3);
-    var length = toLength(self.length);
-    var index = 0;
-    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-    var val, res;
-    for (;length > index; index++) if (NO_HOLES || index in self) {
-      val = self[index];
-      res = f(val, index, O);
-      if (TYPE) {
-        if (IS_MAP) result[index] = res;   // map
-        else if (res) switch (TYPE) {
-          case 3: return true;             // some
-          case 5: return val;              // find
-          case 6: return index;            // findIndex
-          case 2: result.push(val);        // filter
-        } else if (IS_EVERY) return false; // every
-      }
-    }
-    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-  };
-};
-
-
-/***/ }),
-
-/***/ "57e3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
-__webpack_require__("68f7")('Set');
-
-
-/***/ }),
-
 /***/ "584a":
 /***/ (function(module, exports) {
 
@@ -82871,158 +82590,6 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 module.exports = freeGlobal;
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("c8ba")))
-
-/***/ }),
-
-/***/ "5aee":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var dP = __webpack_require__("d9f6").f;
-var create = __webpack_require__("a159");
-var redefineAll = __webpack_require__("5c95");
-var ctx = __webpack_require__("d864");
-var anInstance = __webpack_require__("1173");
-var forOf = __webpack_require__("a22a");
-var $iterDefine = __webpack_require__("30f1");
-var step = __webpack_require__("50ed");
-var setSpecies = __webpack_require__("4c95");
-var DESCRIPTORS = __webpack_require__("8e60");
-var fastKey = __webpack_require__("ebfd").fastKey;
-var validate = __webpack_require__("9f79");
-var SIZE = DESCRIPTORS ? '_s' : 'size';
-
-var getEntry = function (that, key) {
-  // fast case
-  var index = fastKey(key);
-  var entry;
-  if (index !== 'F') return that._i[index];
-  // frozen object case
-  for (entry = that._f; entry; entry = entry.n) {
-    if (entry.k == key) return entry;
-  }
-};
-
-module.exports = {
-  getConstructor: function (wrapper, NAME, IS_MAP, ADDER) {
-    var C = wrapper(function (that, iterable) {
-      anInstance(that, C, NAME, '_i');
-      that._t = NAME;         // collection type
-      that._i = create(null); // index
-      that._f = undefined;    // first entry
-      that._l = undefined;    // last entry
-      that[SIZE] = 0;         // size
-      if (iterable != undefined) forOf(iterable, IS_MAP, that[ADDER], that);
-    });
-    redefineAll(C.prototype, {
-      // 23.1.3.1 Map.prototype.clear()
-      // 23.2.3.2 Set.prototype.clear()
-      clear: function clear() {
-        for (var that = validate(this, NAME), data = that._i, entry = that._f; entry; entry = entry.n) {
-          entry.r = true;
-          if (entry.p) entry.p = entry.p.n = undefined;
-          delete data[entry.i];
-        }
-        that._f = that._l = undefined;
-        that[SIZE] = 0;
-      },
-      // 23.1.3.3 Map.prototype.delete(key)
-      // 23.2.3.4 Set.prototype.delete(value)
-      'delete': function (key) {
-        var that = validate(this, NAME);
-        var entry = getEntry(that, key);
-        if (entry) {
-          var next = entry.n;
-          var prev = entry.p;
-          delete that._i[entry.i];
-          entry.r = true;
-          if (prev) prev.n = next;
-          if (next) next.p = prev;
-          if (that._f == entry) that._f = next;
-          if (that._l == entry) that._l = prev;
-          that[SIZE]--;
-        } return !!entry;
-      },
-      // 23.2.3.6 Set.prototype.forEach(callbackfn, thisArg = undefined)
-      // 23.1.3.5 Map.prototype.forEach(callbackfn, thisArg = undefined)
-      forEach: function forEach(callbackfn /* , that = undefined */) {
-        validate(this, NAME);
-        var f = ctx(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
-        var entry;
-        while (entry = entry ? entry.n : this._f) {
-          f(entry.v, entry.k, this);
-          // revert to the last existing entry
-          while (entry && entry.r) entry = entry.p;
-        }
-      },
-      // 23.1.3.7 Map.prototype.has(key)
-      // 23.2.3.7 Set.prototype.has(value)
-      has: function has(key) {
-        return !!getEntry(validate(this, NAME), key);
-      }
-    });
-    if (DESCRIPTORS) dP(C.prototype, 'size', {
-      get: function () {
-        return validate(this, NAME)[SIZE];
-      }
-    });
-    return C;
-  },
-  def: function (that, key, value) {
-    var entry = getEntry(that, key);
-    var prev, index;
-    // change existing entry
-    if (entry) {
-      entry.v = value;
-    // create new entry
-    } else {
-      that._l = entry = {
-        i: index = fastKey(key, true), // <- index
-        k: key,                        // <- key
-        v: value,                      // <- value
-        p: prev = that._l,             // <- previous entry
-        n: undefined,                  // <- next entry
-        r: false                       // <- removed
-      };
-      if (!that._f) that._f = entry;
-      if (prev) prev.n = entry;
-      that[SIZE]++;
-      // add to index
-      if (index !== 'F') that._i[index] = entry;
-    } return that;
-  },
-  getEntry: getEntry,
-  setStrong: function (C, NAME, IS_MAP) {
-    // add .keys, .values, .entries, [@@iterator]
-    // 23.1.3.4, 23.1.3.8, 23.1.3.11, 23.1.3.12, 23.2.3.5, 23.2.3.8, 23.2.3.10, 23.2.3.11
-    $iterDefine(C, NAME, function (iterated, kind) {
-      this._t = validate(iterated, NAME); // target
-      this._k = kind;                     // kind
-      this._l = undefined;                // previous
-    }, function () {
-      var that = this;
-      var kind = that._k;
-      var entry = that._l;
-      // revert to the last existing entry
-      while (entry && entry.r) entry = entry.p;
-      // get next entry
-      if (!that._t || !(that._l = entry = entry ? entry.n : that._t._f)) {
-        // or finish the iteration
-        that._t = undefined;
-        return step(1);
-      }
-      // return step by kind
-      if (kind == 'keys') return step(0, entry.k);
-      if (kind == 'values') return step(0, entry.v);
-      return step(0, [entry.k, entry.v]);
-    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
-
-    // add [@@species], 23.1.2.2, 23.2.2.2
-    setSpecies(NAME);
-  }
-};
-
 
 /***/ }),
 
@@ -83125,20 +82692,6 @@ module.exports = baseFlatten;
 
 /***/ }),
 
-/***/ "5c95":
-/***/ (function(module, exports, __webpack_require__) {
-
-var hide = __webpack_require__("35e8");
-module.exports = function (target, src, safe) {
-  for (var key in src) {
-    if (safe && target[key]) target[key] = src[key];
-    else hide(target, key, src[key]);
-  } return target;
-};
-
-
-/***/ }),
-
 /***/ "5ca1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -83185,22 +82738,6 @@ $export.W = 32;  // wrap
 $export.U = 64;  // safe
 $export.R = 128; // real proto method for `library`
 module.exports = $export;
-
-
-/***/ }),
-
-/***/ "5d6b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $parseInt = __webpack_require__("e53d").parseInt;
-var $trim = __webpack_require__("a1ce").trim;
-var ws = __webpack_require__("e692");
-var hex = /^[-+]?0[xX]/;
-
-module.exports = $parseInt(ws + '08') !== 8 || $parseInt(ws + '0x16') !== 22 ? function parseInt(str, radix) {
-  var string = $trim(String(str), 3);
-  return $parseInt(string, (radix >>> 0) || (hex.test(string) ? 16 : 10));
-} : $parseInt;
 
 
 /***/ }),
@@ -83501,21 +83038,6 @@ module.exports = function (key) {
 
 /***/ }),
 
-/***/ "62db":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vc-day-popover-row[data-v-2d1c713c]{--day-content-transition-time:.13s ease-in;display:flex;align-items:center;transition:all var(--day-content-transition-time)}.vc-day-popover-row[data-v-2d1c713c]:not(:first-child){margin-top:3px}.vc-day-popover-row-indicator[data-v-2d1c713c]{display:flex;justify-content:center;align-items:center;flex-grow:0;width:15px;margin-right:3px}.vc-day-popover-row-indicator span[data-v-2d1c713c]{transition:all var(--day-content-transition-time)}.vc-day-popover-row-content[data-v-2d1c713c]{display:flex;align-items:center;flex-wrap:none;flex-grow:1;width:-webkit-max-content;width:-moz-max-content;width:max-content}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "62e4":
 /***/ (function(module, exports) {
 
@@ -83643,6 +83165,17 @@ module.exports = baseMatches;
 
 /***/ }),
 
+/***/ "6551":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_5572e632_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("7dcd");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_5572e632_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_5572e632_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_5572e632_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "656b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -83670,21 +83203,6 @@ function baseGet(object, path) {
 }
 
 module.exports = baseGet;
-
-
-/***/ }),
-
-/***/ "6670":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vc-popover-content-wrapper[data-v-96ab1cec]{--popover-horizontal-content-offset:8px;--popover-vertical-content-offset:10px;--popover-slide-translation:15px;--popover-transition-time:.14s ease-in-out;--popover-caret-horizontal-offset:18px;--popover-caret-vertical-offset:8px;position:absolute;display:block;outline:none;z-index:10}.vc-popover-content-wrapper[data-v-96ab1cec]:not(.is-interactive){pointer-events:none}.vc-popover-content[data-v-96ab1cec]{position:relative;z-index:10}.vc-popover-content.direction-bottom[data-v-96ab1cec]{margin-top:var(--popover-vertical-content-offset)}.vc-popover-content.direction-top[data-v-96ab1cec]{margin-bottom:var(--popover-vertical-content-offset)}.vc-popover-content.direction-left[data-v-96ab1cec]{margin-right:var(--popover-horizontal-content-offset)}.vc-popover-content.direction-right[data-v-96ab1cec]{margin-left:var(--popover-horizontal-content-offset)}.vc-popover-caret[data-v-96ab1cec]{content:\"\";position:absolute;display:block;width:12px;height:12px;border-top:inherit;border-left:inherit;background:inherit;z-index:-1}.vc-popover-caret.direction-bottom[data-v-96ab1cec]{top:0}.vc-popover-caret.direction-bottom.align-left[data-v-96ab1cec]{transform:translateY(-50%) rotate(45deg)}.vc-popover-caret.direction-bottom.align-center[data-v-96ab1cec]{transform:translateX(-50%) translateY(-50%) rotate(45deg)}.vc-popover-caret.direction-bottom.align-right[data-v-96ab1cec]{transform:translateY(-50%) rotate(45deg)}.vc-popover-caret.direction-top[data-v-96ab1cec]{top:100%}.vc-popover-caret.direction-top.align-left[data-v-96ab1cec]{transform:translateY(-50%) rotate(-135deg)}.vc-popover-caret.direction-top.align-center[data-v-96ab1cec]{transform:translateX(-50%) translateY(-50%) rotate(-135deg)}.vc-popover-caret.direction-top.align-right[data-v-96ab1cec]{transform:translateY(-50%) rotate(-135deg)}.vc-popover-caret.direction-left[data-v-96ab1cec]{left:100%}.vc-popover-caret.direction-left.align-top[data-v-96ab1cec]{transform:translateX(-50%) rotate(135deg)}.vc-popover-caret.direction-left.align-middle[data-v-96ab1cec]{transform:translateY(-50%) translateX(-50%) rotate(135deg)}.vc-popover-caret.direction-left.align-bottom[data-v-96ab1cec]{transform:translateX(-50%) rotate(135deg)}.vc-popover-caret.direction-right[data-v-96ab1cec]{left:0}.vc-popover-caret.direction-right.align-top[data-v-96ab1cec]{transform:translateX(-50%) rotate(-45deg)}.vc-popover-caret.direction-right.align-middle[data-v-96ab1cec]{transform:translateY(-50%) translateX(-50%) rotate(-45deg)}.vc-popover-caret.direction-right.align-bottom[data-v-96ab1cec]{transform:translateX(-50%) rotate(-45deg)}.vc-popover-caret.align-left[data-v-96ab1cec]{left:var(--popover-caret-horizontal-offset)}.vc-popover-caret.align-center[data-v-96ab1cec]{left:50%}.vc-popover-caret.align-right[data-v-96ab1cec]{right:var(--popover-caret-horizontal-offset)}.vc-popover-caret.align-top[data-v-96ab1cec]{top:var(--popover-caret-vertical-offset)}.vc-popover-caret.align-middle[data-v-96ab1cec]{top:50%}.vc-popover-caret.align-bottom[data-v-96ab1cec]{bottom:var(--popover-caret-vertical-offset)}.fade-enter-active[data-v-96ab1cec],.fade-leave-active[data-v-96ab1cec],.slide-fade-enter-active[data-v-96ab1cec],.slide-fade-leave-active[data-v-96ab1cec]{transition:all var(--popover-transition-time);pointer-events:none}.fade-enter[data-v-96ab1cec],.fade-leave-to[data-v-96ab1cec],.slide-fade-enter[data-v-96ab1cec],.slide-fade-leave-to[data-v-96ab1cec]{opacity:0}.slide-fade-enter.direction-bottom[data-v-96ab1cec],.slide-fade-leave-to.direction-bottom[data-v-96ab1cec]{transform:translateY(calc(-1*var(--popover-slide-translation)))}.slide-fade-enter.direction-top[data-v-96ab1cec],.slide-fade-leave-to.direction-top[data-v-96ab1cec]{transform:translateY(var(--popover-slide-translation))}.slide-fade-enter.direction-left[data-v-96ab1cec],.slide-fade-leave-to.direction-left[data-v-96ab1cec]{transform:translateX(var(--popover-slide-translation))}.slide-fade-enter.direction-right[data-v-96ab1cec],.slide-fade-leave-to.direction-right[data-v-96ab1cec]{transform:translateX(calc(-1*var(--popover-slide-translation)))}", ""]);
-
-// exports
 
 
 /***/ }),
@@ -83820,42 +83338,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "68f7":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// https://tc39.github.io/proposal-setmap-offrom/
-var $export = __webpack_require__("63b6");
-var aFunction = __webpack_require__("79aa");
-var ctx = __webpack_require__("d864");
-var forOf = __webpack_require__("a22a");
-
-module.exports = function (COLLECTION) {
-  $export($export.S, COLLECTION, { from: function from(source /* , mapFn, thisArg */) {
-    var mapFn = arguments[1];
-    var mapping, A, n, cb;
-    aFunction(this);
-    mapping = mapFn !== undefined;
-    if (mapping) aFunction(mapFn);
-    if (source == undefined) return new this();
-    A = [];
-    if (mapping) {
-      n = 0;
-      cb = ctx(mapFn, arguments[2], 2);
-      forOf(source, false, function (nextItem) {
-        A.push(cb(nextItem, n++));
-      });
-    } else {
-      forOf(source, false, A.push, A);
-    }
-    return new this(A);
-  } });
-};
-
-
-/***/ }),
-
 /***/ "69a8":
 /***/ (function(module, exports) {
 
@@ -83905,14 +83387,6 @@ function listCacheDelete(key) {
 }
 
 module.exports = listCacheDelete;
-
-
-/***/ }),
-
-/***/ "69f3":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("a59b");
 
 
 /***/ }),
@@ -83980,17 +83454,6 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
 
 module.exports = arrayReduce;
 
-
-/***/ }),
-
-/***/ "6ad0":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_2d1c713c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ea40");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_2d1c713c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_2d1c713c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopoverRow_vue_vue_type_style_index_0_id_2d1c713c_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -84084,6 +83547,66 @@ module.exports = asciiToArray;
 
 /***/ }),
 
+/***/ "6e4c":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vc-svg-icon[data-v-5572e632]{display:inline-block;stroke:currentColor;stroke-width:0}.vc-svg-icon path[data-v-5572e632]{fill:currentColor}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "6ecb":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vc-day[data-v-b0867174]{position:relative;min-height:var(--day-min-height);width:100%;height:100%;z-index:1}.vc-day-layer[data-v-b0867174]{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none}.vc-day-box-center-center[data-v-b0867174]{display:flex;justify-content:center;align-items:center;height:100%;transform-origin:50% 50%}.vc-day-box-left-center[data-v-b0867174]{display:flex;justify-content:flex-start;align-items:center;height:100%;transform-origin:0 50%}.vc-day-box-right-center[data-v-b0867174]{display:flex;justify-content:flex-end;align-items:center;height:100%;transform-origin:100% 50%}.vc-day-box-center-bottom[data-v-b0867174]{display:flex;justify-content:center;align-items:flex-end}.vc-day-content[data-v-b0867174]{display:flex;justify-content:center;align-items:center;width:var(--day-content-width);height:var(--day-content-height);margin:var(--day-content-margin);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vc-day-content[data-v-b0867174]:hover{background-color:var(--day-content-bg-color-hover)}.vc-day-content:hover.vc-is-dark[data-v-b0867174]{background-color:var(--day-content-dark-bg-color-hover)}.vc-day-content[data-v-b0867174]:focus{background-color:var(--day-content-bg-color-focus)}.vc-day-content:focus.vc-is-dark[data-v-b0867174]{background-color:var(--day-content-dark-bg-color-focus)}.vc-highlights[data-v-b0867174]{overflow:hidden;pointer-events:none;z-index:-1}.vc-highlight[data-v-b0867174]{width:var(--highlight-height);height:var(--highlight-height)}.vc-highlight.vc-highlight-base-start[data-v-b0867174]{width:50%!important;border-radius:0!important;border-right-width:0!important}.vc-highlight.vc-highlight-base-end[data-v-b0867174]{width:50%!important;border-radius:0!important;border-left-width:0!important}.vc-highlight.vc-highlight-base-middle[data-v-b0867174]{width:100%;border-radius:0!important;border-left-width:0!important;border-right-width:0!important;margin:0 -1px}.vc-dots[data-v-b0867174]{display:flex;justify-content:center;align-items:center}.vc-dot[data-v-b0867174]{width:var(--dot-diameter);height:var(--dot-diameter);border-radius:var(--dot-border-radius);transition:all var(--day-content-transition-time)}.vc-dot[data-v-b0867174]:not(:last-child){margin-right:var(--dot-spacing)}.vc-bars[data-v-b0867174]{display:flex;justify-content:flex-start;align-items:center;width:var(--bars-width)}.vc-bar[data-v-b0867174]{flex-grow:1;height:var(--bar-height);transition:all var(--day-content-transition-time)}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "6f39":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("f231");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("00835756", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
+/***/ "6f6a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("ee59");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("5ac13234", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "6f6c":
 /***/ (function(module, exports) {
 
@@ -84160,26 +83683,6 @@ function arrayLikeKeys(value, inherited) {
 }
 
 module.exports = arrayLikeKeys;
-
-
-/***/ }),
-
-/***/ "7075":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// https://tc39.github.io/proposal-setmap-offrom/
-var $export = __webpack_require__("63b6");
-
-module.exports = function (COLLECTION) {
-  $export($export.S, COLLECTION, { of: function of() {
-    var length = arguments.length;
-    var A = new Array(length);
-    while (length--) A[length] = arguments[length];
-    return new this(A);
-  } });
-};
 
 
 /***/ }),
@@ -84361,28 +83864,6 @@ function baseIsTypedArray(value) {
 }
 
 module.exports = baseIsTypedArray;
-
-
-/***/ }),
-
-/***/ "7445":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__("63b6");
-var $parseInt = __webpack_require__("5d6b");
-// 18.2.5 parseInt(string, radix)
-$export($export.G + $export.F * (parseInt != $parseInt), { parseInt: $parseInt });
-
-
-/***/ }),
-
-/***/ "74be":
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var $export = __webpack_require__("63b6");
-
-$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__("f228")('Set') });
 
 
 /***/ }),
@@ -84577,13 +84058,6 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
   : Function('return this')();
 if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
-
-/***/ }),
-
-/***/ "774e":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("d2d5");
 
 /***/ }),
 
@@ -84858,14 +84332,33 @@ module.exports = baseIsEqualDeep;
 
 /***/ }),
 
-/***/ "7c27":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "7ba6":
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_96ab1cec_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("0a27");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_96ab1cec_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_96ab1cec_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Popover_vue_vue_type_style_index_0_id_96ab1cec_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vc-pane[data-v-d8853504]{flex-grow:1;flex-shrink:1;display:flex;flex-direction:column;justify-content:center;align-items:stretch}.vc-horizontal-divider[data-v-d8853504]{align-self:center}.vc-header[data-v-d8853504]{flex-shrink:0;display:flex;align-items:stretch;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:var(--header-padding)}.vc-header.align-left[data-v-d8853504]{order:-1;justify-content:flex-start}.vc-header.align-right[data-v-d8853504]{order:1;justify-content:flex-end}.vc-title-layout[data-v-d8853504]{display:flex;justify-content:center;align-items:center;flex-grow:1}.vc-title-layout.align-left[data-v-d8853504]{justify-content:flex-start}.vc-title-layout.align-right[data-v-d8853504]{justify-content:flex-end}.vc-title-wrapper[data-v-d8853504]{position:relative}.vc-title[data-v-d8853504]{cursor:pointer;white-space:nowrap;padding:var(--title-padding)}.vc-title[data-v-d8853504],.vc-weekday[data-v-d8853504]{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vc-weekday[data-v-d8853504]{display:flex;justify-content:center;align-items:center;flex:1;padding:var(--weekday-padding);cursor:default}.vc-weeks[data-v-d8853504]{flex-shrink:1;flex-grow:1;padding:var(--weeks-padding)}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "7be9":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vc-day-popover-row[data-v-18514c08]{--day-content-transition-time:.13s ease-in;display:flex;align-items:center;transition:all var(--day-content-transition-time)}.vc-day-popover-row[data-v-18514c08]:not(:first-child){margin-top:3px}.vc-day-popover-row-indicator[data-v-18514c08]{display:flex;justify-content:center;align-items:center;flex-grow:0;width:15px;margin-right:3px}.vc-day-popover-row-indicator span[data-v-18514c08]{transition:all var(--day-content-transition-time)}.vc-day-popover-row-content[data-v-18514c08]{display:flex;align-items:center;flex-wrap:none;flex-grow:1;width:-webkit-max-content;width:-moz-max-content;width:max-content}", ""]);
+
+// exports
+
 
 /***/ }),
 
@@ -84939,22 +84432,6 @@ module.exports = baseGetAllKeys;
 
 /***/ }),
 
-/***/ "7d6d":
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://github.com/tc39/proposal-object-values-entries
-var $export = __webpack_require__("63b6");
-var $values = __webpack_require__("13c8")(false);
-
-$export($export.S, 'Object', {
-  values: function values(it) {
-    return $values(it);
-  }
-});
-
-
-/***/ }),
-
 /***/ "7d7b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -84966,6 +84443,21 @@ module.exports = __webpack_require__("584a").getIterator = function (it) {
   return anObject(iterFn.call(it));
 };
 
+
+/***/ }),
+
+/***/ "7dcd":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("6e4c");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("6070a49c", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -85286,38 +84778,42 @@ var defaults_screens = __webpack_require__("85a9");
     dark: 'vc-text-lg vc-text-gray-100 vc-font-semibold hover:vc-opacity-75'
   },
   arrows: {
-    light: 'vc-text-gray-600 hover:vc-opacity-50',
-    dark: 'vc-text-white hover:vc-opacity-50'
+    light: 'vc-text-gray-600 vc-rounded hover:vc-opacity-50 focus:vc-bg-gray-200',
+    dark: 'vc-text-white vc-rounded hover:vc-opacity-50 focus:vc-bg-gray-800'
   },
   weekdays: {
     light: 'vc-text-sm vc-font-bold vc-text-gray-500',
     dark: 'vc-text-sm vc-font-bold vc-text-{color}-200'
   },
   navPopoverContainer: {
-    light: 'vc-rounded-lg vc-text-sm vc-font-semibold vc-text-white vc-bg-gray-800 vc-border vc-border-gray-700 vc-py-1 vc-shadow',
-    dark: 'vc-rounded-lg vc-text-sm vc-font-semibold vc-text-gray-800 vc-bg-white vc-border vc-border-gray-100 vc-py-1 vc-shadow'
+    light: 'vc-rounded-lg vc-text-sm vc-font-semibold vc-text-white vc-bg-gray-800 vc-border vc-border-gray-700 vc-p-1 vc-shadow',
+    dark: 'vc-rounded-lg vc-text-sm vc-font-semibold vc-text-gray-800 vc-bg-white vc-border vc-border-gray-100 vc-p-1 vc-shadow'
   },
   navTitle: {
-    light: 'vc-text-{color}-100 vc-font-bold hover:vc-bg-gray-900 vc-px-2 vc-py-1 vc-rounded',
-    dark: 'vc-text-gray-900 vc-font-bold hover:vc-bg-gray-200 vc-px-2 vc-py-1 vc-rounded'
+    light: 'vc-text-{color}-100 vc-font-bold vc-px-2 vc-py-1 vc-rounded vc-border-2 vc-border-transparent hover:vc-bg-gray-900 focus:vc-border-{color}-600',
+    dark: 'vc-text-gray-900 vc-font-bold vc-px-2 vc-py-1 vc-rounded vc-border-2 vc-border-transparent hover:vc-bg-gray-200 focus:vc-border-{color}-400'
   },
   navArrows: {
-    light: 'hover:vc-bg-gray-900 vc-rounded',
-    dark: 'hover:vc-bg-gray-200 vc-rounded'
+    light: 'vc-rounded vc-border-2 vc-border-transparent hover:vc-bg-gray-900 focus:vc-border-{color}-600',
+    dark: 'vc-rounded vc-border-2 vc-border-transparent hover:vc-bg-gray-200 focus:vc-border-{color}-400'
   },
-  navCell: 'vc-w-12 vc-text-center vc-py-1 vc-mx-1 vc-rounded',
+  navCell: {
+    light: 'vc-w-full vc-font-semibold vc-cursor-pointer vc-text-center vc-py-1 vc-rounded vc-border-2 vc-border-transparent hover:vc-bg-gray-900 hover:vc-shadow-inner hover:vc-text-white focus:vc-border-{color}-600',
+    dark: 'vc-w-full vc-font-semibold vc-cursor-pointer vc-text-center vc-py-1 vc-rounded vc-border-2 vc-border-transparent hover:vc-bg-gray-200 hover:vc-text-gray-900 focus:vc-border-{color}-400'
+  },
   navCellInactive: {
-    light: 'hover:vc-bg-gray-900 hover:vc-shadow-inner vc-border-2 vc-border-transparent',
-    dark: 'hover:vc-bg-gray-200 vc-border-2 vc-border-transparent'
+    light: 'vc-border-transparent',
+    dark: 'vc-border-transparent'
   },
   navCellInactiveCurrent: {
-    light: 'vc-text-{color}-100 vc-font-bold hover:vc-bg-gray-900 vc-border-2 vc-border-{color}-100',
-    dark: 'vc-text-{color}-600 vc-font-bold hover:vc-bg-gray-200 vc-border-2 vc-border-{color}-500'
+    light: 'vc-text-{color}-100 vc-font-bold vc-border-{color}-100',
+    dark: 'vc-text-{color}-600 vc-font-bold vc-border-{color}-500'
   },
   navCellActive: {
     light: 'vc-bg-{color}-100 vc-text-{color}-900 vc-font-bold vc-shadow',
     dark: 'vc-bg-{color}-500 vc-text-white vc-font-bold vc-shadow'
   },
+  navCellDisabled: 'vc-opacity-25',
   dayNotInMonth: 'vc-opacity-0 vc-pointer-events-none',
   dayContent: {
     light: 'vc-font-medium vc-text-sm vc-cursor-pointer focus:vc-font-bold vc-rounded-full',
@@ -85358,8 +84854,8 @@ var defaults_screens = __webpack_require__("85a9");
     light: 'vc-font-bold vc-text-white',
     dark: 'vc-font-bold vc-text-white'
   },
-  datePickerInput: 'el-input__inner vc-shadow vc-appearance-none vc-border vc-rounded vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white vc-leading-tight focus:vc-outline-none focus:vc-shadow-outline',
-  datePickerInputDrag: 'el-input__inner vc-shadow vc-appearance-none vc-border vc-rounded vc-w-full vc-py-2 vc-px-3 vc-text-gray-400 vc-bg-white vc-leading-tight focus:vc-outline-none focus:vc-shadow-outline'
+  datePickerInput: 'vc-shadow vc-appearance-none vc-border vc-rounded vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white vc-leading-tight focus:vc-outline-none focus:vc-shadow-outline',
+  datePickerInputDrag: 'vc-shadow vc-appearance-none vc-border vc-rounded vc-w-full vc-py-2 vc-px-3 vc-text-gray-400 vc-bg-white vc-leading-tight focus:vc-outline-none focus:vc-shadow-outline'
 });
 // EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/slicedToArray.js + 3 modules
 var slicedToArray = __webpack_require__("768b");
@@ -85374,7 +84870,7 @@ var _ = __webpack_require__("9404");
 
 
 
-let locales = {
+const locales = {
   // Arabic
   ar: {
     dow: 7,
@@ -85580,7 +85076,7 @@ Object(_["u" /* toPairs */])(locales).forEach((_ref) => {
 
 
 
-/* harmony default export */ var defaults = ({
+/* harmony default export */ var utils_defaults = ({
   componentPrefix: 'v',
   navVisibility: 'click',
   titlePosition: 'center',
@@ -85618,12 +85114,12 @@ const buildMediaQuery = screens => {
   }
 
   return screens.map(screen => {
-    if (Object(_["f" /* has */])(screen, 'raw')) {
+    if (Object(_["e" /* has */])(screen, 'raw')) {
       return screen.raw;
     }
 
     return Object(_["p" /* map */])(screen, (value, feature) => {
-      feature = Object(_["e" /* get */])({
+      feature = Object(_["d" /* get */])({
         min: 'min-width',
         max: 'max-width'
       }, feature, feature);
@@ -85671,13 +85167,14 @@ const setupScreens = (Vue, screens) => {
     computed: {
       $screens() {
         // Return function that re-evaluates every time screen matches change
-        return (config, def) => screenComp.matches.reduce((prev, curr) => Object(_["f" /* has */])(config, curr) ? config[curr] : prev, Object(_["n" /* isUndefined */])(def) ? config.default : def);
+        return (config, def) => screenComp.matches.reduce((prev, curr) => Object(_["e" /* has */])(config, curr) ? config[curr] : prev, Object(_["n" /* isUndefined */])(def) ? config.default : def);
       }
 
     }
   });
 };
 // CONCATENATED MODULE: ./src/utils/vc.js
+
 const createVC = (Vue, defaults) => new Vue({
   data() {
     return {
@@ -85687,16 +85184,15 @@ const createVC = (Vue, defaults) => new Vue({
   },
 
   computed: {
-    masks() {
-      return this.defaults.masks;
-    },
-
     theme() {
       return this.defaults.theme;
     },
 
     locales() {
-      return this.defaults.locales;
+      return Object(_["q" /* mapValues */])(this.defaults.locales, v => {
+        v.masks = Object(_["b" /* defaults */])(v.masks, this.defaults.masks);
+        return v;
+      });
     }
 
   }
@@ -85711,7 +85207,7 @@ const createVC = (Vue, defaults) => new Vue({
 const setupCalendar = (Vue, opts) => {
   // Merge built-in defaults with user defaults
   const mergedDefaults = Object(_["l" /* isObject */])(opts) ? Object(objectSpread["a" /* default */])({}, opts) : {};
-  Object(_["c" /* defaultsDeep */])(mergedDefaults, defaults); // Install support for responsive screens
+  Object(_["c" /* defaultsDeep */])(mergedDefaults, utils_defaults); // Install support for responsive screens
 
   setupScreens(Vue, mergedDefaults.screens); // Create a component for global state & event bus communication
   // ...Sorry, can't assume we are using Vuex as a library
@@ -86043,21 +85539,6 @@ module.exports = !__webpack_require__("294c")(function () {
 
 /***/ }),
 
-/***/ "8e75":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("dfbc");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("6cbeb3fc", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "8eeb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -86182,18 +85663,14 @@ module.exports = overArg;
 
 /***/ }),
 
-/***/ "92d6":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "93d6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("f787");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("35bf555f", content, true, {"sourceMap":false,"shadowMode":false});
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_2e61d7e7_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("bf3c");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_2e61d7e7_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_2e61d7e7_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_2e61d7e7_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -86240,19 +85717,19 @@ module.exports = mapCacheDelete;
 /* unused harmony export kebabCase */
 /* unused harmony export capitalize */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return upperFirst; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return get; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return set; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return mapValues; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return toPairs; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return has; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return hasAny; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return has; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return hasAny; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return defaults; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return defaultsDeep; });
 /* unused harmony export pick */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return omit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return map; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return some; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return first; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return head; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return last; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return uniq; });
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6b54");
@@ -86303,8 +85780,8 @@ module.exports = mapCacheDelete;
 /* harmony import */ var lodash_map__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(lodash_map__WEBPACK_IMPORTED_MODULE_22__);
 /* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__("3092");
 /* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(lodash_some__WEBPACK_IMPORTED_MODULE_23__);
-/* harmony import */ var lodash_first__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__("69f3");
-/* harmony import */ var lodash_first__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(lodash_first__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var lodash_head__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__("a59b");
+/* harmony import */ var lodash_head__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(lodash_head__WEBPACK_IMPORTED_MODULE_24__);
 /* harmony import */ var lodash_last__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__("4416");
 /* harmony import */ var lodash_last__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(lodash_last__WEBPACK_IMPORTED_MODULE_25__);
 /* harmony import */ var lodash_uniq__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__("eed6");
@@ -86367,7 +85844,7 @@ const omit = lodash_omit__WEBPACK_IMPORTED_MODULE_21___default.a; // Lodash coll
 
 const map = lodash_map__WEBPACK_IMPORTED_MODULE_22___default.a;
 const some = lodash_some__WEBPACK_IMPORTED_MODULE_23___default.a;
-const first = lodash_first__WEBPACK_IMPORTED_MODULE_24___default.a;
+const head = lodash_head__WEBPACK_IMPORTED_MODULE_24___default.a;
 const last = lodash_last__WEBPACK_IMPORTED_MODULE_25___default.a;
 const uniq = lodash_uniq__WEBPACK_IMPORTED_MODULE_26___default.a;
 
@@ -86409,17 +85886,6 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-
-/***/ }),
-
-/***/ "951e":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_82a20674_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1f01");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_82a20674_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_82a20674_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SvgIcon_vue_vue_type_style_index_0_id_82a20674_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -86535,17 +86001,6 @@ var defaults = baseRest(function(object, sources) {
 
 module.exports = defaults;
 
-
-/***/ }),
-
-/***/ "95b9":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_4fb7d3d1_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("988f");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_4fb7d3d1_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_4fb7d3d1_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_style_index_0_id_4fb7d3d1_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -86714,21 +86169,6 @@ function baseMap(collection, iteratee) {
 
 module.exports = baseMap;
 
-
-/***/ }),
-
-/***/ "988f":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("ff70");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("b5b95ae8", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -86980,15 +86420,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "9e1c":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("7d6d");
-module.exports = __webpack_require__("584a").Object.values;
-
-
-/***/ }),
-
 /***/ "9e1e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -87059,18 +86490,6 @@ function mapValues(object, iteratee) {
 }
 
 module.exports = mapValues;
-
-
-/***/ }),
-
-/***/ "9f79":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("f772");
-module.exports = function (it, TYPE) {
-  if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
-  return it;
-};
 
 
 /***/ }),
@@ -87151,87 +86570,6 @@ module.exports = Object.create || function create(O, Properties) {
   } else result = createDict();
   return Properties === undefined ? result : dPs(result, Properties);
 };
-
-
-/***/ }),
-
-/***/ "a1ce":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__("63b6");
-var defined = __webpack_require__("25eb");
-var fails = __webpack_require__("294c");
-var spaces = __webpack_require__("e692");
-var space = '[' + spaces + ']';
-var non = '\u200b\u0085';
-var ltrim = RegExp('^' + space + space + '*');
-var rtrim = RegExp(space + space + '*$');
-
-var exporter = function (KEY, exec, ALIAS) {
-  var exp = {};
-  var FORCE = fails(function () {
-    return !!spaces[KEY]() || non[KEY]() != non;
-  });
-  var fn = exp[KEY] = FORCE ? exec(trim) : spaces[KEY];
-  if (ALIAS) exp[ALIAS] = fn;
-  $export($export.P + $export.F * FORCE, 'String', exp);
-};
-
-// 1 -> String#trimLeft
-// 2 -> String#trimRight
-// 3 -> String#trim
-var trim = exporter.trim = function (string, TYPE) {
-  string = String(defined(string));
-  if (TYPE & 1) string = string.replace(ltrim, '');
-  if (TYPE & 2) string = string.replace(rtrim, '');
-  return string;
-};
-
-module.exports = exporter;
-
-
-/***/ }),
-
-/***/ "a21f":
-/***/ (function(module, exports, __webpack_require__) {
-
-var core = __webpack_require__("584a");
-var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
-module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
-  return $JSON.stringify.apply($JSON, arguments);
-};
-
-
-/***/ }),
-
-/***/ "a22a":
-/***/ (function(module, exports, __webpack_require__) {
-
-var ctx = __webpack_require__("d864");
-var call = __webpack_require__("b0dc");
-var isArrayIter = __webpack_require__("3702");
-var anObject = __webpack_require__("e4ae");
-var toLength = __webpack_require__("b447");
-var getIterFn = __webpack_require__("7cd6");
-var BREAK = {};
-var RETURN = {};
-var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
-  var iterFn = ITERATOR ? function () { return iterable; } : getIterFn(iterable);
-  var f = ctx(fn, that, entries ? 2 : 1);
-  var index = 0;
-  var length, step, iterator, result;
-  if (typeof iterFn != 'function') throw TypeError(iterable + ' is not iterable!');
-  // fast case for arrays with default iterator
-  if (isArrayIter(iterFn)) for (length = toLength(iterable.length); length > index; index++) {
-    result = entries ? f(anObject(step = iterable[index])[0], step[1]) : f(iterable[index]);
-    if (result === BREAK || result === RETURN) return result;
-  } else for (iterator = iterFn.call(iterable); !(step = iterator.next()).done;) {
-    result = call(iterator, f, step.value, entries);
-    if (result === BREAK || result === RETURN) return result;
-  }
-};
-exports.BREAK = BREAK;
-exports.RETURN = RETURN;
 
 
 /***/ }),
@@ -87603,14 +86941,14 @@ module.exports = __webpack_require__("f410");
 
 "use strict";
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1eeee107-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/PopoverRow.vue?vue&type=template&id=2d1c713c&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"635bfbd4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/PopoverRow.vue?vue&type=template&id=18514c08&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vc-day-popover-row"},[(_vm.indicator)?_c('div',{staticClass:"vc-day-popover-row-indicator"},[_c('span',{class:_vm.indicator.class,style:(_vm.indicator.style)})]):_vm._e(),_c('div',{staticClass:"vc-day-popover-row-content"},[_vm._t("default",[_vm._v(_vm._s(_vm.attribute.popover ? _vm.attribute.popover.label : 'No content provided'))])],2)])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/PopoverRow.vue?vue&type=template&id=2d1c713c&scoped=true&
+// CONCATENATED MODULE: ./src/components/PopoverRow.vue?vue&type=template&id=18514c08&scoped=true&
 
-// EXTERNAL MODULE: ./src/utils/mixins/index.js + 6 modules
+// EXTERNAL MODULE: ./src/utils/mixins/index.js + 7 modules
 var mixins = __webpack_require__("19cf");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/PopoverRow.vue?vue&type=script&lang=js&
@@ -87716,8 +87054,8 @@ var mixins = __webpack_require__("19cf");
 });
 // CONCATENATED MODULE: ./src/components/PopoverRow.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_PopoverRowvue_type_script_lang_js_ = (PopoverRowvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/PopoverRow.vue?vue&type=style&index=0&id=2d1c713c&lang=postcss&scoped=true&
-var PopoverRowvue_type_style_index_0_id_2d1c713c_lang_postcss_scoped_true_ = __webpack_require__("6ad0");
+// EXTERNAL MODULE: ./src/components/PopoverRow.vue?vue&type=style&index=0&id=18514c08&lang=postcss&scoped=true&
+var PopoverRowvue_type_style_index_0_id_18514c08_lang_postcss_scoped_true_ = __webpack_require__("1ceb");
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__("2877");
@@ -87737,7 +87075,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   staticRenderFns,
   false,
   null,
-  "2d1c713c",
+  "18514c08",
   null
   
 )
@@ -87824,14 +87162,18 @@ module.exports = deburrLetter;
 
 /***/ }),
 
-/***/ "a942":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "a93e":
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_1b5be871_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e2b9");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_1b5be871_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_1b5be871_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarDay_vue_vue_type_style_index_0_id_1b5be871_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("6ecb");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("a2521288", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -87996,73 +87338,6 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 
 /***/ }),
 
-/***/ "ada4":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var global = __webpack_require__("e53d");
-var $export = __webpack_require__("63b6");
-var meta = __webpack_require__("ebfd");
-var fails = __webpack_require__("294c");
-var hide = __webpack_require__("35e8");
-var redefineAll = __webpack_require__("5c95");
-var forOf = __webpack_require__("a22a");
-var anInstance = __webpack_require__("1173");
-var isObject = __webpack_require__("f772");
-var setToStringTag = __webpack_require__("45f2");
-var dP = __webpack_require__("d9f6").f;
-var each = __webpack_require__("57b1")(0);
-var DESCRIPTORS = __webpack_require__("8e60");
-
-module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
-  var Base = global[NAME];
-  var C = Base;
-  var ADDER = IS_MAP ? 'set' : 'add';
-  var proto = C && C.prototype;
-  var O = {};
-  if (!DESCRIPTORS || typeof C != 'function' || !(IS_WEAK || proto.forEach && !fails(function () {
-    new C().entries().next();
-  }))) {
-    // create collection constructor
-    C = common.getConstructor(wrapper, NAME, IS_MAP, ADDER);
-    redefineAll(C.prototype, methods);
-    meta.NEED = true;
-  } else {
-    C = wrapper(function (target, iterable) {
-      anInstance(target, C, NAME, '_c');
-      target._c = new Base();
-      if (iterable != undefined) forOf(iterable, IS_MAP, target[ADDER], target);
-    });
-    each('add,clear,delete,forEach,get,has,set,keys,values,entries,toJSON'.split(','), function (KEY) {
-      var IS_ADDER = KEY == 'add' || KEY == 'set';
-      if (KEY in proto && !(IS_WEAK && KEY == 'clear')) hide(C.prototype, KEY, function (a, b) {
-        anInstance(this, C, KEY);
-        if (!IS_ADDER && IS_WEAK && !isObject(a)) return KEY == 'get' ? undefined : false;
-        var result = this._c[KEY](a === 0 ? 0 : a, b);
-        return IS_ADDER ? this : result;
-      });
-    });
-    IS_WEAK || dP(C.prototype, 'size', {
-      get: function () {
-        return this._c.size;
-      }
-    });
-  }
-
-  setToStringTag(C, NAME);
-
-  O[NAME] = C;
-  $export($export.G + $export.W + $export.F, O);
-
-  if (!IS_WEAK) common.setStrong(C, NAME, IS_MAP);
-
-  return C;
-};
-
-
-/***/ }),
-
 /***/ "aebd":
 /***/ (function(module, exports) {
 
@@ -88112,25 +87387,6 @@ __webpack_require__("5ca1")({
 }, {
   exec: regexpExec
 });
-
-
-/***/ }),
-
-/***/ "b0dc":
-/***/ (function(module, exports, __webpack_require__) {
-
-// call something on iterator step with safe closing on error
-var anObject = __webpack_require__("e4ae");
-module.exports = function (iterator, fn, value, entries) {
-  try {
-    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
-  // 7.4.6 IteratorClose(iterator, completion)
-  } catch (e) {
-    var ret = iterator['return'];
-    if (ret !== undefined) anObject(ret.call(iterator));
-    throw e;
-  }
-};
 
 
 /***/ }),
@@ -88337,7 +87593,7 @@ exports = module.exports = __webpack_require__("2350")(false);
 
 
 // module
-exports.push([module.i, ".vc-container{--slide-translate:22px;--slide-duration:.15s;--slide-timing:ease;--header-padding:10px 10px 0 10px;--title-padding:0 8px;--arrows-padding:10px;--arrow-font-size:1.6rem;--weekday-padding:5px 0;--weeks-padding:5px 6px 7px 6px;--arrow-horizontal-offset:10px;--arrow-vertical-offset:11px;--day-min-height:1.8rem;--day-content-width:1.8rem;--day-content-height:1.8rem;--day-content-margin:.1rem auto;--day-content-transition-time:.13s ease-in;--day-content-bg-color-hover:rgba(204,214,224,0.3);--day-content-dark-bg-color-hover:rgba(114,129,151,0.3);--day-content-bg-color-focus:rgba(204,214,224,0.4);--day-content-dark-bg-color-focus:rgba(114,129,151,0.4);--highlight-height:1.75rem;--dot-diameter:5px;--dot-border-radius:50%;--dot-spacing:3px;--bar-height:3px;--bars-width:75%;font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;width:-webkit-max-content;width:-moz-max-content;width:max-content}.vc-container,.vc-container *{line-height:1.5;border-width:0;border-style:solid;box-sizing:border-box}.vc-container:focus,.vc-container :focus{outline:none}.vc-arrows-container{width:100%;position:absolute;top:0;display:flex;justify-content:space-between;padding:var(--arrows-padding);pointer-events:none}.vc-arrows-container.title-left{justify-content:flex-end}.vc-arrows-container.title-right{justify-content:flex-start}.vc-arrow-layout{pointer-events:auto}.vc-arrow,.vc-arrow-layout{display:flex;justify-content:center;align-items:center}", ""]);
+exports.push([module.i, ".vc-container{--slide-translate:22px;--slide-duration:.15s;--slide-timing:ease;--header-padding:10px 10px 0 10px;--title-padding:0 8px;--arrows-padding:10px;--arrow-font-size:26px;--weekday-padding:5px 0;--weeks-padding:5px 6px 7px 6px;--arrow-horizontal-offset:10px;--arrow-vertical-offset:11px;--nav-container-width:170px;--day-min-height:28px;--day-content-width:28px;--day-content-height:28px;--day-content-margin:1.6px auto;--day-content-transition-time:.13s ease-in;--day-content-bg-color-hover:rgba(204,214,224,0.3);--day-content-dark-bg-color-hover:rgba(114,129,151,0.3);--day-content-bg-color-focus:rgba(204,214,224,0.4);--day-content-dark-bg-color-focus:rgba(114,129,151,0.4);--highlight-height:28px;--dot-diameter:5px;--dot-border-radius:50%;--dot-spacing:3px;--bar-height:3px;--bars-width:75%;font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;width:-webkit-max-content;width:-moz-max-content;width:max-content}.vc-arrows-container{width:100%;position:absolute;top:0;display:flex;justify-content:space-between;padding:var(--arrows-padding);pointer-events:none}.vc-arrows-container.title-left{justify-content:flex-end}.vc-arrows-container.title-right{justify-content:flex-start}", ""]);
 
 // exports
 
@@ -88470,10 +87726,14 @@ module.exports = DataView;
 
 /***/ }),
 
-/***/ "b6d0":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "b5e7":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__("fa2b");
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_d8853504_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("44ec");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_d8853504_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_d8853504_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarPane_vue_vue_type_style_index_0_id_d8853504_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -88508,15 +87768,6 @@ module.exports = assignMergeValue;
 /***/ (function(module, exports) {
 
 module.exports = true;
-
-
-/***/ }),
-
-/***/ "b9e9":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("7445");
-module.exports = __webpack_require__("584a").parseInt;
 
 
 /***/ }),
@@ -88635,6 +87886,21 @@ var update = add("1ee16f20", content, true, {"sourceMap":false,"shadowMode":fals
 
 /***/ }),
 
+/***/ "bdc4":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, "[data-v-2e61d7e7] .vc-container{border:none}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "be13":
 /***/ (function(module, exports) {
 
@@ -88670,6 +87936,21 @@ exports.f = __webpack_require__("8e60") ? gOPD : function getOwnPropertyDescript
 
 /***/ }),
 
+/***/ "bf3c":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("bdc4");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("b9468f48", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "bf90":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -88682,19 +87963,6 @@ __webpack_require__("ce7e")('getOwnPropertyDescriptor', function () {
     return $getOwnPropertyDescriptor(toIObject(it), key);
   };
 });
-
-
-/***/ }),
-
-/***/ "bfac":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__("0b64");
-
-module.exports = function (original, length) {
-  return new (speciesConstructor(original))(length);
-};
 
 
 /***/ }),
@@ -88780,10 +88048,6 @@ var slicedToArray = __webpack_require__("768b");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/values.js
-var values = __webpack_require__("db0c");
-var values_default = /*#__PURE__*/__webpack_require__.n(values);
-
 // EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js + 1 modules
 var objectSpread = __webpack_require__("cebc");
 
@@ -88794,17 +88058,24 @@ var Popover = __webpack_require__("cc8d");
 var PopoverRow = __webpack_require__("a832");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Grid.vue?vue&type=script&lang=js&
+const directions = {
+  vLeading: 'vertical-leading',
+  vTrailing: 'vertical-trailing',
+  hLeading: 'horizontal-leading',
+  hTrailing: 'horizontal-trailing'
+};
 /* harmony default export */ var Gridvue_type_script_lang_js_ = ({
   render(h) {
     // Grid cell renderer
     const getCell = (_ref) => {
-      let position = _ref.position,
+      let nodes = _ref.nodes,
+          position = _ref.position,
           row = _ref.row,
           column = _ref.column;
 
       // Get the default slot first
-      if (this.$slots.default && this.$slots.default.length >= position) {
-        return this.$slots.default[position - 1];
+      if (nodes.length >= position) {
+        return nodes[position - 1];
       } // Get the scoped slot second
 
 
@@ -88821,23 +88092,30 @@ var PopoverRow = __webpack_require__("a832");
 
 
     const getCells = () => {
-      const cells = [];
+      const cells = []; // Resolve default slot nodes (remove whitespaced)
+
+      const nodes = this.$slots.default && this.$slots.default.filter(n => n.tag !== undefined) || []; // Build cells
 
       for (let r = 1, p = 1; r <= this.rows; r++) {
         for (let c = 1; c <= this.columns; c++) {
-          // Add the cell components
+          const rFromEnd = r - this.rows - 1;
+          const cFromEnd = c - this.columns - 1; // Add the cell for current row & column
+
           cells.push(h('div', {
-            class: ['vc-grid-cell', `vc-grid-cell-row-${r}`, `vc-grid-cell-col-${c}`, {
-              'vc-grid-cell-row-first': r === 1,
-              'vc-grid-cell-row-last': r === this.rows,
-              'vc-grid-cell-col-first': c === 1,
-              'vc-grid-cell-col-last': c === this.columns
-            }],
+            class: ['vc-grid-cell', `vc-grid-cell-row-${r}`, `vc-grid-cell-row-${rFromEnd}`, `vc-grid-cell-col-${c}`, `vc-grid-cell-col-${cFromEnd}`],
             style: {
               'grid-row': r,
               'grid-column': c
+            },
+            on: {
+              keydown: e => this.handleCellKeydown({
+                row: r,
+                column: c,
+                event: e
+              })
             }
           }, [getCell({
+            nodes,
             position: p++,
             row: r,
             column: c
@@ -88864,16 +88142,25 @@ var PopoverRow = __webpack_require__("a832");
       type: Number,
       default: 1
     },
+    gap: {
+      type: String,
+      default: '0px'
+    },
     autofit: Boolean,
     columnWidth: {
       type: String,
       default: '1fr'
+    },
+    disableFocus: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     containerStyle() {
       return {
-        gridTemplateColumns: this.gridTemplateColumns
+        gridTemplateColumns: this.gridTemplateColumns,
+        gridGap: this.gap
       };
     },
 
@@ -88881,12 +88168,137 @@ var PopoverRow = __webpack_require__("a832");
       return `repeat(${this.autofit ? 'auto-fit' : this.columns}, ${this.columnWidth})`;
     }
 
+  },
+  methods: {
+    handleCellKeydown(_ref2) {
+      let row = _ref2.row,
+          column = _ref2.column,
+          event = _ref2.event;
+      // Return if focus management is disabled
+      if (this.disableFocus) return;
+      const state = {
+        row,
+        column,
+        alt: false,
+        handled: false
+      }; // Increment row/column based on key
+
+      switch (event.key) {
+        case 'ArrowUp':
+          {
+            state.row--;
+            break;
+          }
+
+        case 'ArrowDown':
+          {
+            state.row++;
+            break;
+          }
+
+        case 'ArrowLeft':
+          {
+            state.column--;
+            break;
+          }
+
+        case 'ArrowRight':
+          {
+            state.column++;
+            break;
+          }
+
+        case 'Home':
+          {
+            state.column = 1;
+            break;
+          }
+
+        case 'End':
+          {
+            state.column = this.columns;
+            break;
+          }
+
+        case 'PageUp':
+          {
+            state.alt = event.altKey;
+            state.direction = directions.vLeading;
+            break;
+          }
+
+        case 'PageDown':
+          {
+            state.alt = event.altKey;
+            state.direction = directions.vTrailing;
+            break;
+          }
+
+        default:
+          {
+            return;
+          }
+      } // Handle state for row rollovers
+
+
+      if (state.row < 1) {
+        state.direction = directions.vLeading;
+        state.row = this.rows;
+      } else if (state.row > this.rows) {
+        state.direction = directions.vTrailing;
+        state.row = 1;
+      } // Handle state for column rollovers
+
+
+      if (state.column < 1) {
+        state.direction = directions.hLeading;
+        state.column = this.columns;
+      } else if (state.column > this.columns) {
+        state.direction = directions.hTrailing;
+        state.column = 1;
+      } // Emit rollover event if direction was assigned
+
+
+      if (state.direction) {
+        this.$emit('rollover', state);
+      } // Focusd on cell for current state if event wasn't handled
+
+
+      if (!state.handled) {
+        // Get grid cell element
+        const cellSelector = `.vc-grid-cell-row-${state.row}.vc-grid-cell-col-${state.column}`;
+        const cellEl = this.$el.querySelector(cellSelector);
+
+        if (cellEl) {
+          this.tryFocus(cellEl);
+        }
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+    },
+
+    tryFocus() {
+      let el = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$el;
+      this.$nextTick(() => {
+        const selectors = ['.vc-grid-focus', 'button, [href], input, select, textarea, [tabindex="0"]', '[tabindex]:not([tabindex="undefined"])'];
+        const focusableEl = selectors.map(s => el.querySelector(s)).find(e => e);
+
+        if (focusableEl) {
+          focusableEl.focus();
+          return true;
+        }
+
+        return false;
+      });
+    }
+
   }
 });
 // CONCATENATED MODULE: ./src/components/Grid.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_Gridvue_type_script_lang_js_ = (Gridvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/Grid.vue?vue&type=style&index=0&id=691b83c4&scoped=true&lang=css&
-var Gridvue_type_style_index_0_id_691b83c4_scoped_true_lang_css_ = __webpack_require__("32c5");
+// EXTERNAL MODULE: ./src/components/Grid.vue?vue&type=style&index=0&id=7cb272a6&lang=postcss&scoped=true&
+var Gridvue_type_style_index_0_id_7cb272a6_lang_postcss_scoped_true_ = __webpack_require__("52be");
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__("2877");
@@ -88906,7 +88318,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   staticRenderFns,
   false,
   null,
-  "691b83c4",
+  "7cb272a6",
   null
   
 )
@@ -88915,19 +88327,19 @@ var component = Object(componentNormalizer["a" /* default */])(
 // EXTERNAL MODULE: ./src/components/PopoverRef.vue + 2 modules
 var PopoverRef = __webpack_require__("e0a0");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1eeee107-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/CalendarNav.vue?vue&type=template&id=54b1aedd&
-var CalendarNavvue_type_template_id_54b1aedd_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"vc-flex vc-justify-between vc-items-center vc-mx-2"},[_c('div',{staticClass:"vc-flex vc-justify-center vc-items-center vc-cursor-pointer",class:_vm.theme.navArrows,on:{"click":_vm.movePrev}},[_vm._t("nav-left-button",[_c('svg-icon',{attrs:{"name":"left-arrow"}})])],2),_c('span',{staticClass:"vc-cursor-pointer",class:_vm.theme.navTitle,on:{"click":_vm.toggleMode}},[_vm._v(_vm._s(_vm.title))]),_c('div',{staticClass:"vc-flex vc-justify-center vc-items-center vc-cursor-pointer",class:_vm.theme.navArrows,on:{"click":_vm.moveNext}},[_vm._t("nav-right-button",[_c('svg-icon',{attrs:{"name":"right-arrow"}})])],2)]),_vm._l((_vm.itemRows),function(row,i){return _c('div',{key:i,staticClass:"vc-flex vc-justify-between vc-items-center vc-mx-1 vc-mb-1"},_vm._l((row),function(item,j){return _c('div',{key:j,class:item.classes.concat( ['vc-cursor-pointer']),on:{"click":item.click}},[_vm._v("\n      "+_vm._s(item.label)+"\n    ")])}),0)})],2)}
-var CalendarNavvue_type_template_id_54b1aedd_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"635bfbd4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/CalendarNav.vue?vue&type=template&id=255ba841&
+var CalendarNavvue_type_template_id_255ba841_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vc-nav-container"},[_c('grid',{ref:"headerGrid",attrs:{"columns":3},on:{"rollover":_vm.onHeaderRollover}},[_c('span',{ref:"prevButton",staticClass:"vc-flex vc-justify-center vc-items-center vc-mr-auto",class:_vm.theme.navArrows,attrs:{"role":"button","tabindex":"-1"},on:{"click":_vm.movePrev,"keydown":function (e) { return _vm.onSpaceOrEnter(e, _vm.movePrev); }}},[_vm._t("nav-left-button",[_c('svg-icon',{attrs:{"name":"left-arrow"}})])],2),_c('span',{ref:"titleButton",staticClass:"vc-grid-focus",class:_vm.theme.navTitle,style:({ whiteSpace: 'nowrap' }),attrs:{"role":"button","tabindex":"0"},on:{"click":_vm.toggleMode,"keydown":function (e) { return _vm.onSpaceOrEnter(e, _vm.toggleMode); }}},[_vm._v("\n      "+_vm._s(_vm.title)+"\n    ")]),_c('span',{ref:"nextButton",staticClass:"vc-flex vc-justify-center vc-items-center vc-ml-auto",class:_vm.theme.navArrows,attrs:{"role":"button","tabindex":"-1"},on:{"click":_vm.moveNext,"keydown":function (e) { return _vm.onSpaceOrEnter(e, _vm.moveNext); }}},[_vm._t("nav-right-button",[_c('svg-icon',{attrs:{"name":"right-arrow"}})])],2)]),_c('grid',{ref:"itemsGrid",attrs:{"rows":4,"columns":3,"gap":"2px"},on:{"rollover":_vm.onItemsRollover}},_vm._l((_vm.activeItems),function(item){return _c('span',{key:item.label,ref:"items",refInFor:true,class:item.classes,attrs:{"role":"button","aria-label":item.ariaLabel,"tabindex":item.isActive ? 0 : -1},on:{"click":item.click,"keydown":function (e) { return _vm.onSpaceOrEnter(e, item.click); }}},[_vm._v("\n      "+_vm._s(item.label)+"\n    ")])}),0)],1)}
+var CalendarNavvue_type_template_id_255ba841_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/CalendarNav.vue?vue&type=template&id=54b1aedd&
+// CONCATENATED MODULE: ./src/components/CalendarNav.vue?vue&type=template&id=255ba841&
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1eeee107-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SvgIcon.vue?vue&type=template&id=82a20674&scoped=true&
-var SvgIconvue_type_template_id_82a20674_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('svg',_vm._g({staticClass:"vc-svg-icon",attrs:{"width":_vm.width,"height":_vm.height,"viewBox":_vm.viewBox}},_vm.$listeners),[_c('path',{attrs:{"d":_vm.path}})])}
-var SvgIconvue_type_template_id_82a20674_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"635bfbd4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SvgIcon.vue?vue&type=template&id=5572e632&scoped=true&
+var SvgIconvue_type_template_id_5572e632_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('svg',_vm._g({staticClass:"vc-svg-icon",attrs:{"width":_vm.width,"height":_vm.height,"viewBox":_vm.viewBox}},_vm.$listeners),[_c('path',{attrs:{"d":_vm.path}})])}
+var SvgIconvue_type_template_id_5572e632_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/SvgIcon.vue?vue&type=template&id=82a20674&scoped=true&
+// CONCATENATED MODULE: ./src/components/SvgIcon.vue?vue&type=template&id=5572e632&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SvgIcon.vue?vue&type=script&lang=js&
 //
@@ -88993,8 +88405,8 @@ const icons = {
 });
 // CONCATENATED MODULE: ./src/components/SvgIcon.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_SvgIconvue_type_script_lang_js_ = (SvgIconvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/SvgIcon.vue?vue&type=style&index=0&id=82a20674&lang=postcss&scoped=true&
-var SvgIconvue_type_style_index_0_id_82a20674_lang_postcss_scoped_true_ = __webpack_require__("951e");
+// EXTERNAL MODULE: ./src/components/SvgIcon.vue?vue&type=style&index=0&id=5572e632&lang=postcss&scoped=true&
+var SvgIconvue_type_style_index_0_id_5572e632_lang_postcss_scoped_true_ = __webpack_require__("6551");
 
 // CONCATENATED MODULE: ./src/components/SvgIcon.vue
 
@@ -89007,79 +88419,99 @@ var SvgIconvue_type_style_index_0_id_82a20674_lang_postcss_scoped_true_ = __webp
 
 var SvgIcon_component = Object(componentNormalizer["a" /* default */])(
   components_SvgIconvue_type_script_lang_js_,
-  SvgIconvue_type_template_id_82a20674_scoped_true_render,
-  SvgIconvue_type_template_id_82a20674_scoped_true_staticRenderFns,
+  SvgIconvue_type_template_id_5572e632_scoped_true_render,
+  SvgIconvue_type_template_id_5572e632_scoped_true_staticRenderFns,
   false,
   null,
-  "82a20674",
+  "5572e632",
   null
   
 )
 
 /* harmony default export */ var SvgIcon = (SvgIcon_component.exports);
-// EXTERNAL MODULE: ./src/utils/mixins/index.js + 6 modules
+// EXTERNAL MODULE: ./src/utils/mixins/index.js + 7 modules
 var mixins = __webpack_require__("19cf");
 
 // EXTERNAL MODULE: ./src/utils/_.js
-var _ = __webpack_require__("9404");
+var utils_ = __webpack_require__("9404");
 
 // EXTERNAL MODULE: ./src/utils/helpers.js
 var helpers = __webpack_require__("2fa3");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/CalendarNav.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -89087,6 +88519,7 @@ var helpers = __webpack_require__("2fa3");
 const _yearGroupCount = 12;
 /* harmony default export */ var CalendarNavvue_type_script_lang_js_ = ({
   components: {
+    Grid: Grid,
     SvgIcon: SvgIcon
   },
   mixins: [mixins["a" /* childMixin */]],
@@ -89108,7 +88541,8 @@ const _yearGroupCount = 12;
     return {
       monthMode: true,
       yearIndex: 0,
-      yearGroupIndex: 0
+      yearGroupIndex: 0,
+      onSpaceOrEnter: helpers["k" /* onSpaceOrEnter */]
     };
   },
 
@@ -89126,12 +88560,14 @@ const _yearGroupCount = 12;
     },
 
     monthItems() {
-      const _pageForDate = Object(helpers["k" /* pageForDate */])(new Date()),
+      const _pageForDate = Object(helpers["l" /* pageForDate */])(new Date()),
             thisMonth = _pageForDate.month,
             thisYear = _pageForDate.year;
 
-      return this.locale.getMonthDates().map(d => this.locale.format(d, this.masks.navMonths)).map((label, i) => {
+      return this.locale.getMonthDates().map((d, i) => {
         const month = i + 1;
+        const label = this.locale.format(d, this.masks.navMonths);
+        const ariaLabel = this.locale.format(d, 'MMMM YYYY');
         const isActive = month === this.month && this.yearIndex === this.year;
         const isCurrent = month === thisMonth && this.yearIndex === thisYear;
         const isDisabled = !this.validator({
@@ -89141,7 +88577,7 @@ const _yearGroupCount = 12;
         const classes = [this.theme.navCell];
 
         if (isActive) {
-          classes.push(this.theme.navCellActive);
+          classes.push(this.theme.navCellActive, 'vc-grid-focus');
         } else if (isCurrent) {
           classes.push(this.theme.navCellInactiveCurrent);
         } else {
@@ -89149,11 +88585,15 @@ const _yearGroupCount = 12;
         }
 
         if (isDisabled) {
-          classes.push('vc-opacity-25');
+          classes.push(this.theme.navCellDisabled);
         }
 
         return {
           label,
+          ariaLabel,
+          isActive,
+          isCurrent,
+          isDisabled,
           classes,
           click: () => this.monthClick(month)
         };
@@ -89161,8 +88601,8 @@ const _yearGroupCount = 12;
     },
 
     yearItems() {
-      const _pageForDate2 = Object(helpers["k" /* pageForDate */])(new Date()),
-            month = _pageForDate2.month,
+      const _pageForDate2 = Object(helpers["l" /* pageForDate */])(new Date()),
+            _ = _pageForDate2._,
             thisYear = _pageForDate2.year;
 
       const startYear = this.yearGroupIndex * _yearGroupCount;
@@ -89179,7 +88619,7 @@ const _yearGroupCount = 12;
         const classes = [this.theme.navCell];
 
         if (isActive) {
-          classes.push(this.theme.navCellActive);
+          classes.push(this.theme.navCellActive, 'vc-grid-focus');
         } else if (isCurrent) {
           classes.push(this.theme.navCellInactiveCurrent);
         } else {
@@ -89193,6 +88633,10 @@ const _yearGroupCount = 12;
         items.push({
           year,
           label: year,
+          ariaLabel: year,
+          isActive,
+          isCurrent,
+          isDisabled,
           classes,
           click: () => this.yearClick(year)
         });
@@ -89201,24 +88645,16 @@ const _yearGroupCount = 12;
       return items;
     },
 
-    itemRows() {
-      return this.monthMode ? this.monthRows : this.yearRows;
-    },
-
-    monthRows() {
-      return this.createRows(this.monthItems, 3);
-    },
-
-    yearRows() {
-      return this.createRows(this.yearItems, 3);
+    activeItems() {
+      return this.monthMode ? this.monthItems : this.yearItems;
     },
 
     firstYear() {
-      return Object(_["d" /* first */])(this.yearItems.map(i => i.year));
+      return Object(utils_["g" /* head */])(this.yearItems.map(i => i.year));
     },
 
     lastYear() {
-      return Object(_["o" /* last */])(this.yearItems.map(i => i.year));
+      return Object(utils_["o" /* last */])(this.yearItems.map(i => i.year));
     }
 
   },
@@ -89237,6 +88673,10 @@ const _yearGroupCount = 12;
     this.yearIndex = this.year;
   },
 
+  mounted() {
+    this.$refs.itemsGrid.tryFocus();
+  },
+
   methods: {
     getYearGroupIndex(year) {
       return Math.floor(year / _yearGroupCount);
@@ -89252,6 +88692,7 @@ const _yearGroupCount = 12;
     yearClick(year) {
       this.yearIndex = year;
       this.monthMode = true;
+      this.$refs.itemsGrid.tryFocus();
     },
 
     toggleMode() {
@@ -89290,25 +88731,54 @@ const _yearGroupCount = 12;
       this.yearGroupIndex++;
     },
 
-    createRows(items, columnCount) {
-      const rows = [];
-      let row = [];
-      items.forEach(item => {
-        row.push(item);
+    onHeaderRollover(e) {
+      switch (e.direction) {
+        case 'vertical-trailing':
+          this.$refs.itemsGrid.tryFocus();
+          break;
+      }
 
-        if (row.length >= columnCount) {
-          rows.push(row);
-          row = [];
-        }
-      });
-      return rows;
+      e.handled = true;
+    },
+
+    onItemsRollover(e) {
+      switch (e.direction) {
+        case 'horizontal-leading':
+          {
+            this.movePrev();
+            break;
+          }
+
+        case 'horizontal-trailing':
+          {
+            this.moveNext();
+            break;
+          }
+
+        case 'vertical-leading':
+          {
+            this.$refs.headerGrid.tryFocus();
+            e.handled = true;
+            break;
+          }
+
+        case 'vertical-trailing':
+          {
+            e.handled = true;
+            break;
+          }
+      }
     }
 
   }
 });
 // CONCATENATED MODULE: ./src/components/CalendarNav.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_CalendarNavvue_type_script_lang_js_ = (CalendarNavvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./src/components/CalendarNav.vue?vue&type=style&index=0&lang=postcss&
+var CalendarNavvue_type_style_index_0_lang_postcss_ = __webpack_require__("3c55");
+
 // CONCATENATED MODULE: ./src/components/CalendarNav.vue
+
 
 
 
@@ -89318,8 +88788,8 @@ const _yearGroupCount = 12;
 
 var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
   components_CalendarNavvue_type_script_lang_js_,
-  CalendarNavvue_type_template_id_54b1aedd_render,
-  CalendarNavvue_type_template_id_54b1aedd_staticRenderFns,
+  CalendarNavvue_type_template_id_255ba841_render,
+  CalendarNavvue_type_template_id_255ba841_staticRenderFns,
   false,
   null,
   null,
@@ -89335,10 +88805,9 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
 
 
 
-
 /* harmony default export */ var CalendarDayvue_type_script_lang_js_ = ({
   name: 'CalendarDay',
-  mixins: [mixins["a" /* childMixin */]],
+  mixins: [mixins["a" /* childMixin */], mixins["d" /* safeScopedSlotMixin */]],
 
   render(h) {
     // Backgrounds layer
@@ -89357,13 +88826,13 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
     })); // Content layer
 
 
-    const contentLayer = () => Object(_["j" /* isFunction */])(this.$scopedSlots['day-content']) ? this.$scopedSlots['day-content']({
+    const contentLayer = () => this.safeScopedSlot('day-content', {
       day: this.day,
       attributes: this.day.attributes,
       attributesMap: this.day.attributesMap,
       dayProps: this.dayContentProps,
       dayEvents: this.dayContentEvents
-    }) : h('span', {
+    }) || h('span', {
       class: this.dayContentClass,
       attrs: Object(objectSpread["a" /* default */])({}, this.dayContentProps),
       on: this.dayContentEvents,
@@ -89500,13 +88969,14 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
     },
 
     dayContentClass() {
-      const contentClass = Object(_["e" /* get */])(Object(_["o" /* last */])(this.content), 'class') || '';
-      return `vc-day-content ${this.isDisabled ? this.theme.dayContentDisabled : this.theme.dayContent} ${this.theme.isDark ? 'vc-is-dark' : ''} ${contentClass}`;
+      const contentClass = Object(utils_["d" /* get */])(Object(utils_["o" /* last */])(this.content), 'class') || '';
+      return `vc-day-content vc-focusable ${this.isDisabled ? this.theme.dayContentDisabled : this.theme.dayContent} ${this.theme.isDark ? 'vc-is-dark' : ''} ${contentClass}`;
     },
 
     dayContentProps() {
       return {
-        tabindex: '0'
+        tabindex: this.day.isFocusable ? '0' : this.day.inMonth ? '-1' : undefined,
+        'aria-label': this.day.ariaLabel
       };
     },
 
@@ -89516,7 +88986,8 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
         mouseenter: this.mouseenter,
         mouseleave: this.mouseleave,
         focusin: this.focusin,
-        focusout: this.focusout
+        focusout: this.focusout,
+        keydown: this.keydown
       };
     },
 
@@ -89552,11 +89023,6 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
     }
 
   },
-
-  created() {
-    this.refresh();
-  },
-
   methods: {
     getDayEvent(origEvent) {
       return Object(objectSpread["a" /* default */])({}, this.dayEvent, {
@@ -89584,6 +89050,10 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
       this.$emit('dayfocusout', this.getDayEvent(e));
     },
 
+    keydown(e) {
+      this.$emit('daykeydown', this.getDayEvent(e));
+    },
+
     refresh() {
       if (!this.day.refresh) return;
       this.day.refresh = false;
@@ -89594,7 +89064,7 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
         popovers: [],
         content: []
       };
-      this.day.attributes = values_default()(this.day.attributesMap || {}).sort((a, b) => a.order - b.order);
+      this.day.attributes = Object.values(this.day.attributesMap || {}).sort((a, b) => a.order - b.order);
       this.day.attributes.forEach(attr => {
         // Add glyphs for each attribute
         const targetDate = attr.targetDate;
@@ -89820,8 +89290,8 @@ var CalendarNav_component = Object(componentNormalizer["a" /* default */])(
 });
 // CONCATENATED MODULE: ./src/components/CalendarDay.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_CalendarDayvue_type_script_lang_js_ = (CalendarDayvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/CalendarDay.vue?vue&type=style&index=0&id=1b5be871&lang=postcss&scoped=true&
-var CalendarDayvue_type_style_index_0_id_1b5be871_lang_postcss_scoped_true_ = __webpack_require__("a942");
+// EXTERNAL MODULE: ./src/components/CalendarDay.vue?vue&type=style&index=0&id=b0867174&lang=postcss&scoped=true&
+var CalendarDayvue_type_style_index_0_id_b0867174_lang_postcss_scoped_true_ = __webpack_require__("0e9c");
 
 // CONCATENATED MODULE: ./src/components/CalendarDay.vue
 var CalendarDay_render, CalendarDay_staticRenderFns
@@ -89838,7 +89308,7 @@ var CalendarDay_component = Object(componentNormalizer["a" /* default */])(
   CalendarDay_staticRenderFns,
   false,
   null,
-  "1b5be871",
+  "b0867174",
   null
   
 )
@@ -89855,11 +89325,11 @@ var CalendarDay_component = Object(componentNormalizer["a" /* default */])(
 
 
 /* harmony default export */ var CalendarPanevue_type_script_lang_js_ = ({
-  mixins: [mixins["b" /* propOrDefaultMixin */], mixins["a" /* childMixin */]],
+  mixins: [mixins["b" /* propOrDefaultMixin */], mixins["a" /* childMixin */], mixins["d" /* safeScopedSlotMixin */]],
 
   render(h) {
     // Header
-    const header = this.$scopedSlots.header ? this.$scopedSlots.header(this.page) : h('div', {
+    const header = this.safeScopedSlot('header', this.page) || h('div', {
       class: ['vc-header', this.theme.header]
     }, [// Header title
     h('div', {
@@ -89871,13 +89341,13 @@ var CalendarDay_component = Object(componentNormalizer["a" /* default */])(
       props: {
         id: this.navPopoverId,
         visibility: this.navVisibility_,
-        isInteractive: true,
-        placement: `bottom${this.titlePosition === 'left' ? '-start' : this.titlePosition === 'right' ? '-end' : ''}`
+        placement: this.navPlacement,
+        isInteractive: true
       }
     }, [// Title content
     h('div', {
       class: ['vc-title', this.theme.title]
-    }, [this.$scopedSlots['header-title'] ? this.$scopedSlots['header-title'](this.page) : this.page.title])]), // Navigation popover
+    }, [this.safeScopedSlot('header-title', this.page, this.page.title)])]), // Navigation popover
     h(Popover["a" /* default */], {
       props: {
         id: this.navPopoverId,
@@ -89900,7 +89370,8 @@ var CalendarDay_component = Object(componentNormalizer["a" /* default */])(
       props: {
         rows: 7,
         columns: 7,
-        columnWidth: '1fr'
+        columnWidth: '1fr',
+        disableFocus: true
       }
     }, [...this.weekdayLabels.map((wl, i) => h('div', {
       key: i + 1,
@@ -89942,8 +89413,17 @@ var CalendarDay_component = Object(componentNormalizer["a" /* default */])(
       return this.propOrDefault('navVisibility', 'navVisibility');
     },
 
-    navSlots() {
-      return ['nav-left-button', 'nav-right-button'].filter(slot => this.$scopedSlots[slot]);
+    navPlacement() {
+      switch (this.titlePosition) {
+        case 'left':
+          return 'bottom-start';
+
+        case 'right':
+          return 'bottom-end';
+
+        default:
+          return 'bottom';
+      }
     },
 
     weekdayLabels() {
@@ -89964,8 +89444,8 @@ var CalendarDay_component = Object(componentNormalizer["a" /* default */])(
 });
 // CONCATENATED MODULE: ./src/components/CalendarPane.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_CalendarPanevue_type_script_lang_js_ = (CalendarPanevue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/CalendarPane.vue?vue&type=style&index=0&id=543ec9f5&lang=postcss&scoped=true&
-var CalendarPanevue_type_style_index_0_id_543ec9f5_lang_postcss_scoped_true_ = __webpack_require__("22f6");
+// EXTERNAL MODULE: ./src/components/CalendarPane.vue?vue&type=style&index=0&id=d8853504&lang=postcss&scoped=true&
+var CalendarPanevue_type_style_index_0_id_d8853504_lang_postcss_scoped_true_ = __webpack_require__("b5e7");
 
 // CONCATENATED MODULE: ./src/components/CalendarPane.vue
 var CalendarPane_render, CalendarPane_staticRenderFns
@@ -89982,7 +89462,7 @@ var CalendarPane_component = Object(componentNormalizer["a" /* default */])(
   CalendarPane_staticRenderFns,
   false,
   null,
-  "543ec9f5",
+  "d8853504",
   null
   
 )
@@ -90030,8 +89510,8 @@ var CalendarPane_component = Object(componentNormalizer["a" /* default */])(
 });
 // CONCATENATED MODULE: ./src/components/CustomTransition.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_CustomTransitionvue_type_script_lang_js_ = (CustomTransitionvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/CustomTransition.vue?vue&type=style&index=0&id=8466592e&lang=postcss&scoped=true&
-var CustomTransitionvue_type_style_index_0_id_8466592e_lang_postcss_scoped_true_ = __webpack_require__("e76f");
+// EXTERNAL MODULE: ./src/components/CustomTransition.vue?vue&type=style&index=0&id=5be4b00c&lang=postcss&scoped=true&
+var CustomTransitionvue_type_style_index_0_id_5be4b00c_lang_postcss_scoped_true_ = __webpack_require__("2285");
 
 // CONCATENATED MODULE: ./src/components/CustomTransition.vue
 var CustomTransition_render, CustomTransition_staticRenderFns
@@ -90048,30 +89528,14 @@ var CustomTransition_component = Object(componentNormalizer["a" /* default */])(
   CustomTransition_staticRenderFns,
   false,
   null,
-  "8466592e",
+  "5be4b00c",
   null
   
 )
 
 /* harmony default export */ var CustomTransition = (CustomTransition_component.exports);
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/array/from.js
-var array_from = __webpack_require__("774e");
-var from_default = /*#__PURE__*/__webpack_require__.n(array_from);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js
-var stringify = __webpack_require__("f499");
-var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/keys.js
-var keys = __webpack_require__("a4bb");
-var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/set.js
-var set = __webpack_require__("b6d0");
-var set_default = /*#__PURE__*/__webpack_require__.n(set);
-
 // EXTERNAL MODULE: ./src/utils/dateInfo.js
-var dateInfo = __webpack_require__("cfe5");
+var utils_dateInfo = __webpack_require__("cfe5");
 
 // CONCATENATED MODULE: ./src/utils/attribute.js
 
@@ -90092,10 +89556,14 @@ class attribute_Attribute {
         customData = _ref.customData,
         order = _ref.order,
         pinPage = _ref.pinPage;
-    this.key = Object(_["n" /* isUndefined */])(key) ? Object(helpers["c" /* createGuid */])() : key;
+    this.key = Object(utils_["n" /* isUndefined */])(key) ? Object(helpers["c" /* createGuid */])() : key;
     this.hashcode = hashcode;
     this.customData = customData;
     this.order = order || 0;
+    this.dateOpts = {
+      order,
+      locale
+    };
     this.pinPage = pinPage; // Normalize attribute types
 
     if (highlight) {
@@ -90120,42 +89588,39 @@ class attribute_Attribute {
 
 
     if (dates) {
-      this.dates = Object(_["h" /* isArray */])(dates) ? dates : [dates];
+      this.dates = Object(utils_["h" /* isArray */])(dates) ? dates : [dates];
     }
 
     this.hasDates = Object(helpers["b" /* arrayHasItems */])(this.dates); // Wrap exclude dates in array if needed
 
     if (excludeDates) {
-      this.excludeDates = Object(_["h" /* isArray */])(excludeDates) ? excludeDates : [excludeDates];
+      this.excludeDates = Object(utils_["h" /* isArray */])(excludeDates) ? excludeDates : [excludeDates];
     }
 
     this.hasExcludeDates = Object(helpers["b" /* arrayHasItems */])(this.excludeDates);
-    this.excludeMode = excludeMode || 'intersects'; // Assign final values for dates & excludeDates
+    this.excludeMode = excludeMode || 'intersects'; // Assign final dates
 
-    this.dates = (this.hasDates && this.dates || this.hasExcludeDates && [{}] || []).map(d => d && (d instanceof dateInfo["b" /* default */] ? d : new dateInfo["b" /* default */](d, {
-      order,
-      locale
-    }))).filter(d => d);
-    this.excludeDates = (this.hasExcludeDates && this.excludeDates || []).map(d => d && (d instanceof dateInfo["b" /* default */] ? d : new dateInfo["b" /* default */](d, {
-      order,
-      locale
-    }))).filter(d => d);
-    this.isComplex = Object(_["t" /* some */])(dates, d => d.isComplex);
+    this.dates = (this.hasDates && this.dates || this.hasExcludeDates && [{}] || []).map(d => d && (d instanceof utils_dateInfo["d" /* default */] ? d : new utils_dateInfo["d" /* default */](d, this.dateOpts))).filter(d => d); // Assign final exclude dates
+
+    this.excludeDates = (this.hasExcludeDates && this.excludeDates || []).map(d => d && (d instanceof utils_dateInfo["d" /* default */] ? d : new utils_dateInfo["d" /* default */](d, this.dateOpts))).filter(d => d);
+    this.isComplex = Object(utils_["t" /* some */])(dates, d => d.isComplex);
   } // Accepts: Date or date range object
-  // Returns: First attribute date info that partially intersects the given date
+  // Returns: First date that partially intersects the given date
 
 
   intersectsDate(date) {
     return !this.excludesDate(date) && (this.dates.find(d => d.intersectsDate(date)) || false);
   } // Accepts: Date or date range object
-  // Returns: First attribute date info that completely includes the given date
+  // Returns: First date that completely includes the given date
 
 
   includesDate(date) {
+    date = date instanceof utils_dateInfo["d" /* default */] ? date : new utils_dateInfo["d" /* default */](date, this.dateOpts);
     return !this.excludesDate(date) && (this.dates.find(d => d.includesDate(date)) || false);
   }
 
   excludesDate(date) {
+    date = date instanceof utils_dateInfo["d" /* default */] ? date : new utils_dateInfo["d" /* default */](date, this.dateOpts);
     return this.hasExcludeDates && this.excludeDates.find(ed => this.excludeMode === 'intersects' && ed.intersectsDate(date) || this.excludeMode === 'includes' && ed.includesDate(date));
   } // Accepts: Day object
   // Returns: First attribute date info that occurs on given day.
@@ -90176,10 +89641,6 @@ class attribute_Attribute {
 
 
 
-
-
-
-
 class attributeStore_AttributeStore {
   constructor(theme, locale, attrs) {
     this.theme = theme;
@@ -90194,14 +89655,14 @@ class attributeStore_AttributeStore {
     let pinAttr = null; // Keep record of added and deleted attributes
 
     const adds = [];
-    const deletes = reset ? new set_default.a() : new set_default.a(keys_default()(this.map));
+    const deletes = reset ? new Set() : new Set(Object.keys(this.map));
 
     if (Object(helpers["b" /* arrayHasItems */])(attrs)) {
       attrs.forEach((attr, i) => {
         if (!attr || !attr.dates) return;
         const key = attr.key ? attr.key.toString() : i.toString();
         const order = attr.order || 0;
-        const hashcode = Object(helpers["g" /* hash */])(stringify_default()(attr));
+        const hashcode = Object(helpers["g" /* hash */])(JSON.stringify(attr));
         let exAttr = this.map[key]; // If just tracking delta changes and attribute hash hasn't changed
 
         if (!reset && exAttr && exAttr.hashcode === hashcode) {
@@ -90233,7 +89694,7 @@ class attributeStore_AttributeStore {
     this.pinAttr = pinAttr;
     return {
       adds,
-      deletes: from_default()(deletes)
+      deletes: Array.from(deletes)
     };
   }
 
@@ -90242,7 +89703,6 @@ class attributeStore_AttributeStore {
 var touch = __webpack_require__("0733");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Calendar.vue?vue&type=script&lang=js&
-
 
 
 
@@ -90280,9 +89740,16 @@ var touch = __webpack_require__("0733");
         'update:page': e => this.refreshPages({
           page: e,
           position: i + 1
-        })
+        }),
+        dayfocusin: e => {
+          this.lastFocusedDay = e;
+          this.$emit('dayfocusin', e);
+        },
+        dayfocusout: e => {
+          this.lastFocusedDay = null;
+          this.$emit('dayfocusout', e);
+        }
       }),
-      slots: this.$slots,
       scopedSlots: this.$scopedSlots,
       key: page.key,
       ref: 'pages',
@@ -90290,24 +89757,28 @@ var touch = __webpack_require__("0733");
     })); // Renderer for calendar arrows
 
     const getArrowButton = isPrev => {
-      const slot = isPrev && this.$slots['header-left-button'] || !isPrev && this.$slots['header-right-button'];
-      const svgName = isPrev ? 'left-arrow' : 'right-arrow';
+      const click = () => isPrev ? this.movePrev() : this.moveNext();
+
+      const keydown = e => Object(helpers["k" /* onSpaceOrEnter */])(e, click);
+
       const isDisabled = isPrev ? !this.canMovePrev : !this.canMoveNext;
-      const onClick = isPrev ? this.movePrev : this.moveNext;
-      return h('span', {
-        class: 'vc-arrow-layout',
+      return h('div', {
+        class: [`vc-flex vc-justify-center vc-items-center vc-cursor-pointer vc-select-none ${isDisabled ? 'vc-opacity-25 vc-pointer-events-none vc-cursor-not-allowed' : 'vc-pointer-events-auto'}`, this.theme_.arrows],
         attrs: {
+          role: 'button',
           tabindex: '0'
-        }
-      }, [slot || h(SvgIcon, {
-        class: ['vc-arrow vc-cursor-pointer vc-select-none', {
-          'vc-disabled': isDisabled
-        }, this.theme_.arrows],
-        props: {
-          name: svgName
         },
         on: {
-          click: onClick
+          click,
+          keydown
+        }
+      }, [(isPrev ? this.safeScopedSlot('header-left-button', {
+        click
+      }) : this.safeScopedSlot('header-right-button', {
+        click
+      })) || h(SvgIcon, {
+        props: {
+          name: isPrev ? 'left-arrow' : 'right-arrow'
         }
       })]);
     }; // Renderer for popover
@@ -90323,13 +89794,11 @@ var touch = __webpack_require__("0733");
           let day = _ref.args,
               updateLayout = _ref.updateLayout,
               hide = _ref.hide;
-
-          const attributes = values_default()(day.attributes).filter(a => a.popover);
-
+          const attributes = Object.values(day.attributes).filter(a => a.popover);
           const masks = this.locale_.masks;
           const format = this.format;
           const dayTitle = format(day.date, masks.dayPopover);
-          return Object(_["j" /* isFunction */])(this.$scopedSlots['day-popover']) ? this.$scopedSlots['day-popover']({
+          return this.safeScopedSlot('day-popover', {
             day,
             attributes,
             masks,
@@ -90337,7 +89806,7 @@ var touch = __webpack_require__("0733");
             dayTitle,
             updateLayout,
             hide
-          }) : h('div', [// Show popover header only if format is defined
+          }) || h('div', [// Show popover header only if format is defined
           masks.dayPopover && h('div', {
             class: ['vc-text-center', this.theme_.dayPopoverHeader]
           }, [dayTitle]), attributes.map(attribute => h(PopoverRow["a" /* default */], {
@@ -90352,9 +89821,15 @@ var touch = __webpack_require__("0733");
 
 
     const getContainerGrid = () => h('div', {
-      class: ['vc-container', 'vc-relative', {
+      attrs: {
+        'data-helptext': 'Press the arrow keys to navigate by day, Home and End to navigate to week ends, PageUp and PageDown to navigate by month, Alt+PageUp and Alt+PageDown to navigate by year'
+      },
+      class: ['vc-container', 'vc-relative', 'vc-reset', {
         'vc-min-w-full': this.isExpanded
       }, this.theme_.container],
+      on: {
+        keydown: this.handleKeydown
+      },
       ref: 'container'
     }, [h('div', {
       class: ['vc-w-full vc-relative', {
@@ -90377,7 +89852,8 @@ var touch = __webpack_require__("0733");
       props: {
         rows: this.rows,
         columns: this.columns,
-        columnWidth: 'minmax(256px, 1fr)'
+        columnWidth: 'minmax(256px, 1fr)',
+        disableFocus: true
       },
       attrs: Object(objectSpread["a" /* default */])({}, this.$attrs),
       key: Object(helpers["b" /* arrayHasItems */])(this.pages) ? this.pages[0].key : ''
@@ -90388,7 +89864,7 @@ var touch = __webpack_require__("0733");
     return getContainerGrid();
   },
 
-  mixins: [mixins["b" /* propOrDefaultMixin */], mixins["c" /* rootMixin */]],
+  mixins: [mixins["b" /* propOrDefaultMixin */], mixins["c" /* rootMixin */], mixins["d" /* safeScopedSlotMixin */]],
 
   provide() {
     return {
@@ -90427,6 +89903,8 @@ var touch = __webpack_require__("0733");
     return {
       pages: [],
       store: null,
+      lastFocusedDay: null,
+      focusableDay: new Date().getDate(),
       transitionName: '',
       inTransition: false,
       sharedState: {
@@ -90444,11 +89922,11 @@ var touch = __webpack_require__("0733");
     },
 
     minPage_() {
-      return this.minPage || Object(helpers["k" /* pageForDate */])(this.locale_.toDate(this.minDate));
+      return this.minPage || Object(helpers["l" /* pageForDate */])(this.locale_.toDate(this.minDate));
     },
 
     maxPage_() {
-      return this.maxPage || Object(helpers["k" /* pageForDate */])(this.locale_.toDate(this.maxDate));
+      return this.maxPage || Object(helpers["l" /* pageForDate */])(this.locale_.toDate(this.maxDate));
     },
 
     count() {
@@ -90460,11 +89938,11 @@ var touch = __webpack_require__("0733");
     },
 
     canMovePrev() {
-      return !Object(helpers["p" /* pageIsValid */])(this.minPage_) || Object(helpers["m" /* pageIsAfterPage */])(this.pages[0], this.minPage_);
+      return !Object(helpers["q" /* pageIsValid */])(this.minPage_) || Object(helpers["n" /* pageIsAfterPage */])(this.pages[0], this.minPage_);
     },
 
     canMoveNext() {
-      return !Object(helpers["p" /* pageIsValid */])(this.maxPage_) || Object(helpers["n" /* pageIsBeforePage */])(this.pages[this.pages.length - 1], this.maxPage_);
+      return !Object(helpers["q" /* pageIsValid */])(this.maxPage_) || Object(helpers["o" /* pageIsBeforePage */])(this.pages[this.pages.length - 1], this.maxPage_);
     },
 
     disabledAttribute() {
@@ -90472,7 +89950,7 @@ var touch = __webpack_require__("0733");
       let dates = []; // Initialize with disabled dates prop, if any
 
       if (this.disabledDates) {
-        dates = Object(_["h" /* isArray */])(this.disabledDates) ? this.disabledDates : [this.disabledDates];
+        dates = Object(utils_["h" /* isArray */])(this.disabledDates) ? this.disabledDates : [this.disabledDates];
       } // Add disabled dates for minDate and maxDate props
 
 
@@ -90482,13 +89960,13 @@ var touch = __webpack_require__("0733");
       if (minDate) {
         dates.push({
           start: null,
-          end: Object(dateInfo["a" /* addDays */])(minDate, -1)
+          end: Object(utils_dateInfo["a" /* addDays */])(minDate, -1)
         });
       }
 
       if (maxDate) {
         dates.push({
-          start: Object(dateInfo["a" /* addDays */])(maxDate, 1),
+          start: Object(utils_dateInfo["a" /* addDays */])(maxDate, 1),
           end: null
         });
       } // Return the new disabled attribute
@@ -90507,6 +89985,10 @@ var touch = __webpack_require__("0733");
   watch: {
     locale_() {
       this.refreshLocale();
+      this.refreshPages({
+        page: Object(utils_["g" /* head */])(this.pages),
+        ignoreCache: true
+      });
       this.initStore();
     },
 
@@ -90532,11 +90014,22 @@ var touch = __webpack_require__("0733");
             adds = _this$store$refresh.adds,
             deletes = _this$store$refresh.deletes;
 
-      this.refreshPageAttrs(this.pages, adds, deletes);
+      this.refreshAttrs(this.pages, adds, deletes);
     },
 
     pages(val) {
-      this.refreshPageAttrs(val.filter(p => p.refresh), this.store.list);
+      this.refreshAttrs(val, this.store.list, null, true);
+    },
+
+    disabledAttribute() {
+      this.refreshDisabledDays();
+    },
+
+    lastFocusedDay(val) {
+      if (val) {
+        this.focusableDay = val.day;
+        this.refreshFocusableDays();
+      }
     }
 
   },
@@ -90576,16 +90069,8 @@ var touch = __webpack_require__("0733");
       this.sharedState.theme = this.theme_;
     },
 
-    initStore() {
-      this.store = this.attributes instanceof attributeStore_AttributeStore ? this.attributes : new attributeStore_AttributeStore(this.theme_, this.locale_, this.attributes);
-
-      if (this.pages.length) {
-        this.refreshPageAttrs(this.pages, this.store.list);
-      }
-    },
-
     canMove(page) {
-      return Object(helpers["o" /* pageIsBetweenPages */])(page, this.minPage_, this.maxPage_);
+      return Object(helpers["p" /* pageIsBetweenPages */])(page, this.minPage_, this.maxPage_);
     },
 
     movePrev() {
@@ -90597,35 +90082,46 @@ var touch = __webpack_require__("0733");
     },
 
     move(monthsOrPage) {
-      if (Object(_["k" /* isNumber */])(monthsOrPage)) {
-        this.refreshPages({
-          page: Object(helpers["a" /* addPages */])(this.pages[0], monthsOrPage),
-          position: 1
-        });
+      let _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          _ref3$completion = _ref3.completion,
+          completion = _ref3$completion === void 0 ? null : _ref3$completion,
+          _ref3$position = _ref3.position,
+          position = _ref3$position === void 0 ? 1 : _ref3$position;
+
+      const page = Object(utils_["k" /* isNumber */])(monthsOrPage) ? Object(helpers["a" /* addPages */])(this.pages[0], monthsOrPage) : monthsOrPage;
+      this.refreshPages({
+        page,
+        position
+      });
+
+      if (completion) {
+        this.$nextTick(() => completion());
       }
     },
 
     refreshPages() {
-      let _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          page = _ref3.page,
-          _ref3$position = _ref3.position,
-          position = _ref3$position === void 0 ? 1 : _ref3$position;
+      let _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          page = _ref4.page,
+          _ref4$position = _ref4.position,
+          position = _ref4$position === void 0 ? 1 : _ref4$position,
+          ignoreCache = _ref4.ignoreCache;
 
       // Calculate the page to start displaying from
       let fromPage = null; // 1. Try the page parameter
 
-      if (Object(helpers["p" /* pageIsValid */])(page)) {
-        fromPage = Object(helpers["a" /* addPages */])(page, -(position - 1));
+      if (Object(helpers["q" /* pageIsValid */])(page)) {
+        const pagesToAdd = position > 0 ? 1 - position : -(this.count + position);
+        fromPage = Object(helpers["a" /* addPages */])(page, pagesToAdd);
       } else {
         // 2. Try the fromPage prop
-        fromPage = this.fromPage || Object(helpers["k" /* pageForDate */])(this.locale_.toDate(this.fromDate));
+        fromPage = this.fromPage || Object(helpers["l" /* pageForDate */])(this.locale_.toDate(this.fromDate));
 
-        if (!Object(helpers["p" /* pageIsValid */])(fromPage)) {
+        if (!Object(helpers["q" /* pageIsValid */])(fromPage)) {
           // 3. Try the toPage prop
-          const toPage = this.toPage || Object(helpers["k" /* pageForDate */])(this.locale_.toDate(this.toPage));
+          const toPage = this.toPage || Object(helpers["l" /* pageForDate */])(this.locale_.toDate(this.toPage));
 
-          if (Object(helpers["p" /* pageIsValid */])(toPage)) {
-            fromPage = Object(helpers["a" /* addPages */])(toPage, -(this.count - 1));
+          if (Object(helpers["q" /* pageIsValid */])(toPage)) {
+            fromPage = Object(helpers["a" /* addPages */])(toPage, 1 - this.count);
           } else {
             // 4. Try the first attribute
             fromPage = this.getPageForAttributes();
@@ -90634,18 +90130,22 @@ var touch = __webpack_require__("0733");
       } // 5. Fall back to today's page
 
 
-      fromPage = Object(helpers["p" /* pageIsValid */])(fromPage) ? fromPage : Object(helpers["l" /* pageForThisMonth */])(); // Adjust from page within allowed min/max pages
+      fromPage = Object(helpers["q" /* pageIsValid */])(fromPage) ? fromPage : Object(helpers["m" /* pageForThisMonth */])(); // Adjust from page within allowed min/max pages
 
       const toPage = Object(helpers["a" /* addPages */])(fromPage, this.count - 1);
 
-      if (Object(helpers["n" /* pageIsBeforePage */])(fromPage, this.minPage_)) {
+      if (Object(helpers["o" /* pageIsBeforePage */])(fromPage, this.minPage_)) {
         fromPage = this.minPage_;
-      } else if (Object(helpers["m" /* pageIsAfterPage */])(toPage, this.maxPage_)) {
-        fromPage = Object(helpers["a" /* addPages */])(this.maxPage_, -(this.count - 1));
+      } else if (Object(helpers["n" /* pageIsAfterPage */])(toPage, this.maxPage_)) {
+        fromPage = Object(helpers["a" /* addPages */])(this.maxPage_, 1 - this.count);
       } // Create the new pages
 
 
-      const pages = [...Array(this.count).keys()].map(i => this.buildPage(Object(helpers["a" /* addPages */])(fromPage, i))); // Assign the new transition
+      const pages = [...Array(this.count).keys()].map(i => this.buildPage(Object(helpers["a" /* addPages */])(fromPage, i), ignoreCache)); // Refresh disabled days for new pages
+
+      this.refreshDisabledDays(pages); // Refresh focusable days for new pages
+
+      this.refreshFocusableDays(pages); // Assign the new transition
 
       this.transitionName = this.getPageTransition(this.pages[0], pages[0]); // Assign the new pages
 
@@ -90657,15 +90157,28 @@ var touch = __webpack_require__("0733");
       this.$emit('update:toPage', toPage);
     },
 
+    refreshDisabledDays(pages) {
+      this.getPageDays(pages).forEach(d => d.isDisabled = !!this.disabledAttribute && this.disabledAttribute.includesDay(d));
+    },
+
+    refreshFocusableDays(pages) {
+      this.getPageDays(pages).forEach(d => d.isFocusable = d.inMonth && d.day === this.focusableDay);
+    },
+
+    getPageDays() {
+      let pages = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.pages;
+      return pages.reduce((prev, curr) => prev.concat(curr.days), []);
+    },
+
     getPageTransition(oldPage, newPage) {
       if (this.transition === 'none') return this.transition;
 
-      if (this.transition === 'fade' || !this.transition && this.count > 1 || !Object(helpers["p" /* pageIsValid */])(oldPage) || !Object(helpers["p" /* pageIsValid */])(newPage)) {
+      if (this.transition === 'fade' || !this.transition && this.count > 1 || !Object(helpers["q" /* pageIsValid */])(oldPage) || !Object(helpers["q" /* pageIsValid */])(newPage)) {
         return 'fade';
       } // Moving to a previous page
 
 
-      const movePrev = Object(helpers["n" /* pageIsBeforePage */])(newPage, oldPage); // Vertical slide
+      const movePrev = Object(helpers["o" /* pageIsBeforePage */])(newPage, oldPage); // Vertical slide
 
       if (this.transition === 'slide-v') {
         return movePrev ? 'slide-down' : 'slide-up';
@@ -90684,21 +90197,19 @@ var touch = __webpack_require__("0733");
             date = _attr$dates[0];
 
         date = date.start || date.date;
-        page = Object(helpers["k" /* pageForDate */])(this.locale_.toDate(date));
+        page = Object(helpers["l" /* pageForDate */])(this.locale_.toDate(date));
       }
 
       return page;
     },
 
-    buildPage(_ref4, position) {
-      let month = _ref4.month,
-          year = _ref4.year;
+    buildPage(_ref5, ignoreCache) {
+      let month = _ref5.month,
+          year = _ref5.year;
       const key = `${year.toString()}-${month.toString()}`;
       let page = this.pages.find(p => p.key === key);
 
-      if (page) {
-        page.days.forEach(d => d.refresh = true);
-      } else {
+      if (!page || ignoreCache) {
         const date = new Date(year, month - 1, 15);
         const monthComps = this.locale_.getMonthComps(month, year);
         const prevMonthComps = this.locale_.getPrevMonthComps(month, year);
@@ -90723,34 +90234,47 @@ var touch = __webpack_require__("0733");
           refresh: true
         }; // Assign day info
 
-        page.days = this.locale_.getCalendarDays(page, this.disabledAttribute);
-      } // Reassign position if needed
+        page.days = this.locale_.getCalendarDays(page);
+      }
 
-
-      page.position = position;
       return page;
     },
 
-    refreshPageAttrs() {
+    initStore() {
+      // Create a new attribute store
+      this.store = new attributeStore_AttributeStore(this.theme_, this.locale_, this.attributes); // Refresh attributes for existing pages
+
+      this.refreshAttrs(this.pages, this.store.list, [], true);
+    },
+
+    refreshAttrs() {
       let pages = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       let adds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
       let deletes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-      // For each page...
+      let reset = arguments.length > 3 ? arguments[3] : undefined;
+      if (!Object(helpers["b" /* arrayHasItems */])(pages)) return; // For each page...
+
       pages.forEach(p => {
-        // Reset refresh flag
-        p.refresh = false; // For each day...
-
+        // For each day...
         p.days.forEach(d => {
-          // Get the current attributes
-          let map = d.attributesMap || {}; // Strip out attributes that need to be removed
+          let map = {}; // If resetting...
 
-          if (Object(_["g" /* hasAny */])(map, deletes)) {
-            map = Object(_["r" /* omit */])(map, deletes); // Flag day so that it refreshes
+          if (reset) {
+            // Flag day for refresh if it has attributes
+            d.refresh = Object(helpers["b" /* arrayHasItems */])(d.attributes);
+          } else if (Object(utils_["f" /* hasAny */])(d.attributesMap, deletes)) {
+            // Delete attributes from the delete list
+            map = Object(utils_["r" /* omit */])(d.attributesMap, deletes); // Flag day for refresh
 
             d.refresh = true;
-          }
+          } else {
+            // Get the existing attributes
+            map = d.attributesMap || {};
+          } // For each attribute to add...
+
 
           adds.forEach(attr => {
+            // Add it if it includes the current day
             const targetDate = attr.includesDay(d);
 
             if (targetDate) {
@@ -90758,7 +90282,7 @@ var touch = __webpack_require__("0733");
                 targetDate
               });
 
-              map[attr.key] = newAttr; // Flag day so that it refreshes
+              map[attr.key] = newAttr; // Flag day for refresh
 
               d.refresh = true;
             }
@@ -90775,23 +90299,156 @@ var touch = __webpack_require__("0733");
       });
     },
 
-    showPageRange(_ref5) {
-      let from = _ref5.from,
-          to = _ref5.to;
-      const lastPage = Object(_["o" /* last */])(this.pages);
-      let page = from;
+    showPageRange(range) {
+      let fromPage;
+      let toPage;
 
-      if (Object(helpers["m" /* pageIsAfterPage */])(to, lastPage)) {
-        page = Object(helpers["a" /* addPages */])(to, -(this.pages.length - 1));
+      if (Object(utils_["i" /* isDate */])(range)) {
+        fromPage = Object(helpers["l" /* pageForDate */])(range);
+      } else if (Object(utils_["l" /* isObject */])(range)) {
+        const month = range.month,
+              year = range.year;
+        const from = range.from,
+              to = range.to;
+
+        if (Object(utils_["k" /* isNumber */])(month) && Object(utils_["k" /* isNumber */])(year)) {
+          fromPage = range;
+        } else if (from || to) {
+          fromPage = Object(utils_["i" /* isDate */])(from) ? Object(helpers["l" /* pageForDate */])(from) : from;
+          toPage = Object(utils_["i" /* isDate */])(to) ? Object(helpers["l" /* pageForDate */])(to) : to;
+        }
+      } else {
+        return;
       }
 
-      if (Object(helpers["n" /* pageIsBeforePage */])(from, page)) {
-        page = from;
+      const lastPage = Object(utils_["o" /* last */])(this.pages);
+      let page = fromPage;
+
+      if (Object(helpers["n" /* pageIsAfterPage */])(toPage, lastPage)) {
+        page = Object(helpers["a" /* addPages */])(toPage, -(this.pages.length - 1));
+      }
+
+      if (Object(helpers["o" /* pageIsBeforePage */])(fromPage, page)) {
+        page = fromPage;
       }
 
       this.refreshPages({
         page
       });
+    },
+
+    handleKeydown(e) {
+      const day = this.lastFocusedDay;
+
+      if (day != null) {
+        day.event = e;
+        this.handleDayKeydown(day);
+      }
+    },
+
+    handleDayKeydown(day) {
+      const date = day.date,
+            event = day.event;
+      let newDate = null;
+
+      switch (event.key) {
+        case 'ArrowLeft':
+          {
+            // Move to previous day
+            newDate = Object(utils_dateInfo["a" /* addDays */])(date, -1);
+            break;
+          }
+
+        case 'ArrowRight':
+          {
+            // Move to next day
+            newDate = Object(utils_dateInfo["a" /* addDays */])(date, 1);
+            break;
+          }
+
+        case 'ArrowUp':
+          {
+            // Move to previous week
+            newDate = Object(utils_dateInfo["a" /* addDays */])(date, -7);
+            break;
+          }
+
+        case 'ArrowDown':
+          {
+            // Move to next week
+            newDate = Object(utils_dateInfo["a" /* addDays */])(date, 7);
+            break;
+          }
+
+        case 'Home':
+          {
+            // Move to first weekday position
+            newDate = Object(utils_dateInfo["a" /* addDays */])(date, -day.weekdayPosition + 1);
+            break;
+          }
+
+        case 'End':
+          {
+            // Move to last weekday position
+            newDate = Object(utils_dateInfo["a" /* addDays */])(date, day.weekdayPositionFromEnd);
+            break;
+          }
+
+        case 'PageUp':
+          {
+            if (event.altKey) {
+              // Move to previous year w/ Alt/Option key
+              newDate = Object(utils_dateInfo["c" /* addYears */])(date, -1);
+            } else {
+              // Move to previous month
+              newDate = Object(utils_dateInfo["b" /* addMonths */])(date, -1);
+            }
+
+            break;
+          }
+
+        case 'PageDown':
+          {
+            if (event.altKey) {
+              // Move to next year w/ Alt/Option key
+              newDate = Object(utils_dateInfo["c" /* addYears */])(date, 1);
+            } else {
+              // Move to next month
+              newDate = Object(utils_dateInfo["b" /* addMonths */])(date, 1);
+            }
+
+            break;
+          }
+      }
+
+      if (newDate) {
+        event.preventDefault();
+        this.setFocusedDate(newDate);
+      }
+    },
+
+    setFocusedDate(date) {
+      if (!date || !Object(helpers["b" /* arrayHasItems */])(this.pages)) return;
+      const dateInfo = new utils_dateInfo["d" /* default */](date, {
+        locale: this.locale_
+      });
+      const day = this.getPageDays().find(d => d.inMonth && dateInfo.includesDay(d));
+
+      if (day) {
+        // Set focus on the element for the date
+        const focusableEl = this.$el.querySelector(`.id-${day.id}.in-month .vc-focusable`);
+
+        if (focusableEl) {
+          focusableEl.focus();
+        }
+      } else {
+        const page = Object(helpers["l" /* pageForDate */])(date);
+        const position = Object(helpers["o" /* pageIsBeforePage */])(page, this.pages[0]) ? -1 : 1;
+        this.move(page, {
+          completion: () => this.setFocusedDate(date),
+          position
+        });
+      }
     }
 
   }
@@ -90842,13 +90499,6 @@ var baseSetToString = __webpack_require__("a454"),
 var setToString = shortOut(baseSetToString);
 
 module.exports = setToString;
-
-
-/***/ }),
-
-/***/ "c207":
-/***/ (function(module, exports) {
-
 
 
 /***/ }),
@@ -91073,6 +90723,21 @@ module.exports = baseIsSet;
 
 /***/ }),
 
+/***/ "c4af":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("0f21");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("c0f79598", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "c584":
 /***/ (function(module, exports) {
 
@@ -91137,15 +90802,6 @@ function flatRest(func) {
 }
 
 module.exports = flatRest;
-
-
-/***/ }),
-
-/***/ "c6fb":
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
-__webpack_require__("7075")('Set');
 
 
 /***/ }),
@@ -91411,9 +91067,6 @@ var _ = __webpack_require__("9404");
       class: ['vc-popover-content-wrapper', {
         'is-interactive': this.isInteractive
       }],
-      attrs: {
-        tabindex: this.isInteractive ? 0 : -1
-      },
       ref: 'popover'
     }, [h('transition', {
       props: {
@@ -91540,6 +91193,7 @@ var _ = __webpack_require__("9404");
 
   methods: {
     addEvents() {
+      Object(helpers["j" /* on */])(this.popoverEl, 'click', this.onClick);
       Object(helpers["j" /* on */])(this.popoverEl, 'mouseover', this.onMouseOver);
       Object(helpers["j" /* on */])(this.popoverEl, 'mouseleave', this.onMouseLeave);
       Object(helpers["j" /* on */])(this.popoverEl, 'focusin', this.onFocusIn);
@@ -91548,11 +91202,16 @@ var _ = __webpack_require__("9404");
     },
 
     removeEvents() {
+      Object(helpers["i" /* off */])(this.popoverEl, 'click', this.onClick);
       Object(helpers["i" /* off */])(this.popoverEl, 'mouseover', this.onMouseOver);
       Object(helpers["i" /* off */])(this.popoverEl, 'mouseleave', this.onMouseLeave);
       Object(helpers["i" /* off */])(this.popoverEl, 'focusin', this.onFocusIn);
       Object(helpers["i" /* off */])(this.popoverEl, 'blur', this.onBlur);
       if (this.removeDocHandler) this.removeDocHandler();
+    },
+
+    onClick(e) {
+      e.stopPropagation();
     },
 
     onMouseOver() {
@@ -91672,8 +91331,8 @@ var _ = __webpack_require__("9404");
 });
 // CONCATENATED MODULE: ./src/components/Popover.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_Popovervue_type_script_lang_js_ = (Popovervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/Popover.vue?vue&type=style&index=0&id=96ab1cec&lang=postcss&scoped=true&
-var Popovervue_type_style_index_0_id_96ab1cec_lang_postcss_scoped_true_ = __webpack_require__("7c27");
+// EXTERNAL MODULE: ./src/components/Popover.vue?vue&type=style&index=0&id=5dd7f738&lang=postcss&scoped=true&
+var Popovervue_type_style_index_0_id_5dd7f738_lang_postcss_scoped_true_ = __webpack_require__("4d4c");
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__("2877");
@@ -91693,7 +91352,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   staticRenderFns,
   false,
   null,
-  "96ab1cec",
+  "5dd7f738",
   null
   
 )
@@ -91918,15 +91577,14 @@ module.exports = setToPairs;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addDays; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DateInfo; });
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a4bb");
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("e814");
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("cebc");
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("2fa3");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("9404");
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addMonths; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addYears; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return DateInfo; });
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ac6a");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Users_nreyes_Code_Web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("cebc");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("2fa3");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("9404");
 
 
 
@@ -91937,32 +91595,40 @@ function addDays(date, days) {
   result.setDate(result.getDate() + days);
   return result;
 }
+function addMonths(date, months) {
+  const result = new Date(date);
+  result.setMonth(date.getMonth() + months);
+  return result;
+}
+function addYears(date, years) {
+  const result = new Date(date);
+  result.setFullYear(date.getFullYear() + years);
+  return result;
+}
 class DateInfo {
   constructor(config, _ref) {
     let _ref$order = _ref.order,
         order = _ref$order === void 0 ? 0 : _ref$order,
-        locale = _ref.locale,
-        parseFormat = _ref.parseFormat;
+        locale = _ref.locale;
     this.isDateInfo = true;
-    this.isRange = Object(___WEBPACK_IMPORTED_MODULE_4__[/* isObject */ "l"])(config) || Object(___WEBPACK_IMPORTED_MODULE_4__[/* isFunction */ "j"])(config);
+    this.isRange = Object(___WEBPACK_IMPORTED_MODULE_3__[/* isObject */ "l"])(config) || Object(___WEBPACK_IMPORTED_MODULE_3__[/* isFunction */ "j"])(config);
     this.isDate = !this.isRange;
     this.order = order;
     this.locale = locale;
-    this.toDate = locale.toDate;
+    this.mask = locale.masks.data;
     this.getMonthComps = locale.getMonthComps;
     this.firstDayOfWeek = locale.firstDayOfWeek;
     this.opts = {
       order,
-      locale,
-      parseFormat
+      locale
     }; // Process date
 
     if (this.isDate) {
       this.type = 'date'; // Initialize date from config
 
-      let date = this.toDate(config, parseFormat); // Can't accept invalid dates
+      let date = this.toDate(config); // Can't accept invalid dates
 
-      date = Object(___WEBPACK_IMPORTED_MODULE_4__[/* isDate */ "i"])(date) ? date : new Date(); // Strip date time
+      date = Object(___WEBPACK_IMPORTED_MODULE_3__[/* isDate */ "i"])(date) ? date : new Date(); // Strip date time
 
       date.setHours(0, 0, 0, 0); // date.setUTCHours(0, 0, 0, 0);
       // Assign date
@@ -91975,7 +91641,7 @@ class DateInfo {
     if (this.isRange) {
       this.type = 'range'; // Date config is a function
 
-      if (Object(___WEBPACK_IMPORTED_MODULE_4__[/* isFunction */ "j"])(config)) {
+      if (Object(___WEBPACK_IMPORTED_MODULE_3__[/* isFunction */ "j"])(config)) {
         this.on = {
           and: config
         }; // Date config is an object
@@ -91994,11 +91660,11 @@ class DateInfo {
 
 
         if (start) {
-          if (!Object(___WEBPACK_IMPORTED_MODULE_4__[/* isDate */ "i"])(start)) start = null;else start.setHours(0, 0, 0, 0); // else start.setUTCHours(0, 0, 0, 0);
+          if (!Object(___WEBPACK_IMPORTED_MODULE_3__[/* isDate */ "i"])(start)) start = null;else start.setHours(0, 0, 0, 0); // else start.setUTCHours(0, 0, 0, 0);
         }
 
         if (end) {
-          if (!Object(___WEBPACK_IMPORTED_MODULE_4__[/* isDate */ "i"])(end)) end = null;else end.setHours(0, 0, 0, 0); // else end.setUTCHours(0, 0, 0, 0);
+          if (!Object(___WEBPACK_IMPORTED_MODULE_3__[/* isDate */ "i"])(end)) end = null;else end.setHours(0, 0, 0, 0); // else end.setUTCHours(0, 0, 0, 0);
         } // Assign start and end dates
 
 
@@ -92015,7 +91681,7 @@ class DateInfo {
         } // Assign 'and' condition
 
 
-        const andOpt = Object(_helpers__WEBPACK_IMPORTED_MODULE_3__[/* mixinOptionalProps */ "h"])(config, {}, DateInfo.patternProps);
+        const andOpt = Object(_helpers__WEBPACK_IMPORTED_MODULE_2__[/* mixinOptionalProps */ "h"])(config, {}, DateInfo.patternProps);
 
         if (andOpt.assigned) {
           this.on = {
@@ -92025,12 +91691,12 @@ class DateInfo {
 
 
         if (config.on) {
-          const or = (Object(___WEBPACK_IMPORTED_MODULE_4__[/* isArray */ "h"])(config.on) ? config.on : [config.on]).map(o => {
-            if (Object(___WEBPACK_IMPORTED_MODULE_4__[/* isFunction */ "j"])(o)) return o;
-            const opt = Object(_helpers__WEBPACK_IMPORTED_MODULE_3__[/* mixinOptionalProps */ "h"])(o, {}, DateInfo.patternProps);
+          const or = (Object(___WEBPACK_IMPORTED_MODULE_3__[/* isArray */ "h"])(config.on) ? config.on : [config.on]).map(o => {
+            if (Object(___WEBPACK_IMPORTED_MODULE_3__[/* isFunction */ "j"])(o)) return o;
+            const opt = Object(_helpers__WEBPACK_IMPORTED_MODULE_2__[/* mixinOptionalProps */ "h"])(o, {}, DateInfo.patternProps);
             return opt.assigned ? opt.target : null;
           }).filter(o => o);
-          if (or.length) this.on = Object(C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])({}, this.on, {
+          if (or.length) this.on = Object(_Users_nreyes_Code_Web_v_calendar_node_modules_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])({}, this.on, {
             or
           });
         }
@@ -92039,6 +91705,11 @@ class DateInfo {
 
       this.isComplex = !!this.on;
     }
+  }
+
+  toDate(date) {
+    const mask = this.locale.masks.data;
+    return this.locale.toDate(date, mask);
   } // Returns a date range that intersects two DateInfo objects
   // NOTE: This is a shallow calculation (does not take patterns into account),
   //   so this method should only really be called for special conditions
@@ -92147,21 +91818,21 @@ class DateInfo {
         test: () => (day, interval, di) => di.diffInYears(di.start || new Date(), day.date) % interval === 0
       },
       days: {
-        validate: days => Object(___WEBPACK_IMPORTED_MODULE_4__[/* isArray */ "h"])(days) ? days : [C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default()(days, 10)],
+        validate: days => Object(___WEBPACK_IMPORTED_MODULE_3__[/* isArray */ "h"])(days) ? days : [parseInt(days, 10)],
         test: (day, days) => days.includes(day.day) || days.includes(-day.dayFromEnd)
       },
       weekdays: {
-        validate: weekdays => Object(___WEBPACK_IMPORTED_MODULE_4__[/* isArray */ "h"])(weekdays) ? weekdays : [C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default()(weekdays, 10)],
+        validate: weekdays => Object(___WEBPACK_IMPORTED_MODULE_3__[/* isArray */ "h"])(weekdays) ? weekdays : [parseInt(weekdays, 10)],
         test: (day, weekdays) => weekdays.includes(day.weekday)
       },
       ordinalWeekdays: {
-        validate: ordinalWeekdays => C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default()(ordinalWeekdays).reduce((obj, ck) => {
+        validate: ordinalWeekdays => Object.keys(ordinalWeekdays).reduce((obj, ck) => {
           const weekdays = ordinalWeekdays[ck];
           if (!weekdays) return obj;
-          obj[ck] = Object(___WEBPACK_IMPORTED_MODULE_4__[/* isArray */ "h"])(weekdays) ? weekdays : [C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default()(weekdays, 10)];
+          obj[ck] = Object(___WEBPACK_IMPORTED_MODULE_3__[/* isArray */ "h"])(weekdays) ? weekdays : [parseInt(weekdays, 10)];
           return obj;
         }, {}),
-        test: (day, ordinalWeekdays) => C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default()(ordinalWeekdays).map(k => C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default()(k, 10)).find(k => ordinalWeekdays[k].includes(day.weekday) && (k === day.weekdayOrdinal || k === -day.weekdayOrdinalFromEnd))
+        test: (day, ordinalWeekdays) => Object.keys(ordinalWeekdays).map(k => parseInt(k, 10)).find(k => ordinalWeekdays[k].includes(day.weekday) && (k === day.weekdayOrdinal || k === -day.weekdayOrdinalFromEnd))
       },
       weekends: {
         validate: config => config,
@@ -92172,32 +91843,32 @@ class DateInfo {
         test: day => day.weekday >= 2 && day.weekday <= 6
       },
       weeks: {
-        validate: weeks => Object(___WEBPACK_IMPORTED_MODULE_4__[/* isArray */ "h"])(weeks) ? weeks : [C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default()(weeks, 10)],
+        validate: weeks => Object(___WEBPACK_IMPORTED_MODULE_3__[/* isArray */ "h"])(weeks) ? weeks : [parseInt(weeks, 10)],
         test: (day, weeks) => weeks.includes(day.week) || weeks.includes(-day.weekFromEnd)
       },
       months: {
-        validate: months => Object(___WEBPACK_IMPORTED_MODULE_4__[/* isArray */ "h"])(months) ? months : [C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default()(months, 10)],
+        validate: months => Object(___WEBPACK_IMPORTED_MODULE_3__[/* isArray */ "h"])(months) ? months : [parseInt(months, 10)],
         test: (day, months) => months.includes(day.month)
       },
       years: {
-        validate: years => Object(___WEBPACK_IMPORTED_MODULE_4__[/* isArray */ "h"])(years) ? years : [C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_1___default()(years, 10)],
+        validate: years => Object(___WEBPACK_IMPORTED_MODULE_3__[/* isArray */ "h"])(years) ? years : [parseInt(years, 10)],
         test: (day, years) => years.includes(day.year)
       }
     };
   }
 
   static get patternProps() {
-    return C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default()(DateInfo.patterns).map(k => ({
+    return Object.keys(DateInfo.patterns).map(k => ({
       name: k,
       validate: DateInfo.patterns[k].validate
     }));
   }
 
   static testConfig(config, day, dateInfo) {
-    if (Object(___WEBPACK_IMPORTED_MODULE_4__[/* isFunction */ "j"])(config)) return config(day);
+    if (Object(___WEBPACK_IMPORTED_MODULE_3__[/* isFunction */ "j"])(config)) return config(day);
 
-    if (Object(___WEBPACK_IMPORTED_MODULE_4__[/* isObject */ "l"])(config)) {
-      return C_Users_nathan_reyes_code_web_v_calendar_node_modules_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default()(config).every(k => DateInfo.patterns[k].test(day, config[k], dateInfo));
+    if (Object(___WEBPACK_IMPORTED_MODULE_3__[/* isObject */ "l"])(config)) {
+      return Object.keys(config).every(k => DateInfo.patterns[k].test(day, config[k], dateInfo));
     }
 
     return null;
@@ -92206,7 +91877,7 @@ class DateInfo {
   iterateDatesInRange(_ref2, func) {
     let start = _ref2.start,
         end = _ref2.end;
-    if (!start || !end || !Object(___WEBPACK_IMPORTED_MODULE_4__[/* isFunction */ "j"])(func)) return null;
+    if (!start || !end || !Object(___WEBPACK_IMPORTED_MODULE_3__[/* isFunction */ "j"])(func)) return null;
     const state = {
       i: 0,
       date: start,
@@ -92526,16 +92197,6 @@ module.exports = createCaseFirst;
 
 /***/ }),
 
-/***/ "d2d5":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("1654");
-__webpack_require__("549b");
-module.exports = __webpack_require__("584a").Array.from;
-
-
-/***/ }),
-
 /***/ "d327":
 /***/ (function(module, exports) {
 
@@ -92605,21 +92266,6 @@ var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsAr
 };
 
 module.exports = isArguments;
-
-
-/***/ }),
-
-/***/ "d3eb":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vc-svg-icon[data-v-82a20674]{display:inline-block;stroke:currentColor;stroke-width:0}.vc-svg-icon path[data-v-82a20674]{fill:currentColor}", ""]);
-
-// exports
 
 
 /***/ }),
@@ -92802,13 +92448,6 @@ var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
 
-
-/***/ }),
-
-/***/ "db0c":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("9e1c");
 
 /***/ }),
 
@@ -93014,36 +92653,6 @@ module.exports = basePropertyOf;
 /* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_lang_postcss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_lang_postcss___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_lang_postcss___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "dee3":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vc-grid-container[data-v-691b83c4]{position:relative;flex-shrink:1;display:grid;overflow:auto;-webkit-overflow-scrolling:touch}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "dfbc":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".none-enter-active[data-v-8466592e],.none-leave-active[data-v-8466592e]{transition-duration:0s}.fade-enter-active[data-v-8466592e],.fade-leave-active[data-v-8466592e],.slide-down-enter-active[data-v-8466592e],.slide-down-leave-active[data-v-8466592e],.slide-left-enter-active[data-v-8466592e],.slide-left-leave-active[data-v-8466592e],.slide-right-enter-active[data-v-8466592e],.slide-right-leave-active[data-v-8466592e],.slide-up-enter-active[data-v-8466592e],.slide-up-leave-active[data-v-8466592e]{transition:transform var(--slide-duration) var(--slide-timing),opacity var(--slide-duration) var(--slide-timing);-webkit-backface-visibility:hidden;backface-visibility:hidden}.fade-leave-active[data-v-8466592e],.none-leave-active[data-v-8466592e],.slide-down-leave-active[data-v-8466592e],.slide-left-leave-active[data-v-8466592e],.slide-right-leave-active[data-v-8466592e],.slide-up-leave-active[data-v-8466592e]{position:absolute;width:100%}.fade-enter[data-v-8466592e],.fade-leave-to[data-v-8466592e],.none-enter[data-v-8466592e],.none-leave-to[data-v-8466592e],.slide-down-enter[data-v-8466592e],.slide-down-leave-to[data-v-8466592e],.slide-left-enter[data-v-8466592e],.slide-left-leave-to[data-v-8466592e],.slide-right-enter[data-v-8466592e],.slide-right-leave-to[data-v-8466592e],.slide-up-enter[data-v-8466592e],.slide-up-leave-to[data-v-8466592e]{opacity:0}.slide-left-enter[data-v-8466592e],.slide-right-leave-to[data-v-8466592e]{transform:translateX(var(--slide-translate))}.slide-left-leave-to[data-v-8466592e],.slide-right-enter[data-v-8466592e]{transform:translateX(calc(-1*var(--slide-translate)))}.slide-down-leave-to[data-v-8466592e],.slide-up-enter[data-v-8466592e]{transform:translateY(var(--slide-translate))}.slide-down-enter[data-v-8466592e],.slide-up-leave-to[data-v-8466592e]{transform:translateY(calc(-1*var(--slide-translate)))}", ""]);
-
-// exports
-
 
 /***/ }),
 
@@ -93457,21 +93066,6 @@ module.exports = isString;
 
 /***/ }),
 
-/***/ "e2b9":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("43d9");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("472d2214", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "e2c0":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93717,15 +93311,6 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ "e692":
-/***/ (function(module, exports) {
-
-module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
-  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-
-/***/ }),
-
 /***/ "e6f3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93747,24 +93332,6 @@ module.exports = function (object, names) {
   return result;
 };
 
-
-/***/ }),
-
-/***/ "e76f":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_8466592e_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8e75");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_8466592e_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_8466592e_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_index_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTransition_vue_vue_type_style_index_0_id_8466592e_lang_postcss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "e814":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("b9e9");
 
 /***/ }),
 
@@ -93846,7 +93413,7 @@ class single_SinglePicker {
       return null;
     }
 
-    const from = Object(helpers["k" /* pageForDate */])(value);
+    const from = Object(helpers["l" /* pageForDate */])(value);
     return {
       from,
       to: from
@@ -93936,8 +93503,8 @@ class multiple_MultiplePicker {
 
   getPageRange(value) {
     if (!this.hasValue(value)) return null;
-    const from = Object(helpers["k" /* pageForDate */])(value[0]);
-    const to = Object(helpers["f" /* getMaxPage */])(Object(helpers["k" /* pageForDate */])(Object(_["o" /* last */])(value)), Object(helpers["a" /* addPages */])(from, 1));
+    const from = Object(helpers["l" /* pageForDate */])(value[0]);
+    const to = Object(helpers["f" /* getMaxPage */])(Object(helpers["l" /* pageForDate */])(Object(_["o" /* last */])(value)), Object(helpers["a" /* addPages */])(from, 1));
     return {
       from,
       to
@@ -93999,7 +93566,7 @@ class range_RangePicker {
   normalize(value) {
     if (!this.hasValue(value)) return null;
 
-    const _ref2 = new dateInfo["b" /* default */]({
+    const _ref2 = new dateInfo["d" /* default */]({
       start: new Date(value.start),
       end: new Date(value.end)
     }, {
@@ -94068,8 +93635,8 @@ class range_RangePicker {
 
   getPageRange(value) {
     if (!this.hasValue(value)) return null;
-    const from = Object(helpers["k" /* pageForDate */])(value.start);
-    const to = Object(helpers["f" /* getMaxPage */])(Object(helpers["k" /* pageForDate */])(value.end), Object(helpers["a" /* addPages */])(from, 1));
+    const from = Object(helpers["l" /* pageForDate */])(value.start);
+    const to = Object(helpers["f" /* getMaxPage */])(Object(helpers["l" /* pageForDate */])(value.end), Object(helpers["a" /* addPages */])(from, 1));
     return {
       from,
       to
@@ -94123,7 +93690,7 @@ class range_RangePicker {
   }
 
 }
-// EXTERNAL MODULE: ./src/utils/mixins/index.js + 6 modules
+// EXTERNAL MODULE: ./src/utils/mixins/index.js + 7 modules
 var mixins = __webpack_require__("19cf");
 
 // EXTERNAL MODULE: ./src/utils/touch.js
@@ -94154,10 +93721,10 @@ var touch = __webpack_require__("0733");
       props: {},
       on: Object(objectSpread["a" /* default */])({}, this.$listeners, {
         dayclick: this.onDayClick,
-        dayfocusin: this.onDayFocusIn,
-        daymouseenter: this.onDayMouseEnter
+        daymouseenter: this.onDayMouseEnter,
+        daykeydown: this.onDayKeydown,
+        dayfocusin: this.onDayFocusIn
       }),
-      slots: this.$slots,
       scopedSlots: this.$scopedSlots,
       ref: 'calendar'
     }); // If inline just return the calendar
@@ -94165,7 +93732,7 @@ var touch = __webpack_require__("0733");
 
     if (this.isInline) return calendar(); // Render the slot or ihput
 
-    const inputSlot = Object(_["j" /* isFunction */])(this.$scopedSlots.default) && this.$scopedSlots.default({
+    const inputSlot = this.safeScopedSlot('default', {
       inputClass: this.inputClass,
       inputProps: this.inputProps_,
       inputEvents: this.inputEvents,
@@ -94179,9 +93746,11 @@ var touch = __webpack_require__("0733");
     });
     const _this$popover_ = this.popover_,
           visibility = _this$popover_.visibility,
-          placement = _this$popover_.placement; // Return fragment with slot/input and popover w/ calendar
+          placement = _this$popover_.placement; // Convert this span to a fragment when supported in Vue
 
-    return h('span', [h(PopoverRef["a" /* default */], {
+    return h('span', {
+      class: 'vc-reset'
+    }, [h(PopoverRef["a" /* default */], {
       props: {
         id: this.datePickerPopoverId,
         visibility,
@@ -94204,7 +93773,7 @@ var touch = __webpack_require__("0733");
     })]);
   },
 
-  mixins: [mixins["c" /* rootMixin */], mixins["b" /* propOrDefaultMixin */]],
+  mixins: [mixins["c" /* rootMixin */], mixins["b" /* propOrDefaultMixin */], mixins["d" /* safeScopedSlotMixin */]],
   props: {
     mode: {
       type: String,
@@ -94442,20 +94011,36 @@ var touch = __webpack_require__("0733");
       this.$emit('dayclick', day);
     },
 
-    onDayFocusIn(day) {
-      // Remove focus from clicked days
-      if (day.el) {
-        day.el.blur();
-      } // Re-emit event
-
-
-      this.$emit('dayfocusin', day);
-    },
-
     onDayMouseEnter(day) {
       this.picker.handleDayMouseEnter(day, this); // Re-emit event
 
       this.$emit('daymouseenter', day);
+    },
+
+    onDayFocusIn(day) {
+      this.picker.handleDayMouseEnter(day, this); // Re-emit event
+
+      this.$emit('dayfocusin', day);
+    },
+
+    onDayKeydown(day) {
+      switch (day.event.key) {
+        case ' ':
+        case 'Enter':
+          {
+            this.picker.handleDayClick(day, this);
+            day.event.preventDefault();
+            break;
+          }
+
+        case 'Escape':
+          {
+            this.hidePopover();
+          }
+      } // Re-emit event
+
+
+      this.$emit('daykeydown', day);
     },
 
     inputInput(e) {
@@ -94586,8 +94171,8 @@ var touch = __webpack_require__("0733");
 });
 // CONCATENATED MODULE: ./src/components/DatePicker.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_DatePickervue_type_script_lang_js_ = (DatePickervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/DatePicker.vue?vue&type=style&index=0&id=4fb7d3d1&lang=postcss&scoped=true&
-var DatePickervue_type_style_index_0_id_4fb7d3d1_lang_postcss_scoped_true_ = __webpack_require__("95b9");
+// EXTERNAL MODULE: ./src/components/DatePicker.vue?vue&type=style&index=0&id=2e61d7e7&lang=postcss&scoped=true&
+var DatePickervue_type_style_index_0_id_2e61d7e7_lang_postcss_scoped_true_ = __webpack_require__("93d6");
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__("2877");
@@ -94607,7 +94192,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   staticRenderFns,
   false,
   null,
-  "4fb7d3d1",
+  "2e61d7e7",
   null
   
 )
@@ -94643,21 +94228,6 @@ function capitalize(string) {
 
 module.exports = capitalize;
 
-
-/***/ }),
-
-/***/ "ea40":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("62db");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("72dce1f7", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -94942,6 +94512,21 @@ function mapToArray(map) {
 }
 
 module.exports = mapToArray;
+
+
+/***/ }),
+
+/***/ "ee59":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".none-enter-active[data-v-5be4b00c],.none-leave-active[data-v-5be4b00c]{transition-duration:0s}.fade-enter-active[data-v-5be4b00c],.fade-leave-active[data-v-5be4b00c],.slide-down-enter-active[data-v-5be4b00c],.slide-down-leave-active[data-v-5be4b00c],.slide-left-enter-active[data-v-5be4b00c],.slide-left-leave-active[data-v-5be4b00c],.slide-right-enter-active[data-v-5be4b00c],.slide-right-leave-active[data-v-5be4b00c],.slide-up-enter-active[data-v-5be4b00c],.slide-up-leave-active[data-v-5be4b00c]{transition:transform var(--slide-duration) var(--slide-timing),opacity var(--slide-duration) var(--slide-timing);-webkit-backface-visibility:hidden;backface-visibility:hidden}.fade-leave-active[data-v-5be4b00c],.none-leave-active[data-v-5be4b00c],.slide-down-leave-active[data-v-5be4b00c],.slide-left-leave-active[data-v-5be4b00c],.slide-right-leave-active[data-v-5be4b00c],.slide-up-leave-active[data-v-5be4b00c]{position:absolute;width:100%}.fade-enter[data-v-5be4b00c],.fade-leave-to[data-v-5be4b00c],.none-enter[data-v-5be4b00c],.none-leave-to[data-v-5be4b00c],.slide-down-enter[data-v-5be4b00c],.slide-down-leave-to[data-v-5be4b00c],.slide-left-enter[data-v-5be4b00c],.slide-left-leave-to[data-v-5be4b00c],.slide-right-enter[data-v-5be4b00c],.slide-right-leave-to[data-v-5be4b00c],.slide-up-enter[data-v-5be4b00c],.slide-up-leave-to[data-v-5be4b00c]{opacity:0}.slide-left-enter[data-v-5be4b00c],.slide-right-leave-to[data-v-5be4b00c]{transform:translateX(var(--slide-translate))}.slide-left-leave-to[data-v-5be4b00c],.slide-right-enter[data-v-5be4b00c]{transform:translateX(calc(-1*var(--slide-translate)))}.slide-down-leave-to[data-v-5be4b00c],.slide-up-enter[data-v-5be4b00c]{transform:translateY(var(--slide-translate))}.slide-down-enter[data-v-5be4b00c],.slide-up-leave-to[data-v-5be4b00c]{transform:translateY(calc(-1*var(--slide-translate)))}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -97611,18 +97196,17 @@ Popper.Defaults = Defaults;
 
 /***/ }),
 
-/***/ "f228":
+/***/ "f231":
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var classof = __webpack_require__("40c3");
-var from = __webpack_require__("4517");
-module.exports = function (NAME) {
-  return function toJSON() {
-    if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
-    return from(this);
-  };
-};
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vc-popover-content-wrapper[data-v-5dd7f738]{--popover-horizontal-content-offset:8px;--popover-vertical-content-offset:10px;--popover-slide-translation:15px;--popover-transition-time:.14s ease-in-out;--popover-caret-horizontal-offset:18px;--popover-caret-vertical-offset:8px;position:absolute;display:block;outline:none;z-index:10}.vc-popover-content-wrapper[data-v-5dd7f738]:not(.is-interactive){pointer-events:none}.vc-popover-content[data-v-5dd7f738]{position:relative;z-index:10}.vc-popover-content.direction-bottom[data-v-5dd7f738]{margin-top:var(--popover-vertical-content-offset)}.vc-popover-content.direction-top[data-v-5dd7f738]{margin-bottom:var(--popover-vertical-content-offset)}.vc-popover-content.direction-left[data-v-5dd7f738]{margin-right:var(--popover-horizontal-content-offset)}.vc-popover-content.direction-right[data-v-5dd7f738]{margin-left:var(--popover-horizontal-content-offset)}.vc-popover-caret[data-v-5dd7f738]{content:\"\";position:absolute;display:block;width:12px;height:12px;border-top:inherit;border-left:inherit;background:inherit;z-index:-1}.vc-popover-caret.direction-bottom[data-v-5dd7f738]{top:0}.vc-popover-caret.direction-bottom.align-left[data-v-5dd7f738]{transform:translateY(-50%) rotate(45deg)}.vc-popover-caret.direction-bottom.align-center[data-v-5dd7f738]{transform:translateX(-50%) translateY(-50%) rotate(45deg)}.vc-popover-caret.direction-bottom.align-right[data-v-5dd7f738]{transform:translateY(-50%) rotate(45deg)}.vc-popover-caret.direction-top[data-v-5dd7f738]{top:100%}.vc-popover-caret.direction-top.align-left[data-v-5dd7f738]{transform:translateY(-50%) rotate(-135deg)}.vc-popover-caret.direction-top.align-center[data-v-5dd7f738]{transform:translateX(-50%) translateY(-50%) rotate(-135deg)}.vc-popover-caret.direction-top.align-right[data-v-5dd7f738]{transform:translateY(-50%) rotate(-135deg)}.vc-popover-caret.direction-left[data-v-5dd7f738]{left:100%}.vc-popover-caret.direction-left.align-top[data-v-5dd7f738]{transform:translateX(-50%) rotate(135deg)}.vc-popover-caret.direction-left.align-middle[data-v-5dd7f738]{transform:translateY(-50%) translateX(-50%) rotate(135deg)}.vc-popover-caret.direction-left.align-bottom[data-v-5dd7f738]{transform:translateX(-50%) rotate(135deg)}.vc-popover-caret.direction-right[data-v-5dd7f738]{left:0}.vc-popover-caret.direction-right.align-top[data-v-5dd7f738]{transform:translateX(-50%) rotate(-45deg)}.vc-popover-caret.direction-right.align-middle[data-v-5dd7f738]{transform:translateY(-50%) translateX(-50%) rotate(-45deg)}.vc-popover-caret.direction-right.align-bottom[data-v-5dd7f738]{transform:translateX(-50%) rotate(-45deg)}.vc-popover-caret.align-left[data-v-5dd7f738]{left:var(--popover-caret-horizontal-offset)}.vc-popover-caret.align-center[data-v-5dd7f738]{left:50%}.vc-popover-caret.align-right[data-v-5dd7f738]{right:var(--popover-caret-horizontal-offset)}.vc-popover-caret.align-top[data-v-5dd7f738]{top:var(--popover-caret-vertical-offset)}.vc-popover-caret.align-middle[data-v-5dd7f738]{top:50%}.vc-popover-caret.align-bottom[data-v-5dd7f738]{bottom:var(--popover-caret-vertical-offset)}.fade-enter-active[data-v-5dd7f738],.fade-leave-active[data-v-5dd7f738],.slide-fade-enter-active[data-v-5dd7f738],.slide-fade-leave-active[data-v-5dd7f738]{transition:all var(--popover-transition-time);pointer-events:none}.fade-enter[data-v-5dd7f738],.fade-leave-to[data-v-5dd7f738],.slide-fade-enter[data-v-5dd7f738],.slide-fade-leave-to[data-v-5dd7f738]{opacity:0}.slide-fade-enter.direction-bottom[data-v-5dd7f738],.slide-fade-leave-to.direction-bottom[data-v-5dd7f738]{transform:translateY(calc(-1*var(--popover-slide-translation)))}.slide-fade-enter.direction-top[data-v-5dd7f738],.slide-fade-leave-to.direction-top[data-v-5dd7f738]{transform:translateY(var(--popover-slide-translation))}.slide-fade-enter.direction-left[data-v-5dd7f738],.slide-fade-leave-to.direction-left[data-v-5dd7f738]{transform:translateX(var(--popover-slide-translation))}.slide-fade-enter.direction-right[data-v-5dd7f738],.slide-fade-leave-to.direction-right[data-v-5dd7f738]{transform:translateX(calc(-1*var(--popover-slide-translation)))}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -97688,17 +97272,10 @@ exports = module.exports = __webpack_require__("2350")(false);
 
 
 // module
-exports.push([module.i, ".vc-disabled{opacity:.25;pointer-events:none;cursor:not-allowed}.vc-appearance-none{-webkit-appearance:none;-moz-appearance:none;appearance:none}.vc-bg-fixed{background-attachment:fixed}.vc-bg-local{background-attachment:local}.vc-bg-scroll{background-attachment:scroll}.vc-bg-transparent{background-color:initial}.vc-bg-black{background-color:#000}.vc-bg-white{background-color:#fff}.vc-bg-gray-100{background-color:#f7fafc}.vc-bg-gray-200{background-color:#edf2f7}.vc-bg-gray-300{background-color:#e2e8f0}.vc-bg-gray-400{background-color:#cbd5e0}.vc-bg-gray-500{background-color:#a0aec0}.vc-bg-gray-600{background-color:#718096}.vc-bg-gray-700{background-color:#4a5568}.vc-bg-gray-800{background-color:#2d3748}.vc-bg-gray-900{background-color:#1a202c}.vc-bg-red-100{background-color:#fff5f5}.vc-bg-red-200{background-color:#fed7d7}.vc-bg-red-300{background-color:#feb2b2}.vc-bg-red-400{background-color:#fc8181}.vc-bg-red-500{background-color:#f56565}.vc-bg-red-600{background-color:#e53e3e}.vc-bg-red-700{background-color:#c53030}.vc-bg-red-800{background-color:#9b2c2c}.vc-bg-red-900{background-color:#742a2a}.vc-bg-orange-100{background-color:#fffaf0}.vc-bg-orange-200{background-color:#feebc8}.vc-bg-orange-300{background-color:#fbd38d}.vc-bg-orange-400{background-color:#f6ad55}.vc-bg-orange-500{background-color:#ed8936}.vc-bg-orange-600{background-color:#dd6b20}.vc-bg-orange-700{background-color:#c05621}.vc-bg-orange-800{background-color:#9c4221}.vc-bg-orange-900{background-color:#7b341e}.vc-bg-yellow-100{background-color:ivory}.vc-bg-yellow-200{background-color:#fefcbf}.vc-bg-yellow-300{background-color:#faf089}.vc-bg-yellow-400{background-color:#f6e05e}.vc-bg-yellow-500{background-color:#ecc94b}.vc-bg-yellow-600{background-color:#d69e2e}.vc-bg-yellow-700{background-color:#b7791f}.vc-bg-yellow-800{background-color:#975a16}.vc-bg-yellow-900{background-color:#744210}.vc-bg-green-100{background-color:#f0fff4}.vc-bg-green-200{background-color:#c6f6d5}.vc-bg-green-300{background-color:#9ae6b4}.vc-bg-green-400{background-color:#68d391}.vc-bg-green-500{background-color:#48bb78}.vc-bg-green-600{background-color:#38a169}.vc-bg-green-700{background-color:#2f855a}.vc-bg-green-800{background-color:#276749}.vc-bg-green-900{background-color:#22543d}.vc-bg-teal-100{background-color:#e6fffa}.vc-bg-teal-200{background-color:#b2f5ea}.vc-bg-teal-300{background-color:#81e6d9}.vc-bg-teal-400{background-color:#4fd1c5}.vc-bg-teal-500{background-color:#38b2ac}.vc-bg-teal-600{background-color:#319795}.vc-bg-teal-700{background-color:#2c7a7b}.vc-bg-teal-800{background-color:#285e61}.vc-bg-teal-900{background-color:#234e52}.vc-bg-blue-100{background-color:#ebf8ff}.vc-bg-blue-200{background-color:#bee3f8}.vc-bg-blue-300{background-color:#90cdf4}.vc-bg-blue-400{background-color:#63b3ed}.vc-bg-blue-500{background-color:#4299e1}.vc-bg-blue-600{background-color:#3182ce}.vc-bg-blue-700{background-color:#2b6cb0}.vc-bg-blue-800{background-color:#2c5282}.vc-bg-blue-900{background-color:#2a4365}.vc-bg-indigo-100{background-color:#ebf4ff}.vc-bg-indigo-200{background-color:#c3dafe}.vc-bg-indigo-300{background-color:#a3bffa}.vc-bg-indigo-400{background-color:#7f9cf5}.vc-bg-indigo-500{background-color:#667eea}.vc-bg-indigo-600{background-color:#5a67d8}.vc-bg-indigo-700{background-color:#4c51bf}.vc-bg-indigo-800{background-color:#434190}.vc-bg-indigo-900{background-color:#3c366b}.vc-bg-purple-100{background-color:#faf5ff}.vc-bg-purple-200{background-color:#e9d8fd}.vc-bg-purple-300{background-color:#d6bcfa}.vc-bg-purple-400{background-color:#b794f4}.vc-bg-purple-500{background-color:#9f7aea}.vc-bg-purple-600{background-color:#805ad5}.vc-bg-purple-700{background-color:#6b46c1}.vc-bg-purple-800{background-color:#553c9a}.vc-bg-purple-900{background-color:#44337a}.vc-bg-pink-100{background-color:#fff5f7}.vc-bg-pink-200{background-color:#fed7e2}.vc-bg-pink-300{background-color:#fbb6ce}.vc-bg-pink-400{background-color:#f687b3}.vc-bg-pink-500{background-color:#ed64a6}.vc-bg-pink-600{background-color:#d53f8c}.vc-bg-pink-700{background-color:#b83280}.vc-bg-pink-800{background-color:#97266d}.vc-bg-pink-900{background-color:#702459}.hover\\:vc-bg-gray-200:hover{background-color:#edf2f7}.hover\\:vc-bg-gray-900:hover{background-color:#1a202c}.vc-bg-bottom{background-position:bottom}.vc-bg-center{background-position:50%}.vc-bg-left{background-position:0}.vc-bg-left-bottom{background-position:0 100%}.vc-bg-left-top{background-position:0 0}.vc-bg-right{background-position:100%}.vc-bg-right-bottom{background-position:100% 100%}.vc-bg-right-top{background-position:100% 0}.vc-bg-top{background-position:top}.vc-bg-repeat{background-repeat:repeat}.vc-bg-no-repeat{background-repeat:no-repeat}.vc-bg-repeat-x{background-repeat:repeat-x}.vc-bg-repeat-y{background-repeat:repeat-y}.vc-bg-auto{background-size:auto}.vc-bg-cover{background-size:cover}.vc-bg-contain{background-size:contain}.vc-border-collapse{border-collapse:collapse}.vc-border-separate{border-collapse:initial}.vc-border-transparent{border-color:transparent}.vc-border-black{border-color:#000}.vc-border-white{border-color:#fff}.vc-border-gray-100{border-color:#f7fafc}.vc-border-gray-200{border-color:#edf2f7}.vc-border-gray-300{border-color:#e2e8f0}.vc-border-gray-400{border-color:#cbd5e0}.vc-border-gray-500{border-color:#a0aec0}.vc-border-gray-600{border-color:#718096}.vc-border-gray-700{border-color:#4a5568}.vc-border-gray-800{border-color:#2d3748}.vc-border-gray-900{border-color:#1a202c}.vc-border-red-100{border-color:#fff5f5}.vc-border-red-200{border-color:#fed7d7}.vc-border-red-300{border-color:#feb2b2}.vc-border-red-400{border-color:#fc8181}.vc-border-red-500{border-color:#f56565}.vc-border-red-600{border-color:#e53e3e}.vc-border-red-700{border-color:#c53030}.vc-border-red-800{border-color:#9b2c2c}.vc-border-red-900{border-color:#742a2a}.vc-border-orange-100{border-color:#fffaf0}.vc-border-orange-200{border-color:#feebc8}.vc-border-orange-300{border-color:#fbd38d}.vc-border-orange-400{border-color:#f6ad55}.vc-border-orange-500{border-color:#ed8936}.vc-border-orange-600{border-color:#dd6b20}.vc-border-orange-700{border-color:#c05621}.vc-border-orange-800{border-color:#9c4221}.vc-border-orange-900{border-color:#7b341e}.vc-border-yellow-100{border-color:ivory}.vc-border-yellow-200{border-color:#fefcbf}.vc-border-yellow-300{border-color:#faf089}.vc-border-yellow-400{border-color:#f6e05e}.vc-border-yellow-500{border-color:#ecc94b}.vc-border-yellow-600{border-color:#d69e2e}.vc-border-yellow-700{border-color:#b7791f}.vc-border-yellow-800{border-color:#975a16}.vc-border-yellow-900{border-color:#744210}.vc-border-green-100{border-color:#f0fff4}.vc-border-green-200{border-color:#c6f6d5}.vc-border-green-300{border-color:#9ae6b4}.vc-border-green-400{border-color:#68d391}.vc-border-green-500{border-color:#48bb78}.vc-border-green-600{border-color:#38a169}.vc-border-green-700{border-color:#2f855a}.vc-border-green-800{border-color:#276749}.vc-border-green-900{border-color:#22543d}.vc-border-teal-100{border-color:#e6fffa}.vc-border-teal-200{border-color:#b2f5ea}.vc-border-teal-300{border-color:#81e6d9}.vc-border-teal-400{border-color:#4fd1c5}.vc-border-teal-500{border-color:#38b2ac}.vc-border-teal-600{border-color:#319795}.vc-border-teal-700{border-color:#2c7a7b}.vc-border-teal-800{border-color:#285e61}.vc-border-teal-900{border-color:#234e52}.vc-border-blue-100{border-color:#ebf8ff}.vc-border-blue-200{border-color:#bee3f8}.vc-border-blue-300{border-color:#90cdf4}.vc-border-blue-400{border-color:#63b3ed}.vc-border-blue-500{border-color:#4299e1}.vc-border-blue-600{border-color:#3182ce}.vc-border-blue-700{border-color:#2b6cb0}.vc-border-blue-800{border-color:#2c5282}.vc-border-blue-900{border-color:#2a4365}.vc-border-indigo-100{border-color:#ebf4ff}.vc-border-indigo-200{border-color:#c3dafe}.vc-border-indigo-300{border-color:#a3bffa}.vc-border-indigo-400{border-color:#7f9cf5}.vc-border-indigo-500{border-color:#667eea}.vc-border-indigo-600{border-color:#5a67d8}.vc-border-indigo-700{border-color:#4c51bf}.vc-border-indigo-800{border-color:#434190}.vc-border-indigo-900{border-color:#3c366b}.vc-border-purple-100{border-color:#faf5ff}.vc-border-purple-200{border-color:#e9d8fd}.vc-border-purple-300{border-color:#d6bcfa}.vc-border-purple-400{border-color:#b794f4}.vc-border-purple-500{border-color:#9f7aea}.vc-border-purple-600{border-color:#805ad5}.vc-border-purple-700{border-color:#6b46c1}.vc-border-purple-800{border-color:#553c9a}.vc-border-purple-900{border-color:#44337a}.vc-border-pink-100{border-color:#fff5f7}.vc-border-pink-200{border-color:#fed7e2}.vc-border-pink-300{border-color:#fbb6ce}.vc-border-pink-400{border-color:#f687b3}.vc-border-pink-500{border-color:#ed64a6}.vc-border-pink-600{border-color:#d53f8c}.vc-border-pink-700{border-color:#b83280}.vc-border-pink-800{border-color:#97266d}.vc-border-pink-900{border-color:#702459}.vc-rounded{border-radius:.25rem}.vc-rounded-lg{border-radius:.5rem}.vc-rounded-full{border-radius:9999px}.vc-border-solid{border-style:solid}.vc-border-dashed{border-style:dashed}.vc-border-dotted{border-style:dotted}.vc-border-none{border-style:none}.vc-border-0{border-width:0}.vc-border-2{border-width:2px}.vc-border-4{border-width:4px}.vc-border-8{border-width:8px}.vc-border{border-width:1px}.vc-border-t-0{border-top-width:0}.vc-border-r-0{border-right-width:0}.vc-border-b-0{border-bottom-width:0}.vc-border-l-0{border-left-width:0}.vc-border-t-2{border-top-width:2px}.vc-border-r-2{border-right-width:2px}.vc-border-b-2{border-bottom-width:2px}.vc-border-l-2{border-left-width:2px}.vc-border-t-4{border-top-width:4px}.vc-border-r-4{border-right-width:4px}.vc-border-b-4{border-bottom-width:4px}.vc-border-l-4{border-left-width:4px}.vc-border-t-8{border-top-width:8px}.vc-border-r-8{border-right-width:8px}.vc-border-b-8{border-bottom-width:8px}.vc-border-l-8{border-left-width:8px}.vc-border-t{border-top-width:1px}.vc-border-r{border-right-width:1px}.vc-border-b{border-bottom-width:1px}.vc-border-l{border-left-width:1px}.vc-cursor-pointer{cursor:pointer}.vc-flex{display:flex}.vc-items-center{align-items:center}.vc-justify-center{justify-content:center}.vc-justify-between{justify-content:space-between}.vc-font-medium{font-weight:500}.vc-font-semibold{font-weight:600}.focus\\:vc-font-bold:focus,.vc-font-bold{font-weight:700}.vc-h-full{height:100%}.vc-leading-tight{line-height:1.25}.vc-mx-1{margin-left:.25rem;margin-right:.25rem}.vc-mx-2{margin-left:.5rem;margin-right:.5rem}.vc-mb-1{margin-bottom:.25rem}.vc-min-w-full{min-width:100%}.vc-opacity-0{opacity:0}.vc-opacity-25{opacity:.25}.vc-opacity-75{opacity:.75}.hover\\:vc-opacity-50:hover{opacity:.5}.hover\\:vc-opacity-75:hover{opacity:.75}.focus\\:vc-outline-none:focus{outline:0}.vc-overflow-hidden{overflow:hidden}.vc-py-1{padding-top:.25rem;padding-bottom:.25rem}.vc-py-2{padding-top:.5rem;padding-bottom:.5rem}.vc-px-2{padding-left:.5rem;padding-right:.5rem}.vc-px-3{padding-left:.75rem;padding-right:.75rem}.vc-pointer-events-none{pointer-events:none}.vc-relative{position:relative}.vc-shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.hover\\:vc-shadow-inner:hover{box-shadow:inset 0 2px 4px 0 rgba(0,0,0,.06)}.focus\\:vc-shadow-outline:focus{box-shadow:0 0 0 3px rgba(66,153,225,.5)}.vc-text-left{text-align:left}.vc-text-center{text-align:center}.vc-text-right{text-align:right}.vc-text-justify{text-align:justify}.vc-text-transparent{color:transparent}.vc-text-black{color:#000}.vc-text-white{color:#fff}.vc-text-gray-100{color:#f7fafc}.vc-text-gray-200{color:#edf2f7}.vc-text-gray-300{color:#e2e8f0}.vc-text-gray-400{color:#cbd5e0}.vc-text-gray-500{color:#a0aec0}.vc-text-gray-600{color:#718096}.vc-text-gray-700{color:#4a5568}.vc-text-gray-800{color:#2d3748}.vc-text-gray-900{color:#1a202c}.vc-text-red-100{color:#fff5f5}.vc-text-red-200{color:#fed7d7}.vc-text-red-300{color:#feb2b2}.vc-text-red-400{color:#fc8181}.vc-text-red-500{color:#f56565}.vc-text-red-600{color:#e53e3e}.vc-text-red-700{color:#c53030}.vc-text-red-800{color:#9b2c2c}.vc-text-red-900{color:#742a2a}.vc-text-orange-100{color:#fffaf0}.vc-text-orange-200{color:#feebc8}.vc-text-orange-300{color:#fbd38d}.vc-text-orange-400{color:#f6ad55}.vc-text-orange-500{color:#ed8936}.vc-text-orange-600{color:#dd6b20}.vc-text-orange-700{color:#c05621}.vc-text-orange-800{color:#9c4221}.vc-text-orange-900{color:#7b341e}.vc-text-yellow-100{color:ivory}.vc-text-yellow-200{color:#fefcbf}.vc-text-yellow-300{color:#faf089}.vc-text-yellow-400{color:#f6e05e}.vc-text-yellow-500{color:#ecc94b}.vc-text-yellow-600{color:#d69e2e}.vc-text-yellow-700{color:#b7791f}.vc-text-yellow-800{color:#975a16}.vc-text-yellow-900{color:#744210}.vc-text-green-100{color:#f0fff4}.vc-text-green-200{color:#c6f6d5}.vc-text-green-300{color:#9ae6b4}.vc-text-green-400{color:#68d391}.vc-text-green-500{color:#48bb78}.vc-text-green-600{color:#38a169}.vc-text-green-700{color:#2f855a}.vc-text-green-800{color:#276749}.vc-text-green-900{color:#22543d}.vc-text-teal-100{color:#e6fffa}.vc-text-teal-200{color:#b2f5ea}.vc-text-teal-300{color:#81e6d9}.vc-text-teal-400{color:#4fd1c5}.vc-text-teal-500{color:#38b2ac}.vc-text-teal-600{color:#319795}.vc-text-teal-700{color:#2c7a7b}.vc-text-teal-800{color:#285e61}.vc-text-teal-900{color:#234e52}.vc-text-blue-100{color:#ebf8ff}.vc-text-blue-200{color:#bee3f8}.vc-text-blue-300{color:#90cdf4}.vc-text-blue-400{color:#63b3ed}.vc-text-blue-500{color:#4299e1}.vc-text-blue-600{color:#3182ce}.vc-text-blue-700{color:#2b6cb0}.vc-text-blue-800{color:#2c5282}.vc-text-blue-900{color:#2a4365}.vc-text-indigo-100{color:#ebf4ff}.vc-text-indigo-200{color:#c3dafe}.vc-text-indigo-300{color:#a3bffa}.vc-text-indigo-400{color:#7f9cf5}.vc-text-indigo-500{color:#667eea}.vc-text-indigo-600{color:#5a67d8}.vc-text-indigo-700{color:#4c51bf}.vc-text-indigo-800{color:#434190}.vc-text-indigo-900{color:#3c366b}.vc-text-purple-100{color:#faf5ff}.vc-text-purple-200{color:#e9d8fd}.vc-text-purple-300{color:#d6bcfa}.vc-text-purple-400{color:#b794f4}.vc-text-purple-500{color:#9f7aea}.vc-text-purple-600{color:#805ad5}.vc-text-purple-700{color:#6b46c1}.vc-text-purple-800{color:#553c9a}.vc-text-purple-900{color:#44337a}.vc-text-pink-100{color:#fff5f7}.vc-text-pink-200{color:#fed7e2}.vc-text-pink-300{color:#fbb6ce}.vc-text-pink-400{color:#f687b3}.vc-text-pink-500{color:#ed64a6}.vc-text-pink-600{color:#d53f8c}.vc-text-pink-700{color:#b83280}.vc-text-pink-800{color:#97266d}.vc-text-pink-900{color:#702459}.vc-text-xs{font-size:.75rem}.vc-text-sm{font-size:.875rem}.vc-text-base{font-size:1rem}.vc-text-lg{font-size:1.125rem}.vc-text-xl{font-size:1.25rem}.vc-text-2xl{font-size:1.5rem}.vc-text-3xl{font-size:1.875rem}.vc-text-4xl{font-size:2.25rem}.vc-text-5xl{font-size:3rem}.vc-text-6xl{font-size:4rem}.vc-select-none{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vc-w-12{width:3rem}.vc-w-full{width:100%}", ""]);
+exports.push([module.i, ".vc-reset,.vc-reset *{line-height:1.5;box-sizing:border-box;border-width:0;border-style:solid;border-color:#e2e8f0}.vc-reset:focus,.vc-reset :focus{outline:none}.vc-reset [role=button],.vc-reset button{cursor:pointer}.vc-appearance-none{-webkit-appearance:none;-moz-appearance:none;appearance:none}.vc-bg-fixed{background-attachment:fixed}.vc-bg-local{background-attachment:local}.vc-bg-scroll{background-attachment:scroll}.vc-bg-transparent{background-color:initial}.vc-bg-black{background-color:#000}.vc-bg-white{background-color:#fff}.vc-bg-gray-100{background-color:#f7fafc}.vc-bg-gray-200{background-color:#edf2f7}.vc-bg-gray-300{background-color:#e2e8f0}.vc-bg-gray-400{background-color:#cbd5e0}.vc-bg-gray-500{background-color:#a0aec0}.vc-bg-gray-600{background-color:#718096}.vc-bg-gray-700{background-color:#4a5568}.vc-bg-gray-800{background-color:#2d3748}.vc-bg-gray-900{background-color:#1a202c}.vc-bg-red-100{background-color:#fff5f5}.vc-bg-red-200{background-color:#fed7d7}.vc-bg-red-300{background-color:#feb2b2}.vc-bg-red-400{background-color:#fc8181}.vc-bg-red-500{background-color:#f56565}.vc-bg-red-600{background-color:#e53e3e}.vc-bg-red-700{background-color:#c53030}.vc-bg-red-800{background-color:#9b2c2c}.vc-bg-red-900{background-color:#742a2a}.vc-bg-orange-100{background-color:#fffaf0}.vc-bg-orange-200{background-color:#feebc8}.vc-bg-orange-300{background-color:#fbd38d}.vc-bg-orange-400{background-color:#f6ad55}.vc-bg-orange-500{background-color:#ed8936}.vc-bg-orange-600{background-color:#dd6b20}.vc-bg-orange-700{background-color:#c05621}.vc-bg-orange-800{background-color:#9c4221}.vc-bg-orange-900{background-color:#7b341e}.vc-bg-yellow-100{background-color:ivory}.vc-bg-yellow-200{background-color:#fefcbf}.vc-bg-yellow-300{background-color:#faf089}.vc-bg-yellow-400{background-color:#f6e05e}.vc-bg-yellow-500{background-color:#ecc94b}.vc-bg-yellow-600{background-color:#d69e2e}.vc-bg-yellow-700{background-color:#b7791f}.vc-bg-yellow-800{background-color:#975a16}.vc-bg-yellow-900{background-color:#744210}.vc-bg-green-100{background-color:#f0fff4}.vc-bg-green-200{background-color:#c6f6d5}.vc-bg-green-300{background-color:#9ae6b4}.vc-bg-green-400{background-color:#68d391}.vc-bg-green-500{background-color:#48bb78}.vc-bg-green-600{background-color:#38a169}.vc-bg-green-700{background-color:#2f855a}.vc-bg-green-800{background-color:#276749}.vc-bg-green-900{background-color:#22543d}.vc-bg-teal-100{background-color:#e6fffa}.vc-bg-teal-200{background-color:#b2f5ea}.vc-bg-teal-300{background-color:#81e6d9}.vc-bg-teal-400{background-color:#4fd1c5}.vc-bg-teal-500{background-color:#38b2ac}.vc-bg-teal-600{background-color:#319795}.vc-bg-teal-700{background-color:#2c7a7b}.vc-bg-teal-800{background-color:#285e61}.vc-bg-teal-900{background-color:#234e52}.vc-bg-blue-100{background-color:#ebf8ff}.vc-bg-blue-200{background-color:#bee3f8}.vc-bg-blue-300{background-color:#90cdf4}.vc-bg-blue-400{background-color:#63b3ed}.vc-bg-blue-500{background-color:#4299e1}.vc-bg-blue-600{background-color:#3182ce}.vc-bg-blue-700{background-color:#2b6cb0}.vc-bg-blue-800{background-color:#2c5282}.vc-bg-blue-900{background-color:#2a4365}.vc-bg-indigo-100{background-color:#ebf4ff}.vc-bg-indigo-200{background-color:#c3dafe}.vc-bg-indigo-300{background-color:#a3bffa}.vc-bg-indigo-400{background-color:#7f9cf5}.vc-bg-indigo-500{background-color:#667eea}.vc-bg-indigo-600{background-color:#5a67d8}.vc-bg-indigo-700{background-color:#4c51bf}.vc-bg-indigo-800{background-color:#434190}.vc-bg-indigo-900{background-color:#3c366b}.vc-bg-purple-100{background-color:#faf5ff}.vc-bg-purple-200{background-color:#e9d8fd}.vc-bg-purple-300{background-color:#d6bcfa}.vc-bg-purple-400{background-color:#b794f4}.vc-bg-purple-500{background-color:#9f7aea}.vc-bg-purple-600{background-color:#805ad5}.vc-bg-purple-700{background-color:#6b46c1}.vc-bg-purple-800{background-color:#553c9a}.vc-bg-purple-900{background-color:#44337a}.vc-bg-pink-100{background-color:#fff5f7}.vc-bg-pink-200{background-color:#fed7e2}.vc-bg-pink-300{background-color:#fbb6ce}.vc-bg-pink-400{background-color:#f687b3}.vc-bg-pink-500{background-color:#ed64a6}.vc-bg-pink-600{background-color:#d53f8c}.vc-bg-pink-700{background-color:#b83280}.vc-bg-pink-800{background-color:#97266d}.vc-bg-pink-900{background-color:#702459}.hover\\:vc-bg-gray-200:hover{background-color:#edf2f7}.hover\\:vc-bg-gray-900:hover{background-color:#1a202c}.focus\\:vc-bg-gray-200:focus{background-color:#edf2f7}.focus\\:vc-bg-gray-800:focus{background-color:#2d3748}.vc-bg-bottom{background-position:bottom}.vc-bg-center{background-position:50%}.vc-bg-left{background-position:0}.vc-bg-left-bottom{background-position:0 100%}.vc-bg-left-top{background-position:0 0}.vc-bg-right{background-position:100%}.vc-bg-right-bottom{background-position:100% 100%}.vc-bg-right-top{background-position:100% 0}.vc-bg-top{background-position:top}.vc-bg-repeat{background-repeat:repeat}.vc-bg-no-repeat{background-repeat:no-repeat}.vc-bg-repeat-x{background-repeat:repeat-x}.vc-bg-repeat-y{background-repeat:repeat-y}.vc-bg-auto{background-size:auto}.vc-bg-cover{background-size:cover}.vc-bg-contain{background-size:contain}.vc-border-collapse{border-collapse:collapse}.vc-border-separate{border-collapse:initial}.vc-border-transparent{border-color:transparent}.vc-border-black{border-color:#000}.vc-border-white{border-color:#fff}.vc-border-gray-100{border-color:#f7fafc}.vc-border-gray-200{border-color:#edf2f7}.vc-border-gray-300{border-color:#e2e8f0}.vc-border-gray-400{border-color:#cbd5e0}.vc-border-gray-500{border-color:#a0aec0}.vc-border-gray-600{border-color:#718096}.vc-border-gray-700{border-color:#4a5568}.vc-border-gray-800{border-color:#2d3748}.vc-border-gray-900{border-color:#1a202c}.vc-border-red-100{border-color:#fff5f5}.vc-border-red-200{border-color:#fed7d7}.vc-border-red-300{border-color:#feb2b2}.vc-border-red-400{border-color:#fc8181}.vc-border-red-500{border-color:#f56565}.vc-border-red-600{border-color:#e53e3e}.vc-border-red-700{border-color:#c53030}.vc-border-red-800{border-color:#9b2c2c}.vc-border-red-900{border-color:#742a2a}.vc-border-orange-100{border-color:#fffaf0}.vc-border-orange-200{border-color:#feebc8}.vc-border-orange-300{border-color:#fbd38d}.vc-border-orange-400{border-color:#f6ad55}.vc-border-orange-500{border-color:#ed8936}.vc-border-orange-600{border-color:#dd6b20}.vc-border-orange-700{border-color:#c05621}.vc-border-orange-800{border-color:#9c4221}.vc-border-orange-900{border-color:#7b341e}.vc-border-yellow-100{border-color:ivory}.vc-border-yellow-200{border-color:#fefcbf}.vc-border-yellow-300{border-color:#faf089}.vc-border-yellow-400{border-color:#f6e05e}.vc-border-yellow-500{border-color:#ecc94b}.vc-border-yellow-600{border-color:#d69e2e}.vc-border-yellow-700{border-color:#b7791f}.vc-border-yellow-800{border-color:#975a16}.vc-border-yellow-900{border-color:#744210}.vc-border-green-100{border-color:#f0fff4}.vc-border-green-200{border-color:#c6f6d5}.vc-border-green-300{border-color:#9ae6b4}.vc-border-green-400{border-color:#68d391}.vc-border-green-500{border-color:#48bb78}.vc-border-green-600{border-color:#38a169}.vc-border-green-700{border-color:#2f855a}.vc-border-green-800{border-color:#276749}.vc-border-green-900{border-color:#22543d}.vc-border-teal-100{border-color:#e6fffa}.vc-border-teal-200{border-color:#b2f5ea}.vc-border-teal-300{border-color:#81e6d9}.vc-border-teal-400{border-color:#4fd1c5}.vc-border-teal-500{border-color:#38b2ac}.vc-border-teal-600{border-color:#319795}.vc-border-teal-700{border-color:#2c7a7b}.vc-border-teal-800{border-color:#285e61}.vc-border-teal-900{border-color:#234e52}.vc-border-blue-100{border-color:#ebf8ff}.vc-border-blue-200{border-color:#bee3f8}.vc-border-blue-300{border-color:#90cdf4}.vc-border-blue-400{border-color:#63b3ed}.vc-border-blue-500{border-color:#4299e1}.vc-border-blue-600{border-color:#3182ce}.vc-border-blue-700{border-color:#2b6cb0}.vc-border-blue-800{border-color:#2c5282}.vc-border-blue-900{border-color:#2a4365}.vc-border-indigo-100{border-color:#ebf4ff}.vc-border-indigo-200{border-color:#c3dafe}.vc-border-indigo-300{border-color:#a3bffa}.vc-border-indigo-400{border-color:#7f9cf5}.vc-border-indigo-500{border-color:#667eea}.vc-border-indigo-600{border-color:#5a67d8}.vc-border-indigo-700{border-color:#4c51bf}.vc-border-indigo-800{border-color:#434190}.vc-border-indigo-900{border-color:#3c366b}.vc-border-purple-100{border-color:#faf5ff}.vc-border-purple-200{border-color:#e9d8fd}.vc-border-purple-300{border-color:#d6bcfa}.vc-border-purple-400{border-color:#b794f4}.vc-border-purple-500{border-color:#9f7aea}.vc-border-purple-600{border-color:#805ad5}.vc-border-purple-700{border-color:#6b46c1}.vc-border-purple-800{border-color:#553c9a}.vc-border-purple-900{border-color:#44337a}.vc-border-pink-100{border-color:#fff5f7}.vc-border-pink-200{border-color:#fed7e2}.vc-border-pink-300{border-color:#fbb6ce}.vc-border-pink-400{border-color:#f687b3}.vc-border-pink-500{border-color:#ed64a6}.vc-border-pink-600{border-color:#d53f8c}.vc-border-pink-700{border-color:#b83280}.vc-border-pink-800{border-color:#97266d}.vc-border-pink-900{border-color:#702459}.vc-rounded-none{border-radius:0}.vc-rounded-sm{border-radius:18px}.vc-rounded{border-radius:4px}.vc-rounded-lg{border-radius:8px}.vc-rounded-full{border-radius:9999px}.vc-rounded-t-none{border-top-left-radius:0;border-top-right-radius:0}.vc-rounded-r-none{border-top-right-radius:0;border-bottom-right-radius:0}.vc-rounded-b-none{border-bottom-right-radius:0;border-bottom-left-radius:0}.vc-rounded-l-none{border-top-left-radius:0;border-bottom-left-radius:0}.vc-rounded-t-sm{border-top-left-radius:18px;border-top-right-radius:18px}.vc-rounded-r-sm{border-top-right-radius:18px;border-bottom-right-radius:18px}.vc-rounded-b-sm{border-bottom-right-radius:18px;border-bottom-left-radius:18px}.vc-rounded-l-sm{border-top-left-radius:18px;border-bottom-left-radius:18px}.vc-rounded-t{border-top-left-radius:4px;border-top-right-radius:4px}.vc-rounded-r{border-top-right-radius:4px}.vc-rounded-b,.vc-rounded-r{border-bottom-right-radius:4px}.vc-rounded-b,.vc-rounded-l{border-bottom-left-radius:4px}.vc-rounded-l{border-top-left-radius:4px}.vc-rounded-t-lg{border-top-left-radius:8px;border-top-right-radius:8px}.vc-rounded-r-lg{border-top-right-radius:8px;border-bottom-right-radius:8px}.vc-rounded-b-lg{border-bottom-right-radius:8px;border-bottom-left-radius:8px}.vc-rounded-l-lg{border-top-left-radius:8px;border-bottom-left-radius:8px}.vc-rounded-t-full{border-top-left-radius:9999px;border-top-right-radius:9999px}.vc-rounded-r-full{border-top-right-radius:9999px;border-bottom-right-radius:9999px}.vc-rounded-b-full{border-bottom-right-radius:9999px;border-bottom-left-radius:9999px}.vc-rounded-l-full{border-top-left-radius:9999px;border-bottom-left-radius:9999px}.vc-rounded-tl-none{border-top-left-radius:0}.vc-rounded-tr-none{border-top-right-radius:0}.vc-rounded-br-none{border-bottom-right-radius:0}.vc-rounded-bl-none{border-bottom-left-radius:0}.vc-rounded-tl-sm{border-top-left-radius:18px}.vc-rounded-tr-sm{border-top-right-radius:18px}.vc-rounded-br-sm{border-bottom-right-radius:18px}.vc-rounded-bl-sm{border-bottom-left-radius:18px}.vc-rounded-tl{border-top-left-radius:4px}.vc-rounded-tr{border-top-right-radius:4px}.vc-rounded-br{border-bottom-right-radius:4px}.vc-rounded-bl{border-bottom-left-radius:4px}.vc-rounded-tl-lg{border-top-left-radius:8px}.vc-rounded-tr-lg{border-top-right-radius:8px}.vc-rounded-br-lg{border-bottom-right-radius:8px}.vc-rounded-bl-lg{border-bottom-left-radius:8px}.vc-rounded-tl-full{border-top-left-radius:9999px}.vc-rounded-tr-full{border-top-right-radius:9999px}.vc-rounded-br-full{border-bottom-right-radius:9999px}.vc-rounded-bl-full{border-bottom-left-radius:9999px}.vc-border-solid{border-style:solid}.vc-border-dashed{border-style:dashed}.vc-border-dotted{border-style:dotted}.vc-border-none{border-style:none}.vc-border-0{border-width:0}.vc-border-2{border-width:2px}.vc-border-4{border-width:4px}.vc-border-8{border-width:8px}.vc-border{border-width:1px}.vc-border-t-0{border-top-width:0}.vc-border-r-0{border-right-width:0}.vc-border-b-0{border-bottom-width:0}.vc-border-l-0{border-left-width:0}.vc-border-t-2{border-top-width:2px}.vc-border-r-2{border-right-width:2px}.vc-border-b-2{border-bottom-width:2px}.vc-border-l-2{border-left-width:2px}.vc-border-t-4{border-top-width:4px}.vc-border-r-4{border-right-width:4px}.vc-border-b-4{border-bottom-width:4px}.vc-border-l-4{border-left-width:4px}.vc-border-t-8{border-top-width:8px}.vc-border-r-8{border-right-width:8px}.vc-border-b-8{border-bottom-width:8px}.vc-border-l-8{border-left-width:8px}.vc-border-t{border-top-width:1px}.vc-border-r{border-right-width:1px}.vc-border-b{border-bottom-width:1px}.vc-border-l{border-left-width:1px}.vc-cursor-pointer{cursor:pointer}.vc-cursor-not-allowed{cursor:not-allowed}.vc-flex{display:flex}.vc-items-center{align-items:center}.vc-justify-center{justify-content:center}.vc-font-medium{font-weight:500}.vc-font-semibold{font-weight:600}.focus\\:vc-font-bold:focus,.vc-font-bold{font-weight:700}.vc-h-full{height:100%}.vc-leading-tight{line-height:1.25}.vc-mr-auto{margin-right:auto}.vc-ml-auto{margin-left:auto}.vc-min-w-full{min-width:100%}.vc-opacity-0{opacity:0}.vc-opacity-25{opacity:.25}.vc-opacity-75{opacity:.75}.hover\\:vc-opacity-50:hover{opacity:.5}.hover\\:vc-opacity-75:hover{opacity:.75}.focus\\:vc-outline-none:focus{outline:0}.vc-overflow-hidden{overflow:hidden}.vc-p-1{padding:4px}.vc-py-1{padding-top:4px;padding-bottom:4px}.vc-py-2{padding-top:8px;padding-bottom:8px}.vc-px-2{padding-left:8px;padding-right:8px}.vc-px-3{padding-left:12px;padding-right:12px}.vc-pointer-events-none{pointer-events:none}.vc-pointer-events-auto{pointer-events:auto}.vc-relative{position:relative}.vc-shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.hover\\:vc-shadow-inner:hover{box-shadow:inset 0 2px 4px 0 rgba(0,0,0,.06)}.focus\\:vc-shadow-outline:focus{box-shadow:0 0 0 3px rgba(66,153,225,.5)}.vc-text-left{text-align:left}.vc-text-center{text-align:center}.vc-text-right{text-align:right}.vc-text-justify{text-align:justify}.vc-text-transparent{color:transparent}.vc-text-black{color:#000}.vc-text-white{color:#fff}.vc-text-gray-100{color:#f7fafc}.vc-text-gray-200{color:#edf2f7}.vc-text-gray-300{color:#e2e8f0}.vc-text-gray-400{color:#cbd5e0}.vc-text-gray-500{color:#a0aec0}.vc-text-gray-600{color:#718096}.vc-text-gray-700{color:#4a5568}.vc-text-gray-800{color:#2d3748}.vc-text-gray-900{color:#1a202c}.vc-text-red-100{color:#fff5f5}.vc-text-red-200{color:#fed7d7}.vc-text-red-300{color:#feb2b2}.vc-text-red-400{color:#fc8181}.vc-text-red-500{color:#f56565}.vc-text-red-600{color:#e53e3e}.vc-text-red-700{color:#c53030}.vc-text-red-800{color:#9b2c2c}.vc-text-red-900{color:#742a2a}.vc-text-orange-100{color:#fffaf0}.vc-text-orange-200{color:#feebc8}.vc-text-orange-300{color:#fbd38d}.vc-text-orange-400{color:#f6ad55}.vc-text-orange-500{color:#ed8936}.vc-text-orange-600{color:#dd6b20}.vc-text-orange-700{color:#c05621}.vc-text-orange-800{color:#9c4221}.vc-text-orange-900{color:#7b341e}.vc-text-yellow-100{color:ivory}.vc-text-yellow-200{color:#fefcbf}.vc-text-yellow-300{color:#faf089}.vc-text-yellow-400{color:#f6e05e}.vc-text-yellow-500{color:#ecc94b}.vc-text-yellow-600{color:#d69e2e}.vc-text-yellow-700{color:#b7791f}.vc-text-yellow-800{color:#975a16}.vc-text-yellow-900{color:#744210}.vc-text-green-100{color:#f0fff4}.vc-text-green-200{color:#c6f6d5}.vc-text-green-300{color:#9ae6b4}.vc-text-green-400{color:#68d391}.vc-text-green-500{color:#48bb78}.vc-text-green-600{color:#38a169}.vc-text-green-700{color:#2f855a}.vc-text-green-800{color:#276749}.vc-text-green-900{color:#22543d}.vc-text-teal-100{color:#e6fffa}.vc-text-teal-200{color:#b2f5ea}.vc-text-teal-300{color:#81e6d9}.vc-text-teal-400{color:#4fd1c5}.vc-text-teal-500{color:#38b2ac}.vc-text-teal-600{color:#319795}.vc-text-teal-700{color:#2c7a7b}.vc-text-teal-800{color:#285e61}.vc-text-teal-900{color:#234e52}.vc-text-blue-100{color:#ebf8ff}.vc-text-blue-200{color:#bee3f8}.vc-text-blue-300{color:#90cdf4}.vc-text-blue-400{color:#63b3ed}.vc-text-blue-500{color:#4299e1}.vc-text-blue-600{color:#3182ce}.vc-text-blue-700{color:#2b6cb0}.vc-text-blue-800{color:#2c5282}.vc-text-blue-900{color:#2a4365}.vc-text-indigo-100{color:#ebf4ff}.vc-text-indigo-200{color:#c3dafe}.vc-text-indigo-300{color:#a3bffa}.vc-text-indigo-400{color:#7f9cf5}.vc-text-indigo-500{color:#667eea}.vc-text-indigo-600{color:#5a67d8}.vc-text-indigo-700{color:#4c51bf}.vc-text-indigo-800{color:#434190}.vc-text-indigo-900{color:#3c366b}.vc-text-purple-100{color:#faf5ff}.vc-text-purple-200{color:#e9d8fd}.vc-text-purple-300{color:#d6bcfa}.vc-text-purple-400{color:#b794f4}.vc-text-purple-500{color:#9f7aea}.vc-text-purple-600{color:#805ad5}.vc-text-purple-700{color:#6b46c1}.vc-text-purple-800{color:#553c9a}.vc-text-purple-900{color:#44337a}.vc-text-pink-100{color:#fff5f7}.vc-text-pink-200{color:#fed7e2}.vc-text-pink-300{color:#fbb6ce}.vc-text-pink-400{color:#f687b3}.vc-text-pink-500{color:#ed64a6}.vc-text-pink-600{color:#d53f8c}.vc-text-pink-700{color:#b83280}.vc-text-pink-800{color:#97266d}.vc-text-pink-900{color:#702459}.hover\\:vc-text-white:hover{color:#fff}.hover\\:vc-text-gray-900:hover{color:#1a202c}.vc-text-xs{font-size:12px}.vc-text-sm{font-size:14px}.vc-text-base{font-size:16px}.vc-text-lg{font-size:18px}.vc-text-xl{font-size:20px}.vc-text-2xl{font-size:24px}.vc-select-none{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vc-w-full{width:100%}", ""]);
 
 // exports
 
-
-/***/ }),
-
-/***/ "f499":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("a21f");
 
 /***/ }),
 
@@ -97935,21 +97512,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "f787":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vc-pane[data-v-543ec9f5]{flex-grow:1;flex-shrink:1;display:flex;flex-direction:column;justify-content:center;align-items:stretch}.vc-horizontal-divider[data-v-543ec9f5]{align-self:center}.vc-header[data-v-543ec9f5]{flex-shrink:0;display:flex;align-items:stretch;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:var(--header-padding)}.vc-header.align-left[data-v-543ec9f5]{order:-1;justify-content:flex-start}.vc-header.align-right[data-v-543ec9f5]{order:1;justify-content:flex-end}.vc-title-layout[data-v-543ec9f5]{display:flex;justify-content:center;align-items:center;flex-grow:1}.vc-title-layout.align-left[data-v-543ec9f5]{justify-content:flex-start}.vc-title-layout.align-right[data-v-543ec9f5]{justify-content:flex-end}.vc-title-wrapper[data-v-543ec9f5]{position:relative}.vc-title[data-v-543ec9f5]{cursor:pointer;white-space:nowrap;padding:var(--title-padding)}.vc-title[data-v-543ec9f5],.vc-weekday[data-v-543ec9f5]{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vc-weekday[data-v-543ec9f5]{display:flex;justify-content:center;align-items:center;flex:1;padding:var(--weekday-padding);cursor:default}.vc-weeks[data-v-543ec9f5]{flex-shrink:1;flex-grow:1;padding:var(--weeks-padding)}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "f8af":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -98086,21 +97648,6 @@ module.exports = initCloneObject;
 
 /***/ }),
 
-/***/ "fa2b":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("c207");
-__webpack_require__("1654");
-__webpack_require__("6c1c");
-__webpack_require__("07d8");
-__webpack_require__("74be");
-__webpack_require__("c6fb");
-__webpack_require__("57e3");
-module.exports = __webpack_require__("584a").Set;
-
-
-/***/ }),
-
 /***/ "fa5b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -98185,21 +97732,6 @@ var $Object = __webpack_require__("584a").Object;
 module.exports = function getOwnPropertyDescriptor(it, key) {
   return $Object.getOwnPropertyDescriptor(it, key);
 };
-
-
-/***/ }),
-
-/***/ "ff70":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, "[data-v-4fb7d3d1] .vc-container{border:none}", ""]);
-
-// exports
 
 
 /***/ }),
@@ -110434,7 +109966,7 @@ var GPOSLP = {
       sweetalert__WEBPACK_IMPORTED_MODULE_10___default()("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy') + " ?", {
         buttons: {
           cancel: "Cancelar",
-          catch: {
+          "catch": {
             text: "Generar",
             value: "catch"
           }
@@ -110534,7 +110066,7 @@ var GPOSCO = {
       sweetalert__WEBPACK_IMPORTED_MODULE_10___default()("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy') + " ?", {
         buttons: {
           cancel: "Cancelar",
-          catch: {
+          "catch": {
             text: "Generar",
             value: "catch"
           }
@@ -110634,7 +110166,7 @@ var GPOSSC = {
       sweetalert__WEBPACK_IMPORTED_MODULE_10___default()("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy') + " ?", {
         buttons: {
           cancel: "Cancelar",
-          catch: {
+          "catch": {
             text: "Generar",
             value: "catch"
           }
@@ -110736,7 +110268,7 @@ var GPOSGEN = {
       sweetalert__WEBPACK_IMPORTED_MODULE_10___default()("¿Generar archivo de la fecha " + dateformat(this.selectedDate.start, 'dd-mm-yyyy') + " a " + dateformat(this.selectedDate.end, 'dd-mm-yyyy') + " ?", {
         buttons: {
           cancel: "Cancelar",
-          catch: {
+          "catch": {
             text: "Generar",
             value: "catch"
           }

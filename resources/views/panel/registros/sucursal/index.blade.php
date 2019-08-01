@@ -5,7 +5,7 @@
 <div class="row" id="app">
   <div class="col-xs-12">
     <div class="box box-info">
-       <div class="box-header">
+        <div class="box-header">
           <div class="row">
               <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                   <h3 class="box-title">Sucursales Registradas</h3>
@@ -48,8 +48,6 @@
                           <el-button circle icon="el-icon-plus" size="mini" type="warning" @click="handleShow(scope.$index, scope.row)"></el-button>
                           <el-button circle icon="el-icon-edit" size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)"></el-button>
                           <el-button circle size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></el-button>
-                      </el-col>
-                    </el-row>
                   </template>
               </el-table-column>
           </el-table>
