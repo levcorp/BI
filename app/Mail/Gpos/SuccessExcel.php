@@ -20,7 +20,7 @@ class SuccessExcel extends Mailable
     public function build()
     {
          return $this->view('emails.gpos.successExcel')
-                    ->to(['gpinto@levcorp.bo'])
+                    ->to(['sistemas@levcorp.bo','maramayo@levcorp.bo'])
                     ->attach($this->name)
                     ->with(['count'=> $this->count]);
     }

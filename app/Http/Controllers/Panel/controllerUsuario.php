@@ -113,4 +113,7 @@ class controllerUsuario extends Controller
             Mail::send(new Change($url,$ad->mail[0]));
         }   
     }
+    public function asignacion(){
+        
+    }
 }

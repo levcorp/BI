@@ -22,5 +22,6 @@
             "username": "B1ADMIN"
         }
     ],
-    "editor.tabCompletion": "on"
+    "editor.tabCompletion": "on",
+    "workbench.colorCustomizations": {}
 }

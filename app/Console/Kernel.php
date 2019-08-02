@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
                     Mail::send(new Failure);
                   });
         $schedule->command('gpos:send')
-                 ->weeklyOn(7, '23:00')
+                 ->weeklyOn(1, '3:00')
                  ->onSuccess(function () {
                     $gpos=new EDIGPOS;
                     $counts=$gpos->counts();
