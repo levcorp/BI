@@ -27,10 +27,17 @@
               </div>
             </div>
             <div class="box-body table-responsive">
-              <el-table :data="tareas" style="width: 100%" height="450" >
-                  <el-table-column align="center" prop="id" label="#" ></el-table-column>           
+              <el-table :data="tareas.filter(data => !search || data.TAREA.toLowerCase().includes(search.toLowerCase()))" style="width: 100%" height="450" >
+                  <el-table-column align="center" label="Dias Abierto" >
+                      <template slot-scope="scope">
+                        <el-tag size="mini">
+                          <i class="el-icon-time"></i>
+                          <span style="margin-left: 10px">@{{scope.row.FECHA_REGISTRO | moment("diff", new Date(), 'days')*-1}}</span>
+                        </el-tag>
+                      </template>
+                  </el-table-column>           
                   <el-table-column align="center" prop="TAREA" label="Titulo" ></el-table-column>
-                  <el-table-column label="Asignado a" align="center">
+                  <el-table-column sortable label="Asignado a" align="center">
                     <template slot-scope="scope">
                     <el-tag :type="scope.row.USUARIO_ID ? '' : 'warning'" size="mini">
                       <i class="el-icon-user"></i>
@@ -39,7 +46,7 @@
                     </el-tag>
                     </template>
                   </el-table-column>
-                  <el-table-column  align="center" label="Estado">
+                  <el-table-column sortable align="center" label="Estado">
                     <template slot-scope="scope">
                       <el-tag type="danger" v-if="scope.row.ESTADO_TAREA_ID==1" size="mini">
                         <i class="el-icon-guide"></i>
@@ -216,7 +223,25 @@
                       </p>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="(showEstado.TAG).trim() == 'F'">
+                  <div class="col-sm-6">
+                    <p>
+                      <strong>
+                        Descripción : 
+                      </strong>
+                      @{{showTarea.DESCRIPCION}}
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <strong>
+                        Fecha de Finalización : 
+                      </strong>
+                      @{{showTarea.FECHA_FINALIZACION | moment('calendar',null,{sameElse : 'YYYY-MM-DD HH:mm'}) | capitalize({ onlyFirstLetter: true }) }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row" v-else>
                   <div class="col-sm-12">
                     <p>
                       <strong>

@@ -24,8 +24,7 @@ class commandsValidateGpos extends Command
         $nextSaturday= Carbon::now();
         $lastMonday=new Carbon('last monday');
         Carbon::setTestNow();     
-        if(UPC::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','<=',$lastMonday)->count()==0 && FeOCClie::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0 && Price::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0 && Track::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0)
-        {
+        if(UPC::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','<=',$lastMonday)->count()==0 && FeOCClie::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0 && Price::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0 && Track::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0){
             $this->info('No hay ninguna validacion');
         }else {
             Mail::send( new Validacion(

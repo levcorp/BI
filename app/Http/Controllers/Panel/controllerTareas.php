@@ -59,12 +59,18 @@ class controllerTareas extends Controller
         //return response()->json(Acciones::where('TAREA_ID',$request->tarea_id)->orderBy('FECHA_CREACION','desc'));
     }
     public function storeAccion(Request $request){
+        if($request->ESTADO_ID==1){
+            Tareas::findOrFail($request->TAREA_ID,)->fill([
+                'USUARIO_ID'=>$request->USUARIO_ID,
+            ])->save();
+        }
         Acciones::create([
             'FECHA_CREACION'=>Carbon::now()->format('d-m-Y H:i:s.v'),
             'ESTADO_ID'=>$request->ESTADO_ID,
             'TAREA_ID'=>$request->TAREA_ID,
             'DESCRIPCION_ACCION'=>$request->DESCRIPCION_ACCION
         ]);
+        return response()->json(Tareas::where('id',$request->TAREA_ID)->with(['usuario','cusuario','estado'])->first());
     }
     public function estadoAccion(){
         return response()->json(Estado_Accion::all());
@@ -77,7 +83,7 @@ class controllerTareas extends Controller
         return response()->json(Tareas::where('id',$request->id)->with(['usuario','cusuario','estado'])->first());
     }
     public function asignacionEstadoTarea(Request $request){
-        Tareas::findOrFail($request->id)->fill(['ESTADO_TAREA_ID'=>$request->estado_tarea_id])->save();
+        Tareas::findOrFail($request->id)->fill(['ESTADO_TAREA_ID'=>$request->estado_tarea_id,'FECHA_FINALIZACION'=>Carbon::now()->format('d-m-Y H:i:s.v')])->save();
         return response()->json(Tareas::where('id',$request->id)->with(['usuario','cusuario','estado'])->first());
     }
     public function estadoTarea(){

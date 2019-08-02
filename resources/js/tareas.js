@@ -319,9 +319,15 @@ var Main = {
                     axios.post(url,{
                         ESTADO_ID:this.createAccion.ESTADO_ACCION_ID,
                         DESCRIPCION_ACCION:this.createAccion.DESCRIPCION,
-                        TAREA_ID: this.showTarea.id
+                        TAREA_ID: this.showTarea.id,
+                        USUARIO_ID:this.createAccion.USUARIO_ID
                     }).then(response=>{
                         $('#accion').modal('hide');
+                        this.handleGet();
+                        this.showTarea=response.data;
+                        this.showCUser=response.data.cusuario;
+                        this.showEstado=response.data.estado;
+                        this.showUser=response.data.usuario;
                         this.handleAcciones(this.showTarea.id);
                         this.$message({
                             type: 'success',

@@ -19,6 +19,7 @@ class Tareas extends Model
         'DESCRIPCION',
         'ESTADO_TAREA_ID',
         'REGIONAL_ID',
+        'FECHA_FINALIZACION'
     ];
     public $timestamps = false;
 

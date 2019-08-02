@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <el-form-item label="Fecha Registro">
                     <el-date-picker style="width:100%"  v-model="createAccion.FECHA_CREACION" type="datetime"  disabled></el-date-picker>
-                </el-form-item>
+                </el-form-item>               
                 <el-form-item label="Estado" prop="ESTADO_ACCION_ID">
                     <el-select clearable v-model="createAccion.ESTADO_ACCION_ID" filterable placeholder="Seleccionar Estado" size="mini"  style="width:100%">
                         <el-option
@@ -23,6 +23,20 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+                <el-collapse-transition>
+                    <el-form-item label="Asignar a:" prop="USUARIO_ID" v-if="createAccion.ESTADO_ACCION_ID==1">
+                        <el-select  style="width:100%;" clearable v-model="createAccion.USUARIO_ID" filterable placeholder="Seleccionar Usuario" size="mini">
+                            <el-option
+                            v-for="item in users"
+                            :key="item.nombre+' '+item.apellido"
+                            :label="item.nombre+' '+item.apellido"
+                            :value="item.id">
+                            <span style="float: left">@{{ item.nombre+' '+item.apellido }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px"><i class="el-icon-user"></i></span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-collapse-transition>
                 <el-form-item label="Descripcion" prop="DESCRIPCION">
                     <el-input v-model="createAccion.DESCRIPCION" type="textarea" placeholder="Descripcion de Tarea" :autosize="{ minRows: 3, maxRows: 3}"></el-input>
                 </el-form-item>

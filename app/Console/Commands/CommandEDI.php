@@ -9,8 +9,7 @@ use App\DetalleSolicitud;
 use App\Text\EDI;
 use Carbon\Carbon;
 use Storage;
-use App\EdiCO as CO;
-use App\EdiHUB as HUB;
+use App\EdiCO as CO; 
 use App\EdiLP as LP;
 use App\EdiSC as SC; 
 class CommandEDI extends Command

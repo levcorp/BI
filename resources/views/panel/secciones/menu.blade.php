@@ -59,6 +59,11 @@
                     <li class="{{active('sucursales')}}"><a href="{{route('sucursales')}}"><i class="fa fa-building-o"></i> Sucursales</a></li>
                   @endif
                   @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','13'))
+                    <li class="{{active('estadosTA')}}"><a href="{{route('estadosTA')}}"><i class="fa fa-building-o"></i> Estados Tarea</a></li>
+                  @endif
+                  @endif
               </ul>
             </li>
             @endif
