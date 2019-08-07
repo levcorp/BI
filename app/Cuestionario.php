@@ -17,5 +17,5 @@ class Cuestionario extends Model
         'ID_GRUPO_USUARIOS',
         'ESTADO'
     ];
-    
+    public $timestamps = false;
 }
