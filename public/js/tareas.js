@@ -93276,7 +93276,6 @@ var Main = {
       this.showUser = row.usuario;
       this.showTab = true;
       this.S = true;
-      console.log(this.showEstado.TAG.trim());
       this.activeName = 'detalle';
       this.handleAcciones(row.id);
     },

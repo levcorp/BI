@@ -238,7 +238,6 @@ var Main = {
             this.showUser=row.usuario;
             this.showTab=true;
             this.S=true;
-            console.log((this.showEstado.TAG).trim());
             this.activeName= 'detalle';
             this.handleAcciones(row.id);
         },
@@ -323,9 +322,16 @@ var Main = {
                     axios.post(url,{
                         ESTADO_ID:this.createAccion.ESTADO_ACCION_ID,
                         DESCRIPCION_ACCION:this.createAccion.DESCRIPCION,
-                        TAREA_ID: this.showTarea.id
+                        TAREA_ID: this.showTarea.id,
+                        USUARIO_ID:this.createAccion.USUARIO_ID,
+                        OLD_USER:this.showUser.nombre+' '+this.showUser.apellido,
                     }).then(response=>{
                         $('#accion').modal('hide');
+                        this.handleGet();
+                        this.showTarea=response.data;
+                        this.showCUser=response.data.cusuario;
+                        this.showEstado=response.data.estado;
+                        this.showUser=response.data.usuario;
                         this.handleAcciones(this.showTarea.id);
                         this.$message({
                             type: 'success',

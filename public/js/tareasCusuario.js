@@ -93380,9 +93380,18 @@ var Main = {
           axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
             ESTADO_ID: _this11.createAccion.ESTADO_ACCION_ID,
             DESCRIPCION_ACCION: _this11.createAccion.DESCRIPCION,
-            TAREA_ID: _this11.showTarea.id
+            TAREA_ID: _this11.showTarea.id,
+            USUARIO_ID: _this11.createAccion.USUARIO_ID,
+            OLD_USER: _this11.showUser.nombre + ' ' + _this11.showUser.apellido
           }).then(function (response) {
             $('#accion').modal('hide');
+
+            _this11.handleGet();
+
+            _this11.showTarea = response.data;
+            _this11.showCUser = response.data.cusuario;
+            _this11.showEstado = response.data.estado;
+            _this11.showUser = response.data.usuario;
 
             _this11.handleAcciones(_this11.showTarea.id);
 
