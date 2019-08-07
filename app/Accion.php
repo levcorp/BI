@@ -11,5 +11,6 @@ class Accion extends Model
         'nombre',
         'descripcion',
         'control'
+        
     ];
 }

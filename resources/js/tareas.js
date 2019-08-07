@@ -320,7 +320,8 @@ var Main = {
                         ESTADO_ID:this.createAccion.ESTADO_ACCION_ID,
                         DESCRIPCION_ACCION:this.createAccion.DESCRIPCION,
                         TAREA_ID: this.showTarea.id,
-                        USUARIO_ID:this.createAccion.USUARIO_ID
+                        USUARIO_ID:this.createAccion.USUARIO_ID,
+                        OLD_USER:this.showUser.nombre+' '+this.showUser.apellido,
                     }).then(response=>{
                         $('#accion').modal('hide');
                         this.handleGet();

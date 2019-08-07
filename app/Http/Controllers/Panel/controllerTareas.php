@@ -11,7 +11,8 @@ use App\User;
 use App\Estado_Tarea;
 use App\Acciones;
 use App\Estado_Accion;
-
+use App\Mail\Tareas\CierreTarea;
+use Mail;
 class controllerTareas extends Controller
 {
     public function index(){
@@ -63,12 +64,19 @@ class controllerTareas extends Controller
             Tareas::findOrFail($request->TAREA_ID,)->fill([
                 'USUARIO_ID'=>$request->USUARIO_ID,
             ])->save();
+            $usuario=User::where('id',$request->USUARIO_ID)->first();
+            $NEW_USER=$usuario->nombre." ".$usuario->apellido;
+        }else
+        {
+            $NEW_USER=null;
         }
         Acciones::create([
             'FECHA_CREACION'=>Carbon::now()->format('d-m-Y H:i:s.v'),
             'ESTADO_ID'=>$request->ESTADO_ID,
             'TAREA_ID'=>$request->TAREA_ID,
-            'DESCRIPCION_ACCION'=>$request->DESCRIPCION_ACCION
+            'DESCRIPCION_ACCION'=>$request->DESCRIPCION_ACCION,
+            'OLD_USER'=>$request->OLD_USER,
+            'NEW_USER'=>$NEW_USER
         ]);
         return response()->json(Tareas::where('id',$request->TAREA_ID)->with(['usuario','cusuario','estado'])->first());
     }
@@ -84,6 +92,12 @@ class controllerTareas extends Controller
     }
     public function asignacionEstadoTarea(Request $request){
         Tareas::findOrFail($request->id)->fill(['ESTADO_TAREA_ID'=>$request->estado_tarea_id,'FECHA_FINALIZACION'=>Carbon::now()->format('d-m-Y H:i:s.v')])->save();
+        $estadoTarea=Estado_Tarea::where('id',$request->estado_tarea_id)->first();
+        if(trim($estadoTarea->TAG)=='F')
+        {
+            $tarea=Tareas::where('id',$request->id)->with(['usuario','cusuario'])->first();
+            Mail::send(new CierreTarea($tarea));
+        }
         return response()->json(Tareas::where('id',$request->id)->with(['usuario','cusuario','estado'])->first());
     }
     public function estadoTarea(){

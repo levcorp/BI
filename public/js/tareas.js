@@ -93377,7 +93377,8 @@ var Main = {
             ESTADO_ID: _this11.createAccion.ESTADO_ACCION_ID,
             DESCRIPCION_ACCION: _this11.createAccion.DESCRIPCION,
             TAREA_ID: _this11.showTarea.id,
-            USUARIO_ID: _this11.createAccion.USUARIO_ID
+            USUARIO_ID: _this11.createAccion.USUARIO_ID,
+            OLD_USER: _this11.showUser.nombre + ' ' + _this11.showUser.apellido
           }).then(function (response) {
             $('#accion').modal('hide');
 

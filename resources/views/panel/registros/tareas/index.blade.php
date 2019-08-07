@@ -30,9 +30,13 @@
               <el-table :data="tareas.filter(data => !search || data.TAREA.toLowerCase().includes(search.toLowerCase()))" style="width: 100%" height="450" >
                   <el-table-column align="center" label="Dias Abierto" >
                       <template slot-scope="scope">
-                        <el-tag size="mini">
+                        <el-tag size="mini" type="danger" v-if="(scope.row.estado.TAG).trim() == 'P'">
                           <i class="el-icon-time"></i>
                           <span style="margin-left: 10px">@{{scope.row.FECHA_REGISTRO | moment("diff", new Date(), 'days')*-1}}</span>
+                        </el-tag>
+                        <el-tag size="mini" type="info" v-else>
+                          <i class="el-icon-check"></i>
+                            <span style="margin-left: 10px">Culminado</span>
                         </el-tag>
                       </template>
                   </el-table-column>           
@@ -48,20 +52,8 @@
                   </el-table-column>
                   <el-table-column sortable align="center" label="Estado">
                     <template slot-scope="scope">
-                      <el-tag type="danger" v-if="scope.row.ESTADO_TAREA_ID==1" size="mini">
-                        <i class="el-icon-guide"></i>
-                        <span style="margin-left: 10px" >@{{ scope.row.estado.ESTADO_TAREA }}</span>
-                      </el-tag>
-                      <el-tag v-if="scope.row.ESTADO_TAREA_ID==2" size="mini">
-                        <i class="el-icon-postcard"></i>
-                        <span style="margin-left: 10px" >@{{ scope.row.estado.ESTADO_TAREA }}</span>
-                      </el-tag>
-                      <el-tag type="success" v-if="scope.row.ESTADO_TAREA_ID==3"size="mini">
-                        <i class="el-icon-finished"></i>
-                        <span style="margin-left: 10px" >@{{ scope.row.estado.ESTADO_TAREA }}</span>
-                      </el-tag>
-                      <el-tag type="info" v-if="scope.row.ESTADO_TAREA_ID==4"size="mini">
-                        <i class="el-icon-delete"></i>
+                      <el-tag :type="scope.row.estado.COLOR" size="mini">
+                        <i :class="scope.row.estado.ICON"></i>
                         <span style="margin-left: 10px" >@{{ scope.row.estado.ESTADO_TAREA }}</span>
                       </el-tag>
                     </template>
@@ -274,6 +266,10 @@
                           </el-tag>
                           <br>
                           @{{item.DESCRIPCION_ACCION}}
+                          <el-tag type="info" style="float: right; margin-top:5px;" size="mini" v-if="item.estado.id==1">
+                              <i class="el-icon-user"></i>
+                              <span style="margin-left: 3px" >@{{ item.OLD_USER}}</span>
+                          </el-tag>
                         </p>
                       </el-card>
                     </div>
@@ -285,7 +281,11 @@
                             <el-button v-if="!item.RESULTADO_ACCION" style="float: right;" size="mini" icon="el-icon-chat-line-square" type="primary" circle @click="handleModalMessage(item.id,showTarea.id)"></el-button>
                           </transition>
                           <br>
-                          @{{item.RESULTADO_ACCION}}                          
+                          @{{item.RESULTADO_ACCION}}  
+                          <el-tag type="info" style="float: right; margin-top:10px;margin-bottom:10px;" size="mini" v-if="item.estado.id==1">
+                              <i class="el-icon-user"></i>
+                              <span style="margin-left: 3px" >@{{ item.NEW_USER}}</span>
+                          </el-tag>                        
                         </p>
                       </el-card>
                     </div>

@@ -19,6 +19,6 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale(config('app.locale'));
         putenv("LDAPTLS_CIPHER_SUITE=NORMAL:!VERS-TLS1.2");
         putenv("TLS_CACERT=/path/to/certificate");
-    putenv("TLS_REQCERT=never");
+        putenv("TLS_REQCERT=never");
     }
 }

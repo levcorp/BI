@@ -19,7 +19,7 @@ class UPC_OITM extends Mailable
     }
     public function build()
     {
-        return $this->markdown('emails.edi.EdiUPC')
+        return $this->view('emails.edi.EdiUPC')
                     ->to('gpinto@levcorp.bo')
                         ->subject('Articulos sin UPC')
                     ->with(['articulos'=>$this->articulos,'fecha'=>$this->fecha]);
