@@ -12,6 +12,8 @@ use Storage;
 use App\EdiCO as CO; 
 use App\EdiLP as LP;
 use App\EdiSC as SC; 
+use App\EdiHUB as HUB;
+
 class CommandEDI extends Command
 {
     protected $signature = 'edi:send';
