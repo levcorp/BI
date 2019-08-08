@@ -4,14 +4,12 @@ import 'vue-material/dist/vue-material.min.css'
 import axios from 'axios';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
-import VueDataTables from 'vue-data-tables';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
 import swal from 'sweetalert';
 
 Vue.use(VueMaterial)
 locale.use(lang);
-Vue.use(VueDataTables)
 Vue.use(ElementUI);
 var Main={
     data() {
