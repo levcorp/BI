@@ -1,5 +1,7 @@
 <?php
 ////////////////////////MERCADO/////////////////////////////////////
+Route::get('panel/cuestionarios','Panel\controllerPanel@cuestionarios')->name('cuestionarios');
+////////////////////////MERCADO/////////////////////////////////////
 Route::get('panel/mercados','Panel\controllerPanel@mercados')->name('mercados');
 ////////////////////////TAREAS/////////////////////////////////////
 Route::get('panel/estados','Panel\controllerPanel@estados')->name('estadosTA');

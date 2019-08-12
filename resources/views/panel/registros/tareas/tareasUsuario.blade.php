@@ -4,7 +4,7 @@
 @section('contenido')
 
 <div class="row" id="tareas">
-  <div class="col-xs-12">
+  <div class="col-xs-12" v-cloak>
     <div class="box box-info">
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="Registros" name="registros">

@@ -8,7 +8,11 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   @include('panel.registros.styles.css')
     @laravelPWA
-
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- Site wrapper -->

@@ -181,4 +181,7 @@ class controllerPanel extends Controller
     public function mercados(){
         return view('panel.registros.mercado.index');
     }
+    public function cuestionarios(){
+        return view ('panel.registros.cuestionario.index');
+    }
 }

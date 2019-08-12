@@ -18,4 +18,7 @@ class Cuestionario extends Model
         'ESTADO'
     ];
     public $timestamps = false;
+    public function usuario(){
+        return $this->belongsTo(User::class,'USUARIO_ID');
+    }
 }

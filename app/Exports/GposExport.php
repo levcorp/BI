@@ -135,7 +135,7 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
             $date->SerialNumber,
             $date->Quantity,
             $date->ExtendedResale,
-            $date->ExtendedCost,
+            $this->gposClass->ExtendedCost($date->ExtendedCost),
             $date->CurrencyOfTransaction,
             $this->gposClass->charters($date->CustomerPONumber),
             $this->gposClass->DistributorInvoiceNumber($date->DistributorInvoiceNumber,$date->NumAtCard,$date->ObjType),

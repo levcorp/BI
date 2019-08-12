@@ -1,4 +1,11 @@
 <?php
+/////////////////////CUESTIONARIO//////////////////////////////////
+Route::delete('cuestionarios/preguntadelete/{id}','Panel\controllerCuestionarios@deletePregunta');
+Route::post('cuestionarios/preguntas','Panel\controllerCuestionarios@getPreguntas');
+Route::post('cuestionarios/changeestado','Panel\controllerCuestionarios@changeEstado');
+Route::post('cuestionarios/updatepregunta','Panel\controllerCuestionarios@updatePregunta');
+Route::post('cuestionarios/createpregunta','Panel\controllerCuestionarios@createPregunta');
+Route::resource('cuestionarios','Panel\controllerCuestionarios');
 /////////////////////MERCADOS//////////////////////////////////
 Route::resource('mercados','Panel\controllerMercado');
 /////////////////////ESTADOS//////////////////////////////////

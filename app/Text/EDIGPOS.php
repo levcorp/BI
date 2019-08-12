@@ -165,7 +165,7 @@ class EDIGPOS
                     /*------Extended Resale-----------*/
                     $this->etiqueta(15,'',$dato->ExtendedResale).
                     /*------Extended Cost-----------*/
-                    $this->etiqueta(15,'',$dato->ExtendedCost).
+                    $this->etiqueta(15,'',$this->ExtendedCost($dato->ExtendedCost)).
                     /*-------Total Transaction Amount----------*/
                     $this->etiqueta(20,'',$dato->ExtendedResale).
                     /*--------Purchase order Amount---------*/
@@ -192,6 +192,9 @@ class EDIGPOS
         }
         $body.=$this->etiqueta(10,'CTT',$count);
         return $body;
+    }
+    public function ExtendedCost($value){
+        if(is_null($value) || $value==''){return 0;}else{return $value;}
     }
     public function DistributorInvoiceNumber($codSAP,$NumAtCard,$ObjType){
         $cod=mb_strlen($codSAP);
