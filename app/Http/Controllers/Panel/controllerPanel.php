@@ -62,7 +62,7 @@ class controllerPanel extends Controller
             ];
         });
         Session::flash('mensaje','Datos cargados correctamente');
-        return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
+    return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
     }
     public function sector($dato){
         $meses = EspecialidadMeses::select('PERIODO','SECTOR', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))->where('SECTOR','like',$dato)->groupBy('PERIODO','SECTOR')->orderBy('PERIODO','asc')->orderBy('SECTOR','asc')->get();
@@ -183,5 +183,11 @@ class controllerPanel extends Controller
     }
     public function cuestionarios(){
         return view ('panel.registros.cuestionario.index');
+    }
+    public function grupos(){
+        return view('panel.registros.grupo.index');
+    }
+    public function cuestionariosUser(){
+        return view ('panel.registros.cuestionario.usuario.index');        
     }
 }

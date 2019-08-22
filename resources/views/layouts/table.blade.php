@@ -9,10 +9,15 @@
   @include('panel.registros.styles.css')
     @laravelPWA
   <style>
+    .preg{
+      background-color:rgba(158,206,255, 0.3) ;
+    }
     [v-cloak] {
       display: none;
     }
+    
   </style>
+  <script src="https://unpkg.com/@saeris/vue-spinners"></script>
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- Site wrapper -->

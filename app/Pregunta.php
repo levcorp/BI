@@ -14,8 +14,19 @@ class Pregunta extends Model
         'TIPO',
         'FECHA_CREACION',
         'FECHA_ACTUALIZACION',
-        'PESO'
+        'PESO',
     ];
     public $timestamps = false;
-
+    public function cuestionario(){
+        return $this->belongsTo(Cuestionario::class,'CUESTIONARIO_ID');
+    }
+    public function opciones(){
+        return $this->hasMany(Opciones::class,'ID_PREGUNTA');
+    }
+    public function caracteristicas(){
+        return $this->hasMany(Caracteristica::class,'PREGUNTA_ID');
+    }
+    public function respuestas(){
+        return $this->hasMany(Respuesta::class,'PREGUNTA_ID');
+    }
 }

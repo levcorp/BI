@@ -1,4 +1,4 @@
-<template>
+<template >
     <div>
         <van-nav-bar title="LEVCORP">
             <van-button plain hairline type="info" size="mini" slot="right">Salir</van-button>      

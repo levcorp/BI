@@ -4,11 +4,12 @@
 @section('contenido')
 <div class="row" id="app">
   <div class="col-xs-12" v-cloak>
+      <input type="text" :value="usuario_id='{{Auth::user()->id}}'" hidden>
     <div class="box box-info">
         <div class="box-header">
           <div class="row">
               <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                  <h3 class="box-title">Cuestionarios Registrados</h3>
+                  <h3 class="box-title">Cuestionarios Registrados</h3>  
               </div>
               <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                   <div class="pull-right" style="margin-right: 10px">
@@ -27,7 +28,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" v-for="cuestionario in cuestionarios" >
                 <el-card shadow="always" :body-style="{ padding: '0px' }">
-                  <div style="padding: 15px;background-image:url(../images/cuestionario.jpg);">
+                  <div style="padding: 15px;background-image:url({{asset('../images/cuestionario.jpg')}});">
                     <div class="text-center" style="color: white">
                       <p><strong>@{{cuestionario.TITULO | uppercase }}</strong></p>
                       <p>
@@ -49,6 +50,7 @@
                                 <el-dropdown-item :command="{type:'edit',cuestionario:cuestionario}" icon="el-icon-edit">Editar</el-dropdown-item>
                                 <el-dropdown-item :command="{type:'show',cuestionario:cuestionario}" icon="el-icon-plus">Ver</el-dropdown-item>
                                 <el-dropdown-item :command="{type:'more',cuestionario:cuestionario}" icon="el-icon-more">Datos</el-dropdown-item>
+                                <el-dropdown-item :command="{type:'grupo',cuestionario:cuestionario}" icon="el-icon-user  ">Grupo</el-dropdown-item>
                                 <el-dropdown-item :command="{type:'delete',cuestionario:cuestionario}" icon="el-icon-close">Eliminar</el-dropdown-item>
                               </el-dropdown-menu>
                             </el-dropdown>
@@ -56,8 +58,8 @@
                       </div>
                       <div class="col-xs-12 col-md-4" >
                         <div class="text-center">
-                          <el-tag v-if="cuestionario.ESTADO == 1" size="mini" type="primary">Activo</el-tag>
-                          <el-tag v-else size="mini" type="danger">No activo</el-tag>
+                          <el-button style="padding: 4px;" @click="handleEstadoChange(cuestionario)" v-if="cuestionario.ESTADO == 1" size="mini" plain type="primary">Activo</el-button>
+                          <el-button style="padding: 4px;" @click="handleEstadoChange(cuestionario)" v-else size="mini" type="danger" plain>No activo</el-button>
                         </div>
                       </div>
                     </div>
@@ -67,11 +69,12 @@
               </div>
             </div>
         </div>
+        <transition name="el-zoom-in-center">
         <el-drawer
           title=""
           :visible.sync="drawer"
           direction="rtl"
-          size="50%">
+          :size="sizeDrawer">
          <div class="row">
            <div class="row">
              <div class="col-sm-6">
@@ -152,7 +155,7 @@
                                 <div class="row">
                                   <div class="col-sm-4">
                                       <el-form-item prop="PESO">
-                                        <el-input type="number" v-model="createPregunta.PESO" placeholder="Numero" size="mini"></el-input>
+                                        <el-input type="text" v-model="createPregunta.PESO" placeholder="Numero" size="mini"></el-input>
                                       </el-form-item>
                                   </div>
                                   <div class="col-sm-8">
@@ -162,13 +165,13 @@
                                   </div>
                                 </div>
                                 <div class="row">
-                                    <br>
-                                    <div class="col-sm-12">
-                                      <div class="text-center">
-                                        <el-button size="mini" type="text" @click="createPreguntaForm=false">Cancelar</el-button>
-                                        <el-button type="primary" size="mini" @click="handleStorePregunta()">Confirmar</el-button>
-                                      </div>
+                                  <br>
+                                  <div class="col-sm-12">
+                                    <div class="text-center">
+                                      <el-button size="mini" type="text" @click="createPreguntaForm=false">Cancelar</el-button>
+                                      <el-button type="primary" size="mini" @click="handleStorePregunta()">Confirmar</el-button>
                                     </div>
+                                  </div>
                                 </div>  
                               </el-form>                     
                             </el-card>
@@ -257,29 +260,124 @@
                         </transition>
                     </div>
                   </div>    
-                <div v-for="item in preguntas" class="row" style="margin:10px;border: 1px solid #9ECEFF; border-radius: 5px;padding: 5px 0px 4px 0px">
-                  <div class="col-sm-3 text-center" style="margin-top:5px">
-                    <el-tag effect="dark" type="primary" size="mini" >@{{item.TIPO | uppercase}}</el-tag>
-                  </div>
-                  <div class="col-sm-5" style="margin-top:5px">
-                      <p><strong>@{{item.PREGUNTA | uppercase}}</strong></p>
-                  </div>
-                  <div class="col-sm-4">
-                      <el-button v-if="item.ESTADO==0" plain type="success" @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-check"></el-button>                      
-                      <el-button v-else type="danger" plain @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-close"></el-button>                      
-                      <el-button type="primary" plain @click="handleEstadoPregunta()" circle size="mini" icon="el-icon-plus"></el-button>                      
-                      <el-button type="primary" plain @click="handleEditPregunta(item)" circle size="mini" icon="el-icon-edit"></el-button>                      
-                      <el-button type="danger" plain  @click="handleDeletePregunta(item)" circle size="mini" icon="el-icon-delete"></el-button>                      
-                  </div>
+                  <div class="row">
+                      <div :class="col1">
+                        <transition name="el-zoom-in-center">
+                        <el-card shadow="always" v-if="toolPregunta">
+                          <el-form :rules="rulesToolPregunta" :model="toolPreguntas" ref="formToolPregunta" size="mini">
+                            <div class="row" >
+                                <div class="col-sm-12">  
+                                  <div class="text" v-if="typePregunta=='text' || typePregunta=='textarea' || typePregunta=='email'">
+                                    <el-form-item prop="PLACEHOLDER">
+                                        <el-input type="text" placeholder="Placeholder" size="mini" v-model="toolPreguntas.PLACEHOLDER"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="ICONO" style="margin-top: 0px;">
+                                        <el-input type="text" placeholder="Icono" size="mini" v-model="toolPreguntas.ICONO"></el-input>
+                                    </el-form-item>                                   
+                                  </div>    
+                                  <div class="number" v-if="typePregunta=='number'">
+                                    <el-form-item prop="PLACEHOLDER" style="padding-top: 0px;" >
+                                        <el-input type="text" placeholder="Placeholder" size="mini" v-model="toolPreguntas.PLACEHOLDER"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="MAX" style="margin-top: 0px;">
+                                        <el-input type="number" placeholder="Valor Maximo" size="mini" v-model="toolPreguntas.MAX"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="MIN" style="margin-top: 0px;">
+                                        <el-input type="number" placeholder="Valor Minimo" size="mini" v-model="toolPreguntas.MIN"></el-input>
+                                    </el-form-item>
+                                  </div> 
+                                  <div class="switch" v-if="typePregunta=='switch'">
+                                    <el-form-item prop="VERDADERO">
+                                        <el-input type="text" placeholder="Texto Verdadero" size="mini" v-model="toolPreguntas.VERDADERO"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="FALSO" style="margin-top: 0px;">
+                                        <el-input type="text" placeholder="Texto Falso" size="mini" v-model="toolPreguntas.FALSO"></el-input>
+                                    </el-form-item>
+                                  </div>  
+                                  <div class="rate" v-if="typePregunta=='rate'">
+                                    <el-form-item prop="MAX">
+                                      <el-input type="number" placeholder="Maximo" size="mini" v-model="toolPreguntas.MAX"></el-input>                                      
+                                    </el-form-item>
+                                    <el-form-item
+                                    v-for="(OPTION, index) in toolPreguntas.DESCS"
+                                    :key="OPTION.key"
+                                    :prop="'DESCS.' + index + '.value'"
+                                    :rules="{required: true, message: 'El texto es requerido', trigger: 'change'}">
+                                      <el-input v-model="OPTION.value" :placeholder="'TEXTO ' + index">
+                                          <el-button slot="append" icon="el-icon-delete" @click="removeDesc(OPTION)"></el-button>
+                                      </el-input>
+                                    </el-form-item>
+                                  </div> 
+                                  <div class="date" v-if="typePregunta=='date' || typePregunta=='datetime'|| typePregunta=='time'">
+                                    <el-form-item prop="PLACEHOLDER"style="padding-top: 0px;" >
+                                        <el-input type="text" placeholder="Placeholder" size="mini" v-model="toolPreguntas.PLACEHOLDER"></el-input>
+                                    </el-form-item>
+                                  </div>  
+                                  <div class="select" v-if="typePregunta=='select' || typePregunta=='selectmulti'">
+                                    <el-form-item prop="PLACEHOLDER"style="padding-top: 0px;" >
+                                        <el-input type="text" placeholder="Placeholder" size="mini" v-model="toolPreguntas.PLACEHOLDER"></el-input>
+                                    </el-form-item>
+                                    <el-form-item
+                                      v-for="(OPTION, index) in toolPreguntas.OPTIONS"
+                                      :key="OPTION.key"
+                                      :prop="'OPTIONS.' + index + '.value'"
+                                      :rules="{
+                                        required: true, message: 'La opcion es requerida', trigger: 'change'
+                                      }"
+                                    >
+                                    <el-input v-model="OPTION.value" :placeholder="'OPCION ' + index">
+                                        <el-button slot="append" icon="el-icon-delete" @click="removeOption(OPTION)"></el-button>
+                                    </el-input>
+                                    </el-form-item>
+                                  </div>                                        
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <div class="text-center">
+                                      <el-button v-if="typePregunta=='rate'" @click="addDesc()" icon="el-icon-plus" circle type="success" size="mini"></el-button>
+                                      <el-button v-if="typePregunta=='select' || typePregunta=='selectmulti'" @click="addOption()" icon="el-icon-plus" circle type="success" size="mini"></el-button>
+                                      <el-button size="mini" type="text" @click="handleToolCancel">Cancelar</el-button>
+                                      <el-button type="primary" size="mini" @click="handleStoreToolPregunta()">Confirmar</el-button>
+                                    </div>
+                                  </div>
+                                </div>  
+                            </div>
+                          </el-form>
+                        </el-card>
+                      </transition>
+                      </div>
+                      <div :class="col2">
+                        <div v-for="item in preguntas" class="row" :class="index==item.id ? preg : ''" style="margin:10px;border: 1px solid #9ECEFF; border-radius: 5px;padding: 5px 0px 4px 0px">
+                          <div class="col-sm-3 text-center" style="margin-top:5px">
+                            <el-tag effect="dark" type="primary" size="mini" >@{{item.TIPO | uppercase}}</el-tag>
+                          </div>
+                          <div class="col-sm-7" style="margin-top:5px">
+                              <p><strong>@{{item.PREGUNTA | uppercase}}</strong></p>
+                          </div>
+                          <div class="col-sm-2">                             
+                              <el-popover placement="left" width="230" trigger="click">
+                              <el-button v-if="item.ESTADO==0" plain type="success" @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-check"></el-button>                      
+                              <el-button v-else type="danger" plain @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-close"></el-button>                      
+                              <el-button type="primary" plain @click="handleToolPregunta(item)" circle size="mini" icon="el-icon-plus"></el-button>                      
+                              <el-button type="primary" plain @click="handleEditPregunta(item)" circle size="mini" icon="el-icon-edit"></el-button>                      
+                              <el-button type="danger" plain  @click="handleDeletePregunta(item)" circle size="mini" icon="el-icon-delete"></el-button>                      
+                              <el-button type="warning" plain @click="handleDeletePregunta(item)" circle size="mini" icon="el-icon-document-copy"></el-button>                      
+                              <el-button slot="reference" type="warning" plain circle size="mini" icon="el-icon-more"></el-button>                      
+                              </el-popover>
+                          </div>
+                        </div>
+                      </div>                 
                 </div>
              </div>
            </div>
          </div>
         </el-drawer>
+        </transition>
     </div>
     @include('panel.registros.cuestionario.show')
     @include('panel.registros.cuestionario.create')
     @include('panel.registros.cuestionario.edit')
+    @include('panel.registros.cuestionario.grupo')
   </div>
 </div>
 @section('script')

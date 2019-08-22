@@ -9,15 +9,32 @@ use App\Cuestionario;
 use App\User;
 use App\Pregunta;
 use Carbon\Carbon;
+use App\Caracteristica;
+use App\Opciones;
+use App\Grupo;
+use App\AsignacionGrupo;
 class controllerCuestionarios extends Controller
 {
-    public function index()
-    {
-        return Response::json(Cuestionario::orderBy('id','desc')->with('usuario')->get());
+    public function index(Request $request){
+        return Response::json(Cuestionario::orderBy('id','desc')->with('usuario','grupo')->where('USUARIO_ID',$request->USUARIO_ID)->get());
+    }
+    public function estadoChange(Request $request){
+        if($request->ESTADO==1){
+            Cuestionario::findOrFail($request->CUESTIONARIO_ID)->fill([
+                'ESTADO'=>0
+            ])->save();
+        }else{
+            Cuestionario::findOrFail($request->CUESTIONARIO_ID)->fill([
+                'ESTADO'=>1
+            ])->save();
+        }
     }
     public function create()
     {
     
+    }
+    public function grupoUsers(Request $request){
+        return Response::json(AsignacionGrupo::where('GRUPO_ID',$request->GRUPO_ID)->with('usuario')->get());
     }
     public function store(Request $request)
     {
@@ -59,19 +76,17 @@ class controllerCuestionarios extends Controller
             'PREGUNTA'=>$request->PREGUNTA,
             'ESTADO'=>1,
             'TIPO'=>$request->TIPO,
-            'FECHA_CREACION'=>$request->FECHA_CREACION,
+            'FECHA_CREACION'=>Carbon::now()->format('d-m-Y H:i:s.v'),
             'PESO'=>$request->PESO,
-            'FECHA_ACTUALIZACION'=>$request->FECHA_ACTUALIZACION
         ]);
     }
     public function updatePregunta(Request $request){
-        Pregunta::finOrFail($request->PREGUNTA_ID)->fill([
+        Pregunta::findOrFail($request->PREGUNTA_ID)->fill([
             'CUESTIONARIO_ID'=>$request->CUESTIONARIO_ID,
             'PREGUNTA'=>$request->PREGUNTA,
-            'ESTADO'=>1,
             'TIPO'=>$request->TIPO,
             'PESO'=>$request->PESO,
-            'FECHA_ACTUALIZACION'=>$request->FECHA_ACTUALIZACION
+            'FECHA_ACTUALIZACION'=>Carbon::now()->format('d-m-Y H:i:s.v')
         ])->save();
     }
     public function changeEstado(Request $request){
@@ -85,6 +100,44 @@ class controllerCuestionarios extends Controller
         return Response::json(Pregunta::where('CUESTIONARIO_ID',$request->CUESTIONARIO_ID)->orderBy('PESO','asc')->get());
     }
     public function deletePregunta($id){
+        Caracteristica::where('PREGUNTA_ID',$id)->delete();
+        Opciones::where('ID_PREGUNTA',$id)->delete();
         Pregunta::findOrFail($id)->delete();
+    }
+    public function toolPregunta(Request $request){
+        Caracteristica::create([
+            'PREGUNTA_ID'=>$request->PREGUNTA_ID,
+            'COLOR'=>$request->COLOR,
+            'PLACEHOLDER'=>$request->PLACEHOLDER,
+            'ICONO'=>$request->ICONO,
+            'MIN'=>$request->MIN,
+            'MAX'=>$request->MAX,
+            'VERDADERO'=>$request->VERDADERO,
+            'FALSO'=>$request->FALSO
+            ]);
+        if($request->TIPO=='select'|| $request->TIPO=='selectmulti'){
+            foreach($request->OPTIONS as $OPTION){
+                Opciones::create([
+                    'VALOR'=>$OPTION["value"],
+                    'ID_PREGUNTA'=>$request->PREGUNTA_ID
+                ]);
+            }
+        }
+        if($request->TIPO=='rate'){
+            foreach($request->DESCS as $OPTION){
+                Opciones::create([
+                    'VALOR'=>$OPTION["value"],
+                    'ID_PREGUNTA'=>$request->PREGUNTA_ID
+                ]);
+            }
+        }
+    }
+    public function grupos(){
+        return Response::json(Grupo::orderBy('id','desc')->with('asignacion','asignacion.usuario')->get());
+    }
+    public function assignacionGrupo(Request $request){
+        Cuestionario::findOrFail($request->CUESTIONARIO_ID)->fill([
+            'ID_GRUPO_USUARIOS'=>$request->GRUPO_ID
+        ])->save();
     }
 }

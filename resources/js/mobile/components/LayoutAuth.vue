@@ -3,7 +3,7 @@
        <van-row class="background">
             <van-col span="2"></van-col>
             <van-col span="20" class="login">
-                <router-view></router-view>
+            <router-view></router-view>
             </van-col>
             <van-col span="2"></van-col>
         </van-row>

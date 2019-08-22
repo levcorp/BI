@@ -35,8 +35,8 @@
           @endif
           @endif
           @if(isset(Auth::user()->perfil->asignacionModulo))
-            @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','5') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','6') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','7'))
-            <li class="treeview {{active(['usuarios','perfiles','sucursales'])}}">
+            @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','5') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','6') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','7')|| Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','16'))
+            <li class="treeview {{active(['usuarios','perfiles','sucursales','grupos'])}}">
               <a href="#">
                 <i class="fa fa-cubes"></i> <span>Administración</span>
                 <span class="pull-right-container">
@@ -62,6 +62,11 @@
                   @if(isset(Auth::user()->perfil->asignacionModulo))
                   @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','13'))
                     <li class="{{active('estadosTA')}}"><a href="{{route('estadosTA')}}"><i class="fa fa-building-o"></i> Estados Tarea</a></li>
+                  @endif
+                  @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','16'))
+                    <li class="{{active('grupos')}}"><a href="{{route('grupos')}}"><i class="fa fa-users"></i> Grupos</a></li>
                   @endif
                   @endif
               </ul>
@@ -162,6 +167,30 @@
                   @endif
               </ul>
           </li>
+          @if(isset(Auth::user()->perfil->asignacionModulo))
+          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','14')||Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','15'))
+            <li class="treeview {{active(['cuestionarioUser.*','cuestionarios.*'])}}">
+              <a href="#">
+                <i class="fa fa-files-o"></i> <span>Encuestas</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','14'))
+                    <li class="{{active(['cuestionarios'])}}"><a href="{{route('cuestionarios')}}"><i class="fa fa-file-text-o"></i> Administrar Cuestionarios</a></li>
+                  @endif
+                @endif
+                @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','15'))
+                    <li class="{{active(['cuestionarioUser'])}}"><a href="{{route('cuestionarioUser')}}"><i class="fa fa-file-text-o"></i>Cuestionarios</a></li>
+                  @endif
+                @endif
+              </ul>
+          </li>
+          @endif
+          @endif
           @endif
           @endif
         </ul>
