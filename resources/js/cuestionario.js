@@ -280,7 +280,7 @@ var Main = {
         handleStore(){
             this.$refs['createCuestionario'].validate((valid) => {
                 if (valid) {
-                    var url='/api/cuestionarios/';
+                    var url='/api/cuestionarios';
                     axios.post(url,this.createCuestionario).then(response=>{
                         $('#create').modal('hide');    
                         this.handleGet();
