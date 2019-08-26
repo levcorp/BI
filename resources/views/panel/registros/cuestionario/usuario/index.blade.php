@@ -32,9 +32,9 @@
                                 <div class="text-center">
                                     <div class="row">
                                         <div class="col-sm-8 col-xs-8 col-lg-8 col-md-8" style="text-align: right">
-                                                <el-tag v-if="cuestionario.C_ESTADO=='V'" type="danger" size="mini">Vencido</el-tag>
-                                                <el-button v-if="cuestionario.C_ESTADO=='P'" style="padding: 4px;" size="mini" type="primary" plain @click="handleLlenar(cuestionario.CUESTIONARIO_ID)">Llenar</el-button>
-                                                <el-tag v-if="cuestionario.C_ESTADO=='R'" type="success" size="mini">Realizado</el-tag>
+                                            <el-tag v-if="cuestionario.C_ESTADO=='V'" type="danger" size="mini">Vencido</el-tag>
+                                            <el-button v-if="cuestionario.C_ESTADO=='P'" style="padding: 4px;" size="mini" type="primary" plain @click="handleLlenar(cuestionario.CUESTIONARIO_ID)">Llenar</el-button>
+                                            <el-tag v-if="cuestionario.C_ESTADO=='R'" type="success" size="mini">Realizado</el-tag>
                                         </div>
                                         <div class="col-sm-4 col-xs-4 col-lg-4 col-md-4" style="text-align: right">
                                             <el-button v-if="cuestionario.C_ESTADO=='R'" style="padding: 3px;" size="mini" type="primary" plain icon="el-icon-document" @click="handleListRespuestas(cuestionario.CUESTIONARIO_ID)"></el-button>

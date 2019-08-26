@@ -201,7 +201,8 @@ var Main = {
             this.showDetallePregunta=true
             this.pregunta_id=pregunta.id;
             this.handleShowCaracteristicas(pregunta);
-            this.handleShowOpciones(pregunta);         
+            this.handleShowOpciones(pregunta);   
+            this.pregunta=pregunta;      
         },
         handleShowCaracteristicas(pregunta){
             var url="/api/cuestionarios/caracteristicas";

@@ -13,7 +13,7 @@
         </div>
         <div class="col-sm-6">
         <div class="text-center">
-            <el-button  size="mini" type="primary" icon="el-icon-plus" @click="createPreguntaForm=true" round> Añadir Pregunta</el-button>
+            <el-button v-if="cuestionario.resp==0" size="mini" type="primary" icon="el-icon-plus" @click="createPreguntaForm=true" round> Añadir Pregunta</el-button>
         </div>
         </div>
     </div>
@@ -212,7 +212,7 @@
                         </div>
                         <div class="text-center">
                             <el-button size="mini" type="default" @click="handleDetallePreguntaCancel">Cancelar</el-button>
-                            <el-button size="mini" type="danger" @click="handleDetallePreguntaDelete()">Eliminar</el-button>
+                            <el-button size="mini" v-if="pregunta.resp==0" type="danger" @click="handleDetallePreguntaDelete()">Eliminar</el-button>
                         </div>
                     </el-card>
                 </transition>
@@ -312,18 +312,20 @@
                     <div class="col-sm-7" style="margin-top:5px">
                         <p><strong>@{{item.PREGUNTA | uppercase}}</strong></p>
                     </div>
-                    <div class="col-sm-2">                             
-                        <el-popover placement="left" width="180" trigger="click">
-                        <el-button v-if="item.ESTADO==0" plain type="success" @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-check"></el-button>                      
-                        <el-button v-else type="danger" plain @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-close"></el-button>                      
-                        <el-button v-if="item.values==0" type="primary" plain @click="handleToolPregunta(item)" circle size="mini" icon="el-icon-plus"></el-button>                      
-                        <el-button type="primary" plain @click="handleEditPregunta(item)" circle size="mini" icon="el-icon-edit"></el-button>                      
-                        <el-button type="danger" plain  @click="handleDeletePregunta(item)" circle size="mini" icon="el-icon-delete"></el-button>                      
-                        <el-button v-if="item.values>0" type="warning" plain  @click="handleShowDetallePregunta(item)" circle size="mini" icon="el-icon-document-copy"></el-button>                      
-                        <el-button slot="reference" type="warning" plain circle size="mini" icon="el-icon-more"></el-button>                      
-                        </el-popover>
+                    <div class="col-sm-2">          
+                        <div v-if="item.resp==0">
+                            <el-popover placement="left" :width="item.resp==0 ? '180':'50'" trigger="click">
+                            <el-button v-if="item.ESTADO==0" plain type="success" @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-check"></el-button>                      
+                            <el-button v-if="item.ESTADO==1" type="danger" plain @click="handleEstadoPregunta(item)" circle size="mini" icon="el-icon-close"></el-button>                      
+                            <el-button v-if="item.values==0" type="primary" plain @click="handleToolPregunta(item)" circle size="mini" icon="el-icon-plus"></el-button>                      
+                            <el-button type="primary" plain @click="handleEditPregunta(item)" circle size="mini" icon="el-icon-edit"></el-button>                      
+                            <el-button  type="danger" plain  @click="handleDeletePregunta(item)" circle size="mini" icon="el-icon-delete"></el-button>                      
+                            <el-button v-if="item.values>0" type="warning" plain  @click="handleShowDetallePregunta(item)" circle size="mini" icon="el-icon-document-copy"></el-button>                      
+                            <el-button slot="reference" type="warning" plain circle size="mini" icon="el-icon-more"></el-button>                      
+                            </el-popover>
+                        </div>  
+                        <el-button v-else type="warning" plain  @click="handleShowDetallePregunta(item)" circle size="mini" icon="el-icon-document-copy"></el-button>                      
                     </div>
-
                 </div>
                 </div>                 
         </div>
