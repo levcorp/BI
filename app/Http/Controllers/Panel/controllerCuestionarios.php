@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Caracteristica;
 use App\Opciones;
 use App\Grupo;
+use Illuminate\Support\Facades\DB;
 use App\AsignacionGrupo;
 class controllerCuestionarios extends Controller
 {
@@ -68,7 +69,14 @@ class controllerCuestionarios extends Controller
     }
     public function destroy($id)
     {
-        Cuestionario::findOrFail($id)->delete();
+        $cuestionario=Cuestionario::where('id',$id)->first();
+        $preguntas=Pregunta::where('CUESTIONARIO_ID',$cuestionario->id)->get();
+        foreach($preguntas as $item){
+            Opciones::where('ID_PREGUNTA',$item->id)->delete();
+            Caracteristica::where('PREGUNTA_ID',$item->id)->delete();
+        }
+        Pregunta::where('CUESTIONARIO_ID',$cuestionario->id)->delete();
+        Cuestionario::where('id',$id)->delete();
     }
     public function createPregunta(Request $request){
         Pregunta::create([
@@ -140,4 +148,15 @@ class controllerCuestionarios extends Controller
             'ID_GRUPO_USUARIOS'=>$request->GRUPO_ID
         ])->save();
     }
+    public function showCaracteristicas(Request $request){
+        return Response::json(Caracteristica::where('PREGUNTA_ID',$request->PREGUNTA_ID)->first());
+    }
+    public function showOpciones(Request $request){
+        return Response::json(Opciones::where('ID_PREGUNTA',$request->PREGUNTA_ID)->get());
+    }
+    public function deleteCaracteristicas(Request $request){
+        Opciones::where('ID_PREGUNTA',$request->PREGUNTA_ID)->delete();
+        Caracteristica::where('PREGUNTA_ID',$request->PREGUNTA_ID)->delete();
+    }
+
 }

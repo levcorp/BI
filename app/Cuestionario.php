@@ -25,4 +25,13 @@ class Cuestionario extends Model
     public function grupo(){
         return $this->belongsTo(Grupo::class,'ID_GRUPO_USUARIOS');
     }
+    public function getRespAttribute(){
+        $count=0;
+        $preguntas=Pregunta::where('CUESTIONARIO_ID',$this->attributes['id'])->get();
+        foreach ($preguntas as $item) {
+            $count=$count+Respuesta::where('PREGUNTA_ID',$item->id)->count();
+        }
+        return $count;
+    }
+    protected $appends = ['resp'];
 }

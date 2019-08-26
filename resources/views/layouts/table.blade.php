@@ -17,7 +17,6 @@
     }
     
   </style>
-  <script src="https://unpkg.com/@saeris/vue-spinners"></script>
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- Site wrapper -->

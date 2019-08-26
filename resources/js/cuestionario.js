@@ -23,6 +23,11 @@ Vue.use(require('vue-moment'), {
 var Main = {    
     data() {
         return {
+            pregunta_id:'',
+            helpOptions:[],
+            preguntaOpciones:[],
+            preguntaCaracteristicas:[],
+            showDetallePregunta:false,
             usuario_id:'',
             grupoUser:[],
             cuestionario_id:'',
@@ -171,6 +176,50 @@ var Main = {
         this.handleGet();        
     },
     methods: {
+        handleDetallePreguntaDelete(){
+            this.$confirm('Eliminar valores y caracteristicas de la pregunta ?', 'Eliminar', {
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+                type: 'error'
+                }).then(() => {
+                    var url='/api/cuestionarios/deletecaracteristicas';
+                    axios.post(url,{
+                        PREGUNTA_ID:this.pregunta_id,
+                    }).then(response=>{
+                        this.handleDetallePreguntaCancel(); 
+                        this.handleGetPreguntas();
+                    });
+                }).catch(() => {
+                });
+        },
+        handleDetallePreguntaCancel(){
+            this.showDetallePregunta=false;
+            this.preguntaCaracteristicas=[];
+            this.preguntaOpciones=[];
+        },
+        handleShowDetallePregunta(pregunta){
+            this.showDetallePregunta=true
+            this.pregunta_id=pregunta.id;
+            this.handleShowCaracteristicas(pregunta);
+            this.handleShowOpciones(pregunta);         
+        },
+        handleShowCaracteristicas(pregunta){
+            var url="/api/cuestionarios/caracteristicas";
+            axios.post(url,{
+                PREGUNTA_ID:pregunta.id
+            }).then(response=>{
+                this.preguntaCaracteristicas=response.data;
+                this.helpOptions=response.data[0];
+            });
+        },  
+        handleShowOpciones(pregunta){
+            var url="/api/cuestionarios/opciones";
+            axios.post(url,{
+                PREGUNTA_ID:pregunta.id
+            }).then(response=>{
+                this.preguntaOpciones=response.data;
+            });
+        },
         handleResetTool(){
             this.toolPreguntas= {
                 TIPO:'',
@@ -267,6 +316,10 @@ var Main = {
                             type: 'primary',
                             message: 'La pregunta fue creada correctamente'
                             });
+                        this.createPregunta.TIPO=''
+                        this.createPregunta.PREGUNTA='',
+                        this.createPregunta.PESO='',
+                        this.createPregunta.FECHA_CREACION=new Date()
                     });
                 } else {
                     console.log('error submit!!');
@@ -332,6 +385,10 @@ var Main = {
                         type: 'primary',
                         message: 'La pregunta fue actualizada correctamente'
                         });
+                    this.createPregunta.TIPO=''
+                    this.createPregunta.PREGUNTA='',
+                    this.createPregunta.PESO='',
+                    this.createPregunta.FECHA_CREACION=new Date()
                 });
             } else {
                 console.log('error submit!!');
@@ -450,6 +507,8 @@ var Main = {
                             type: 'success',
                             message: 'Las caracteristicas fueron actualizadas correctamente'
                         });
+                        this.handleGetPreguntas();
+                        this.handleResetTool();
                     })
                 } else {
                     console.log('error submit!!');
@@ -476,7 +535,8 @@ var Main = {
                     message: 'El grupo fue assignado correctamente'
                 });
             })
-        }
+        },
+        
     },
 }
 var Ctor = Vue.extend(Main);

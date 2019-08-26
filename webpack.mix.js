@@ -25,7 +25,8 @@ const mix = require('laravel-mix');
 mix.js('resources/js/cuestionario.js', 'public/js/');
 //mix.js('resources/js/grupo.js','public/js/'); //oldversion
 
-mix.js('resources/js/cuestionarioUser.js','public/js/'); //newversion
+//mix.js('resources/js/cuestionarioUser.js','public/js/'); //newversion
+
 
 
 

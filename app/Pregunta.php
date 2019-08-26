@@ -16,6 +16,7 @@ class Pregunta extends Model
         'FECHA_ACTUALIZACION',
         'PESO',
     ];
+    protected $appends = ['values'];
     public $timestamps = false;
     public function cuestionario(){
         return $this->belongsTo(Cuestionario::class,'CUESTIONARIO_ID');
@@ -28,5 +29,8 @@ class Pregunta extends Model
     }
     public function respuestas(){
         return $this->hasMany(Respuesta::class,'PREGUNTA_ID');
+    }
+    public function getValuesAttribute(){
+        return Opciones::where('ID_PREGUNTA',$this->attributes['id'])->count()+Caracteristica::where('PREGUNTA_ID',$this->attributes['id'])->count();
     }
 }

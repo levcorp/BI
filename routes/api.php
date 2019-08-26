@@ -13,6 +13,10 @@ Route::post('grupos/asignacion','Panel\controllerGrupo@assignment');
 Route::get('grupos/usuarios/{id}','Panel\controllerGrupo@usuarios');
 Route::resource('grupos','Panel\controllerGrupo')->except(['show']);
 /////////////////////CUESTIONARIO//////////////////////////////////
+Route::post('cuestionarios/caracteristicascount','Panel\controllerCuestionarios@showCaracteristicasCount');
+Route::post('cuestionarios/deletecaracteristicas','Panel\controllerCuestionarios@deleteCaracteristicas');
+Route::post('cuestionarios/opciones','Panel\controllerCuestionarios@showOpciones');
+Route::post('cuestionarios/caracteristicas','Panel\controllerCuestionarios@showCaracteristicas');
 Route::post('cuestionarios/estadochange','Panel\controllerCuestionarios@estadoChange');
 Route::post('cuestionarios/grupouser','Panel\controllerCuestionarios@grupoUsers');
 Route::post('cuestionarios/assignaciongrupo','Panel\controllerCuestionarios@assignacionGrupo');
