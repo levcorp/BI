@@ -270,7 +270,8 @@ var Main = {
             this.showCuestionarios=false;
             var url='/api/cuestionarios/usuario/listrespuestas';
             axios.post(url,{
-                CUESTIONARIO_ID:CUESTIONARIO_ID
+                CUESTIONARIO_ID:CUESTIONARIO_ID,
+                USUARIO_ID:this.usuario_id
             }).then(response=>{
                 this.respuestas=response.data;
                 this.showRespuestas=true;

@@ -87,6 +87,8 @@ class controllerCuestionarioUser extends Controller
         }
     }
     public function listRespuestas(Request $request){
-        return Response::json(Cuestionario::where('id',$request->CUESTIONARIO_ID)->with(['preguntas.respuestas'])->first());
+        return Response::json(Cuestionario::where('id',$request->CUESTIONARIO_ID)->with(['preguntas.respuestas'=>function($query) use($request){
+            $query->where('USUARIO_ID',$request->USUARIO_ID)->get();
+        }])->first());
     }
 }
