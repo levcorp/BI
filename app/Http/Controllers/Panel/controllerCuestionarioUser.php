@@ -45,7 +45,7 @@ class controllerCuestionarioUser extends Controller
                         Respuesta::create([
                             'USUARIO_ID'=>$item["usuario_id"],
                             'PREGUNTA_ID'=>$item["pregunta_id"],
-                            'VALOR'=>$item["labels"][$item[$item["tipo"].$item["pregunta_id"]]]
+                            'VALOR'=>$item[$item["tipo"].$item["pregunta_id"]]
                         ]); 
                     }else{
                         if($item["tipo"]=='selectmulti'){
