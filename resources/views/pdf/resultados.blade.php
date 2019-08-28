@@ -33,7 +33,7 @@
             </td>
         </tr>
     </table>
-    <div style="background-color: #F56C6C;width: 690px ;height: 2px; margin-top: 10px; margin-bottom: 20px;"></div>
+    <div style="background-color: #F56C6C;width: 690px ;height: 2px; margin-top: 10px; margin-bottom: 10px;"></div>
     <div style="width: 690px;text-align: center">
         <p style="font-size: 15px; color:#303133 "><strong>{{$cuestionario->TITULO}}</strong></p>        
     </div>
@@ -45,7 +45,7 @@
                 </th>
             </tr>
             @foreach ($item->vresp as $item2)
-            <tr>
+            <tr >
                     <td style="text-align: right">
                         <p style="font-size: 13px; color:#606266 "> <strong>RESPUESTA:</strong><span></span></p>
                     </td>
