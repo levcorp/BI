@@ -37,7 +37,7 @@
     <div style="width: 690px;text-align: center">
         <p style="font-size: 15px; color:#303133 "><strong>{{$cuestionario->TITULO}}</strong></p>        
     </div>
-    <table>
+    <table cellpadding="0" cellspacing="0">
         @foreach ($data as $item)
             <tr>
                 <th colspan="4" style="width: 690px;text-align: left">
