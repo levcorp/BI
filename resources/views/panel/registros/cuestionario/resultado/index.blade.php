@@ -5,10 +5,13 @@
 <div class="row" id="app">
   <div class="col-xs-12" v-cloak>
     <div class="box box-info">
+        <transition name="el-fade-in-linear">
         <div class="box-header" v-if="!showPreguntas">
             <h4 ><strong>Buscar Cuestionario</strong></h4>
         </div>
+        </transition>
         <div class="box-body">
+            <transition name="el-fade-in-linear">
             <div class="text-center" v-if="!showPreguntas">
                 <el-form :inline="true" size="mini">
                     <el-form-item>
@@ -22,26 +25,30 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" circle icon="el-icon-search" @click="handleGetPreguntas()"></el-button>
+                        <transition name="el-fade-in-linear">
+                        <el-button v-if="cuestionario_id" type="primary" circle icon="el-icon-search" @click="handleGetPreguntas()"></el-button>
+                        </transition>
                     </el-form-item>
                 </el-form>
             </div>
+            </transition>
             <br>
-            <div v-loading="loading">
+            <transition name="el-fade-in-linear">
+            <div v-loading="loading" v-if="showPreguntas">
                 <div class="row">
                     <div class="col-sm-1">
-                        <el-button @click="handleBack" v-if="showPreguntas" icon="el-icon-back" type="primary" size="mini"></el-button>
+                        <el-button @click="handleBack"  icon="el-icon-back" type="primary" size="mini"></el-button>
                     </div>
                     <div class="col-sm-10">
-                        <div class="text-center" v-if="showPreguntas">
+                        <div class="text-center">
                             <h4><strong>@{{cuestionario.TITULO}}</strong></h4>
                         </div>
                     </div>
                     <div class="col-sm-1">
-                        <el-button @click="handleReporte" v-if="showPreguntas" icon="el-icon-document-checked" type="success" size="mini"></el-button>
+                        <el-button @click="handleReporte" icon="el-icon-document-checked" type="success" size="mini"></el-button>
                     </div>
                 </div>
-                <div style="margin: 15px;" v-if="showPreguntas">
+                <div style="margin: 15px;" >
                     <el-collapse v-model="activeNames" >
                         <el-collapse-item v-for="(item,index) in preguntas" :name="index">
                             <template slot="title">
@@ -68,6 +75,7 @@
                     </el-collapse>
                 </div>
             </div>
+            </transition>
         </div>
     </div>
   </div>

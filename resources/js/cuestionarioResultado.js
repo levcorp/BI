@@ -5,25 +5,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
 import Vue2Filters from 'vue2-filters'
-import VueMoment from 'vue-moment';
-import VueApexCharts from 'vue-apexcharts'
-Vue.use(VueApexCharts)
-
 locale.use(lang);
 Vue.use(ElementUI);
 Vue.use(Vue2Filters)
-const moment = require('moment')
-require('moment/locale/es')
- 
-Vue.use(require('vue-moment'), {
-    moment
-});
-
-var colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8'];
 var Main = {
-    components: {
-        apexchart: VueApexCharts,
-    },
+   
     data() {
         return {
             activeNames: [],
@@ -33,9 +19,6 @@ var Main = {
             cuestionario_id:'',
             cuestionario:[],
             showPreguntas:false,
-            rule:{
-
-            },
             loading:false,
         }
     },
