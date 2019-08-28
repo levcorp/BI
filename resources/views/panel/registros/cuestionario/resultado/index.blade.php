@@ -4,7 +4,72 @@
 @section('contenido')
 <div class="row" id="app">
   <div class="col-xs-12" v-cloak>
-    
+    <div class="box box-info">
+        <div class="box-header" v-if="!showPreguntas">
+            <h4 ><strong>Buscar Cuestionario</strong></h4>
+        </div>
+        <div class="box-body">
+            <div class="text-center" v-if="!showPreguntas">
+                <el-form :inline="true" size="mini">
+                    <el-form-item>
+                        <el-select style="width: 200px;" v-model="cuestionario_id" placeholder="Elija un cuestionario" clearable>
+                            <el-option
+                                v-for="item in cuestionarios"
+                                :key="item.id"
+                                :label="item.TITULO"
+                                :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" circle icon="el-icon-search" @click="handleGetPreguntas()"></el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <br>
+            <div v-loading="loading">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <el-button @click="handleBack" v-if="showPreguntas" icon="el-icon-back" type="primary" size="mini"></el-button>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="text-center" v-if="showPreguntas">
+                            <h4><strong>@{{cuestionario.TITULO}}</strong></h4>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <el-button @click="handleReporte" v-if="showPreguntas" icon="el-icon-document-checked" type="success" size="mini"></el-button>
+                    </div>
+                </div>
+                <div style="margin: 15px;" v-if="showPreguntas">
+                    <el-collapse v-model="activeNames" >
+                        <el-collapse-item v-for="(item,index) in preguntas" :name="index">
+                            <template slot="title">
+                                <strong>
+                                    @{{item.PREGUNTA}}
+                                </strong>
+                            </template>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="row" v-for="data in item.vresp">
+                                        <div class="col-sm-6 text-center">
+                                            <p><strong>Respuesta : </strong><el-tag effect="dark" size="mini">@{{data.VALOR}}</el-tag></p>
+                                        </div>
+                                        <div class="col-sm-6 text-center">
+                                            <p><strong>Cantidad : </strong><el-tag effect="dark" type="warning" size="mini">@{{data.CONTADOR}}</el-tag></p>    
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <!--<apexchart type=bar height=350 :options="chartOptions" :series="series" />-->
+                                </div>
+                            </div>
+                        </el-collapse-item>
+                    </el-collapse>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 </div>
 @section('script')

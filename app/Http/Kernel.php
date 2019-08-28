@@ -48,6 +48,15 @@ class Kernel extends HttpKernel
         'ArticulosABM' => \App\Http\Middleware\ArticulosABM::class,
         'Check' => \App\Http\Middleware\Check::class,
         'Stock' => \App\Http\Middleware\Stock::class,
+        'AdminCuestionarios' => \App\Http\Middleware\AdminCuestionarios::class,
+        'Cuestionarios' => \App\Http\Middleware\Cuestionarios::class,
+        'Resultados' => \App\Http\Middleware\Resultados::class,
+        'Grupos' => \App\Http\Middleware\Grupos::class,
+        'EstadosTarea' => \App\Http\Middleware\EstadosTarea::class,
+        'TareasAsignadas' => \App\Http\Middleware\TareasAsignadas::class,
+        'TareasCreadas' => \App\Http\Middleware\TareasCreadas::class,
+        'TareasEspecialidad' => \App\Http\Middleware\TareasEspecialidad::class,
+        'TareasVentas' => \App\Http\Middleware\TareasVentas::class,
     ];
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,

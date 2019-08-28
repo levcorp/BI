@@ -23,7 +23,7 @@ const mix = require('laravel-mix');
 // ELEMENT VERSION 2.11.1 BUG IN TABLE=>NPM RUN WATCH
 //mix.js('resources/js/cuestionario.js', 'public/js/');
 //mix.js('resources/js/grupo.js','public/js/'); //oldversion
-mix.js('resources/js/cuestionarioUser.js','public/js/'); //newversion
+//mix.js('resources/js/cuestionarioUser.js','public/js/'); //newversion
 mix.js('resources/js/cuestionarioResultado.js','public/js/');
 
 

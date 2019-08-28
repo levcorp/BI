@@ -168,8 +168,8 @@
               </ul>
           </li>
           @if(isset(Auth::user()->perfil->asignacionModulo))
-          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','14')||Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','15'))
-            <li class="treeview {{active(['cuestionarioUser.*','cuestionarios.*'])}}">
+          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','14')||Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','15')||Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','17'))
+            <li class="treeview {{active(['cuestionarioUser.*','cuestionarios.*','cuestionariosResultado'])}}">
               <a href="#">
                 <i class="fa fa-files-o"></i> <span>Encuestas</span>
                 <span class="pull-right-container">
@@ -185,6 +185,11 @@
                 @if(isset(Auth::user()->perfil->asignacionModulo))
                   @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','15'))
                     <li class="{{active(['cuestionarioUser'])}}"><a href="{{route('cuestionarioUser')}}"><i class="fa fa-file-text-o"></i>Cuestionarios</a></li>
+                  @endif
+                @endif
+                @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','17'))
+                    <li class="{{active(['cuestionariosResultado'])}}"><a href="{{route('cuestionariosResultado')}}"><i class="fa fa-file-text-o"></i>Resultados</a></li>
                   @endif
                 @endif
               </ul>

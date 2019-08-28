@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Pregunta extends Model
 {
@@ -16,7 +17,7 @@ class Pregunta extends Model
         'FECHA_ACTUALIZACION',
         'PESO',
     ];
-    protected $appends = ['values','resp'];
+    protected $appends = ['values','resp','vresp'];
     public $timestamps = false;
     public function cuestionario(){
         return $this->belongsTo(Cuestionario::class,'CUESTIONARIO_ID');
@@ -35,5 +36,8 @@ class Pregunta extends Model
     }
     public function getRespAttribute(){
         return Respuesta::where('PREGUNTA_ID',$this->attributes['id'])->count();
+    }
+    public function getVrespAttribute(){
+        return DB::table('VRespuestas')->where('CUESTIONARIO_ID',$this->attributes['CUESTIONARIO_ID'])->where('PREGUNTA_ID',$this->attributes['id'])->get();
     }
 }

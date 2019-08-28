@@ -1,4 +1,10 @@
 <?php
+/////////////////////APICUESTIONARIORESULTADOS//////////////////////////////////
+Route::get('cuestionarios/resultado/pdf/{id}','Panel\controllerCuestionarioResultado@pdf');
+Route::post('cuestionarios/resultados/reporte','Panel\controllerCuestionarioResultado@reporte');
+Route::post('cuestionarios/resultados/preguntas','Panel\controllerCuestionarioResultado@preguntas');
+Route::post('cuestionarios/resultados/cuestionario','Panel\controllerCuestionarioResultado@cuestionario');
+Route::get('cuestionarios/resultados/cuestionarios','Panel\controllerCuestionarioResultado@cuestionarios');
 /////////////////////APICUESTIONARIOUSER//////////////////////////////////
 Route::post('cuestionarios/usuario/listrespuestas','Panel\controllerCuestionarioUser@listRespuestas');
 Route::post('cuestionarios/usuario/respuestas','Panel\controllerCuestionarioUser@respuestas');

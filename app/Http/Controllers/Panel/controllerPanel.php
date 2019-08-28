@@ -20,6 +20,15 @@ class controllerPanel extends Controller
         $this->middleware('Perfiles',['only'=>'perfiles']);
         $this->middleware('Sucursales',['only'=>'sucursales']);
         $this->middleware('Stock',['only'=>'stock']);
+        $this->middleware('AdminCuestionarios',['only'=>'cuestionarios']);
+        $this->middleware('Cuestionarios',['only'=>'cuestionariosUser']);
+        $this->middleware('Resultados',['only'=>'cuestionariosResultado']);
+        $this->middleware('Grupos',['only'=>'grupos']);
+        $this->middleware('EstadosTarea',['only'=>'estados']);
+        $this->middleware('TareasAsignadas',['only'=>'tareasUsuario']);
+        $this->middleware('TareasCreadas',['only'=>'tareasCusuario']);
+        $this->middleware('TareasEspecialidad',['only'=>'tareasEspecialidad']);
+        $this->middleware('TareasVentas',['only'=>'tareas']);
     }
     public function newInicio(){
         $titulo="General";
