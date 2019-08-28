@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Resultados Cuestionario</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style type="text/css">
+    @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: normal;
+        src: url(https://fonts.googleapis.com/css?family=Roboto&display=swap) format('truetype');
+        }  
+        body{
+            font-family: 'Roboto', sans-serif;            
+        }
+    </style>
 </head>
 <body>
     <table cellpadding="0" cellspacing="0">
@@ -17,9 +28,8 @@
                     </div>
                 </div>
             </td>
-            <td style="width: 65px"></td>
             <td style="text-align: center">
-                <p><strong>Resultados de Cuestionario</strong></p>
+                <p style="margin-left: 65px;"><strong>Resultados de Cuestionario</strong></p>
             </td>
         </tr>
     </table>
