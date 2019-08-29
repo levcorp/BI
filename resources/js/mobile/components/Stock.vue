@@ -2,8 +2,8 @@
     <div>
         <div>
             <van-cell-group>
-                <van-field placeholder="Codigo Venta" left-icon="qr"/>
-                <van-field placeholder="Descripción" left-icon="other-pay">
+                <van-field v-model="inputs.ItemName" placeholder="Codigo Venta" left-icon="qr"/>
+                <van-field v-model="inputs.U_Cod_Vent" placeholder="Descripción" left-icon="other-pay">
                     <van-button @click="handleSearch" slot="button" size="small" type="info" round color="#409EFF" icon="search"></van-button>
                 </van-field>
             </van-cell-group>
@@ -11,108 +11,103 @@
         <transition name="van-slide-left">
             <div class="grey" v-if="showList">
                 <div class="sep"></div>
-                <div class="box">
-                    <p class="text-size"><strong>SD00AS15D10025</strong></p>                        
-                    <p class="text-size">VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA </p>
+                <div class="box" v-for="item in items" :key="item.ItemCode">
+                    <p class="text-size"><strong>{{item.U_Cod_Vent}}</strong></p>                        
+                    <p class="text-size">{{item.ItemName}}</p>
                     <div class="right">
-                        <van-button @click="handleShow()" color="#E6A23C" round size="mini" type="warning">Mas</van-button>
+                        <van-button @click="handleShow(item)" color="#E6A23C" round size="mini" type="warning">Mas</van-button>
                     </div>
                     <div class="left">
-                    <van-tag round color="#409EFF">OTRO</van-tag>
-                    </div>
-                    <br>
-                </div>
-                <div class="box">
-                    <p class="text-size"><strong>SD00AS15D10025</strong></p>                        
-                    <p class="text-size">VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA </p>
-                    <div class="right">
-                        <van-button @click="handleShow()" color="#E6A23C" round size="mini" type="warning">Mas</van-button>
-                    </div>
-                    <div class="left">
-                    <van-tag round color="#409EFF">OTRO</van-tag>
-                    </div>
-                    <br>
-                </div>
-                <div class="box">
-                    <p class="text-size"><strong>SD00AS15D10025</strong></p>                        
-                    <p class="text-size">VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA ST GGG-40 C/D10 BS 5156 C/B ASA 150 1BS DN25VALVULA </p>
-                    <div class="right">
-                        <van-button @click="handleShow()" color="#E6A23C" round size="mini" type="warning">Mas</van-button>
-                    </div>
-                    <div class="left">
-                    <van-tag round color="#409EFF">OTRO</van-tag>
+                    <van-tag round color="#409EFF">{{item.ItemCode}}</van-tag>
                     </div>
                     <br>
                 </div>
                 <br>
                 <br>
-            </div>
-            <div v-else style="height:100%">
-                <div class="text-center">
-                    <div class="middle">
-                        <van-icon name="info-o" size="50" color="#E6A23C"/>
-                        <p class="p12">Sin resultados</p>
-                    </div>
-                </div>
             </div>
         </transition>
+        <div v-if="showLoading" style="height:100%">
+            <div class="text-center">
+                <div class="middle">
+                    <van-loading color="#1989fa" />
+                </div>
+            </div>
+        </div>
+        <div v-if="showIcon" style="height:100%">
+            <div class="text-center">
+                <div class="middle">
+                    <van-icon name="info-o" size="50" color="#E6A23C"/>
+                    <p class="p12">Sin resultados</p>
+                </div>
+            </div>
+        </div>
         <van-action-sheet v-model="show" title="Detalle de Articulo">
+            <div v-for="(item,index) in stock" :key="index">
             <van-row>
-                <van-col span="12">
+                <van-col span="8">
                     <div class="text-center title">
-                        <p style="color: white;font-size: 13px;"><strong>LEV</strong></p>
+                        <p style="color: white;font-size: 13px;"><strong>{{item.EMPRESA}}</strong></p>
                     </div>
                 </van-col>
-                <van-col span="12">
+                <van-col span="8">
                     <div class="text-center title">
-                        <p style="color: white;font-size: 13px;"><strong>LPZ</strong></p>
+                        <p style="color: white;font-size: 13px;"><strong>{{item.ALMACEN}}</strong></p>
+                    </div>
+                </van-col>
+                <van-col span="8">
+                    <div class="text-center title">
+                        <p style="color: white;font-size: 13px;"><strong>{{item.Clasificacion}}</strong></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>Stock : </strong><van-tag color="#67C23A" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>Stock : </strong><van-tag :color="item.OnHand>0?'#67C23A':'#909399'" plain size="medium">{{item.OnHand}}</van-tag></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>Pedido OV : </strong><van-tag color="#909399" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>Pedido OV : </strong><van-tag :color="item.IsCommited>0?'#67C23A':'#909399'" plain size="medium">{{item.IsCommited}}</van-tag></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>Compra : </strong><van-tag color="#909399" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>Compra OC: </strong><van-tag :color="item.OnOrder>0?'#67C23A':'#909399'" plain size="medium">{{item.OnOrder}}</van-tag></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>Trasladandose : </strong><van-tag color="#909399" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>Trasladandose : </strong><van-tag :color="item.TRASLADOS_OUT>0?'#67C23A':'#909399'" plain size="medium">{{item.TRASLADOS_OUT}}</van-tag></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>En Transito : </strong><van-tag color="#909399" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>En Transito : </strong><van-tag :color="item.TRASLADOS_IN>0?'#67C23A':'#909399'" plain size="medium">{{item.TRASLADOS_IN}}</van-tag></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>Cant. OV : </strong><van-tag color="#909399" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>Cant. OV : </strong><van-tag :color="item.OV>0?'#67C23A':'#909399'" plain size="medium">{{item.OV}}</van-tag></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>Cant. OC : </strong><van-tag color="#909399" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>Cant. OC : </strong><van-tag :color="item.PO>0?'#67C23A':'#909399'" plain size="medium">{{item.PO}}</van-tag></p>
                     </div>
                 </van-col>
                 <van-col span="12">
                     <div class="text-center">
-                        <p class="pgrey"><strong>Disponibilidad : </strong><van-tag color="#909399" plain size="medium">1</van-tag></p>
+                        <p class="pgrey"><strong>Disponibilidad : </strong><van-tag :color="item.DISPONIBLE>0?'#67C23A':'#909399'" plain size="medium">{{item.DISPONIBLE}}</van-tag></p>
                     </div>
                 </van-col>
             </van-row>
+            <div class="van-hairline--top"></div>
+            </div>
         </van-action-sheet>
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -120,16 +115,48 @@ export default {
             loading: false,
             finished: false,
             show:false,
-            showList:false
+            showList:false,
+
+            inputs:{
+                ItemName:'',
+                U_Cod_Vent:''
+            },
+            items:[],
+            showLoading:false,
+            showIcon:true,
+            stock:[],
         }
     },
     methods:{
-        handleShow(){
-            this.show=true;
-            console.log('here');
-        },
         handleSearch(){
-            this.showList=true;
+            this.showLoading=true;
+            this.showIcon=false;
+            var url = '/api/stock';
+            axios.post(url,{
+                ItemName : this.inputs.ItemName,
+                U_Cod_Vent : this.inputs.U_Cod_Vent
+            }).then(response=>{
+                if(response.data!=''){
+                    this.items=response.data;
+                    this.showList=true;
+                    this.showLoading=false;
+                }else{
+                    this.showLoading=false;
+                    this.showIcon=true;
+                    this.showList=false;
+                }
+            });
+        },
+        handleShow(item){
+            this.showLoading=true;
+            var url='/api/stock/detalle';
+            axios.post(url,{
+                U_Cod_Vent : item.U_Cod_Vent
+            }).then(response=>{
+                this.stock=response.data;
+                this.show=true;
+                this.showLoading=false;
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vant from 'vant';
+import axios from 'axios';
 import LayoutAuth from './components/LayoutAuth.vue';
 import LayoutPanel from './components/LayoutPanel.vue';
 import Panel from './components/Panel.vue';
