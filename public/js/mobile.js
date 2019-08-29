@@ -21068,6 +21068,17 @@ var render = function() {
             [
               _c("van-field", {
                 attrs: { placeholder: "Codigo Venta", "left-icon": "qr" },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.handleSearch($event)
+                  }
+                },
                 model: {
                   value: _vm.inputs.U_Cod_Vent,
                   callback: function($$v) {
@@ -21084,6 +21095,17 @@ var render = function() {
                     placeholder: "Descripción",
                     "left-icon": "other-pay"
                   },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.handleSearch($event)
+                    }
+                  },
                   model: {
                     value: _vm.inputs.ItemName,
                     callback: function($$v) {
@@ -21096,7 +21118,7 @@ var render = function() {
                   _c("van-button", {
                     attrs: {
                       slot: "button",
-                      size: "small",
+                      size: "mini",
                       type: "info",
                       round: "",
                       color: "#409EFF",

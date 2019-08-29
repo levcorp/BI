@@ -2,9 +2,9 @@
     <div>
         <div>
             <van-cell-group>
-                <van-field v-model="inputs.U_Cod_Vent" placeholder="Codigo Venta" left-icon="qr"/>
-                <van-field v-model="inputs.ItemName" placeholder="Descripción" left-icon="other-pay">
-                    <van-button @click="handleSearch" slot="button" size="small" type="info" round color="#409EFF" icon="search"></van-button>
+                <van-field v-on:keyup.enter="handleSearch" v-model="inputs.U_Cod_Vent" placeholder="Codigo Venta" left-icon="qr"/>
+                <van-field v-on:keyup.enter="handleSearch" v-model="inputs.ItemName" placeholder="Descripción" left-icon="other-pay">
+                    <van-button @click="handleSearch" slot="button" size="mini" type="info" round color="#409EFF" icon="search"></van-button>
                 </van-field>
             </van-cell-group>
         </div>
