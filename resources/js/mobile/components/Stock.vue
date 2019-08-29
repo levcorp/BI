@@ -41,7 +41,17 @@
                 </div>
             </div>
         </div>
-        <van-action-sheet v-model="show" title="Detalle de Articulo">
+        <van-action-sheet v-model="show">
+            <van-row>
+                <van-col span="20">
+                    <p class="ml15 p13"><strong>{{item.ItemName}}</strong></p>
+                </van-col>
+                <van-col span="4">
+                    <p class="text-center" style="font-size:15px;">
+                        <van-icon name="close" color="#F56C6C" @click="handleClose"/>
+                    </p>
+                </van-col>  
+            </van-row>
             <div v-for="(item,index) in stock" :key="index">
             <van-row>
                 <van-col span="8">
@@ -172,7 +182,7 @@ export default {
             finished: false,
             show:false,
             showList:false,
-
+            item:[],
             inputs:{
                 ItemName:'',
                 U_Cod_Vent:''
@@ -204,6 +214,7 @@ export default {
             });
         },
         handleShow(item){
+            this.item=item;
             this.showLoading=true;
             var url='/api/stock/detalle';
             axios.post(url,{
@@ -213,6 +224,9 @@ export default {
                 this.show=true;
                 this.showLoading=false;
             });
+        },
+        handleClose(){
+            this.show=false;
         }
     }
 }
@@ -286,5 +300,8 @@ export default {
         margin-left: 4px;
         margin-right: 4px;
         border-radius: 5px;
+    }
+    .p13{
+        font-size: 13px;
     }
 </style>
