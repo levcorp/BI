@@ -21069,11 +21069,11 @@ var render = function() {
               _c("van-field", {
                 attrs: { placeholder: "Codigo Venta", "left-icon": "qr" },
                 model: {
-                  value: _vm.inputs.ItemName,
+                  value: _vm.inputs.U_Cod_Vent,
                   callback: function($$v) {
-                    _vm.$set(_vm.inputs, "ItemName", $$v)
+                    _vm.$set(_vm.inputs, "U_Cod_Vent", $$v)
                   },
-                  expression: "inputs.ItemName"
+                  expression: "inputs.U_Cod_Vent"
                 }
               }),
               _vm._v(" "),
@@ -21085,11 +21085,11 @@ var render = function() {
                     "left-icon": "other-pay"
                   },
                   model: {
-                    value: _vm.inputs.U_Cod_Vent,
+                    value: _vm.inputs.ItemName,
                     callback: function($$v) {
-                      _vm.$set(_vm.inputs, "U_Cod_Vent", $$v)
+                      _vm.$set(_vm.inputs, "ItemName", $$v)
                     },
-                    expression: "inputs.U_Cod_Vent"
+                    expression: "inputs.ItemName"
                   }
                 },
                 [
