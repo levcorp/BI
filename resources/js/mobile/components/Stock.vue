@@ -60,44 +60,100 @@
                     </div>
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>Stock : </strong><van-tag :color="item.OnHand>0?'#67C23A':'#909399'" plain size="medium">{{item.OnHand}}</van-tag></p>
-                    </div>
+                    <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>Stock : </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                               <van-tag :color="item.OnHand>0?'#67C23A':'#909399'" plain size="medium">{{item.OnHand}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row>
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>Pedido OV : </strong><van-tag :color="item.IsCommited>0?'#67C23A':'#909399'" plain size="medium">{{item.IsCommited}}</van-tag></p>
-                    </div>
+                    <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>Pedido OV : </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                               <van-tag :color="item.IsCommited>0?'#67C23A':'#909399'" plain size="medium">{{item.IsCommited}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row>                  
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>Compra OC: </strong><van-tag :color="item.OnOrder>0?'#67C23A':'#909399'" plain size="medium">{{item.OnOrder}}</van-tag></p>
-                    </div>
+                    <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>Compra OC: </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                                <van-tag :color="item.OnOrder>0?'#67C23A':'#909399'" plain size="medium">{{item.OnOrder}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row> 
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>Trasladandose : </strong><van-tag :color="item.TRASLADOS_OUT>0?'#67C23A':'#909399'" plain size="medium">{{item.TRASLADOS_OUT}}</van-tag></p>
-                    </div>
+                    <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>Trasladandose : </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                                <van-tag :color="item.TRASLADOS_OUT>0?'#67C23A':'#909399'" plain size="medium">{{item.TRASLADOS_OUT}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row> 
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>En Transito : </strong><van-tag :color="item.TRASLADOS_IN>0?'#67C23A':'#909399'" plain size="medium">{{item.TRASLADOS_IN}}</van-tag></p>
-                    </div>
+                     <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>En Transito : </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                                <van-tag :color="item.TRASLADOS_IN>0?'#67C23A':'#909399'" plain size="medium">{{item.TRASLADOS_IN}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row> 
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>Cant. OV : </strong><van-tag :color="item.OV>0?'#67C23A':'#909399'" plain size="medium">{{item.OV}}</van-tag></p>
-                    </div>
+                    <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>Cant. OV : </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                                <van-tag :color="item.OV>0?'#67C23A':'#909399'" plain size="medium">{{item.OV}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row> 
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>Cant. OC : </strong><van-tag :color="item.PO>0?'#67C23A':'#909399'" plain size="medium">{{item.PO}}</van-tag></p>
-                    </div>
+                    <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>Cant. OC : </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                                <van-tag :color="item.PO>0?'#67C23A':'#909399'" plain size="medium">{{item.PO}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row> 
                 </van-col>
                 <van-col span="12">
-                    <div class="text-center">
-                        <p class="pgrey"><strong>Disponibilidad : </strong><van-tag :color="item.DISPONIBLE>0?'#67C23A':'#909399'" plain size="medium">{{item.DISPONIBLE}}</van-tag></p>
-                    </div>
+                    <van-row>
+                        <van-col span="16">
+                            <p class="pgrey ml15"><strong>Disponibilidad : </strong></p>
+                        </van-col>
+                        <van-col span="8" class="text-center">
+                            <p class="pgrey">
+                                <van-tag :color="item.DISPONIBLE>0?'#67C23A':'#909399'" plain size="medium">{{item.DISPONIBLE}}</van-tag>
+                            </p> 
+                        </van-col>
+                    </van-row> 
                 </van-col>
             </van-row>
             <div class="van-hairline--top"></div>
@@ -194,6 +250,9 @@ export default {
     }
     .mb15{
         margin: 15px;
+    }
+    .ml15{
+        margin-left: 15px;
     }
     .sep{
         height: 1px;

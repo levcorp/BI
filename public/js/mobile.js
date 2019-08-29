@@ -2242,6 +2242,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2408,7 +2464,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.text-center{\n    text-align: center;\n}\n.grey{\n    background-color: #f0f3f6;\n}\n.box{\n    background-color: white;\n    margin: 15px;\n    border-radius: 15px;\n    padding: 10px;\n    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);\n}\n.text-size{\n    font-size: 10px;\n}\n.pull-right{\n    float:none;\n    text-align: right;\n}\n.pull-left{\n    float:none;\n    text-align: left;\n}\n.left{\n    float: left;\n}\n.right{\n    float: right;\n}\n.mb15{\n    margin: 15px;\n}\n.sep{\n    height: 1px;\n}\n.p12{\n    font-size: 12px;\n    color: #909399;\n}\n.pgrey{\n    color: #606266;\n    font-size: 12px;\n}\n.middle{\n    position: absolute;\n    top: 48%;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    margin: auto\n}\n.table{\n    width: 96%;\n}\n.cell{\n    background-color: #f0f3f6;\n    border-radius: 15px;\n    margin: 15px;\n}\n.title{\n    background-color: #409EFF;\n    margin-left: 4px;\n    margin-right: 4px;\n    border-radius: 5px;\n}\n", ""]);
+exports.push([module.i, "\n.text-center{\n    text-align: center;\n}\n.grey{\n    background-color: #f0f3f6;\n}\n.box{\n    background-color: white;\n    margin: 15px;\n    border-radius: 15px;\n    padding: 10px;\n    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);\n}\n.text-size{\n    font-size: 10px;\n}\n.pull-right{\n    float:none;\n    text-align: right;\n}\n.pull-left{\n    float:none;\n    text-align: left;\n}\n.left{\n    float: left;\n}\n.right{\n    float: right;\n}\n.mb15{\n    margin: 15px;\n}\n.ml15{\n    margin-left: 15px;\n}\n.sep{\n    height: 1px;\n}\n.p12{\n    font-size: 12px;\n    color: #909399;\n}\n.pgrey{\n    color: #606266;\n    font-size: 12px;\n}\n.middle{\n    position: absolute;\n    top: 48%;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    margin: auto\n}\n.table{\n    width: 96%;\n}\n.cell{\n    background-color: #f0f3f6;\n    border-radius: 15px;\n    margin: 15px;\n}\n.title{\n    background-color: #409EFF;\n    margin-left: 4px;\n    margin-right: 4px;\n    border-radius: 5px;\n}\n", ""]);
 
 // exports
 
@@ -21294,203 +21350,401 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("Stock : ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("Stock : ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color: item.OnHand > 0 ? "#67C23A" : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.OnHand))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.OnHand > 0
+                                            ? "#67C23A"
+                                            : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.OnHand))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ]),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("Pedido OV : ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("Pedido OV : ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color:
-                                  item.IsCommited > 0 ? "#67C23A" : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.IsCommited))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.IsCommited > 0
+                                            ? "#67C23A"
+                                            : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.IsCommited))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ]),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("Compra OC: ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("Compra OC: ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color: item.OnOrder > 0 ? "#67C23A" : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.OnOrder))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.OnOrder > 0
+                                            ? "#67C23A"
+                                            : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.OnOrder))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ]),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("Trasladandose : ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("Trasladandose : ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color:
-                                  item.TRASLADOS_OUT > 0
-                                    ? "#67C23A"
-                                    : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.TRASLADOS_OUT))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.TRASLADOS_OUT > 0
+                                            ? "#67C23A"
+                                            : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.TRASLADOS_OUT))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ]),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("En Transito : ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("En Transito : ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color:
-                                  item.TRASLADOS_IN > 0 ? "#67C23A" : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.TRASLADOS_IN))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.TRASLADOS_IN > 0
+                                            ? "#67C23A"
+                                            : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.TRASLADOS_IN))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ]),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("Cant. OV : ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("Cant. OV : ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color: item.OV > 0 ? "#67C23A" : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.OV))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.OV > 0 ? "#67C23A" : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.OV))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ]),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("Cant. OC : ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("Cant. OC : ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color: item.PO > 0 ? "#67C23A" : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.PO))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.PO > 0 ? "#67C23A" : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.PO))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ]),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("van-col", { attrs: { span: "12" } }, [
-                    _c("div", { staticClass: "text-center" }, [
+                  _c(
+                    "van-col",
+                    { attrs: { span: "12" } },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "pgrey" },
+                        "van-row",
                         [
-                          _c("strong", [_vm._v("Disponibilidad : ")]),
+                          _c("van-col", { attrs: { span: "16" } }, [
+                            _c("p", { staticClass: "pgrey ml15" }, [
+                              _c("strong", [_vm._v("Disponibilidad : ")])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
-                            "van-tag",
+                            "van-col",
                             {
-                              attrs: {
-                                color:
-                                  item.DISPONIBLE > 0 ? "#67C23A" : "#909399",
-                                plain: "",
-                                size: "medium"
-                              }
+                              staticClass: "text-center",
+                              attrs: { span: "8" }
                             },
-                            [_vm._v(_vm._s(item.DISPONIBLE))]
+                            [
+                              _c(
+                                "p",
+                                { staticClass: "pgrey" },
+                                [
+                                  _c(
+                                    "van-tag",
+                                    {
+                                      attrs: {
+                                        color:
+                                          item.DISPONIBLE > 0
+                                            ? "#67C23A"
+                                            : "#909399",
+                                        plain: "",
+                                        size: "medium"
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.DISPONIBLE))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
                         ],
                         1
                       )
-                    ])
-                  ])
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
