@@ -23,7 +23,8 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/grupo.js','public/js/'); //oldversion
 //mix.js('resources/js/cuestionarioUser.js','public/js/'); //newversion
 //mix.js('resources/js/cuestionarioResultado.js','public/js/');
-mix.js('resources/js/mobile/mobile.js', 'public/js/');
+//mix.js('resources/js/mobile/mobile.js', 'public/js/');
+mix.js('resources/js/ssl.js', 'public/js/');
 
 
 

@@ -1,4 +1,8 @@
 <?php
+/////////////////////SSL//////////////////////////////////
+Route::post('ssl/delete','Panel\controllerSSL@delete');
+Route::get('ssl/get','Panel\controllerSSL@get');
+Route::post('ssl/store','Panel\controllerSSL@store');
 /////////////////////APICUESTIONARIORESULTADOS//////////////////////////////////
 Route::get('cuestionarios/resultado/pdf/{id}','Panel\controllerCuestionarioResultado@pdf');
 Route::post('cuestionarios/resultados/reporte','Panel\controllerCuestionarioResultado@reporte');

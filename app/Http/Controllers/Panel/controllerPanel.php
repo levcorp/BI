@@ -202,4 +202,7 @@ class controllerPanel extends Controller
     public function cuestionariosResultado(){
         return view ('panel.registros.cuestionario.resultado.index');
     }
+    public function ssl(){
+        return view('panel.ssl.index');
+    }
 }
