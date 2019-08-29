@@ -6,6 +6,7 @@ import LayoutPanel from './components/LayoutPanel.vue';
 import Panel from './components/Panel.vue';
 import Login from './components/Login.vue';
 import Menu from './components/Menu.vue';
+import Stock from './components/Stock.vue';
 import Perfil from './components/Perfil.vue';
 import 'vant/lib/index.css';
 import VueApexCharts from "vue-apexcharts";
@@ -42,6 +43,11 @@ const routes = [
             {
                 path:'/perfil',
                 component:Perfil
+            },
+            {
+                path:'/stock',
+                component:Stock,
+                name: 'stock'
             },
         ]
     }

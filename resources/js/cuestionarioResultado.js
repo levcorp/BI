@@ -9,7 +9,7 @@ locale.use(lang);
 Vue.use(ElementUI);
 Vue.use(Vue2Filters)
 var Main = {
-   
+
     data() {
         return {
             activeNames: [],

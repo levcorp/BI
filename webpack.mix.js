@@ -1,5 +1,4 @@
 const mix = require('laravel-mix');
-
 // ELEMENT VERSION 2.8.2 FIX
 //mix.js('resources/js/detalleSolicitud.js', 'public/js/detalleSolicitud.js');
 //mix.js('resources/js/SolicitudABM.js','public/js/app.js');
@@ -11,7 +10,6 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/perfil.js', 'public/js/');
 //mix.js('resources/js/sucursal.js', 'public/js/');
 //mix.js('resources/js/usuario.js', 'public/js/');
-//mix.js('resources/js/mobile/mobile.js', 'public/js/');
 //mix.js('resources/js/stock.js', 'public/js/');
 //mix.js('resources/js/tareas.js', 'public/js/');
 //mix.js('resources/js/estadoTareaAccion.js', 'public/js/');
@@ -24,7 +22,8 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/cuestionario.js', 'public/js/');
 //mix.js('resources/js/grupo.js','public/js/'); //oldversion
 //mix.js('resources/js/cuestionarioUser.js','public/js/'); //newversion
-mix.js('resources/js/cuestionarioResultado.js','public/js/');
+//mix.js('resources/js/cuestionarioResultado.js','public/js/');
+mix.js('resources/js/mobile/mobile.js', 'public/js/');
 
 
 

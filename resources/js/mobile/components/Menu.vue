@@ -45,12 +45,7 @@
             </van-cell>
         </van-collapse-item>
         <van-collapse-item icon="paid" title="Ventas" name="5">
-            <van-cell is-link icon="apps-o">
-                <template slot="title">
-                    <span class="custom-title">Stock Articulos</span>
-                </template>
-            </van-cell>
-               <van-cell is-link icon="apps-o">
+            <van-cell is-link :to="{name:'stock'}" icon="apps-o">
                 <template slot="title">
                     <span class="custom-title">Stock Articulos</span>
                 </template>
