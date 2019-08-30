@@ -57,7 +57,6 @@ class Kernel extends HttpKernel
         'TareasCreadas' => \App\Http\Middleware\TareasCreadas::class,
         'TareasEspecialidad' => \App\Http\Middleware\TareasEspecialidad::class,
         'TareasVentas' => \App\Http\Middleware\TareasVentas::class,
-        'ProtocoloHttps'=>\App\Http\Middleware\ProtocoloHttps::class
     ];
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,
