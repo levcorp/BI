@@ -29,7 +29,7 @@ class controllerPanel extends Controller
         $this->middleware('TareasCreadas',['only'=>'tareasCusuario']);
         $this->middleware('TareasEspecialidad',['only'=>'tareasEspecialidad']);
         $this->middleware('TareasVentas',['only'=>'tareas']);
-        $this->middleware('ProtocoloHttps',['except'=>'ssl']);
+        $this->middleware('ProtocoloHttps');
     }
     public function newInicio(){
         $titulo="General";
