@@ -2,15 +2,37 @@
 @section('titulo')
 @endsection
 @section('contenido')
-<div class="row" id="app">
+<div class="row" id="app" v-cloak>
   <div class="col-xs-12">
     <div class="box box-info">
         <div class="box-header">
           <div class="row">
-              <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+              <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
                   <h3 class="box-title">Renovar certificado</h3>
               </div>
-              <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+              <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+                <div class="pull-right" style="margin-right: 10px">
+                  <el-button
+                  v-if="sistema.ssl==1"
+                  size="mini"
+                  type="danger"
+                  icon="el-icon-remove"
+                  @click="handleRemodeOrAddSSL()"
+                  >Quitar SSL
+                  </el-button>
+                </div>
+                <div class="pull-right" style="margin-right: 10px">
+                  <el-button
+                  v-if="sistema.ssl==0"
+                  size="mini"
+                  type="success"
+                  icon="el-icon-check"
+                  @click="handleRemodeOrAddSSL()"
+                  >Activar SSL
+                  </el-button>
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
                   <div class="pull-right" style="margin-right: 10px">
                     <el-button
                     size="mini"

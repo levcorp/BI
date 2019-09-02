@@ -69982,24 +69982,45 @@ var Main = {
         codigo: ''
       },
       data: [],
-      ssl_id: ''
+      ssl_id: '',
+      sistema: []
     };
   },
   mounted: function mounted() {
     this.handleGet();
+    this.handleSistema();
   },
   methods: {
+    handleRemodeOrAddSSL: function handleRemodeOrAddSSL() {
+      var _this = this;
+
+      this.$confirm('Quitar protocolo SSL', 'Warning', {
+        confirmButtonText: 'Si',
+        cancelButtonText: 'Cancelar',
+        type: 'warning'
+      }).then(function () {
+        var url = '/api/ssl/remove';
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+          _this.$message({
+            type: 'success',
+            message: 'Protocolo Quitado'
+          });
+
+          _this.handleSistema();
+        });
+      })["catch"](function () {});
+    },
     handleNew: function handleNew() {
       $('#new').modal('show');
     },
     handleStore: function handleStore() {
-      var _this = this;
+      var _this2 = this;
 
       var url = "/api/ssl/store";
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, this.ssl).then(function (response) {
-        _this.handleGet();
+        _this2.handleGet();
 
-        _this.$message({
+        _this2.$message({
           type: 'success',
           message: 'El codigo fue creado correctamente'
         });
@@ -70008,33 +70029,41 @@ var Main = {
       });
     },
     handleGet: function handleGet() {
-      var _this2 = this;
+      var _this3 = this;
 
       var url = '/api/ssl/get';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-        _this2.data = response.data;
+        _this3.data = response.data;
       });
     },
     handleDelete: function handleDelete($index, row) {
-      var _this3 = this;
+      var _this4 = this;
 
       var url = '/api/ssl/delete';
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
         ssl_id: row.id
       }).then(function (response) {
-        _this3.$message({
+        _this4.$message({
           type: 'success',
           message: 'El codigo fue eliminado'
         });
 
-        _this3.handleGet();
+        _this4.handleGet();
       });
     },
     handleSubmit: function handleSubmit($index, row) {
       $('#submit').modal('show');
       this.ssl_id = row.id;
     },
-    handleStoreCrt: function handleStoreCrt() {}
+    handleStoreCrt: function handleStoreCrt() {},
+    handleSistema: function handleSistema() {
+      var _this5 = this;
+
+      var url = '/api/ssl/sistema';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
+        _this5.sistema = response.data;
+      });
+    }
   }
 };
 var Ctor = vue_dist_vue_common_prod__WEBPACK_IMPORTED_MODULE_0___default.a.extend(Main);

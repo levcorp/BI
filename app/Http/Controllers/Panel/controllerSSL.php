@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
 use App\Ssl;
+use Illuminate\Support\Facades\Storage;
+use App\Sistema;
 class controllerSSL extends Controller
 {
     public function ssl($cod){
@@ -28,4 +30,18 @@ class controllerSSL extends Controller
     public function delete(Request $request){
         Ssl::findOrFail($request->ssl_id)->delete();
     }
+    public function remove(){
+        Storage::disk('index')->delete('.htaccess');
+        if(Sistema::where('id',1)->first()->ssl==1)
+        {
+            Storage::disk('index')->copy('ssl/.80', '.htaccess');
+            Sistema::findOrFail(1)->fill(['ssl'=>0])->save();
+        }else{
+            Storage::disk('index')->copy('ssl/.443', '.htaccess');
+            Sistema::findOrFail(1)->fill(['ssl'=>1])->save();            
+        }
+    }
+    public function sistema(){
+        return Response::json(Sistema::where('id',1)->first());
+    }   
 }

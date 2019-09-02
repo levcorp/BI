@@ -14,12 +14,31 @@ var Main = {
             },
             data:[],
             ssl_id:'',
+            sistema:[],
         }
     },
     mounted() {
         this.handleGet();
+        this.handleSistema();
     },
     methods: {
+        handleRemodeOrAddSSL(){
+            this.$confirm('Quitar protocolo SSL', 'Warning', {
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+                type: 'warning'
+              }).then(() => {
+                var url='/api/ssl/remove';
+                axios.get(url).then(response=>{
+                    this.$message({
+                        type: 'success',
+                        message: 'Protocolo Quitado'
+                      });
+                    this.handleSistema();
+                });
+              }).catch(() => {
+              });
+        },
         handleNew(){
             $('#new').modal('show');            
         },
@@ -58,6 +77,12 @@ var Main = {
         },
         handleStoreCrt(){
             
+        },
+        handleSistema(){
+            var url='/api/ssl/sistema';
+            axios.get(url).then(response=>{
+                this.sistema=response.data;
+            });
         }
     },
 }

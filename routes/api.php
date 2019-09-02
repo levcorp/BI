@@ -1,5 +1,7 @@
 <?php
 /////////////////////SSL//////////////////////////////////
+Route::get('ssl/sistema','Panel\controllerSSL@sistema');
+Route::get('ssl/remove','Panel\controllerSSL@remove');
 Route::post('ssl/delete','Panel\controllerSSL@delete');
 Route::get('ssl/get','Panel\controllerSSL@get');
 Route::post('ssl/store','Panel\controllerSSL@store');
