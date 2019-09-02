@@ -14,7 +14,8 @@ class controllerSSL extends Controller
         $codigo=Ssl::where('link',$cod)->where('estado',1)->first();
         $codigo->estado=0;
         $codigo->save();
-        return $codigo->resp;
+        return view('panel.ssl.response',compact('codigo'));
+        //return Response::json($codigo->resp);
     }
     public function store(Request $request){
         $string=explode(".",$request->codigo);
