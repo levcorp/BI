@@ -14,6 +14,8 @@ use App\Opciones;
 use App\Grupo;
 use Illuminate\Support\Facades\DB;
 use App\AsignacionGrupo;
+use App\Mail\Cuestionario\Usuario;
+use Mail;
 class controllerCuestionarios extends Controller
 {
     public function index(Request $request){
@@ -35,6 +37,7 @@ class controllerCuestionarios extends Controller
     
     }
     public function grupoUsers(Request $request){
+
         return Response::json(AsignacionGrupo::where('GRUPO_ID',$request->GRUPO_ID)->with('usuario')->get());
     }
     public function store(Request $request)
@@ -158,5 +161,17 @@ class controllerCuestionarios extends Controller
         Opciones::where('ID_PREGUNTA',$request->PREGUNTA_ID)->delete();
         Caracteristica::where('PREGUNTA_ID',$request->PREGUNTA_ID)->delete();
     }
-
+    public function MailSend(Request $request){
+        $usuarios=AsignacionGrupo::where('GRUPO_ID',$request->GRUPO_ID)->get();
+        foreach ($usuarios as $usuario) {
+            try {
+                Mail::send(new Usuario)->to('gpinto@levcorp.bo');
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
+    }
+    public function prueba(){
+        Mail::send(new Usuario)->to('gpinto@levcorp.bo');
+    }
 }

@@ -7,6 +7,7 @@ Route::get('panel/cuestionarios/resultado','Panel\controllerPanel@cuestionariosR
 ////////////////////////GRUPOS/////////////////////////////////////
 Route::get('panel/grupos','Panel\controllerPanel@grupos')->name('grupos');
 ////////////////////////CUESTIONARIOS/////////////////////////////////////
+Route::get('panel/cuestionarios/prueba','Panel\controllerPanel@prueba')->name('prueba');
 Route::get('panel/cuestionarios','Panel\controllerPanel@cuestionarios')->name('cuestionarios');
 Route::get('panel/cuestionarios/usuario','Panel\controllerPanel@cuestionariosUser')->name('cuestionarioUser');
 ////////////////////////MERCADO/////////////////////////////////////

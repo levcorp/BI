@@ -12,6 +12,7 @@ use App\Pregunta;
 use App\AsignacionGrupo;
 use App\Respuesta;
 use Carbon\Carbon;
+use App\Ubicacion;
 class controllerCuestionarioUser extends Controller
 {
     public function preguntasGet(Request $request){
@@ -90,5 +91,14 @@ class controllerCuestionarioUser extends Controller
         return Response::json(Cuestionario::where('id',$request->CUESTIONARIO_ID)->with(['preguntas.respuestas'=>function($query) use($request){
             $query->where('USUARIO_ID',$request->USUARIO_ID)->get();
         }])->first());
+    }   
+    public function storeUbicacion(Request $request){
+        Ubicacion::create([
+            'USUARIO_ID'=>$request->USUARIO_ID,
+            'CUESTIONARIO_ID'=>$request->CUESTIONARIO_ID,
+            'LON'=>$request->LON,
+            'LAT'=>$request->LAT,
+            'FECHA'=>Carbon::now()->format('d-m-Y H:i:s.v')
+        ]);
     }
 }

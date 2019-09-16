@@ -23,5 +23,4 @@
             </el-form>
         </div>
     </div>
-    <!-- /.modal-content -->
 </div>

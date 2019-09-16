@@ -14,6 +14,7 @@ Route::get('cuestionarios/resultados/cuestionarios','Panel\controllerCuestionari
 /////////////////////APICUESTIONARIOUSER//////////////////////////////////
 Route::post('cuestionarios/usuario/listrespuestas','Panel\controllerCuestionarioUser@listRespuestas');
 Route::post('cuestionarios/usuario/respuestas','Panel\controllerCuestionarioUser@respuestas');
+Route::post('cuestionarios/usuario/ubicacion','Panel\controllerCuestionarioUser@storeUbicacion');
 Route::post('cuestionarios/usuario/cuestionarios','Panel\controllerCuestionarioUser@cuestionarios');
 Route::post('cuestionarios/usuario/countpreguntas','Panel\controllerCuestionarioUser@countPreguntas');
 Route::post('cuestionarios/usuario/preguntas','Panel\controllerCuestionarioUser@preguntas');

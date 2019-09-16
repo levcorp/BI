@@ -51,6 +51,7 @@
         "vee-validate": "^2.2.15",
         "vue-apexcharts": "^1.4.0",
         "vue-axios-interceptors": "^0.3.0",
+        "vue-browser-geolocation": "^1.8.0",
         "vue-chartjs": "^3.4.2",
         "vue-data-tables": "^3.4.4",
         "vue-event-hub": "^1.0.2",

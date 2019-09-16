@@ -3,12 +3,14 @@ import axios from 'axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/es';
-import locale from 'element-ui/lib/locale';
+import locale, { use } from 'element-ui/lib/locale';
 import Vue2Filters from 'vue2-filters'
 import VueMoment from 'vue-moment';
 import rate from 'vue-rate';
 import { VueSpinners } from '@saeris/vue-spinners'
 import SweetAlertIcons from 'vue-sweetalert-icons';
+import VueGeolocation from 'vue-browser-geolocation';
+Vue.use(VueGeolocation);
 Vue.use(SweetAlertIcons);
 Vue.use(VueSpinners)
 Vue.use(rate)
@@ -39,7 +41,13 @@ var Main = {
             showCuestionario:true,
             showStep:true,
             respuestas:[],
-            showRespuestas:false
+            showRespuestas:false,
+            ubicacion:{
+                USUARIO_ID:'',
+                CUESTIONARIO_ID:'',
+                LON:'',
+                LAT:''
+            }
         }
     },
     created() {
@@ -212,7 +220,7 @@ var Main = {
                         this.showCuestionario=false;
                         this.showStep=false;
                         this.handleStoreRespuestas();
-                        
+                        this.handleStoreUbicacion();
                     }else{
                         this.show=this.show+1;
                     }
@@ -264,6 +272,20 @@ var Main = {
             var url='/api/cuestionarios/usuario/respuestas';
             axios.post(url,this.inputs).then(response=>{
                 this.handleGetCuestionarios();
+            });
+        },
+        handleStoreUbicacion(){
+            this.$getLocation()
+            .then(coordinates => {
+              this.ubicacion.LAT=coordinates.lat;
+              this.ubicacion.LON=coordinates.lng;
+              this.ubicacion.USUARIO_ID=this.usuario_id;
+              this.ubicacion.CUESTIONARIO_ID=this.cuestionario.id
+              console.log(this.ubicacion);
+              var url='/api/cuestionarios/usuario/ubicacion';
+              axios.post(url,this.ubicacion).then(response=>{
+  
+              }); 
             });
         },
         handleListRespuestas(CUESTIONARIO_ID){
