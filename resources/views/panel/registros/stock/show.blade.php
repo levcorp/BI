@@ -7,16 +7,28 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-sm-6">
-                    <p style="font-size: 15px;">
-                        <strong>Codigo de Venta : </strong>@{{item.U_Cod_Vent}}
-                    </p>
+                <div class="col-sm-4">
+                    <div class="text-center">
+                        <p style="font-size: 15px;">
+                            <strong>Codigo de Venta : </strong>@{{item.U_Cod_Vent}}
+                        </p>
+                    </div>
                 </div>    
-                <div class="col-sm-6">
-                    <p style="font-size: 15px;">
-                        <strong>Fabricante : </strong>@{{item.FirmName}}
-                    </p>
+                <div class="col-sm-4">
+                    <div class="text-center">
+                        <p style="font-size: 15px;">
+                            <strong>Fabricante : </strong>@{{item.FirmName}}
+                        </p>
+                    </div>
                 </div>    
+                <div class="col-sm-4">
+                    <div class="text-center">
+                        <p style="font-size: 15px;">
+                            <strong>Precio : </strong>
+                            <el-tag size="mini" type="success" effect="dark">@{{item.Price | currency('$', 2, { thousandsSeparator: '.' }) }}</el-tag>
+                        </p>
+                    </div>
+                </div>  
             </div>
             <br>
             <el-table :data="stock" style="width: 100%" height="330" highlight-current-row v-loading="loadingStock" header-row-style="font-size: 12px;" border>

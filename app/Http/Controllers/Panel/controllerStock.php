@@ -5,24 +5,24 @@ namespace App\Http\Controllers\Panel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-
+use Response;
 class controllerStock extends Controller
 {
     public function stock(Request $request){
-        if($request->ItemName==null && $request->U_Cod_Vent!=null){
-            return response()->json(DB::table('OITW')->where('U_Cod_Vent','like',$request->U_Cod_Vent.'%')->get());
-        }
-        if($request->U_Cod_Vent==null && $request->ItemName!=null){
+        if($request->Type=='descForm'){
             return response()->json(DB::table('OITW')->where('ItemName','like',$request->ItemName.'%')->get());                
         }
-        if($request->U_Cod_Vent!=null && $request->ItemName!=null){
-            return response()->json(DB::table('OITW')->where('ItemName','like',$request->ItemName.'%')->orWhere('U_Cod_Vent','like',$request->U_Cod_Vent.'%')->get());                            
+        if($request->Type=='codForm'){
+            return response()->json(DB::table('OITW')->where('U_Cod_Vent','like',$request->U_Cod_Vent.'%')->get());
+        }
+        if($request->Type=='fabForm'){
+            return response()->json(DB::table('OITW')->where('ItemName','like',$request->ItemName.'%')->where('FirmName','like',$request->FirmName.'%')->get());                            
         }else{
             return response()->json('');
         }
     }
     public function stockDetalle(Request $request){
-        $datos=DB::table('DISPONIBILIDAD_STOCK')->select('EMPRESA','ALMACEN','ItemCode','U_Cod_Vent','FirmName','WhsCode','OnHand','IsCommited','OnOrder','TRASLADOS_OUT','TRASLADOS_IN','OV','PO','DISPONIBLE','Clasificacion')->where('U_Cod_Vent',$request->U_Cod_Vent)->get();
+        $datos=DB::table('DISPONIBILIDAD_STOCK')->select('EMPRESA','ALMACEN','ItemCode','U_Cod_Vent'    ,'WhsCode','OnHand','IsCommited','OnOrder','TRASLADOS_OUT','TRASLADOS_IN','OV','PO','DISPONIBLE','Clasificacion')->where('U_Cod_Vent',$request->U_Cod_Vent)->get();
         foreach ($datos as $key) {
             $key->OnHand=number_format($key->OnHand,2);
             $key->IsCommited=number_format($key->IsCommited,2);
@@ -35,5 +35,8 @@ class controllerStock extends Controller
             $key->Clasificacion=strtoupper($key->Clasificacion);
         }
         return response()->json($datos);
+    }
+    public function fabricantes(){
+        return Response::json(DB::table('OMRC')->get());
     }
 }

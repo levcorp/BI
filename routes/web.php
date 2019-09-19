@@ -1,4 +1,6 @@
 <?php
+////////////////////////////UbicacionesStock/////////////////////////////////
+Route::get('panel/ubicaciones','Panel\controllerPanel@ubicaciones')->name('ubicaciones');
 ////////////////////////////SSL/////////////////////////////////
 Route::get('.well-known/acme-challenge/{cod}','Panel\controllerSSL@ssl')->name('ssl');
 Route::get('panel/ssl','Panel\controllerPanel@ssl')->name('ssl');

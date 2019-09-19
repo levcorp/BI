@@ -205,4 +205,7 @@ class controllerPanel extends Controller
     public function ssl(){
         return view('panel.ssl.index');
     }
+    public function ubicaciones(){
+        return view('panel.registros.ubicaciones.index');
+    }
 }

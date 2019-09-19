@@ -69,6 +69,7 @@ Route::resource('tareas','Panel\controllerTareas');
 /////////////////////Stock//////////////////////////////////
 Route::post('stock','Panel\controllerStock@stock');
 Route::post('stock/detalle','Panel\controllerStock@stockDetalle');
+Route::get('stock/fabricantes','Panel\controllerStock@fabricantes');
 Route::resource('sucursales', 'Panel\controllerSucursal')->except(['show','create','edit']);
 /////////////////////Proyecto//////////////////////////////////
 Route::post('perfiles/userremove', 'Panel\controllerPerfil@userRemove')->name('userRemove');

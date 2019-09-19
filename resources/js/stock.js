@@ -4,58 +4,63 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
+import Vue2Filters from 'vue2-filters'
+Vue.use(Vue2Filters)
 
 locale.use(lang);
 Vue.use(ElementUI);
 var Main = {
     data() {
-        var validateU_Cod_Vent = (rule, value, callback) => {
-            if (value === '' && this.inputs.ItemName==='') {
-                callback(new Error('El campo de Cod. Venta es requerido'));
-            }else {
-            callback();
-            }
-        };
-        var validateItemName = (rule, value, callback) => {
-            if (value === '' && this.inputs.U_Cod_Vent==='') {
-                callback(new Error('El campo de ItemName es requerido'));
-            }else {
-            callback();
-            }
-        };
         return {
             inputs:{
                 ItemName:'',
-                U_Cod_Vent:''
+                U_Cod_Vent:'',
+                FirmName:'',
+                Type:''
             },
             items:[],
             loading:false,
             stock:[],
             loadingStock:false,
             item:[],
-            rules: {
+            rulesCod: {
                 U_Cod_Vent: [
-                    { validator: validateU_Cod_Vent, trigger: 'change' },
+                    { required: true, message: 'El campo es requerido', trigger: 'change' },
                     { min: 2, message: 'El minimo de caracteres es 2', trigger: 'change' }
                 ],
+            },
+            rulesDesc: {
                 ItemName: [
-                    { validator: validateItemName, trigger: 'change' },
+                    { required: true, message: 'El campo es requerido', trigger: 'change' },
                     { min: 3, message: 'El minimo de caracteres es 3', trigger: 'change' }
                 ]
-            }
+            },
+            rulesFab: {
+                FirmName: [
+                    { required: true, message: 'El campo es requerido', trigger: 'change' },
+                ],
+                ItemName: [
+                    { required: true, message: 'El campo es requerido', trigger: 'change' },
+                    { min: 3, message: 'El minimo de caracteres es 3', trigger: 'change' }
+                ]
+            },
+            dropdownName:'Codigo de Venta',
+            show:'cod',
+            fabricantes:[],
         }
     },
-    methods: {
-        
-        handleGet(){
-            this.$refs['inputs'].validate((valid) => {
+    methods: {        
+        handleGet(descForm){
+            this.$refs[descForm].validate((valid) => {
                 if (valid) {
-                      var url = '/api/stock';
+                    var url = '/api/stock';
                     this.items=[];
                     this.loading=true;
                     axios.post(url,{
                         ItemName : this.inputs.ItemName,
-                        U_Cod_Vent : this.inputs.U_Cod_Vent
+                        U_Cod_Vent : this.inputs.U_Cod_Vent,
+                        FirmName : this.inputs.FirmName,
+                        Type : descForm,
                     }).then(response=>{
                         if (response.data) {
                             this.items=response.data;
@@ -64,13 +69,13 @@ var Main = {
                                 message: 'Se encontro articulos coincidentes!'
                             });
                             this.loading=false;
-                            this.$refs['inputs'].resetFields();
+                            this.$refs[descForm].resetFields();
                         }else{
                             this.loading=false
                             this.$message({
                                 message: 'No se encontraron articulos coincidentes!'
                             });
-                            this.$refs['inputs'].resetFields();
+                            this.$refs[descForm].resetFields();
                         }
                     });
                 } 
@@ -79,6 +84,11 @@ var Main = {
                 }
             });
           
+        },
+        handleInputsReset(){
+            this.inputs.ItemName='',
+            this.inputs.U_Cod_Vent='',
+            this.inputs.FirmCode=''
         },
         handleShow(index,row){
             var url='/api/stock/detalle';
@@ -92,10 +102,30 @@ var Main = {
                 this.stock=response.data;
                 this.loadingStock=false;
                 this.item=row;
-                this.$message({
-                    message: 'Detalle de articulo cargado correctamente!'
-                });
             });
+        },
+        handleSearchFor(command){
+            switch (command) {
+                case 'desc':
+                    this.dropdownName='Descripción';
+                    this.show='desc';
+                    this.handleInputsReset();
+                    break;
+                case 'cod':
+                    this.dropdownName='Codigo de Venta';              
+                    this.show='cod';      
+                    this.handleInputsReset();
+                    break;
+                case 'fab':
+                    this.dropdownName='Fabricante';                    
+                    this.show='fab';
+                    var url="/api/stock/fabricantes";
+                    this.handleInputsReset();
+                    axios.get(url).then(response=>{
+                        this.fabricantes=response.data;
+                    });
+                    break;
+            }
         }
     }
 }
