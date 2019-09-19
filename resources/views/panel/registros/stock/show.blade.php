@@ -25,7 +25,9 @@
                     <div class="text-center">
                         <p style="font-size: 15px;">
                             <strong>Precio : </strong>
-                            <el-tag size="mini" type="success" effect="dark">@{{item.Price | currency('$', 2, { thousandsSeparator: '.' }) }}</el-tag>
+                            <el-tag style="font-size: 14px;" size="mini" type="success" effect="dark">
+                                    @{{item.Price | currency('$', 2, { thousandsSeparator: '.' }) }}
+                            </el-tag>
                         </p>
                     </div>
                 </div>  

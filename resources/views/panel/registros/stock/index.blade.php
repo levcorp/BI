@@ -4,11 +4,13 @@
 <div class="row" id="stock" v-cloak>
   <div class="col-xs-12">
     <div class="box box-info">
-       <div class="box-header">
-          <h3 class="box-title">Datos de Inventario</h3>
-        </div>
         <div class="box-body">
-            <div class="text-center"> 
+          <div class="row">
+            <div class="col-sm-3">
+                <h4><strong>Disponibilidad de Inventario</strong></h4>
+            </div>
+            <div class="col-sm-9">
+              <div class="pull-left"> 
                 <el-collapse-transition>
                   <div v-if="show=='desc'">
                     <el-form :inline="true" :model="inputs" :rules="rulesDesc" ref="descForm">
@@ -89,6 +91,8 @@
                   </div>
                 </el-collapse-transition>
               </div>
+            </div>
+          </div>
             <el-table :data="items" style="width: 100%" height="400" highlight-current-row :default-sort="{prop: 'id', order: 'descending'}" v-loading="loading">
             <el-table-column align="center" prop="ItemCode" label="#" sortable></el-table-column>
             <el-table-column align="center" prop="ItemName" label="Descripción" sortable></el-table-column>
