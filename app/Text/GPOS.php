@@ -1,9 +1,9 @@
 <?php
 namespace App\Text;
-
-use App\GPOS;
-use Illuminate\Support\Collection;
+use App\GPOS as DBGPOS;
 use Carbon\Carbon;
+
+
 class EDIGPOS
 {
     protected $nextSaturday;
@@ -70,16 +70,13 @@ class EDIGPOS
         }
         return $CardCode->unique();
     }
-    public function HDR($datos){
-
-    }
     public function body($datos,$last,$next,$now,$city,$codCity){
         $body="";
         $count=0;
         $CardCode=$this->CardCode($datos);
         foreach ($CardCode as $AccountNumber){   
             $body.=$this->etiqueta(15,'HDR',$codCity).$this->etiqueta(8,'',$now).'USD'.$this->etiqueta(8,'',$last->format('Ymd')).$this->etiqueta(8,'',$next->format('Ymd')).$this->etiqueta(15,'',$city).$this->etiqueta(15,'',$city).$this->etiqueta(20,'',$AccountNumber).$this->etiqueta(20,'','').PHP_EOL;
-            foreach ($datos->where('BillToCustomerAccountNumber',$AccountNumber)->unique() as $dato) {
+            foreach ($datos->where('BillToCustomerAccountNumber',$AccountNumber) as $dato) {
                 $body.=
                 ////////////////////////////////////BILL///////////////////////////////////////////////////
                     /*---------Bill To Customer Name--------*/
@@ -151,52 +148,9 @@ class EDIGPOS
                     /*-------Sold to Distributor Contact / Sales Person----------*/
                     $this->etiqueta(15,'',$this->charters($dato->SoldToDistributorContactSalesPerson)).PHP_EOL;
                     ////////////////////////////////////OTROS///////////////////////////////////////////////////
-                    foreach($datos->where('BillToCustomerAccountNumber',$dato->BillToCustomerAccountNumber) as $item){
-                        $count++;
-                        $body.=
-                        /*------Assigned ID consecutivo del detalle-----------*/
-                        $this->etiqueta(5,'LIN',$dato->NumLine).
-                        /*------Part Number Description-----------*/
-                        $this->etiqueta(48,'',$this->charters($dato->PartNumberDescription)).
-                        /*-------Vendor's Part Number----------*/
-                        $this->etiqueta(20,'',$dato->VendorsPartNumber).
-                        /*-------UPC (14 digit) - GTIN----------*/
-                        $this->etiqueta(20,'',$dato->UPCGTIN).
-                        /*-------Vendor's Catalog Number----------*/
-                        $this->etiqueta(20,'',$dato->VendorsCatalogNumber).
-                        /*------Quantity-----------*/
-                        $this->etiqueta(10,'',$dato->Quantity).
-                        /*------Extended Resale-----------*/
-                        $this->etiqueta(15,'',$dato->ExtendedResale).
-                        /*------Extended Cost-----------*/
-                        $this->etiqueta(15,'',$this->ExtendedCost($dato->ExtendedCost)).
-                        /*-------Total Transaction Amount----------*/
-                        $this->etiqueta(20,'',$dato->ExtendedResale).
-                        /*--------Purchase order Amount---------*/
-                        $this->etiqueta(20,'',$dato->ExtendedCost).
-                        /*-------Agreement Number----------*/
-                        $this->etiqueta(20,'',$dato->AgreementNumber).
-                        /*-------Customer PO Number----------*/
-                        $this->etiqueta(20,'',$this->charters($dato->CustomerPONumber)).
-                        /*-------Distributor Invoice Number----------*/
-                        $this->DistributorInvoiceNumber($dato->DistributorInvoiceNumber,$dato->NumAtCard,$dato->ObjType).
-                        /*-------Distributor Invoice Item----------*/
-                        $this->etiqueta(20,'',$dato->NumLine).
-                        /*--------Distributor Invoice Date---------*/
-                        $this->etiqueta(8,'',$dato->DistributorInvoiceDate).
-                        /*-------Customer Order Date----------*/
-                        $this->etiqueta(8,'',$dato->CustomerOrderDate).
-                        /*-------Customer Want Date----------*/
-                        $this->etiqueta(8,'',$dato->CustomerWantDate).
-                        /*--------Customer Ship Date---------*/
-                        $this->etiqueta(8,'',$dato->CustomerShipDate).
-                        /*--------QTY Qualfier---------*/
-                        $this->etiqueta(2,'',$dato->CustomerShipDate).
-                        PHP_EOL;
-                        $this->etiqueta(10,'CTT',$count);
-                    }  
-                }
+            
             }
+        }
         return $body;
     }
     public function ExtendedCost($value){

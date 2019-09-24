@@ -1,4 +1,5 @@
 <?php
+Route::get('gpos','controllerGPOSv2@data');
 ////////////////////////////UbicacionesStock/////////////////////////////////
 Route::get('panel/ubicaciones','Panel\controllerPanel@ubicaciones')->name('ubicaciones');
 ////////////////////////////SSL/////////////////////////////////

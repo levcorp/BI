@@ -45,12 +45,10 @@
                 <table id="tabla" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center">Codigo Item</th>
+                        <th class="text-center">Cod. Item</th>
                         <th class="text-center">Fabricante</th>
                         <th class="text-center">Proveedor</th>
                         <th class="text-center">Especialidad</th>
-                        <th class="text-center">Familia</th>
-                        <th class="text-center">Sub Familia</th>
                         <th class="text-center">Unidad Medida</th>
                         <th class="text-center">Cod Venta</th>
                         <th class="text-center">Cod Compra</th>
@@ -65,8 +63,6 @@
                         <td>@{{detalle.fabricante}}</td>
                         <td>@{{detalle.proveedor}}</td>
                         <td>@{{detalle.especialidad}}</td>
-                        <td>@{{detalle.familia}}</td>
-                        <td>@{{detalle.subfamilia}}</td>
                         <td>@{{detalle.medida}}</td>
                         <td>@{{detalle.cod_venta}}</td>
                         <td>@{{detalle.cod_compra}}</td>
@@ -147,28 +143,6 @@
                                 <div class="input-group">
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-edit"></i></span>
                                     <v-select v-model="selectEspecialidad" :options="especialidades" label="Descripcion">
-                                        <span slot="no-options">No hay opciones coincidentes!</span>
-                                    </v-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="message-text" class="control-label">Familia : </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cog"></i></span>
-                                    <v-select v-model="selectFamilia" :options="familias" label="Familia">
-                                        <span slot="no-options">No hay opciones coincidentes!</span>
-                                    </v-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="message-text" class="control-label">Sub Familia : </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cogs"></i></span>
-                                    <v-select v-model="selectSubfamilia" :options="subfamilias" label="Subfamilia">
                                         <span slot="no-options">No hay opciones coincidentes!</span>
                                     </v-select>
                                 </div>
@@ -294,28 +268,6 @@
                                     <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-edit"></i></span>
                                     <v-select v-model="selectEspecialidad" :options="especialidades" label="Descripcion">
                                         <span slot="no-options">No hay opciones coincidentes!</span>
-                                    </v-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="message-text" class="control-label">Familia : </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cog"></i></span>
-                                    <v-select v-model="selectFamilia" :options="familias" label="Familia" name="Familia">
-                                        <span slot="no-options">No hay opciones coincidentes!</span>
-                                    </v-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="message-text" class="control-label">Sub Familia : </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-cogs"></i></span>
-                                    <v-select v-model="selectSubfamilia" :options="subfamilias" label="Subfamilia">
-                                            <span slot="no-options">No hay opciones coincidentes!</span>
                                     </v-select>
                                 </div>
                             </div>

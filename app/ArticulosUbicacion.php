@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ArticuloStock extends Model
+class ArticulosUbicacion extends Model
 {
     protected $table='ARTICULOS_STOCK';
     protected $fillable=[

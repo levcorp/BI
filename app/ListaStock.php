@@ -14,4 +14,8 @@ class ListaStock extends Model
         'USUARIO_ID'
     ];
     public $timestamps=false;
+
+    public function usuario(){
+        return $this->belongsTo(User::class,'USUARIO_ID');
+    }
 }

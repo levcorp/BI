@@ -130,7 +130,6 @@ new Vue({
                 this.familias=[];
                 this.subfamilias=[];
                 this.selectSubfamilia.Subfamilia=null;
-                this.getFamilias();
                 this.getEspecialidades();
             }else{
                 this.selectEspecialidad.Especialidad=null;
@@ -145,35 +144,6 @@ new Vue({
             if(this.selectFabricante==null)
             {
                 this.errors.fabricante="Fabricante es requerido";
-            }
-        },
-        selectEspecialidad:function(){
-            if(this.selectEspecialidad !=null){
-                if(this.selectFamilia){
-                    this.selectFamilia.Familia=null;
-                }
-                this.familias=[];
-                this.subfamilias=[];
-                if(this.selectSubfamilia){
-                    this.selectSubfamilia.subfamilia=null;
-                }
-                this.getFamilias();
-            }else{
-                if(this.selectFamilia){
-                    this.selectFamilia.Familia=null;
-                }
-                this.subfamilias.Subfamilia=[];
-                this.familias=[];
-                this.subfamilias=[];
-                this.getEspecialidades();
-            }
-        },
-        selectFamilia:function(){
-            if(this.selectFamilia !=null){
-                this.selectSubfamilia.Subfamilia=null
-                this.getsubfamilias();
-            }else{
-                this.getFamilias();
             }
         },
         cod_venta:function()
@@ -285,38 +255,6 @@ new Vue({
                 this.fabricantes=responce.data;
             })
         }, 
-        getFamilias:function()
-        {
-            if(this.fabricante !=null){
-                var fab  = this.fabricante;
-            }else{
-                if(this.selectFabricante!=null){
-                    var fab  = this.selectFabricante.FirmName;
-                }
-            }
-            if(fab!=null && this.selectEspecialidad!=null){
-            var url='/api/solicitud/detalle/datos/familias/'+fab+'/'+this.selectEspecialidad.Especialidad;
-            axios.get(url).then(responce=>{
-                this.familias=responce.data;
-            });
-            }
-            
-        },
-        getsubfamilias:function(){
-            if(this.fabricante !=null){
-                var fab  = this.fabricante;
-              }else{
-                if(this.selectFabricante!=null){
-                var fab  = this.selectFabricante.FirmName;
-                }   
-              }
-            if(this.selectFamilia){
-                var url='/api/solicitud/detalle/datos/subfamilias/'+fab+'/'+this.selectEspecialidad.Especialidad+'/'+this.selectFamilia.Familia;
-                axios.get(url).then(responce=>{
-                    this.subfamilias=responce.data;
-                });
-            }
-        },
         postDetalle:function(){
             this.$validator.validate();
             if(this.fabricante!=null){
@@ -444,8 +382,6 @@ new Vue({
             this.getEspecialidades();
             this.getFabricantes();
             this.getProveedores();
-            this.getFamilias();
-            this.getsubfamilias();
         },
         series:function(serie){
             switch (serie) {
@@ -497,8 +433,6 @@ new Vue({
                 this.descripcion=response.data.descripcion;
                 this.comentarios=response.data.comentarios;
                 this.detalle_id=response.data.id;
-                this.getFamilias();
-                this.getsubfamilias();
             });
         },
         updateArticulo:function(){

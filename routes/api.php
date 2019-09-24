@@ -1,4 +1,10 @@
 <?php
+/////////////////////Ubicacion//////////////////////////////////
+Route::post('ubicacion/items','Panel\controllerUbicaciones@listaArticulos');
+Route::post('ubicacion/chosenull','Panel\controllerUbicaciones@ChoseUbicacionesNull');
+Route::post('ubicacion/null','Panel\controllerUbicaciones@UbicacionesNull');
+Route::post('ubicacion/store','Panel\controllerUbicaciones@storeList');
+Route::get('ubicacion/get','Panel\controllerUbicaciones@getList');
 /////////////////////SSL//////////////////////////////////
 Route::get('ssl/sistema','Panel\controllerSSL@sistema');
 Route::get('ssl/remove','Panel\controllerSSL@remove');

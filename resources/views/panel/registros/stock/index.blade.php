@@ -93,7 +93,7 @@
               </div>
             </div>
           </div>
-            <el-table :data="items" style="width: 100%" height="400" highlight-current-row :default-sort="{prop: 'id', order: 'descending'}" v-loading="loading">
+          <el-table :data="items" style="width: 100%" height="400" highlight-current-row :default-sort="{prop: 'id', order: 'descending'}" v-loading="loading">
             <el-table-column align="center" prop="ItemCode" label="#" sortable></el-table-column>
             <el-table-column align="center" prop="ItemName" label="Descripción" sortable></el-table-column>
             <el-table-column align="center" prop="U_Cod_Vent" label="Codigo de Venta" ></el-table-column>
@@ -108,7 +108,7 @@
                 </el-button>
               </template>
             </el-table-column>
-        </el-table>
+          </el-table>
         </div>
     </div>
   </div>

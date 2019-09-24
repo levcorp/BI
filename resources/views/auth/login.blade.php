@@ -8,9 +8,14 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     @include('auth.styles.css')
     @laravelPWA
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
 </head>
 <body class="hold-transition login-page">
-<div class="login-box" id="login">
+<div class="login-box" id="login" v-cloak> 
   <div class="login-logo">
     <a><b style="color:#3c8dbc; letter-spacing: 5px">LEV</b><b style="background-color: #3c8dbc; color: white; letter-spacing: 5px; padding: 1px 5px;">CORP</b></a>
   </div>
