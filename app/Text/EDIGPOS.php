@@ -151,50 +151,50 @@ class EDIGPOS
                     /*-------Sold to Distributor Contact / Sales Person----------*/
                     $this->etiqueta(15,'',$this->charters($dato->SoldToDistributorContactSalesPerson)).PHP_EOL;
                     ////////////////////////////////////OTROS///////////////////////////////////////////////////
+                    $count=0;
                     foreach($datos->where('BillToCustomerAccountNumber',$dato->BillToCustomerAccountNumber) as $item){
                         $count++;
                         $body.=
                         /*------Assigned ID consecutivo del detalle-----------*/
-                        $this->etiqueta(5,'LIN',$dato->NumLine).
+                        $this->etiqueta(5,'LIN',$count).
                         /*------Part Number Description-----------*/
-                        $this->etiqueta(48,'',$this->charters($dato->PartNumberDescription)).
+                        $this->etiqueta(48,'',$this->charters($item->PartNumberDescription)).
                         /*-------Vendor's Part Number----------*/
-                        $this->etiqueta(20,'',$dato->VendorsPartNumber).
+                        $this->etiqueta(20,'',$item->VendorsPartNumber).
                         /*-------UPC (14 digit) - GTIN----------*/
-                        $this->etiqueta(20,'',$dato->UPCGTIN).
+                        $this->etiqueta(20,'',$item->UPCGTIN).
                         /*-------Vendor's Catalog Number----------*/
-                        $this->etiqueta(20,'',$dato->VendorsCatalogNumber).
+                        $this->etiqueta(20,'',$item->VendorsCatalogNumber).
                         /*------Quantity-----------*/
-                        $this->etiqueta(10,'',$dato->Quantity).
+                        $this->etiqueta(10,'',$item->Quantity).
                         /*------Extended Resale-----------*/
-                        $this->etiqueta(15,'',$dato->ExtendedResale).
+                        $this->etiqueta(15,'',$item->ExtendedResale).
                         /*------Extended Cost-----------*/
-                        $this->etiqueta(15,'',$this->ExtendedCost($dato->ExtendedCost)).
+                        $this->etiqueta(15,'',$this->ExtendedCost($item->ExtendedCost)).
                         /*-------Total Transaction Amount----------*/
-                        $this->etiqueta(20,'',$dato->ExtendedResale).
+                        $this->etiqueta(20,'',$item->ExtendedResale).
                         /*--------Purchase order Amount---------*/
-                        $this->etiqueta(20,'',$dato->ExtendedCost).
+                        $this->etiqueta(20,'',$item->ExtendedCost).
                         /*-------Agreement Number----------*/
-                        $this->etiqueta(20,'',$dato->AgreementNumber).
+                        $this->etiqueta(20,'',$item->AgreementNumber).
                         /*-------Customer PO Number----------*/
-                        $this->etiqueta(20,'',$this->charters($dato->CustomerPONumber)).
+                        $this->etiqueta(20,'',$this->charters($item->CustomerPONumber)).
                         /*-------Distributor Invoice Number----------*/
-                        $this->DistributorInvoiceNumber($dato->DistributorInvoiceNumber,$dato->NumAtCard,$dato->ObjType).
+                        $this->etiqueta(20,'',$this->DistributorInvoiceNumber(Carbon::now()->format('Ym'),$item->NumAtCard,$item->ObjType)).
                         /*-------Distributor Invoice Item----------*/
-                        $this->etiqueta(20,'',$dato->NumLine).
+                        $this->etiqueta(20,'',$item->NumLine).
                         /*--------Distributor Invoice Date---------*/
-                        $this->etiqueta(8,'',$dato->DistributorInvoiceDate).
+                        $this->etiqueta(8,'',$item->DistributorInvoiceDate).
                         /*-------Customer Order Date----------*/
-                        $this->etiqueta(8,'',$dato->CustomerOrderDate).
+                        $this->etiqueta(8,'',$item->CustomerOrderDate).
                         /*-------Customer Want Date----------*/
-                        $this->etiqueta(8,'',$dato->CustomerWantDate).
+                        $this->etiqueta(8,'',$item->CustomerWantDate).
                         /*--------Customer Ship Date---------*/
-                        $this->etiqueta(8,'',$dato->CustomerShipDate).
+                        $this->etiqueta(8,'',$item->CustomerShipDate).
                         /*--------QTY Qualfier---------*/
-                        $this->etiqueta(2,'',$dato->CustomerShipDate).
-                        PHP_EOL;
-                        $this->etiqueta(10,'CTT',$count);
+                        $this->etiqueta(2,'',$item->CustomerShipDate).PHP_EOL;
                     }  
+                    $body.=$this->etiqueta(10,'CTT',$count).PHP_EOL;
                 }
             }
         return $body;
@@ -202,8 +202,8 @@ class EDIGPOS
     public function ExtendedCost($value){
         if(is_null($value) || $value==''){return 0;}else{return $value;}
     }
-    public function DistributorInvoiceNumber($codSAP,$NumAtCard,$ObjType){
-        $cod=mb_strlen($codSAP);
+    public function DistributorInvoiceNumber($date,$NumAtCard,$ObjType){
+        $cod=mb_strlen($date);
         $space='';
         if($ObjType == 14){
             $num=mb_strlen($NumAtCard.'NC');
@@ -211,11 +211,11 @@ class EDIGPOS
         }else{
             $num=mb_strlen($NumAtCard);
         }
-        $ceros=20-($cod+$num);
+        $ceros=10-($cod+$num);
         for($i=1;$i<=$ceros;$i++){
             $space.='0';
         }
-        return $codSAP.$space.$NumAtCard;
+        return $date.$space.$NumAtCard;
     }
     public function etiqueta($max, $name, $value){
         $spaces=$max-mb_strlen($value);
