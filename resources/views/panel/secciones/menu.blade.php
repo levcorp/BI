@@ -75,7 +75,7 @@
           @endif
           @if(isset(Auth::user()->perfil->asignacionModulo))
             @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','1'))
-              <li class="treeview {{active(['solicitud.*','detalle.*'])}}">
+              <li class="treeview {{active(['articulosABM'])}}">
                 <a href="#">
                   <i class="fa fa-files-o"></i> <span>Solicitudes</span>
                   <span class="pull-right-container">
@@ -85,7 +85,7 @@
                 <ul class="treeview-menu">
                   @if(isset(Auth::user()->perfil->asignacionModulo))
                     @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','1'))
-                      <li class="{{active(['solicitud.*','detalle.*'])}}"><a href="{{route('solicitud.index')}}"><i class="fa fa-file-text-o"></i> Articulos ABM</a></li>
+                      <li class="{{active('articulosABM')}}"><a href="{{route('articulosABM')}}"><i class="fa fa-file-text-o"></i> Articulos ABM</a></li>
                     @endif
                   @endif
                 </ul>

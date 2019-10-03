@@ -1,7 +1,7 @@
 <?php
 Route::get('gpos','controllerGPOSv2@data');
 ////////////////////////////ABM/////////////////////////////////
-Route::get('panel/articulosabm','Panel\controllerPanel@abm')->name('ubicaciones');
+Route::get('panel/articulosabm','Panel\controllerPanel@abm')->name('articulosABM');
 ////////////////////////////UbicacionesStock/////////////////////////////////
 Route::get('panel/ubicaciones','Panel\controllerPanel@ubicaciones')->name('ubicaciones');
 ////////////////////////////SSL/////////////////////////////////
@@ -63,4 +63,4 @@ Route::get('panel/dashboard/{sector}','Panel\controllerPanel@sector')->name('fil
 Route::get('realizado','Login\controllerLogin@success')->name('success');
 //Route::get('mobile','Login\controllerMobile@index')->name('index');
 
-Route::get('prueba','Panel\controllerDetalleSolicitud@cComp')->name('prueba');
+//Route::get('prueba','Panel\controllerDetalleSolicitud@cComp')->name('prueba');
