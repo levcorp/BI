@@ -17,6 +17,7 @@ use Storage;
 use Carbon\Carbon;
 use App\Mail\Articulos;
 use App\Prefijo;
+use Response;
 class controllerABMSolicitud extends Controller
 {
     public function __construct()
@@ -79,6 +80,7 @@ class controllerABMSolicitud extends Controller
                   <SalesUnit />
                   <PlanningSystem />
                   <Properties6 />
+                  <U_cat_id />
                 </SourceFields>
                 <TargetFields>
                   <RecordKey>RecordKey</RecordKey>
@@ -98,6 +100,7 @@ class controllerABMSolicitud extends Controller
                   <SalesUnit>SalesUnit</SalesUnit>
                   <PlanningSystem>PlanningSystem</PlanningSystem>
                   <Properties6>Properties6</Properties6>
+                  <U_cat_id>U_cat_id</U_cat_id>
                 </TargetFields>
               </Items>
             </Fields>
@@ -200,5 +203,10 @@ class controllerABMSolicitud extends Controller
         
         dd(Storage::disk('logdtw')->get($list["98"]["dir"]));
         dd($list["17"]["dir"]);
+    }
+
+    //nuevo
+    public function getListABM(Request $request){
+      return Response::json(Solicitud::where('usuario_id',$request->usuario_id)->where('estado',ucfirst($request->tipo))->orderBy('id','desc')->with('usuario')->get());
     }
 }

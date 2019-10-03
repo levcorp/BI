@@ -32,7 +32,8 @@ class ArticulosExport implements FromQuery, WithMapping,WithHeadings
                 'PurchaseUnit',
                 'SalesUnit',
                 'PlanningSystem',
-                'Properties6'
+                'Properties6',
+                'U_cat_id'
             ],
             [
                 'ItemCode',
@@ -50,7 +51,8 @@ class ArticulosExport implements FromQuery, WithMapping,WithHeadings
                 'PurchaseUnit',
                 'SalesUnit',
                 'PlanningSystem',
-                'Properties6'
+                'Properties6',
+                'U_cat_id'
             ],
         ];
     }
@@ -73,6 +75,7 @@ class ArticulosExport implements FromQuery, WithMapping,WithHeadings
             $solicitud->medida,
             "M",
             'Y',
+            $solicitud->upc
         ];
     }
     public function query()

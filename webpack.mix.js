@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
 // ELEMENT VERSION 2.8.2 FIX
-mix.js('resources/js/detalleSolicitud.js', 'public/js/detalleSolicitud.js');
+//mix.js('resources/js/detalleSolicitud.js', 'public/js/detalleSolicitud.js');
 //mix.js('resources/js/SolicitudABM.js','public/js/app.js');
 //mix.js('resources/js/usuarios.js', 'public/js/usuarios.js');
 //mix.js('resources/js/edi.js', 'public/js/edi.js');
@@ -26,6 +26,7 @@ mix.js('resources/js/detalleSolicitud.js', 'public/js/detalleSolicitud.js');
 //mix.js('resources/js/mobile/mobile.js', 'public/js/');
 //mix.js('resources/js/ssl.js', 'public/js/');
 //mix.js('resources/js/ubicaciones.js','public/js');
+mix.js('resources/js/articulosABM.js','public/js');
 
 
 

@@ -15,7 +15,7 @@
             <SybasePort />
             <DBPassword>
             </DBPassword>
-          </Logon>
+            </Logon>
           <ObjectCode>oItems</ObjectCode>
           <FileExtractor>
             <Extorlogin>
@@ -28,7 +28,7 @@
             </Extorlogin>
             <FilesTypes>1</FilesTypes>
             <Files>
-              <Items>C:\laragon\www\BI\public\archivos\usuarios\gpinto\articulo\2019-04-18T1-03-39.csv</Items>
+              <Items>C:\laragon\www\BI\public\archivos\usuarios\gpinto\articulo\2019-10-03T4-40-43.csv</Items>
             </Files>
           </FileExtractor>
           <Map>
@@ -52,6 +52,7 @@
                   <SalesUnit />
                   <PlanningSystem />
                   <Properties6 />
+                  <U_cat_id />
                 </SourceFields>
                 <TargetFields>
                   <RecordKey>RecordKey</RecordKey>
@@ -71,6 +72,7 @@
                   <SalesUnit>SalesUnit</SalesUnit>
                   <PlanningSystem>PlanningSystem</PlanningSystem>
                   <Properties6>Properties6</Properties6>
+                  <U_cat_id>U_cat_id</U_cat_id>
                 </TargetFields>
               </Items>
             </Fields>

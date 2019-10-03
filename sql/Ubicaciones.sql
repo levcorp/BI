@@ -52,3 +52,5 @@ VALUES
 )
 -- add more rows here
 GO
+
+Select dbo.ULTIMO_CODIGO_IN('-1') as Codigo

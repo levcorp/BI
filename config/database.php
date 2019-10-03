@@ -57,7 +57,7 @@ return [
             'driver' => 'sqlsrv',
             'host' =>'192.168.10.4',
             'port' => '1433',
-            'database' =>'BI',
+            'database' =>'BI_PRUEBA',
             'username' =>'sa',
             'password' =>'Sa123',
             'charset' => 'utf8',

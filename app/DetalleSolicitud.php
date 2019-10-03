@@ -23,7 +23,8 @@ class DetalleSolicitud extends Model
         'cod_compra',
         'descripcion',
         'comentarios',
-        'solicitud_id'
+        'solicitud_id',
+        'upc'
     ];
     public $timestamps = false;
     

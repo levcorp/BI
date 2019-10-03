@@ -11,10 +11,10 @@ Datos de usuario que realizo el registro:
 
 @endcomponent
 @component('mail::table')
-| Fabricante  | Proveedor | Especialidad | Familia      | Sub Familia  | Unidad Medida |  Cod. Venta  | Cod. Compra  | Descripcion  |
-|:-----------:|:---------:|:------------:|:------------:|:------------:|:-------------:|:------------:|:------------:|:------------:|
+| Fabricante  | Proveedor | Especialidad | Unidad Medida |  Cod. Venta  | Cod. Compra  | Descripcion  |      UPC     |
+|:-----------:|:---------:|:------------:|:-------------:|:------------:|:------------:|:------------:|:------------:|
 @foreach($articulos as $a)
-|{{$a->fabricante}}|{{$a->proveedor}}|{{$a->especialidad}}|{{$a->familia == NULL ? "Sin Familia" : $a->familia}}|{{$a->subfamilia == NULL ? "Sin Subfamilia" : $a->subfamilia}}|{{$a->medida}}|{{$a->cod_venta}}|{{$a->cod_compra}}|{{$a->descripcion}}|
+|{{$a->fabricante}}|{{$a->proveedor}}|{{$a->especialidad}}|{{$a->medida}}|{{$a->cod_venta}}|{{$a->cod_compra}}|{{$a->descripcion}}|{{$a->upc==null?'Sin UPC':$a->upc}}|
 @endforeach
 @endcomponent
 

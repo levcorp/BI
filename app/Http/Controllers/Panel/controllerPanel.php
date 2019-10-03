@@ -208,4 +208,7 @@ class controllerPanel extends Controller
     public function ubicaciones(){
         return view('panel.registros.ubicaciones.index');
     }
+    public function abm(){
+        return view('panel.registros.abm.index');
+    }
 }

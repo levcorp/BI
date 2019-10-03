@@ -17,6 +17,7 @@ use App\OITM;
 use App\Http\Requests\RequestArticulosABM as RArticulos;
 use App\Prefijo;
 use App\Solicitud;
+use Response;
 class controllerDetalleSolicitud extends Controller
 {
     public function __construct()
@@ -61,9 +62,21 @@ class controllerDetalleSolicitud extends Controller
             break;
         }
     }
-    public function detalles($id,$paginacion)
-    {
+    //new GET
+    public function proveedores(Request $request){
+        return Response::json(Proveedor::select('CardName','CardCode')->where('CardName','like',$request->value.'%')->get());
+    }
+    //new GET
+    public function fabricantes(Request $request){
+        return Response::json(Fabricante::where('FirmName','like',$request->value.'%')->get());
+    }
+    //new GET
+    public function detalles($id,$paginacion){
         return response()->json(Detalle::where('solicitud_id',$id)->orderBy('id','desc')->paginate($paginacion));
+    }
+    //new get
+    public function items(Request $request){
+        return response()->json(Detalle::where('solicitud_id',$request->solicitud_id)->orderBy('id','desc')->get());
     }
     public function codigo($cod_fabricante,$cod_proveedor){
         if ($cod_proveedor=="PE-0010046") {
@@ -91,25 +104,25 @@ class controllerDetalleSolicitud extends Controller
     public function serie($serie){
         switch($serie)
         {
-            case "BELDEN":
+            case "Belden":
                 return  "186";
             break;
-            case "ENDRESS+HAUSER":
+            case "Endress+Hauser":
                 return "183";
             break;
-            case "FESTO":
+            case "Festo":
                 return "182";
             break;
-            case "KAESER" :
+            case "Kaeser" :
                 return "184";
             break;
-            case "MANUAL":
+            case "Manual":
                 return  "3";
             break;
-            case "ROCKWELL AUTOMATION":
+            case "Rockwell Automation":
                 return "181";
             break;
-            case "YALE":
+            case "Yale":
                 return "185";
             break;          
         }
@@ -182,6 +195,22 @@ class controllerDetalleSolicitud extends Controller
         }
         return $codVenta;
     }
+    //new COd
+    public function cVenta(Request $request){
+        $count=OITM::select('U_Cod_Vent')->where('U_Cod_Vent',$request->value)->count();
+        $count+=DB::table('detalle_solicituds')->select('cod_venta')
+                ->join('solicituds','solicituds.id','=','detalle_solicituds.solicitud_id')
+                ->where('detalle_solicituds.cod_venta',$request->value)->where('solicituds.estado','Pendiente')->count();
+        if($count>0){return 1;}else{ return 0;}
+    }
+    //new COd
+    public function cCompra(Request $request){
+        $count=OITM::select('U_Cod_comp')->where('U_Cod_comp',$request->value)->count();
+        $count+=DB::table('detalle_solicituds')->select('cod_compra')
+                ->join('solicituds','solicituds.id','=','detalle_solicituds.solicitud_id')
+                ->where('detalle_solicituds.cod_compra',$request->value)->where('solicituds.estado','Pendiente')->count();
+        if($count>0){return 1;}else{ return 0;}
+    }
     public function codComp(){
         $datos=OITM::select('U_Cod_comp')->get();
         $solictudes=Solicitud::select('id')->where('estado','Pendiente')->get();
@@ -203,4 +232,44 @@ class controllerDetalleSolicitud extends Controller
         $prefijo=Prefijo::where('FirmCode',$cod_fabricante)->where('PREFIJO','!=',null)->first();        
         return $prefijo->PREFIJO.$cod_compra;
     } 
+    //new store Item
+    public function storeItem(Request $request ){
+        $cFabricante=$this->cFabricante($request->fabricante);
+        $cProveedor=$this->cProveedor($request->proveedor);
+        $especialidad=$this->especialidad($request->cod_especialidad);
+        Detalle::create([
+            'serie'=>$this->serie($request->serie),
+            'cod_item'=>$this->codigo($cFabricante->FirmCode,$cProveedor->CardCode),
+            'fabricante'=>$request->fabricante,
+            'cod_fabricante'=>$cFabricante->FirmCode,
+            'proveedor'=>$request->proveedor,
+            'cod_proveedor'=>$cProveedor->CardCode,
+            'especialidad'=>$especialidad->Descripcion,
+            'cod_especialidad'=>$request->cod_especialidad,
+            'familia'=>$request->familia,
+            'subfamilia'=>$request->subfamilia,
+            'medida'=>$request->medida,
+            'cod_venta'=>$request->cod_venta,
+            'cod_compra'=>$this->prefijo($cFabricante->FirmCode,$request->cod_compra),
+            'descripcion'=>$request->descripcion,
+            'comentarios'=>$request->comentarios,
+            'solicitud_id'=>$request->solicitud_id,
+            'upc'=>$request->upc
+        ]);
+    }
+    public function cFabricante($fabricante){
+        return Fabricante::select('FirmCode')->where('FirmName','like',$fabricante)->first();
+    }
+    public function cProveedor($proveedor){
+        return Proveedor::select('CardCode')->where('CardName','like',$proveedor)->first();
+    }
+    public function especialidad($cEspecialidad){
+        return Especialidad::select('Descripcion')->where('Especialidad',$cEspecialidad)->first();
+    }
+    public function preCod(Request $request){
+        $cFabricante=$this->cFabricante($request->fabricante);
+        $prefijo=Prefijo::where('FirmCode',$cFabricante->FirmCode)->where('PREFIJO','!=',null)->first();        
+        return Response::json($prefijo->PREFIJO);
+    } 
+    
 }

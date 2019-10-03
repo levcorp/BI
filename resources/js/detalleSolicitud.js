@@ -225,7 +225,7 @@ new Vue({
            axios.get(url).then(response=>{
                this.detalles=response.data;
                this.getSolicitudEstado();               
-           })
+           });
         },
         getPaginacionDetalle:function(numero)
         {   

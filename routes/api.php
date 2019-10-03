@@ -115,9 +115,11 @@ Route::resource('usuarios', 'Panel\controllerUsuario');
 ///////////////////////////////////////////////////////////////
 
 /////////////////////ARTICULOS ABM/////////////////////////////////////////
+Route::post('solicitud/getlist','Panel\controllerABMSolicitud@getListABM');
 Route::get('solicitud/fecha','Panel\controllerABMSolicitud@fecha');
 Route::get('solicitud/mail/{id}/{fecha}','Panel\controllerABMSolicitud@sendMail');
 Route::get('solicitud/{id}/{paginacion}/detalles','Panel\controllerDetalleSolicitud@detalles');
+Route::post('solicitud/detalle/items','Panel\controllerDetalleSolicitud@items');
 Route::get('solicitud/detalle/codvent','Panel\controllerDetalleSolicitud@codVent');
 Route::get('solicitud/detalle/codcomp','Panel\controllerDetalleSolicitud@codComp');
 Route::get('solicitud/detalle/datos/{opcion}/{fabricante?}/{especialidad?}/{familia?}','Panel\controllerDetalleSolicitud@datos');
@@ -125,5 +127,13 @@ Route::resource('solicitud/detalle','Panel\controllerDetalleSolicitud')->except(
 Route::get('solicitud/numero/{id}','Panel\controllerABMSolicitud@numero');
 Route::get('solicitud/datos/{paginacion}/{id}/{tipo}','Panel\controllerABMSolicitud@datos');
 Route::resource('solicitud','Panel\controllerABMSolicitud')->except(['index','create','edit']);
+
+//new routes ABM
+Route::post('solicitud/detalle/cod_venta','Panel\controllerDetalleSolicitud@cVenta');
+Route::post('solicitud/detalle/cod_compra','Panel\controllerDetalleSolicitud@cCompra');
+Route::post('solicitud/detalle/proveedores','Panel\controllerDetalleSolicitud@proveedores');
+Route::post('solicitud/detalle/fabricantes','Panel\controllerDetalleSolicitud@fabricantes');
+Route::post('solicitud/detalle/storeitem','Panel\controllerDetalleSolicitud@storeItem');
+Route::post('solicitud/detalle/precod','Panel\controllerDetalleSolicitud@preCod');
 ///////////////////////////////////////////////////////////////
 
