@@ -30,9 +30,8 @@ class EDIGPOS
     }
     public function text_date($city,$codCity,$start,$end){
         $gpos=GPOS::whereDate('DocDate','>=',$start)->whereDate('DocDate','<=',$end)->where('ShipFromDistributorDUNS+4','=',$city)->get();
-        $head=$this->head($start,$end);
         $body=$this->body($this->gpos($gpos),$start,$end,$this->now,$city,$codCity);
-        return $head.$body;
+        return $body;
     }
     public function gpos($gpos){
         $docs=$this->docs($gpos);
@@ -78,6 +77,7 @@ class EDIGPOS
         $count=0;
         $CardCode=$this->CardCode($datos);
         foreach ($CardCode as $AccountNumber){   
+            $body.=$this->head($last,$next);
             $body.=$this->etiqueta(15,'HDR',$codCity).$this->etiqueta(8,'',$now).'USD'.$this->etiqueta(8,'',$last->format('Ymd')).$this->etiqueta(8,'',$next->format('Ymd')).$this->etiqueta(15,'',$city).$this->etiqueta(15,'',$city).$this->etiqueta(20,'',$AccountNumber).$this->etiqueta(20,'','').PHP_EOL;
             foreach ($datos->where('BillToCustomerAccountNumber',$AccountNumber)->unique() as $dato) {
                 $body.=

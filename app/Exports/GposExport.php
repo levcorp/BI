@@ -138,7 +138,7 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
             $this->gposClass->ExtendedCost($date->ExtendedCost),
             $date->CurrencyOfTransaction,
             $this->gposClass->charters($date->CustomerPONumber),
-            $this->gposClass->DistributorInvoiceNumber($date->DistributorInvoiceNumber,$date->NumAtCard,$date->ObjType),
+            $this->gposClass->DistributorInvoiceNumber(Carbon::now()->format('Ym'),$date->NumAtCard,$date->ObjType),
             $date->NumLine,
             $date->DistributorInvoiceDate,
             $date->AgreementNumber,
