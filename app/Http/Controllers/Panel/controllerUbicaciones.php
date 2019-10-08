@@ -83,7 +83,7 @@ class controllerUbicaciones extends Controller
     }
     public function handleUpdateUbicacion(Request $request){
         ArticulosUbicacion::findOrFail($request->id)->fill([
-            'UBICACION_FISICA'=>str_replace(';','',$request->UBICACION_FISICA),
+            'UBICACION_FISICA'=>substr(str_replace(';','',$request->UBICACION_FISICA),0,20)
         ])->save();
     }
     public function handleDeleteUbicacion(Request $request){
@@ -96,7 +96,7 @@ class controllerUbicaciones extends Controller
         <Logon>
           <UserName>sist_lp1</UserName>
           <Password>SIiLlLvLjMoEmBwDtD</Password>
-          <Company>LEVCORP_PRUEBA</Company>
+          <Company>LEVCORP</Company>
           <Server>saphana:30015</Server>
           <UserAuthentication>False</UserAuthentication>
           <Language />
@@ -164,8 +164,8 @@ class controllerUbicaciones extends Controller
         Excel::store(new UbicacionesExport($list_id), $nombre, 'ubicaciones', \Maatwebsite\Excel\Excel::CSV);
         $xml=$this->xml($url);
         Storage::disk('ubicaciones')->put($usuario.'\script.xml', $xml);
-        //shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\xampp\htdocs\BI\public\archivos\ubicaciones\\'.$usuario.'\script.xml');
-        shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\laragon\www\BI\public\archivos\ubicaciones\\'.$usuario.'\script.xml');
+        shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\xampp\htdocs\BI\public\archivos\ubicaciones\\'.$usuario.'\script.xml');
+        //shell_exec('"C:\Program Files (x86)\SAP\Data Transfer Workbench\DTW.exe" -s C:\laragon\www\BI\public\archivos\ubicaciones\\'.$usuario.'\script.xml');
     }
     public function handleSend($lista_id){
         ListaStock::findOrFail($lista_id)->fill(['ESTADO'=>1])->save();
