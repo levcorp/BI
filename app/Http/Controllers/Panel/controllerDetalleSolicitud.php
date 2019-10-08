@@ -251,8 +251,8 @@ class controllerDetalleSolicitud extends Controller
             'medida'=>$request->medida,
             'cod_venta'=>$request->cod_venta,
             'cod_compra'=>$this->prefijo($cFabricante->FirmCode,$request->cod_compra),
-            'descripcion'=>$request->descripcion,
-            'comentarios'=>$request->comentarios,
+            'descripcion'=>$this->cadena($request->descripcion),
+            'comentarios'=>$this->cadena($request->comentarios),
             'solicitud_id'=>$request->solicitud_id,
             'upc'=>$request->upc
         ]);
@@ -271,5 +271,7 @@ class controllerDetalleSolicitud extends Controller
         $prefijo=Prefijo::where('FirmCode',$cFabricante->FirmCode)->where('PREFIJO','!=',null)->first();        
         return Response::json($prefijo->PREFIJO);
     } 
-    
+    public function cadena($string){
+        return str_replace(';','',$string);
+    }
 }

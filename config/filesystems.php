@@ -14,6 +14,10 @@ return [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\usuarios',
         ],
+        'ubicaciones' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\ubicaciones',
+        ],
         'perfil' => [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\perfil',

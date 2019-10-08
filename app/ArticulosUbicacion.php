@@ -6,13 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticulosUbicacion extends Model
 {
-    protected $table='ARTICULOS_STOCK';
+    protected $table='ARTICULOS_UBICACIONES';
     protected $fillable=[
-        'LISTA_ID',
         'ITEMCODE',
-        'DESCRIPCION',
         'COD_VENTA',
         'COD_COMPRA',
-        'UBICACION_FISICA'
+        'DESCRIPCION',
+        'MEDIDA',
+        'STOCK',
+        'ALMACEN',
+        'COD_ALMACEN',
+        'UBICACION_FISICA',
+        'LISTA_ID'
     ];
+    public $timestamps=false;
 }
