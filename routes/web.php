@@ -1,5 +1,5 @@
 <?php
-Route::get('gpos','controllerGPOSv2@data');
+Route::get('prueba','controllerGPOSv2@acuerdos');
 ////////////////////////////ABM/////////////////////////////////
 Route::get('panel/articulosabm','Panel\controllerPanel@abm')->name('articulosABM');
 ////////////////////////////UbicacionesStock/////////////////////////////////

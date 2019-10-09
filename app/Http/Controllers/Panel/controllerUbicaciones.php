@@ -19,7 +19,7 @@ use Storage;
 class controllerUbicaciones extends Controller
 {
     public function getList(Request $request){
-        return Response::json(ListaStock::where('ESTADO',$request->estado)->with('usuario')->orderBy('id','asc')->get());
+        return Response::json(ListaStock::where('ESTADO',$request->estado)->where('USUARIO_ID',$request->usuario_id)->with('usuario')->orderBy('id','asc')->get());
     }
     public function storeList(Request $request)
     {

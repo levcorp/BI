@@ -27,7 +27,8 @@
         "spatie/array-to-xml": "^2.8",
         "tymon/jwt-auth": "dev-develop",
         "usmanhalalit/laracsv": "^2.0",
-        "watson/active": "^3.1"
+        "watson/active": "^3.1",
+        "laravelcollective/remote": "5.8.*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

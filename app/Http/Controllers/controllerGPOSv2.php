@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Text\GPOS as BUILDGPOS;
-use App\GPOS;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
+use SSH;
 class controllerGPOSv2 extends Controller
 {
-    public $start;
-    public $end;
     public function data(){
-        $build=new BUILDGPOS;
-        $this->end= new Carbon('last saturday');
-        Carbon::setTestNow($this->end);       
-        $this->start=new Carbon('last sunday');
-        Carbon::setTestNow();   
-        $this->now=Carbon::now()->format('Ymd');
-        $gpos=GPOS::whereDate('DocDate','>=',$this->start)->whereDate('DocDate','<=',$this->end)->where('ShipFromDistributorDUNS+4','=','LARCOS002')->get();
-        return $build->CardCode($gpos);
+        $commands=[
+            'cd /opt/alfresco-community/postgresql/bin/',
+            'PGPASSWORD="Manager1" ./pg_dump -U alfresco alfresco > db.sql',
+            'ls -l'
+        ];
+        SSH::run($commands, function($line){
+            echo $line.PHP_EOL;
+        });
+        SSH::get("/opt/alfresco-community/postgresql/bin/db.sql", \base_path().'\public\archivos\db.sql');
+    }
+    public function acuerdos(){
+        return $users = DB::table('LTA_RA_DETALLE')->where('Name','440TAKEYS100D')->get();
     }
 }

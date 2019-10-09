@@ -2,7 +2,7 @@
 
 return [
 
-    'default' => 'BI',
+    'default' => 'BI_PRUEBA',
     'connections' => [
         'sqlite' => [
             'driver' => 'sqlite',

@@ -50,6 +50,7 @@ var Main={
                 codVenta: [{ required: true, message: 'El campo es requerido', trigger: 'change' }],
             },
             ubicacion:[],
+            usuario_id:''
         }
     },
     mounted() {
@@ -60,7 +61,8 @@ var Main={
         handleGetPendiente(){
             var url='/api/ubicacion/get';
             axios.post(url,{
-                'estado':0                
+                'estado':0,
+                'usuario_id':this.usuario_id
             }).then(response=>{
                 this.listsPendiente=response.data;
             });
@@ -68,7 +70,8 @@ var Main={
         handleGetRealizado(){
             var url='/api/ubicacion/get';
             axios.post(url,{
-                'estado':1
+                'estado':1,
+                'usuario_id':this.usuario_id
             }).then(response=>{
                 this.listsRealizado=response.data;
             });
