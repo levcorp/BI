@@ -52,15 +52,16 @@ class controllerUbicaciones extends Controller
         ListaStock::findOrFail($list_id)->delete();
     }
     public function handleSearchCodVenta(Request $request){
-        switch ($request->ciudad) {
-            case 'LPZ001':
-                return Response::json(DB::table('UbicacionLPZ')->where('U_Cod_Vent','like',$request->codVenta.'%')->where('WhsCode','like',$request->ciudad)->get());
+        $sucursal=Sucursal::where('id',$request->ciudad)->first();
+        switch ($sucursal->ciudad) {
+            case 'La Paz':
+                return Response::json(DB::table('UbicacionLPZ')->where('U_Cod_Vent','like',$request->codVenta.'%')->where('WhsCode','like','LPZ001')->get());
                 break;
-            case 'CBB001':
-                return Response::json(DB::table('UbicacionCBB')->where('U_Cod_Vent','like',$request->codVenta.'%')->where('WhsCode','like',$request->ciudad)->get());
+            case 'Cochabamba':
+                return Response::json(DB::table('UbicacionCBB')->where('U_Cod_Vent','like',$request->codVenta.'%')->where('WhsCode','like','CBB001')->get());
                 break;
-            case 'SCZ001':
-                return Response::json(DB::table('UbicacionSCZ')->where('U_Cod_Vent','like',$request->codVenta.'%')->where('WhsCode','like',$request->ciudad)->get());
+            case 'Santa Cruz':
+                return Response::json(DB::table('UbicacionSCZ')->where('U_Cod_Vent','like',$request->codVenta.'%')->where('WhsCode','like','SCZ001')->get());
                 break;
         }
     }
@@ -156,9 +157,9 @@ class controllerUbicaciones extends Controller
         </Run>
       </Transfer>";
     }
-    public function handleExport($list_id){         
-        $user=User::findOrFail(ListaStock::findOrFail($list_id)->USUARIO_ID);  
-        $usuario=strtolower(substr($user->nombre,0,1).$user->apellido);       
+    public function handleExport($list_id){
+        $user=User::findOrFail(ListaStock::findOrFail($list_id)->USUARIO_ID);
+        $usuario=strtolower(substr($user->nombre,0,1).$user->apellido);
         $nombre=$usuario."\articulos\\".Carbon::now()->format('Y-m-dTh-m-s').'.csv';
         $url=base_path()."\public\archivos\ubicaciones\\".$nombre;
         Excel::store(new UbicacionesExport($list_id), $nombre, 'ubicaciones', \Maatwebsite\Excel\Excel::CSV);
@@ -171,6 +172,6 @@ class controllerUbicaciones extends Controller
         ListaStock::findOrFail($lista_id)->fill(['ESTADO'=>1])->save();
         $usuario=User::findOrFail(ListaStock::findOrFail($lista_id)->USUARIO_ID);
         Mail::to($usuario->email)->cc('gpinto@levcorp.bo')->send( new MailArticulos($lista_id,$usuario->id));
-        //$this->exportCSV($usuario->nombre,$usuario->apellido,$lista_id,Carbon::now()->format('Y-m-dTh-m-s'));        
+        //$this->exportCSV($usuario->nombre,$usuario->apellido,$lista_id,Carbon::now()->format('Y-m-dTh-m-s'));
     }
 }

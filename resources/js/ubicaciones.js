@@ -46,7 +46,6 @@ var Main={
             ubicaciones:[],
             articulos:[],
             rulesArticulos:{
-                ciudad: [{ required: true, message: 'El campo es requerido', trigger: 'change' }],
                 codVenta: [{ required: true, message: 'El campo es requerido', trigger: 'change' }],
             },
             ubicacion:[],
@@ -91,7 +90,7 @@ var Main={
             });
         },
         handleCreate(){
-            $('#create').modal('show');            
+            $('#create').modal('show');
         },
         handleBack(){
             this.view=1;
@@ -120,7 +119,7 @@ var Main={
             });
         },
         handleArticulosUbicacion(){
-            var url='/api/ubicacion/items';            
+            var url='/api/ubicacion/items';
             axios.post(url,{
                 LISTA_ID:this.lista.id,
             }).then(response=>{
@@ -140,7 +139,7 @@ var Main={
                         type:'success',
                         message:'La lista fue eliminada correctamente'
                     });
-                }); 
+                });
             }).catch(() => {
             });
         },
@@ -151,7 +150,7 @@ var Main={
                     var url='/api/ubicacion/searchcodventa';
                     axios.post(url,{
                         'codVenta':this.search.codVenta,
-                        'ciudad':this.search.ciudad
+                        'ciudad':this.sucursal
                     }).then(response=>{
                         this.loading.articulos=false;
                         this.articulos=response.data;
@@ -287,4 +286,4 @@ var Main={
     }
 }
 var Ctor = Vue.extend(Main);
-new Ctor().$mount('#app');  
+new Ctor().$mount('#app');

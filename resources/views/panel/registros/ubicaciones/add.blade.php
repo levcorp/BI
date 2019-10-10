@@ -8,13 +8,13 @@
                             <el-form-item label="Buscar Articulo" prop="codVenta">
                                 <el-input @keydown.native.enter.prevent="handleSearchCodVenta()" size="mini" v-model="search.codVenta" placeholder="Codigo Venta"></el-input>
                             </el-form-item>
-                            <el-form-item prop="ciudad">
+                            <!--<el-form-item prop="ciudad">
                                 <el-select v-model="search.ciudad" size="mini" placeholder="Sucursal" @keydown.native.enter.prevent="handleSearchCodVenta()" >
                                     <el-option label="LPZ001" value="LPZ001"></el-option>
                                     <el-option label="SCZ001" value="SCZ001"></el-option>
                                     <el-option label="CBB001" value="CBB001"></el-option>
                                 </el-select>
-                            </el-form-item>
+                            </el-form-item>-->
                             <el-form-item>
                                 <el-button size="mini" @click="handleSearchCodVenta()" type="primary" icon="el-icon-search" circle></el-button>
                             </el-form-item>

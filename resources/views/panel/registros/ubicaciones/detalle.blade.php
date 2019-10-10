@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         <div class="col-sm-8">
-                            <el-button-group>
+                            <el-button-group v-if="usuario_id==1 || usuario_id==3">
                                 <el-button size="mini" type="primary" @click="handelChoseUbicacionNull('La Paz')" icon="el-icon-location-outline">LPZ</el-button>
                                 <el-button size="mini" type="primary" @click="handelChoseUbicacionNull('Santa Cruz')" icon="el-icon-location-outline">SCZ</el-button>
                                 <el-button size="mini" type="primary" @click="handelChoseUbicacionNull('Cochabamba')" icon="el-icon-location-outline">CBB</el-button>
@@ -137,6 +137,13 @@
                         </div>
                     </div>
                     <el-table v-loading="loading.ubicacionesNull" :data="ubicacionesNull.filter(data => !search.ubicacionesNull || data.U_Cod_Vent.toLowerCase().includes(search.ubicacionesNull.toLowerCase()) || data.ItemCode.toLowerCase().includes(search.ubicacionesNull.toLowerCase()))" style="width: 100%" max-height="400" highlight-current-row :default-sort="{prop: 'id', order: 'descending'}">
+                      <el-table-column align="center" label="#" sortable width="80">
+                          <template slot-scope="scope">
+                              <p style="font-size: 12px;">
+                                  @{{scope.$index+1}}
+                              </p>
+                          </template>
+                      </el-table-column>
                         <el-table-column align="center" label="Cod. SAP" sortable width="120">
                             <template slot-scope="scope">
                                 <p style="font-size: 12px;">
