@@ -61,7 +61,7 @@ class controllerPanel extends Controller
         $porcentajeEspecialidad->map(function ($item, $key) {
         $nombre=["Automatización",'Electrica','Instrumentación','Mecanica','Media Tensión'];
             return $item->nombre=$nombre[$key];
-        });                        
+        });
         $porcentajeEspecialidad->map(function ($item, $key) {
             $circleColor=["#FAB9AC",'#7BBC53','#DE6736','#67C1EC','#E6B90D'];
             $waveColor=["rgba(250,185,172, 0.5)",'rgba(123,188,83, 0.5)','rgba(222,103,54, 0.5)','rgba(103,193,236, 0.5)','rgba(230,185,13, 0.5)'];
@@ -112,7 +112,7 @@ class controllerPanel extends Controller
         });
         Session::flash('mensaje','Datos cargados correctamente');
         return view('panel.dashboard.morris',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
-    }   
+    }
     public function newSector($dato){
         $titulo="general";
         $meses = EspecialidadMeses::select('PERIODO','SECTOR', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))->where('SECTOR','like',$dato)->groupBy('PERIODO','SECTOR')->orderBy('PERIODO','asc')->orderBy('SECTOR','asc')->get();
@@ -153,7 +153,7 @@ class controllerPanel extends Controller
         });
         Session::flash('mensaje','Datos cargados correctamente');
         return view('panel.dashboard.panel',compact('meses','todo','titulo','oportunidades','oportunidadPorcentaje','porcentajeEspecialidad'));
-    }   
+    }
     public function usuarios(){
         return view('panel.registros.usuarios.index');
     }
@@ -197,7 +197,7 @@ class controllerPanel extends Controller
         return view('panel.registros.grupo.index');
     }
     public function cuestionariosUser(){
-        return view ('panel.registros.cuestionario.usuario.index');        
+        return view ('panel.registros.cuestionario.usuario.index');
     }
     public function cuestionariosResultado(){
         return view ('panel.registros.cuestionario.resultado.index');
@@ -210,5 +210,8 @@ class controllerPanel extends Controller
     }
     public function abm(){
         return view('panel.registros.abm.index');
+    }
+    public function almacen(){
+        return view('panel.registros.almacen.index');
     }
 }
