@@ -36,7 +36,8 @@ class controllerUbicaciones extends Controller
         if($sucursal->ciudad=='Santa Cruz'){ $ubic='SCZ001';}
         if($sucursal->ciudad=='La Paz'){ $ubic='LPZ001';}
         if($sucursal->ciudad=='Cochabamba'){ $ubic='CBB001';}
-        return Response::json(DB::table('Ubicacion_Null')->where('WhsCode',$ubic)->get());
+        $codVentas=ArticulosUbicacion::select('COD_VENTA')->where('LISTA_ID',$request->lista_id)->get();
+        return Response::json(DB::table('Ubicacion_Null')->where('WhsCode',$ubic)->whereNotIn('U_Cod_Vent',$codVentas)->get());
     }
     public function ChoseUbicacionesNull(Request $request){
         if($request->WhsCode=='Santa Cruz'){ $ubic='SCZ001';}

@@ -76,10 +76,10 @@ var Main={
             });
         },
         handleAddView(index,row){
-            this.handleUbicacionNull();
             this.lista=row;
             this.view=2;
             this.handleArticulosUbicacion();
+            this.handleUbicacionNull();
             //console.log(this.lista);
         },
         handleStore(){
@@ -99,7 +99,8 @@ var Main={
             var url='/api/ubicacion/null';
             this.loading.ubicacionesNull=true
             axios.post(url,{
-                WhsCode:this.sucursal,
+                'WhsCode':this.sucursal,
+                'lista_id':this.lista.id
             }).then(response=>{
                 this.ubicacionesNull=response.data
                 this.loading.ubicacionesNull=false;
@@ -186,6 +187,7 @@ var Main={
                 'LISTA_ID':this.lista.id
             }).then(response=>{
                 this.handleArticulosUbicacion();
+                this.handleUbicacionNull();
                 $('#add').modal('hide');
                 this.$message({
                     type:'success',
@@ -202,6 +204,7 @@ var Main={
                 var url='/api/ubicacion/item/delete/'+row.id;
                 axios.delete(url).then(reponse=>{
                     this.handleArticulosUbicacion();
+                    this.handleUbicacionNull();
                     this.$message({
                         type:'success',
                         message:'Articulo eliminado correctamente'
