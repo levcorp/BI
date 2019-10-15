@@ -168,9 +168,9 @@ class EDIGPOS
                         /*------Quantity-----------*/
                         $this->etiqueta(10,'',$item->Quantity).
                         /*------Extended Resale-----------*/
-                        $this->etiqueta(15,'',$item->ExtendedResale).
-                        /*------Extended Cost-----------*/
                         $this->etiqueta(15,'',$this->ExtendedCost($item->ExtendedCost)).
+                        /*------Extended Cost-----------*/
+                        $this->etiqueta(15,'',$item->ExtendedResale).
                         /*-------Total Transaction Amount----------*/
                         $this->etiqueta(20,'',$item->ExtendedCost).
                         /*--------Purchase order Amount---------*/
