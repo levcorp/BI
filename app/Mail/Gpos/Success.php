@@ -20,7 +20,8 @@ class Success extends Mailable
     public function build()
     {
         return $this->markdown('emails.gpos.success')
-                    ->to('sistemas@levcorp.bo')
+                    ->to('maramayo@levcorp.bo')
+                    ->cc('sistemas@levcorp.bo')
                     ->subject('Generacion GPOS Exitosa')
                     ->with(['count'=> $this->counts,'names'=> $this->names]);
     }

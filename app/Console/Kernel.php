@@ -15,14 +15,14 @@ use Mail;
 
 class Kernel extends ConsoleKernel
 {
-    protected $commands = [     
+    protected $commands = [
     ];
     protected function scheduleTimezone()
     {
         return 'America/La_Paz';
     }
     protected function schedule(Schedule $schedule)
-    { 
+    {
         $schedule->command('edi:send')
                  ->dailyAt('22:00')
                  ->onSuccess(function () {
@@ -43,7 +43,7 @@ class Kernel extends ConsoleKernel
                     $count=$gpos->count();
                     $name=$gpos->name();
                     Mail::send(new SuccessGPOSExcel($count,$name));
-                    Mail::send(new SuccessGPOS($counts,$names));      
+                    Mail::send(new SuccessGPOS($counts,$names));
                   })
                  ->onFailure(function () {
                     Mail::send(new FailureGPOS);

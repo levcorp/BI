@@ -23,7 +23,7 @@ class commandsValidateGpos extends Command
     {
         $nextSaturday= Carbon::now();
         $lastMonday=new Carbon('last monday');
-        Carbon::setTestNow();     
+        Carbon::setTestNow();
         if(UPC::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','<=',$lastMonday)->count()==0 && FeOCClie::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0 && Price::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0 && Track::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count()==0){
             $this->info('No hay ninguna validacion');
         }else {
@@ -36,7 +36,7 @@ class commandsValidateGpos extends Command
                 FeOCClie::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count(),
                 Price::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count(),
                 Track::whereDate('DocDate','>=',$nextSaturday)->whereDate('DocDate','>=',$lastMonday)->count(),
-            )); 
+            ));
             $this->info('Validacion realizada');
         }
     }

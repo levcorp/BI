@@ -12,9 +12,9 @@ class EDIGPOS
     public function __construct()
     {
         $this->nextSaturday= new Carbon('last saturday');
-        Carbon::setTestNow($this->nextSaturday);       
+        Carbon::setTestNow($this->nextSaturday);
         $this->lastSunday=new Carbon('last sunday');
-        Carbon::setTestNow();   
+        Carbon::setTestNow();
         $this->now=Carbon::now()->format('Ymd');
     }
     public function charters($pharse){
@@ -24,9 +24,9 @@ class EDIGPOS
         $characters = array(
                             "A","E","I","O","U","N",
                         );
-        $find = array('#[^a-z0-9 A-Z.]#');        
-        $string=  str_replace($replace, $characters, $pharse);               
-        return preg_replace($find, "", $string);	
+        $find = array('#[^a-z0-9 A-Z.]#');
+        $string=  str_replace($replace, $characters, $pharse);
+        return preg_replace($find, "", $string);
     }
     public function text_date($city,$codCity,$start,$end){
         $gpos=GPOS::whereDate('DocDate','>=',$start)->whereDate('DocDate','<=',$end)->where('ShipFromDistributorDUNS+4','=',$city)->get();
@@ -76,7 +76,7 @@ class EDIGPOS
         $body="";
         $count=0;
         $CardCode=$this->CardCode($datos);
-        foreach ($CardCode as $AccountNumber){   
+        foreach ($CardCode as $AccountNumber){
             $body.=$this->head($last,$next);
             $body.=$this->etiqueta(15,'HDR',$codCity).$this->etiqueta(8,'',$now).'USD'.$this->etiqueta(8,'',$last->format('Ymd')).$this->etiqueta(8,'',$next->format('Ymd')).$this->etiqueta(15,'',$city).$this->etiqueta(15,'',$city).$this->etiqueta(20,'',$AccountNumber).$this->etiqueta(20,'','').PHP_EOL;
             foreach ($datos->where('BillToCustomerAccountNumber',$AccountNumber)->unique() as $dato) {
@@ -91,7 +91,7 @@ class EDIGPOS
                     /*--------'Bill To City---------*/
                     $this->etiqueta(30,'',$this->charters($dato->BillToCity)).
                     /*--------'Bill To Region State---------*/
-                    $this->etiqueta(2,'',$dato->BillToRegionState).                   
+                    $this->etiqueta(2,'',$dato->BillToRegionState).
                     /*--------'Bill To Postal Code---------*/
                     $this->etiqueta(10,'',$dato->BillToPostalCode).
                     /*--------'Bill To Country---------*/
@@ -136,7 +136,7 @@ class EDIGPOS
                     $this->etiqueta(60,'',$this->charters($dato->SoldToAddress2)).
                     /*-------Sold To City----------*/
                     $this->etiqueta(30,'',$this->charters($dato->SoldToCity)).
-                    /*--------Sold To Region   State---------*/                   
+                    /*--------Sold To Region   State---------*/
                     $this->etiqueta(2,'',$dato->SoldToRegionState).
                     /*-------Sold To Postal Code----------*/
                     $this->etiqueta(10,'',$dato->SoldToPostalCode).
@@ -172,15 +172,15 @@ class EDIGPOS
                         /*------Extended Cost-----------*/
                         $this->etiqueta(15,'',$this->ExtendedCost($item->ExtendedCost)).
                         /*-------Total Transaction Amount----------*/
-                        $this->etiqueta(20,'',$item->ExtendedResale).
-                        /*--------Purchase order Amount---------*/
                         $this->etiqueta(20,'',$item->ExtendedCost).
+                        /*--------Purchase order Amount---------*/
+                        $this->etiqueta(20,'',$item->ExtendedResale).
                         /*-------Agreement Number----------*/
                         $this->etiqueta(20,'',$item->AgreementNumber).
                         /*-------Customer PO Number----------*/
                         $this->etiqueta(20,'',$this->charters($item->CustomerPONumber)).
                         /*-------Distributor Invoice Number----------*/
-                        $this->etiqueta(20,'',$this->DistributorInvoiceNumber(Carbon::now()->format('Ym'),$item->NumAtCard,$item->ObjType)).
+                        $this->etiqueta(20,'',$this->DistributorInvoiceNumber(Carbon::now()->format('ym'),$item->NumAtCard,$item->ObjType,$city)).
                         /*-------Distributor Invoice Item----------*/
                         $this->etiqueta(20,'',$item->NumLine).
                         /*--------Distributor Invoice Date---------*/
@@ -193,7 +193,7 @@ class EDIGPOS
                         $this->etiqueta(8,'',$item->CustomerShipDate).
                         /*--------QTY Qualfier---------*/
                         $this->etiqueta(2,'',$item->CustomerShipDate).PHP_EOL;
-                    }  
+                    }
                     $body.=$this->etiqueta(10,'CTT',$count).PHP_EOL;
                 }
             }
@@ -202,8 +202,19 @@ class EDIGPOS
     public function ExtendedCost($value){
         if(is_null($value) || $value==''){return 0;}else{return $value;}
     }
-    public function DistributorInvoiceNumber($date,$NumAtCard,$ObjType){
+    public function DistributorInvoiceNumber($date,$NumAtCard,$ObjType,$city){
         $cod=mb_strlen($date);
+        if($city=='LARCOS000'){
+          $codSucursal='0';
+        }else{
+          if($city=='LARCOS001'){
+            $codSucursal='1';
+          }else{
+            if($city=='LARCOS002'){
+              $codSucursal='2';
+            }
+          }
+        }
         $space='';
         if($ObjType == 14){
             $num=mb_strlen($NumAtCard.'NC');
@@ -211,11 +222,11 @@ class EDIGPOS
         }else{
             $num=mb_strlen($NumAtCard);
         }
-        $ceros=10-($cod+$num);
+        $ceros=10-($cod+$num+mb_strlen($codSucursal));
         for($i=1;$i<=$ceros;$i++){
             $space.='0';
         }
-        return $date.$space.$NumAtCard;
+        return $date.$codSucursal.$space.$NumAtCard;
     }
     public function etiqueta($max, $name, $value){
         $spaces=$max-mb_strlen($value);
@@ -223,9 +234,9 @@ class EDIGPOS
             $value.=" ";
         }
         return $name.$value;
-    }    
+    }
     public function count()
-    {   
+    {
         return GPOS::whereDate('DocDate','>=',$this->lastSunday)->whereDate('DocDate','<=',$this->nextSaturday)->count();
     }
     public function counts(){
@@ -239,7 +250,7 @@ class EDIGPOS
         ]);
         return $count;
     }
-    public function names(){   
+    public function names(){
         $names=array();
         $names=array([
             'lp'=>'LaPaz_'.$this->lastSunday->format('Ymd').'a'.$this->nextSaturday->format('Ymd').'.txt',
