@@ -138,7 +138,7 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
             $this->gposClass->ExtendedCost($date->ExtendedCost),
             $date->CurrencyOfTransaction,
             $this->gposClass->charters($date->CustomerPONumber),
-            $this->gposClass->DistributorInvoiceNumber(Carbon::now()->format('Ym'),$date->NumAtCard,$date->ObjType),
+            $this->gposClass->DistributorInvoiceNumber(Carbon::now()->format('Ym'),$date->NumAtCard,$date->ObjType,$city),
             $date->NumLine,
             $date->DistributorInvoiceDate,
             $date->AgreementNumber,
@@ -150,12 +150,12 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
         ];
     }
     public function registerEvents(): array
-    {   
+    {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
                 $count=(int)($this->gposClass->gpos($this->gpos)->count())+1;
                 $color='4F81BD';
-                $cellRange = 'A1:BD1'; 
+                $cellRange = 'A1:BD1';
                 $event->sheet->getStyle($cellRange)
                              ->getFont()
                              ->setSize(12)
@@ -182,5 +182,3 @@ class GposExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSi
         return $this->gposClass->gpos($this->gpos);
     }
 }
-
-
