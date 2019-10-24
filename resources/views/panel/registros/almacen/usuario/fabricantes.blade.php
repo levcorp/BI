@@ -29,9 +29,7 @@
                   <div style="border:solid 0.5px #E4E7ED; margin:6px 0px;width:100%"></div>
                   <p style="font-size:11px">
                     <div class="pull-left" style="font-size:13px">
-                      <el-badge is-dot class="item">
                       <strong>#</strong> Revisados
-                      </el-badge>
                     </div>
                     <div class="pull-right">
                       <strong>@{{fabricante.COUNT_ARTICULOS_CHECK}}</strong>

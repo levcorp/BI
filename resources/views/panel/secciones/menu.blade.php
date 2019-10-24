@@ -203,6 +203,30 @@
           @endif
           @endif
           @endif
+          @if(isset(Auth::user()->perfil->asignacionModulo))
+          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','19')||Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','20'))
+          <li class="treeview {{active(['almacen','almacenUser'])}}">
+            <a href="#">
+              <i class="fa fa-tasks"></i> <span>Almacenes</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              @if(isset(Auth::user()->perfil->asignacionModulo))
+                @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','19'))
+                  <li class="{{active(['almacen'])}}"><a href="{{route('almacen')}}"><i class="fa fa-file-text-o"></i>Gestion de Almacen</a></li>
+                @endif
+              @endif
+              @if(isset(Auth::user()->perfil->asignacionModulo))
+                @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','20'))
+                  <li class="{{active(['almacenUser'])}}"><a href="{{route('almacenUser')}}"><i class="fa fa-file-text-o"></i>Control de Almacen</a></li>
+                @endif
+              @endif
+            </ul>
+          </li>
+          @endif
+          @endif
         </ul>
       </section>
       <!-- /.sidebar -->
