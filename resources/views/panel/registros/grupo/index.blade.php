@@ -45,7 +45,7 @@
                           <el-button plain circle size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></el-button>
                   </template>
               </el-table-column>
-        </template>
+            </el-table>
         </div>
     </div>
   </div>

@@ -39,7 +39,7 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
-        ],  
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -66,7 +66,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'ldap',
+            'driver' => env('AUTH_DRIVER'),
             'model' => App\User::class,
         ],
 

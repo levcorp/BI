@@ -22,7 +22,7 @@ return [
                 'account_suffix' => env('LDAP_ACCOUNT_SUFFIX', ''),
 
 
-                'hosts' => explode(' ', env('LDAP_HOSTS', '192.168.10.6')),
+                'hosts' => explode(' ', env('LDAP_HOSTS')),
 
 
                 'port' => env('LDAP_PORT', 389),
@@ -34,8 +34,8 @@ return [
                 'base_dn' => env('LDAP_BASE_DN', 'dc=lev,dc=local'),
 
 
-                'username' => 'Administrador@lev',
-                'password' => 'Manager1000',
+                'username' => env('LDAP_USERNAME'),
+                'password' => env('LDAP_PASSWORD'),
 
                 'follow_referrals' => false,
 

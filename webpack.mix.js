@@ -25,16 +25,9 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/cuestionarioResultado.js','public/js/');
 //mix.js('resources/js/mobile/mobile.js', 'public/js/');
 //mix.js('resources/js/ssl.js', 'public/js/');
-mix.js('resources/js/ubicaciones.js','public/js');
+//mix.js('resources/js/ubicaciones.js','public/js');
 //mix.js('resources/js/articulosABM.js','public/js');
-
-
-
-
-
-
-
-
-
-
-
+//mix.js('resources/js/almacen.js','public/js');
+//mix.vuetify().js('resources/js/pwa/index.js', 'public/js/pwa.js').sass('resources/sass/app.scss', 'public/css/pwa')
+//mix.js('resources/js/pwa/index.js','public/js/pwa.js');
+mix.js('resources/js/almacenUsuario.js','public/js');

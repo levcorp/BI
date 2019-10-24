@@ -1,20 +1,19 @@
 <?php
 
 return [
-    'name' =>'Levcorp',
+    'name' =>env('APP_NAME'),
 
-    'env' =>'production',
-    //'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV'),
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG'),
 
-    'url' => env('APP_URL', 'http://bi.levcorp.bo'),
+    'url' => env('APP_URL'),
 
     'asset_url' => env('ASSET_URL', null),
 
-    'timezone' => 'America/La_Paz',
+    'timezone' => env('APP_TIMEZONE'),
 
-    'locale' => 'es',
+    'locale' => env('APP_LOCALE'),
 
     'fallback_locale' => 'en',
 
@@ -22,7 +21,7 @@ return [
 
     'key' => env('APP_KEY'),
 
-    'cipher' => 'AES-256-CBC',
+    'cipher' => env('APP_CIPHER'),
 
     'providers' => [
         Illuminate\Auth\AuthServiceProvider::class,

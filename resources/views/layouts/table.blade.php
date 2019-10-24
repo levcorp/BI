@@ -15,8 +15,9 @@
     [v-cloak] {
       display: none;
     }
-    
+
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- Site wrapper -->
@@ -36,7 +37,7 @@
     <!-- Content Header (Page header) -->
       <section class="content-header">
         @yield('titulo')
-      </section> 
+      </section>
 
     <!-- Main content -->
       <section class="content" >
@@ -51,7 +52,7 @@
     @include('panel.secciones.footer')
 
     <!-- Control Sidebar -->
-    <!--code is here -->    
+    <!--code is here -->
     <!-- /.control-sidebar -->
     <!-- Add the sidebar's background. This div must be placed
         immediately after the control sidebar -->

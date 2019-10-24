@@ -2,22 +2,22 @@
 
 return [
 
-    'driver' => 'smtp',
+    'driver' => env('MAIL_DRIVER'),
 
-    'host' => '192.168.10.17',
+    'host' => env('MAIL_HOST'),
 
-    'port' => 587,
+    'port' => env('MAIL_PORT'),
 
     'from' => [
-        'address' => 'bi@levcorp.bo',
-        'name' => 'Sistemas',
+        'address' => env('MAIL_ADDRESS'),
+        'name' => env('MAIL_NAME'),
     ],
 
-    'encryption' =>'tls',
+    'encryption' =>env('MAIL_ENCRYPTION'),
 
-    'username' => 'bi@levcorp.bo',
+    'username' => env('MAIL_USERNAME'),
 
-    'password' => 'Manager1000',
+    'password' => env('MAIL_PASSWORD'),
 
     "sendmail" => "/usr/sbin/sendmail -bs",
 
@@ -28,7 +28,7 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-   
+
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
     'stream' => [

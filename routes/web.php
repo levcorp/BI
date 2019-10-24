@@ -1,5 +1,9 @@
 <?php
-Route::get('prueba','controllerGPOSv2@acuerdos');
+Route::get('prueba','Panel\controllerAlmacen@handleGetArticulos');
+////////////////////////////AlmacenUser/////////////////////////////////
+Route::get('panel/almacen/usuario','Panel\controllerPanel@almacenUsuario')->name('almacenUser');
+////////////////////////////Almacen/////////////////////////////////
+Route::get('panel/almacen','Panel\controllerPanel@almacen')->name('almacen');
 ////////////////////////////ABM/////////////////////////////////
 Route::get('panel/articulosabm','Panel\controllerPanel@abm')->name('articulosABM');
 ////////////////////////////UbicacionesStock/////////////////////////////////
@@ -34,13 +38,13 @@ Route::resource('panel/solicitud','Panel\controllerABMSolicitud')->except(['show
 Route::get('panel/stock','Panel\controllerPanel@stock')->name('stock');
 ////////////////////////PERFIL/////////////////////////////////////+
 
-Route::get('panel/perfiles','Panel\controllerPanel@perfiles')->name('perfiles');  
+Route::get('panel/perfiles','Panel\controllerPanel@perfiles')->name('perfiles');
 ////////////////////////ROLES/////////////////////////////////////+
-Route::get('panel/sucursales','Panel\controllerPanel@sucursales')->name('sucursales');  
+Route::get('panel/sucursales','Panel\controllerPanel@sucursales')->name('sucursales');
 
 ////////////////////////EDI/////////////////////////////////////+
 Route::get('panel/gpos/datos','controllerGPOS@datos');
-Route::get('panel/gpos','Panel\controllerPanel@gpos')->name('gpos');  
+Route::get('panel/gpos','Panel\controllerPanel@gpos')->name('gpos');
 ////////////////////////EDI/////////////////////////////////////
 Route::get('panel/edi','controllerEDI@index')->name('edi');
 ////////////////////////AUTH/////////////////////////////////////

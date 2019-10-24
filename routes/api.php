@@ -1,4 +1,24 @@
 <?php
+/////////////////////ALMACEN Usuario/////////////////////////////////
+Route::post('almacen/usuario/get/checkarticulo','Panel\controllerAlmacenUsuario@handleGetArticulosCheck');
+Route::post('almacen/usuario/store/articulo','Panel\controllerAlmacenUsuario@handleStoreArticulos');
+Route::post('almacen/usuario/get/articulos','Panel\controllerAlmacenUsuario@handleGetArticulos');
+Route::post('almacen/usuario/get/fabricantes','Panel\controllerAlmacenUsuario@handleGetFabricantes');
+Route::get('almacen/usuario/get/listas/{usuario_id}','Panel\controllerAlmacenUsuario@handleGetListas');
+/////////////////////ALMACEN//////////////////////////////////
+Route::post('almacen/update/asignacion','Panel\controllerAlmacen@handleUpdateAsignacion');
+Route::delete('almacen/delete/asignacion/{id}','Panel\controllerAlmacen@handleDeleteAsignacion');
+Route::delete('almacen/delete/fabricante/{id}','Panel\controllerAlmacen@handleDeleteFabricante');
+Route::get('almacen/get/asignacion/{lista_id}','Panel\controllerAlmacen@handleGetAsignacion');
+Route::post('almacen/store/asignacion','Panel\controllerAlmacen@handleStoreAsignacion');
+Route::post('almacen/update/lista','Panel\controllerAlmacen@handleUpdateLista');
+Route::delete('almacen/delete/lista/{id}','Panel\controllerAlmacen@handleDeleteLista');
+Route::post('almacen/store/lista','Panel\controllerAlmacen@handleStoreLista');
+Route::post('almacen/get/listas','Panel\controllerAlmacen@handleGetListas');
+Route::get('almacen/get/usuarios/{lista_id}','Panel\controllerAlmacen@handleGetUsuarios');
+Route::post('almacen/get/editfabricantes','Panel\controllerAlmacen@handleGetEditFabricantes');
+Route::post('almacen/get/fabricantes','Panel\controllerAlmacen@handleGetFabricantes');
+Route::post('almacen/get/articulos','Panel\controllerAlmacen@handleGetArticulos');
 /////////////////////Ubicacion//////////////////////////////////
 Route::get('ubicacion/item/mail/{lista_id}','Panel\controllerUbicaciones@handleSend');
 Route::get('ubicacion/item/export/{lista_id}','Panel\controllerUbicaciones@handleExport');
@@ -131,7 +151,7 @@ Route::post('solicitud/detalle/items','Panel\controllerDetalleSolicitud@items');
 Route::get('solicitud/detalle/codvent','Panel\controllerDetalleSolicitud@codVent');
 Route::get('solicitud/detalle/codcomp','Panel\controllerDetalleSolicitud@codComp');
 Route::get('solicitud/detalle/datos/{opcion}/{fabricante?}/{especialidad?}/{familia?}','Panel\controllerDetalleSolicitud@datos');
-Route::resource('solicitud/detalle','Panel\controllerDetalleSolicitud')->except(['index','create']); 
+Route::resource('solicitud/detalle','Panel\controllerDetalleSolicitud')->except(['index','create']);
 Route::get('solicitud/numero/{id}','Panel\controllerABMSolicitud@numero');
 Route::get('solicitud/datos/{paginacion}/{id}/{tipo}','Panel\controllerABMSolicitud@datos');
 Route::resource('solicitud','Panel\controllerABMSolicitud')->except(['index','create','edit']);
@@ -144,4 +164,3 @@ Route::post('solicitud/detalle/fabricantes','Panel\controllerDetalleSolicitud@fa
 Route::post('solicitud/detalle/storeitem','Panel\controllerDetalleSolicitud@storeItem');
 Route::post('solicitud/detalle/precod','Panel\controllerDetalleSolicitud@preCod');
 ///////////////////////////////////////////////////////////////
-

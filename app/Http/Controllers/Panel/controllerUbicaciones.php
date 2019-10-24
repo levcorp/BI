@@ -172,7 +172,7 @@ class controllerUbicaciones extends Controller
     public function handleSend($lista_id){
         ListaStock::findOrFail($lista_id)->fill(['ESTADO'=>1])->save();
         $usuario=User::findOrFail(ListaStock::findOrFail($lista_id)->USUARIO_ID);
-        Mail::to($usuario->email)->cc('gpinto@levcorp.bo')->send( new MailArticulos($lista_id,$usuario->id));
+        Mail::to($usuario->email)->cc('sistemas@levcorp.bo')->send( new MailArticulos($lista_id,$usuario->id));
         //$this->exportCSV($usuario->nombre,$usuario->apellido,$lista_id,Carbon::now()->format('Y-m-dTh-m-s'));
     }
 }
