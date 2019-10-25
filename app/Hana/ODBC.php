@@ -3,10 +3,11 @@ namespace App\Hana;
 use PDO;
 use Response;
 use Exception;
+use Config;
 class ODBC{
   public $connect;
   public function __construct(){
-    $this->connect = odbc_connect("Driver=".env('DB_HANA_DRIVER').";ServerNode=".env('DB_HANA_SERVERNAME').";Database=".env('DB_HANA_DATABASE').";CHAR_AS_UTF8=true", env('DB_HANA_USERNAME'),env('DB_HANA_PASSWORD'),SQL_CUR_USE_ODBC);
+    $this->connect = odbc_connect("Driver=".Config::get('database.connections.HANA.driver').";ServerNode=".Config::get('database.connections.HANA.server').";Database=".Config::get('database.connections.HANA.database').";CHAR_AS_UTF8=true", Config::get('database.connections.HANA.username'),Config::get('database.connections.HANA.password'),SQL_CUR_USE_ODBC);
   }
   public function query($sql){
     if (!($this->connect)){

@@ -15,6 +15,13 @@ return [
           'prefix' => '',
           'prefix_indexes' => true,
         ],
+        'HANA' => [
+          'driver' => env('DB_HANA_DRIVER'),
+          'server' =>env('DB_HANA_SERVERNAME'),
+          'database' =>env('DB_HANA_DATABASE'),
+          'username' =>env('DB_HANA_USERNAME'),
+          'password' =>env('DB_HANA_PASSWORD'),
+        ],
     ],
 
     /*
