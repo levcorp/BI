@@ -4,7 +4,11 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
           <div class="pull-left image">
-            <img src="{{asset('/archivos/perfil/'.Auth::user()->avatar)}}" class="img-circle" alt="Avatar ">
+            @if(Auth::user()->avatar)            
+              <img src="{{asset('/archivos/perfil/'.Auth::user()->avatar)}}" class="img-circle" alt="Avatar ">
+            @else
+              <img src="{{ Avatar::create(ucwords(Auth::user()->nombre." ".Auth::user()->apellido))->toBase64() }}" class="img-circle" alt="User Image" />
+            @endif
           </div>
           <div class="pull-left info">
             <p>{{ucwords(Auth::user()->nombre." ".Auth::user()->apellido)}}</p>

@@ -1,5 +1,6 @@
 <?php
 /////////////////////ALMACEN Usuario/////////////////////////////////
+Route::post('almacen/usuario/get/exportList','Panel\controllerAlmacenUsuario@handleExportLista');
 Route::post('almacen/usuario/get/checkarticulo','Panel\controllerAlmacenUsuario@handleGetArticulosCheck');
 Route::post('almacen/usuario/store/articulo','Panel\controllerAlmacenUsuario@handleStoreArticulos');
 Route::post('almacen/usuario/get/articulos','Panel\controllerAlmacenUsuario@handleGetArticulos');

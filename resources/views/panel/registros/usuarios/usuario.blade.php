@@ -7,7 +7,11 @@
                 <h4 class="modal-title"></h4>
                 <div class="box">
                     <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle" src="{{asset('/archivos/perfil/'.Auth::user()->avatar)}}" alt="Avatar">
+                        @if(Auth::user()->avatar)            
+                            <img class="profile-user-img img-responsive img-circle" src="{{asset('/archivos/perfil/'.Auth::user()->avatar)}}" alt="Avatar">
+                        @else
+                            <img src="{{ Avatar::create(ucwords(Auth::user()->nombre." ".Auth::user()->apellido))->toBase64() }}" class="profile-user-img img-responsive img-circle" alt="User Image" />
+                        @endif
                         <h3 class="profile-username text-center">{{ucwords(Auth::user()->nombre." ".Auth::user()->apellido)}}</h3>
                         <p class="text-muted text-center">{{ucwords(Auth::user()->cargo)}}</p>
                         <ul class="list-group list-group-unbordered">

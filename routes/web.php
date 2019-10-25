@@ -1,5 +1,7 @@
 <?php
-Route::get('prueba','Panel\controllerAlmacen@handleGetArticulos');
+Route::get('prueba','Panel\controllerAlmacenUsuario@Lista');
+
+Route::get('prueba2','Panel\controllerAlmacen@handleGetArticulos');
 ////////////////////////////AlmacenUser/////////////////////////////////
 Route::get('panel/almacen/usuario','Panel\controllerPanel@almacenUsuario')->name('almacenUser');
 ////////////////////////////Almacen/////////////////////////////////

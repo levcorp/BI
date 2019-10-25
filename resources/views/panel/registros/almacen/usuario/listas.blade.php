@@ -41,6 +41,7 @@
       <el-table-column align="center" label="Operaciones">
           <template slot-scope="scope">
             <el-button circle icon="el-icon-plus" size="mini" type="primary" @click="handleShow(scope.$index,scope.row)"></el-button>
+            <el-button circle icon="el-icon-notebook-2" size="mini" type="success" @click="handleExportLista(scope.$index,scope.row)"></el-button>
           </template>
       </el-table-column>
     </el-table>

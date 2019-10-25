@@ -142,6 +142,33 @@ var Main={
       this.createArticulo.FABRICANTE_ASIGNACION_ID=this.fabricante.id;
       this.createArticulo.UBICACION=row.U_UbicFis;
       $('#validarArticulo').modal('show');
+    },
+    handleExportLista(index,row){
+      this.$confirm('¿ Exportar Lista ?', 'Exportar', {
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        type: 'warning',
+        roundButton:true
+      }).then(() => {
+        var name = row.lista.NOMBRE+'.xlsx';
+        var url = '/api/almacen/usuario/get/exportList';
+        axios({
+            url: url,
+            method: 'POST',
+            responseType: 'blob',
+            data:{
+              'LISTA_ID':row.lista.id,
+              'USUARIO_ID':this.values.usuario_id
+            } 
+        }).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', name); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        });
+      }).catch(() => {});
     }
   },
 }
