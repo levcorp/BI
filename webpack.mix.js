@@ -30,4 +30,5 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/almacen.js','public/js');
 //mix.vuetify().js('resources/js/pwa/index.js', 'public/js/pwa.js').sass('resources/sass/app.scss', 'public/css/pwa')
 //mix.js('resources/js/pwa/index.js','public/js/pwa.js');
-mix.js('resources/js/almacenUsuario.js','public/js');
+//mix.js('resources/js/almacenUsuario.js','public/js');
+mix.js('resources/js/factura.js','public/js');

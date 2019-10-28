@@ -26,7 +26,6 @@
       </p>
     </li>
     <!-- Menu Body -->
-  
     <!-- Menu Footer-->
     <li class="user-footer">
       <div class="pull-left">

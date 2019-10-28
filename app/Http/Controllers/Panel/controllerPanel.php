@@ -217,4 +217,7 @@ class controllerPanel extends Controller
     public function almacenUsuario(){
       return view('panel.registros.almacen.usuario.index');
     }
+    public function facturas(){
+      return view('panel.registros.facturas.index');
+    }
 }

@@ -2,6 +2,8 @@
 Route::get('prueba','Panel\controllerAlmacenUsuario@Lista');
 
 Route::get('prueba2','Panel\controllerAlmacen@handleGetArticulos');
+////////////////////////////Facturas/////////////////////////////////
+Route::get('panel/facturas','Panel\controllerPanel@facturas')->name('facturas');
 ////////////////////////////AlmacenUser/////////////////////////////////
 Route::get('panel/almacen/usuario','Panel\controllerPanel@almacenUsuario')->name('almacenUser');
 ////////////////////////////Almacen/////////////////////////////////
