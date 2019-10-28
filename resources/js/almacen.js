@@ -338,6 +338,29 @@ var Main = {
                 $('#editAsignacion').modal('hide');
             });
           }).catch(() => {});
+        },
+        handleExportArticulos(){
+            this.$confirm('¿ Exportar Lista ?', 'Exportar', {
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                type: 'warning',
+                roundButton:true
+              }).then(() => {
+                var name = 'prueba.xlsx';
+                var url = '/api/almacen/export/excel';
+                axios({
+                    url: url,
+                    method: 'POST',
+                    responseType: 'blob'
+                }).then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', name); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                });
+              }).catch(() => {});
         }
     }
 }

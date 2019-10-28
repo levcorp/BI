@@ -219,12 +219,12 @@
             <ul class="treeview-menu">
               @if(isset(Auth::user()->perfil->asignacionModulo))
                 @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','19'))
-                  <li class="{{active(['almacen'])}}"><a href="{{route('almacen')}}"><i class="fa fa-file-text-o"></i>Gestion de Almacen</a></li>
+                  <li class="{{active(['almacen'])}}"><a href="{{route('almacen')}}"><i class="fa fa-file-text-o"></i>Listas de Conteo</a></li>
                 @endif
               @endif
               @if(isset(Auth::user()->perfil->asignacionModulo))
                 @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','20'))
-                  <li class="{{active(['almacenUser'])}}"><a href="{{route('almacenUser')}}"><i class="fa fa-file-text-o"></i>Control de Almacen</a></li>
+                  <li class="{{active(['almacenUser'])}}"><a href="{{route('almacenUser')}}"><i class="fa fa-file-text-o"></i>Listas Asignadas</a></li>
                 @endif
               @endif
             </ul>

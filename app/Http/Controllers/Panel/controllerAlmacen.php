@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Hana\SQL\Almacen;
+use App\Exports\DatosAlmacenExport;
+use Excel;
 class controllerAlmacen extends Controller
 {
     public $Almacen;
@@ -50,5 +52,8 @@ class controllerAlmacen extends Controller
     }
     public function handleUpdateAsignacion(Request $request){
       return $this->Almacen->UpdateAsignacion($request);
+    }
+    public function handleExportArticulos(Request $request){
+      return Excel::download(new DatosAlmacenExport, 'Almacen.xlsx');
     }
 }

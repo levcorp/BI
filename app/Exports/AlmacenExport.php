@@ -39,7 +39,7 @@ class AlmacenExport implements FromCollection,WithMapping,WithHeadings,ShouldAut
                 'Codigo Ventas',
                 'Descripción',
                 'Ubicación',
-                'On Hand',
+                'Cant. Stock',
                 'Almacen',
                 'Observaciónes'
             ]

@@ -15,11 +15,16 @@
           <div class="box box-info">
             <div class="box-header">
               <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                      <p style="font-size: 15px">
-                          <el-button @click="handleBackList()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
-                          <strong>&nbsp;&nbsp;Datos de Almacen</strong>
-                      </p>
+                  <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                    <p style="font-size: 15px">
+                        <el-button @click="handleBackList()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
+                        <strong>&nbsp;&nbsp;Datos de Almacen</strong>
+                    </p>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                      <div class="pull-right" style="margin-right: 10px">
+                        <el-button size="mini" @click="handleExportArticulos()" type="success" icon="el-icon-notebook-2" round> Exportar Lista</el-button>
+                      </div>
                   </div>
               </div>
             </div>

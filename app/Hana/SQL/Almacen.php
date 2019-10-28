@@ -159,7 +159,9 @@ class Almacen extends ODBC{
     return Response::json(AsignacionAlmacen::where('USUARIO_ID',$usuario_id)->with('lista')->orderBy('id','desc')->get());
   }
   public function GetFabricantesAsignados($request){
-    return Response::json(AsignacionAlmacen::where('id',$request->id)->with('fabricantes')->first());
+    return Response::json(AsignacionAlmacen::where('id',$request->id)->with(array('fabricantes'=>function($querry){
+      $querry->orderBy('FABRICANTE','asc');
+    }))->first());
   }
   //AlmacenUsuario
   public function countArticulos($FirmCode,$sucursal){

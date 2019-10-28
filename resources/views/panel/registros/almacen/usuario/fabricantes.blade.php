@@ -1,9 +1,29 @@
 <div class="box box-info">
   <div class="box-header">
-    <p style="font-size: 15px">
-        <el-button @click="handleBackList()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
-        <strong>&nbsp;&nbsp;Datos de Almacen</strong>
-    </p>
+    <div class="row">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+        <p style="font-size: 15px">
+          <el-button @click="handleBackList()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
+          <strong>&nbsp;&nbsp;Datos de Almacen</strong>
+        </p>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+          <div class="pull-right" style="margin-right: 10px">
+              <p style="font-size: 13px">
+                <strong>
+                  Total Articulos : 
+                </strong>
+                <el-tag size="mini" effect="dark" type="primary">@{{total.articulos}}</el-tag>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>
+                  Total Revisados :
+                </strong>
+                <el-tag size="mini" effect="dark" type="primary">@{{this.total.revisados}}</el-tag>
+              </p>
+          </div>
+      </div>
+    </div>
+  </div>
     <div class="box-body">
         <div class="row">
           <div v-for="fabricante in fabricantes.fabricantes">

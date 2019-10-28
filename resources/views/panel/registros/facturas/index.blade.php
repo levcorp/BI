@@ -19,7 +19,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4"></div>
-                    <div class="col-sm-4 camera">
+                    <div class="col-sm-4">
                         <qrcode-stream @decode="onDecode" @init="onInit"/>
                     </div>
                     <div class="col-sm-4"></div>

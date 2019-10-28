@@ -7,6 +7,7 @@ Route::post('almacen/usuario/get/articulos','Panel\controllerAlmacenUsuario@hand
 Route::post('almacen/usuario/get/fabricantes','Panel\controllerAlmacenUsuario@handleGetFabricantes');
 Route::get('almacen/usuario/get/listas/{usuario_id}','Panel\controllerAlmacenUsuario@handleGetListas');
 /////////////////////ALMACEN//////////////////////////////////
+Route::post('almacen/export/excel','Panel\controllerAlmacen@handleExportArticulos');
 Route::post('almacen/update/asignacion','Panel\controllerAlmacen@handleUpdateAsignacion');
 Route::delete('almacen/delete/asignacion/{id}','Panel\controllerAlmacen@handleDeleteAsignacion');
 Route::delete('almacen/delete/fabricante/{id}','Panel\controllerAlmacen@handleDeleteFabricante');

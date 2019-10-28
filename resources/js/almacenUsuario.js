@@ -48,6 +48,10 @@ var Main={
         FABRICANTE_ASIGNACION_ID:'',
         OBSERVACION:'',
         UBICACION:''
+      },
+      total:{
+        articulos:0,
+        revisados:0
       }
     }
   },
@@ -78,6 +82,10 @@ var Main={
         id:this.lista.id,
       }).then(response=>{
         this.fabricantes=response.data;
+        response.data.fabricantes.forEach(element => {
+          this.total.articulos+=parseInt(element.COUNT_ARTICULOS,10)
+          this.total.revisados+=parseInt(element.COUNT_ARTICULOS_CHECK,10)
+        });
       });
     },
     handleShowArticulos(fabricante){
@@ -105,6 +113,8 @@ var Main={
       this.show.articulos=false;
       this.articulos=[];
       this.fabricante=[];
+      this.total.articulos=0;
+      this.total.revisados=0;
       this.handleGetFabricantes();
     },
     handleGetArticulosCheck(){

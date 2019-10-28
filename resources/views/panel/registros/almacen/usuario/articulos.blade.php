@@ -50,7 +50,7 @@
                 </p>
             </template>
         </el-table-column>
-        <el-table-column align="center" label="OnHand" sortable width="100">
+        <el-table-column align="center" label="Cant. Stock" sortable width="100">
             <template slot-scope="scope">
                 <el-tag size="mini" effect="plain" type="warning">
                     @{{parseFloat(scope.row.OnHand)}}
@@ -124,7 +124,7 @@
                 </p>
             </template>
         </el-table-column>
-        <el-table-column align="center" label="OnHand" sortable width="100">
+        <el-table-column align="center" label="Cant. Stock" sortable width="100">
             <template slot-scope="scope">
                 <el-tag size="mini" effect="plain" type="warning">
                     @{{parseFloat(scope.row.ONHAND)}}
