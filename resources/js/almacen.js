@@ -346,7 +346,7 @@ var Main = {
                 type: 'warning',
                 roundButton:true
               }).then(() => {
-                var name = 'prueba.xlsx';
+                var name = this.lista.NOMBRE+'.xlsx';
                 var url = '/api/almacen/export/excel';
                 axios({
                     url: url,
