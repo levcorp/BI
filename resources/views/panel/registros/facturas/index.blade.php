@@ -44,6 +44,7 @@
                         </div>
                         </transition>
                     </div>
+                    <br>
                     <div class="col-sm-6">
                         <el-card shadow="always" style="margin-bottom:10px;">
                             <div v-if="show.factura">
@@ -238,6 +239,7 @@
                             </div>
                         </el-card>
                     </div>
+                    <br>
                 </div>
             </div>
         </div>
