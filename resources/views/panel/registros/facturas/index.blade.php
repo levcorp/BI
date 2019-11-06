@@ -11,7 +11,7 @@
                 </p>
             </div>
             <div class="box-body">
-                <div class="row">
+                <div class="row camera">
                     <div class="col-sm-6">
                         <qrcode-stream @decode="onDecode" @init="onInit"/>
                         <br>
