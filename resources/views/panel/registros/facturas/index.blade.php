@@ -7,7 +7,7 @@
         <div class="box box-info" style="">
             <div class="box-header">
                 <p style="font-size: 15px">
-                    <strong>&nbsp;&nbsp;Facturas</strong>
+                    <strong>&nbsp;&nbsp;Lector de Codigos QR</strong>
                 </p>
             </div>
             <div class="box-body">
@@ -43,8 +43,8 @@
                             <br>
                         </div>
                         </transition>
+                        <br>
                     </div>
-                    <br>
                     <div class="col-sm-6">
                         <el-card shadow="always" style="margin-bottom:10px;">
                             <div v-if="show.factura">
@@ -237,9 +237,13 @@
                                 show-icon>
                                 </el-alert>
                             </div>
+                            <br>
+                            <div class="text-center">
+                                <el-button size="mini" round type="primary" icon="el-icon-paperclip"> Guardar</el-button>
+                            </div>
                         </el-card>
+                        <br>
                     </div>
-                    <br>
                 </div>
             </div>
         </div>
