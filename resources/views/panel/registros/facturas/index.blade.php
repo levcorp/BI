@@ -15,21 +15,10 @@
                     <div class="col-sm-6">
                         <transition name="el-fade-in">
                         <div v-if="show.success">
-                            <el-alert
-                            title="Realizado"
-                            type="success"
-                            description="Codigo QR leido correctamente"
-                            show-icon
-                            :closable="false">
-                            </el-alert>
+                            <el-alert title="Realizado" type="success" description="Codigo QR leido correctamente" show-icon :closable="false"></el-alert>
                             <br>
                             <div v-for="error in errors">
-                                <el-alert
-                                :title="error"
-                                type="error"
-                                show-icon
-                                :closable="false">
-                                </el-alert>
+                                <el-alert :title="error" type="error" show-icon :closable="false"></el-alert>
                                 <br>
                             </div>
                             <div class="text-center">

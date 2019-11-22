@@ -18,8 +18,8 @@
     .camera .overlay{
       background-color: transparent;
     }
-
   </style>
+    @yield('style')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
 <body class="hold-transition skin-red sidebar-mini">

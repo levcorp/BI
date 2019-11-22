@@ -23,9 +23,7 @@ class Almacen extends ODBC{
         break;
     }
   }
-  public function ArticulosStock($sucursal){
-    $sucursal=$this->WhsCode($sucursal);
-    $sql= <<<EOF
+  public function ArticulosStock($sucursal){   $sql= <<<EOF
       SELECT T1."U_UbicFis", T0."ItemCode", T0."U_Cod_Vent", T1."OnHand", T0."ItemName", T2."FirmName", T1."WhsCode",
       CASE WHEN T0."QryGroup1" = 'y' THEN 'Primario'
       WHEN T0."QryGroup2" = 'Y' THEN 'Campaña'
@@ -37,6 +35,8 @@ class Almacen extends ODBC{
       AND T1."OnHand" > 0
       EOF;
       return parent::query(utf8_decode($sql));
+    $sucursal=$this->WhsCode($sucursal);
+ 
   }
   public function EditFabricantes($request){
     $asignaciones=AsignacionAlmacen::select('id')->where('LISTA_ID',$request->lista_id)->get();

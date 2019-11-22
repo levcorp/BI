@@ -220,4 +220,10 @@ class controllerPanel extends Controller
     public function facturas(){
       return view('panel.registros.facturas.index');
     }
+    public function rendicionViaticos(){
+      return view('panel.registros.rendicion.viaticos.index');
+    }
+    public function seguimiento(){
+      return view('panel.registros.seguimiento.index');
+    }
 }

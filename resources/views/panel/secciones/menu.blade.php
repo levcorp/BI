@@ -174,6 +174,13 @@
                   </li>
                   @endif
                   @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','12'))
+                  <li class="{{active(['seguimiento'])}}">
+                    <a href="{{route('seguimiento')}}"><i class="fa fa-retweet"></i> <span>Seguimiento OV</span></a>
+                  </li>
+                  @endif
+                  @endif
               </ul>
           </li>
           @if(isset(Auth::user()->perfil->asignacionModulo))

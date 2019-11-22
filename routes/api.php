@@ -1,4 +1,10 @@
 <?php
+/////////////////////OV - PO/////////////////////////////////
+Route::get('seguimiento/export','Panel\controllerSeguimiento@handleExport');
+Route::get('seguimiento/get/detalle/{DocNum}','Panel\controllerSeguimiento@handleGetDetalle');
+Route::get('seguimiento/get/datos','Panel\controllerSeguimiento@handleGetDatos');
+/////////////////////Rendicion Viaticos/////////////////////////////////
+Route::post('rendicion/viaticos/get/rendiciones','Panel\controllerRedicionViaticos@handleGetRendiciones');
 /////////////////////ALMACEN Usuario/////////////////////////////////
 Route::post('almacen/usuario/get/exportList','Panel\controllerAlmacenUsuario@handleExportLista');
 Route::post('almacen/usuario/get/checkarticulo','Panel\controllerAlmacenUsuario@handleGetArticulosCheck');

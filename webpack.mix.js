@@ -31,4 +31,10 @@ const mix = require('laravel-mix');
 //mix.vuetify().js('resources/js/pwa/index.js', 'public/js/pwa.js').sass('resources/sass/app.scss', 'public/css/pwa')
 //mix.js('resources/js/pwa/index.js','public/js/pwa.js');
 //mix.js('resources/js/almacenUsuario.js','public/js');
-mix.js('resources/js/factura.js','public/js');
+//mix.js('resources/js/factura.js','public/js');
+//mix.js('resources/js/rendicionViaticos.js','public/js');
+
+
+mix.js('resources/js/seguimiento.js', 'public/js');
+
+//mix.browserSync('localhost');
