@@ -4,6 +4,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
+import VModal from 'vue-js-modal'
+ 
+Vue.use(VModal)
 Vue.use(Vue2Filters)
 
 locale.use(lang);
@@ -24,28 +27,51 @@ new Vue({
                 datos:true,
                 detalle:false,
                 export:false,
-            }
+            },
+            values:{
+                sucursal_id:'',
+            },
+            sucursal:'',
+            dato:[],
         }
     },
     mounted() {
       this.handleGetDatos();
+      this.sucursal=this.handleSucursal(this.values.sucursal_id);
     },
     methods: {
+        handleSucursal(sucursal){
+            switch (sucursal) {
+                case 'La Paz':
+                    return 'LP'
+                    break;
+                case 'Cochabamba':
+                    return 'CO'
+                    break;
+                case 'Santa Cruz' : 
+                    return 'SC'
+                    break;
+            }
+        },
         handleGetDatos(){
-            var url='/api/seguimiento/get/datos'
+            var url='/api/seguimiento/get/datos/'+this.handleSucursal(this.values.sucursal_id)
             axios.get(url).then(response=>{
                 this.datos=response.data
                 this.loading.datos=false;
             })
         },
-        async handleChange(row,expandedRows){
-            this.loading.detalle=true;
-            const detalle= await this.handleGetDetalle(row.OV_COD_SAP)
-            this.subdatos.push({
-                key: row.OV_COD_SAP,
-                value: detalle
+        handleGetDetalle(row){
+            this.dato=row;
+            this.$modal.show('descripcion');
+             this.loading.detalle=true;
+             var url='/api/seguimiento/get/detalle';
+             axios.post(url,{
+                 DocNum: row.OV_COD_SAP,
+                 sucursal: this.handleSucursal(this.values.sucursal_id)
+             }).then(response=>{
+                this.loading.detalle=false;
+                this.subdatos=response.data;
              });
-             this.loading.detalle=false;
         },
         headerRowStyleDatos({row, rowIndex}) {
         	return {"font-size":"12px"};
@@ -56,12 +82,6 @@ new Vue({
         rowStyleDetalle({row, rowIndex}){
             return { "background":"#fdf6ec"};
         },
-        async handleGetDetalle(DocNum){
-            var url='/api/seguimiento/get/detalle/'+DocNum;
-            return await axios.get(url).then(response=>{
-                 return response.data
-            });
-        },
         handleExportSeguimiento(){
             this.loading.export=true;
             this.$confirm('¿ Exportar Lista ?', 'Exportar', {
@@ -71,8 +91,8 @@ new Vue({
                 roundButton:true
               }).then(() => {
                 var date=new Date();
-                var name = date.toLocaleDateString("en-US")+'Seguimiento.xlsx';
-                var url = '/api/seguimiento/export';
+                var name = this.sucursal+date.toLocaleDateString("en-US")+'Seguimiento.xlsx';
+                var url = '/api/seguimiento/export/'+this.sucursal;
                 axios({
                     url: url,
                     method: 'GET',
@@ -87,6 +107,18 @@ new Vue({
                     this.loading.export=false
                 });
               }).catch(() => {});
+        },
+        handleGetSucursal(sucursal){
+            this.sucursal=sucursal;
+            this.loading.datos=true;
+            var url='/api/seguimiento/get/datos/'+sucursal
+            axios.get(url).then(response=>{
+                this.datos=response.data
+                this.loading.datos=false;
+            })
+        },
+        handleCloseDetalle(){
+            this.$modal.hide('descripcion');
         }
     },
 })

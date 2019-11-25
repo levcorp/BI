@@ -1,8 +1,8 @@
 <?php
 /////////////////////OV - PO/////////////////////////////////
-Route::get('seguimiento/export','Panel\controllerSeguimiento@handleExport');
-Route::get('seguimiento/get/detalle/{DocNum}','Panel\controllerSeguimiento@handleGetDetalle');
-Route::get('seguimiento/get/datos','Panel\controllerSeguimiento@handleGetDatos');
+Route::get('seguimiento/export/{sucursal}','Panel\controllerSeguimiento@handleExport');
+Route::post('seguimiento/get/detalle','Panel\controllerSeguimiento@handleGetDetalle');
+Route::get('seguimiento/get/datos/{sucursal}','Panel\controllerSeguimiento@handleGetDatos');
 /////////////////////Rendicion Viaticos/////////////////////////////////
 Route::post('rendicion/viaticos/get/rendiciones','Panel\controllerRedicionViaticos@handleGetRendiciones');
 /////////////////////ALMACEN Usuario/////////////////////////////////

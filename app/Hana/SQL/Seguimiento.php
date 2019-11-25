@@ -4,14 +4,15 @@ use App\Hana\ODBC;
 
 class Seguimiento extends ODBC
 {
-    public function getDatos(){
+    public function getDatos($sucursal){
         $sql= <<<EOF
         select T0."OV_COD_SAP",T0."OV_NOM_CLIENTE",T0."OV_FEC_ENTREGA",T0."OV_COMENTARIOS",T0."PROCESADO",T0."TIPO",T0."PICKING",T0."PENDIENTE_FACTURACION" from LEVCORP.SEGUIMIENTO_OV T0
+        where T0."PO_SUCURSAL" like '$sucursal'
         GROUP BY T0."OV_COD_SAP",T0."OV_NOM_CLIENTE",T0."OV_FEC_ENTREGA",T0."OV_COMENTARIOS",T0."PROCESADO" ,T0."TIPO",T0."PICKING",T0."PENDIENTE_FACTURACION"    
         EOF;
         return parent::query(utf8_decode($sql));
     }
-    public function getDetalle($DocNum){
+    public function getDetalle($request){
         $sql= <<<EOF
         select 
         T0."PO_NOM_PROVEEDOR",
@@ -39,13 +40,14 @@ class Seguimiento extends ODBC
         T0."PO_F_ALMACENES",
         T0."PO_F_EST_ALMACENES"
         from LEVCORP.SEGUIMIENTO_OV T0 
-        where T0."OV_COD_SAP" = $DocNum        
+        where T0."OV_COD_SAP" = $request->DocNum        
         EOF;
         return parent::query(utf8_decode($sql));
     }
-    public function getAll(){
+    public function getAll($sucursal){
         $sql=<<<EOF
         select * from LEVCORP.SEGUIMIENTO_OV
+        where "PO_SUCURSAL" like '$sucursal'
         EOF;
         return parent::query(utf8_decode($sql));
     }

@@ -240,6 +240,11 @@
                         PO_F_EST_ALMACENES
                 </strong>
             </th>
+            <th style="color:#FFFFFF;background-color:#4F81BD;text-align: center;width: 20">
+                <strong>
+                        PO_SUCURSAL
+                </strong>
+            </th>
     </tr>
     </thead>
     <tbody>
@@ -291,6 +296,7 @@
             <td style="border: 1px solid #4F81BD;border-color:#4F81BD;text-align: center;">{{ $dato->PO_F_EST_DESADUANIZACION}}</td>                
             <td style="border: 1px solid #4F81BD;border-color:#4F81BD;text-align: center;">{{ $dato->PO_F_ALMACENES}}</td> 
             <td style="border: 1px solid #4F81BD;border-color:#4F81BD;text-align: center;">{{ $dato->PO_F_EST_ALMACENES}}</td>                
+            <td style="border: 1px solid #4F81BD;border-color:#4F81BD;text-align: center;">{{ $dato->PO_SUCURSAL}}</td>                
         </tr>
     @endforeach
     </tbody>

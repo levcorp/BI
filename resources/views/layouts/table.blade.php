@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Levcorp | </title>
-  <!-- Tell the browser to be responsive to screen width -->
+  <!-- Tell the browser to be responsive to screen width   @-laravelPWA -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   @include('panel.registros.styles.css')
-    @laravelPWA
+  
   <style>
     .preg{
       background-color:rgba(158,206,255, 0.3) ;
