@@ -58,7 +58,7 @@
                               </p>
                           </template>
                       </el-table-column>
-                      <el-table-column align="center" label="NOM. CLIENTE" sortable width="170">
+                      <el-table-column align="center" label="NOM. CLIENTE" sortable width="200">
                           <template slot-scope="scope">
                               <p style="font-size: 12px;">
                                   <strong>
@@ -111,9 +111,9 @@
                               </p>
                           </template>
                       </el-table-column>
-                      <el-table-column align="center" label="COMENTARIOS" sortable width="220">
+                      <el-table-column align="center" label="COMENTARIOS" sortable width="350">
                           <template slot-scope="scope">
-                              <p style="font-size: 12px;">
+                              <p style="font-size: 11px;">
                                     @{{scope.row.OV_COMENTARIOS ? scope.row.OV_COMENTARIOS:'SIN COMENTARIO'}}
                               </p>
                           </template>
