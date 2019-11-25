@@ -1,4 +1,4 @@
-<modal name="descripcion" :adaptive="true" height="86%" :scrollable="true"  width="80%">
+<modal name="descripcion" :adaptive="true" height="auto" :scrollable="true"  width="80%">
 <div class="row">
     <div class="col-sm-12">
         <div class="box box-info">
