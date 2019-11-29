@@ -74,7 +74,11 @@
             </el-table>  
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <div class="text-center">
+                <el-button size="mini" type="primary" data-dismiss="modal" round>
+                    Cerrar
+                </el-button>
+            </div>
         </div>
     </div>
     <!-- /.modal-content -->

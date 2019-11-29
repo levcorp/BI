@@ -11,7 +11,7 @@
             </p>
         </div>
         <div class="modal-body">
-            <el-table :data="oportunidades.detalle" style="width: 100%" height="450" highlight-current-row>
+            <el-table border :data="oportunidades.detalle" style="width: 100%" height="450" highlight-current-row>
                 <el-table-column width="70" align="center" label="#">
                     <template slot-scope="scope">
                         @{{scope.$index +1}}
@@ -74,7 +74,11 @@
             </el-table>  
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <div class="text-center">
+                <el-button size="mini" type="primary" data-dismiss="modal" round>
+                    Cerrar
+                </el-button>
+            </div>
         </div>
     </div>
     <!-- /.modal-content -->
