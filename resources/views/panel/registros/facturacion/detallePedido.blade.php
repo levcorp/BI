@@ -11,7 +11,7 @@
             </p>
         </div>
         <div class="modal-body">
-            <el-table :data="pedidoDetalle" style="width: 100%" height="450" highlight-current-row>
+            <el-table border :data="pedidoDetalle" style="width: 100%" height="450" highlight-current-row>
                 <el-table-column width="70" align="center" label="#">
                     <template slot-scope="scope">
                         @{{scope.$index +1}}
