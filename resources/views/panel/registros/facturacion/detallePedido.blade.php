@@ -1,0 +1,83 @@
+<div class="modal fade" id="detallePedido"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <p style="font-size: 15px;">
+                <strong>
+                    DETALLE PEDIDO @{{pedido.Nombre_Cliente}}
+                </strong>
+            </p>
+        </div>
+        <div class="modal-body">
+            <el-table :data="pedidoDetalle" style="width: 100%" height="450" highlight-current-row>
+                <el-table-column width="70" align="center" label="#">
+                    <template slot-scope="scope">
+                        @{{scope.$index +1}}
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" prop="Vendedor" label="Vendedor">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.Vendedor}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" prop="Descricion" label="Descripcion">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.Descricion}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="Cod. Ventas" prop="cod_ventas">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.cod_ventas}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="Fabricante" prop="Nombre_Fabricante">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.Nombre_Fabricante}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="Cantidad" prop="Cantidad">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.Cantidad}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="TOTAL" prop="total_USD">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.total_USD}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
+            </el-table>  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

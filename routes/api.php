@@ -1,4 +1,16 @@
 <?php
+/////////////////////Facturacion/////////////////////////////////
+Route::post('facturacion/get/oportunidades/detalle','Panel\controllerFacturacion@handleGetOporunidadesDetalle');
+Route::get('facturacion/get/oportunidades/year/{sector}','Panel\controllerFacturacion@handleGetOportunidadesAños');
+Route::get('facturacion/get/oportunidades/meses/{sector}','Panel\controllerFacturacion@handleGetOportunidadesMeses');
+Route::post('facturacion/get/oportunidades/all','Panel\controllerFacturacion@handleGetOportunidadesAll');
+Route::post('facturacion/get/oportunidades/mes','Panel\controllerFacturacion@handleGetOportunidadesMes');
+Route::post('facturacion/get/pedidodetalle','Panel\controllerFacturacion@handleGetPedidoDetalle');
+Route::get('facturacion/get/pedidosyear/{sector}','Panel\controllerFacturacion@handleGetYear');
+Route::get('facturacion/get/pedidosmes/{sector}','Panel\controllerFacturacion@handleGetMes');
+Route::get('facturacion/get/pedidosall/{sector}','Panel\controllerFacturacion@handleGetPedidosAll');
+Route::get('facturacion/get/pedidos/{sector}','Panel\controllerFacturacion@handleGetPedidos');
+Route::get('facturacion/get/facturacion','Panel\controllerFacturacion@handleGetFacturacion');
 /////////////////////OV - PO/////////////////////////////////
 Route::get('seguimiento/export/{sucursal}','Panel\controllerSeguimiento@handleExport');
 Route::post('seguimiento/get/detalle','Panel\controllerSeguimiento@handleGetDetalle');

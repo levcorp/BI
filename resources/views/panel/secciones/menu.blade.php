@@ -130,7 +130,7 @@
           @endif
           @endif
           @if(isset(Auth::user()->perfil->asignacionModulo))
-          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','8') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','9') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','10') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','11') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','12') )
+          @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','8') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','9') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','10') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','11') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','12') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','21')|| Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','22'))
           <li class="treeview {{active(['stock'])}}">
               <a href="#">
                 <i class="fa fa-shopping-bag"></i> <span>Ventas</span>
@@ -149,35 +149,42 @@
                   @if(isset(Auth::user()->perfil->asignacionModulo))
                   @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','9'))
                   <li class="{{active(['tareas'])}}">
-                    <a href="{{route('tareas')}}"><i class="fa fa-cubes"></i> <span>Tareas Ventas (General)</span></a>
+                    <a href="{{route('tareas')}}"><i class="fa fa-pencil-square-o"></i> <span>Tareas Ventas (General)</span></a>
                   </li>
                   @endif
                   @endif
                   @if(isset(Auth::user()->perfil->asignacionModulo))
                   @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','10'))
                   <li class="{{active(['tareasUsuario'])}}">
-                    <a href="{{route('tareasUsuario')}}"><i class="fa fa-cubes"></i> <span>Tareas Asignadas</span></a>
+                    <a href="{{route('tareasUsuario')}}"><i class="fa fa-pencil-square-o"></i> <span>Tareas Asignadas</span></a>
                   </li>
                   @endif
                   @endif
                   @if(isset(Auth::user()->perfil->asignacionModulo))
                   @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','11'))
                   <li class="{{active(['tareasCusuario'])}}">
-                    <a href="{{route('tareasCusuario')}}"><i class="fa fa-cubes"></i> <span>Tareas Creadas</span></a>
+                    <a href="{{route('tareasCusuario')}}"><i class="fa fa-pencil-square-o"></i> <span>Tareas Creadas</span></a>
                   </li>
                   @endif
                   @endif
                   @if(isset(Auth::user()->perfil->asignacionModulo))
                   @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','12'))
                   <li class="{{active(['tareasEspecialidad'])}}">
-                    <a href="{{route('tareasEspecialidad')}}"><i class="fa fa-cubes"></i> <span>Tareas Especialidad</span></a>
+                    <a href="{{route('tareasEspecialidad')}}"><i class="fa fa-pencil-square-o"></i> <span>Tareas Especialidad</span></a>
                   </li>
                   @endif
                   @endif
                   @if(isset(Auth::user()->perfil->asignacionModulo))
-                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','12'))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','21'))
                   <li class="{{active(['seguimiento'])}}">
                     <a href="{{route('seguimiento')}}"><i class="fa fa-retweet"></i> <span>Seguimiento OV</span></a>
+                  </li>
+                  @endif
+                  @endif
+                  @if(isset(Auth::user()->perfil->asignacionModulo))
+                  @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','22'))
+                  <li class="{{active(['facturacion'])}}">
+                    <a href="{{route('facturacion')}}"><i class="fa fa-sticky-note-o"></i> <span>Facturación</span></a>
                   </li>
                   @endif
                   @endif

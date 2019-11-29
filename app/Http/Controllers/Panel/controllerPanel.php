@@ -226,4 +226,7 @@ class controllerPanel extends Controller
     public function seguimiento(){
       return view('panel.registros.seguimiento.index');
     }
+    public function facturacion(){
+     return view('panel.registros.facturacion.index');
+    }
 }

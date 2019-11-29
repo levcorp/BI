@@ -3,6 +3,8 @@ Route::get('prueba','Panel\controllerAlmacenUsuario@Lista');
 
 Route::get('prueba2','Panel\controllerAlmacen@handleGetArticulos');
 ////////////////////////////OV-PO/////////////////////////////////
+Route::get('panel/facturacion','Panel\controllerPanel@facturacion')->name('facturacion');
+////////////////////////////OV-PO/////////////////////////////////
 Route::get('panel/seguimiento','Panel\controllerPanel@seguimiento')->name('seguimiento');
 ////////////////////////////Rendicion Viaticos/////////////////////////////////
 Route::get('panel/rendicion/viaticos','Panel\controllerPanel@rendicionViaticos')->name('rendicionViaticos');

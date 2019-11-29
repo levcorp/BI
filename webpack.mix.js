@@ -35,6 +35,8 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/rendicionViaticos.js','public/js');
 
 
-mix.js('resources/js/seguimiento.js', 'public/js');
+//mix.js('resources/js/seguimiento.js', 'public/js');
+mix.js('resources/js/facturacion.js', 'public/js');
+
 
 //mix.browserSync('localhost');
