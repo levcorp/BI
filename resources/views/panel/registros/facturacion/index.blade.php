@@ -14,7 +14,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div v-for="item in datos">
-                                <div v-if="item.Sector">
+                                <div>
                                     <div class="col-sm-6"> 
                                         <el-card>
                                             <div class="row">
@@ -26,7 +26,8 @@
                                                                 'Alimentos y Bebidas' : item.Sector=='M&C' ?
                                                                 'Mineria y Cemento' : item.Sector=='MAN' ?  
                                                                 'Manufactura' : item.Sector=='O&G' ?
-                                                                'Gas y Petroleo' : item.Sector  
+                                                                'Gas y Petroleo' : item.Sector =='CSS' ? 
+                                                                'Construcción y Servicios' : item.Sector
                                                             }}
                                                         </strong>
                                                     </p>
@@ -43,7 +44,7 @@
                                                         </div>
                                                         <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_FACTURAS | currency('$', 2)}}
+                                                                @{{item.TOTAL_FACTURAS ? item.TOTAL_FACTURAS:'0' | currency('$', 2)}}
                                                             </strong> 
                                                         </div>
                                                     </div>
@@ -57,7 +58,7 @@
                                                         </div>
                                                         <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_FACTURASA | currency('$', 2)}}
+                                                                @{{item.TOTAL_FACTURASA ? item.TOTAL_FACTURASA:'0' | currency('$', 2)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -71,7 +72,7 @@
                                                         </div>
                                                         <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_OVA | currency('$', 2)}} 
+                                                                @{{item.TOTAL_OVA ? item.TOTAL_OVA:'0'| currency('$', 2)}} 
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -85,7 +86,7 @@
                                                         </div>
                                                         <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_OV | currency('$', 2)}}
+                                                                @{{item.TOTAL_OV ? item.TOTAL_OV :'0'| currency('$', 2)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -99,7 +100,7 @@
                                                         </div>
                                                         <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.OPORTUNIDADESTOTAL_MES | currency('$', 2)}}
+                                                                @{{item.OPORTUNIDADESTOTAL_MES ? item.OPORTUNIDADESTOTAL_MES : '0'| currency('$', 2)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -113,7 +114,7 @@
                                                         </div>
                                                         <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.OPORTUNIDADESTOTAL_GESTION | currency('$', 2)}}
+                                                                @{{item.OPORTUNIDADESTOTAL_GESTION ? item.OPORTUNIDADESTOTAL_GESTION:'0'| currency('$', 2)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -128,7 +129,7 @@
                                                         </div>
                                                         <div class="col-sm-4 text-center" style="background-color: #e1f3d9;color:#67c239">
                                                             <strong>
-                                                                @{{item.Total | currency('$', 2)}}                                                        
+                                                                @{{item.Total ?  item.Total:'0' | currency('$', 2)}}                                                        
                                                             </strong>
                                                         </div>
                                                     </div>

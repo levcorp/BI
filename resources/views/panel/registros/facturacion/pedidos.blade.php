@@ -88,7 +88,7 @@
                                     </p>
                                 </template>
                             </el-table-column>
-                            <el-table-column align="center" prop="Nombre_Cliente" label="Nombre Cliente"  width="270">
+                            <el-table-column align="center" prop="Nombre_Cliente" label="Nombre Cliente">
                                 <template slot-scope="scope">
                                     <p style="font-size: 12px;">
                                         <strong>

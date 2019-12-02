@@ -7,7 +7,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                             <p style="font-size: 15px">
                                 <el-button @click="handleBackOportunidades()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
-                                <strong>&nbsp;&nbsp;Oportunidades</strong>
+                                <strong>&nbsp;&nbsp;Oportunidades del Mes</strong>
                             </p>
                         </div>
                     </div>
@@ -73,16 +73,6 @@
         </div>
         <div class="col-sm-12">
             <div class="box box-info" v-loading="loading" style="min-height: 400px;">
-                <div class="box-header">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                            <p style="font-size: 15px">
-                                <el-button @click="handleBackOportunidades()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
-                                <strong>&nbsp;&nbsp;Oportunidades</strong>
-                            </p>
-                        </div>
-                    </div>
-                </div>
                 <div class="box-body">
                     <el-table :data="oportunidades.all" style="width: 100%" highlight-current-row>
                         <el-table-column align="center" :label="dato.Sector | sector">
@@ -98,7 +88,7 @@
                                     </p>
                                 </template>
                             </el-table-column>
-                            <el-table-column align="center" prop="Nombre_Cliente" label="Nombre Cliente"  width="270">
+                            <el-table-column align="center" prop="Nombre_Cliente" label="Nombre Cliente" >
                                 <template slot-scope="scope">
                                     <p style="font-size: 12px;">
                                         <strong>
@@ -107,7 +97,7 @@
                                     </p>
                                 </template>
                             </el-table-column>
-                            <el-table-column align="center" label="Sucursal"  >
+                            <el-table-column align="center" label="Sucursal" width="100"  >
                                 <template slot-scope="scope">
                                     <el-tag :type="scope.row.Sucursal=='La Paz'? 'primary' : scope.row.Sucursal=='Santa Cruz'? 'success' : 'warning'" size="mini">@{{scope.row.Sucursal}}</el-tag>
                                 </template>

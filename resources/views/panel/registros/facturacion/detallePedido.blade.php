@@ -57,7 +57,7 @@
                     <template slot-scope="scope">
                         <p style="font-size: 12px;">
                             <strong>
-                                @{{scope.row.Cantidad}}
+                                @{{parseFloat(scope.row.Cantidad)}}
                             </strong>
                         </p>
                     </template>
