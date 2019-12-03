@@ -74,7 +74,7 @@ class controllerFacturacion extends Controller
             and T0.Sector='$request->Sector' 
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')
             and convert(float,PExito1) >= 0.9
-            and T0.EstadoOportunidad !='Perdida'
+            and T0.Estado !='Cerrada'
             Group By T0.Ejecutivo,T0.Cliente,T0.Sector,T0.Sucursal,MONTH(T0.FechaEstimadaCierre),YEAR(T0.FechaEstimadaCierre)
             order By T0.Sucursal
         EOF);
@@ -86,7 +86,7 @@ class controllerFacturacion extends Controller
             where YEAR(T0.FechaEstimadaCierre) >= YEAR(GETDATE()) 
             and T0.Sector='$request->Sector'
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')
-            and T0.EstadoOportunidad !='Perdida'
+            and T0.Estado !='Cerrada'
             and convert(float,PExito1) >= 0.9
             Group By T0.Ejecutivo,T0.Cliente,T0.Sector,T0.Sucursal,MONTH(T0.FechaEstimadaCierre),YEAR(T0.FechaEstimadaCierre)
             order By T0.Sucursal
@@ -98,7 +98,7 @@ class controllerFacturacion extends Controller
             From [192.168.10.31].H2_Levcorp.dbo.RPT_OPORTUNIDADES T0
             where YEAR(T0.FechaEstimadaCierre) >= YEAR(GETDATE()) 
             and T0.Sector='$sector' 
-            and T0.EstadoOportunidad !='Perdida'
+            and T0.Estado !='Cerrada'
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')
             and convert(float,PExito1) >= 0.9
             Group By MONTH(T0.FechaEstimadaCierre),YEAR(T0.FechaEstimadaCierre)        
@@ -110,7 +110,7 @@ class controllerFacturacion extends Controller
             From [192.168.10.31].H2_Levcorp.dbo.RPT_OPORTUNIDADES T0
             where YEAR(T0.FechaEstimadaCierre) >= YEAR(GETDATE()) 
             and T0.Sector='$sector'
-            and T0.EstadoOportunidad !='Perdida'
+            and T0.Estado !='Cerrada'
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')
             and convert(float,PExito1) >= 0.9
             Group By YEAR(T0.FechaEstimadaCierre)
@@ -124,7 +124,7 @@ class controllerFacturacion extends Controller
             and T0.Sector='$request->sector'
             and YEAR(T0.FechaEstimadaCierre)='$request->year'
             and T0.Cliente= '$request->cliente'
-            and T0.EstadoOportunidad !='Perdida'
+            and T0.Estado !='Cerrada'
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')
             and convert(float,PExito1) >= 0.9
         EOF);
