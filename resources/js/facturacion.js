@@ -191,7 +191,7 @@ new Vue({
             return { backgroundColor: '#70a1d7', width: '100%' ,color:'#FFFFFF'};
         },
         handleStyleHeadGeneral({row, column, rowIndex, columnIndex}){
-            return { backgroundColor: '#a1de93', width: '100%' ,color:'#FFFFFF'};
+            return { backgroundColor: '#465881', width: '100%' ,color:'#FFFFFF'};
         },
         handleStyleHeadDetalle({row, column, rowIndex, columnIndex}){
             return { backgroundColor: '#343F52', width: '100%' ,color:'#FFFFFF'};
