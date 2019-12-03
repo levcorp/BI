@@ -29,6 +29,11 @@ class controllerPanel extends Controller
         $this->middleware('TareasCreadas',['only'=>'tareasCusuario']);
         $this->middleware('TareasEspecialidad',['only'=>'tareasEspecialidad']);
         $this->middleware('TareasVentas',['only'=>'tareas']);
+        $this->middleware('Ubicación',['only'=>'ubicaciones']);
+        $this->middleware('Seguimiento',['only'=>'seguimiento']);
+        $this->middleware('Facturacion',['only'=>'facturacion']);
+        $this->middleware('AlmacenUsuario',['only'=>'almacenUsuario']);
+        $this->middleware('Almacen',['only'=>'almacen']);
     }
     public function newInicio(){
         $titulo="General";

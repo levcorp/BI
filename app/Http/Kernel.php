@@ -57,6 +57,11 @@ class Kernel extends HttpKernel
         'TareasCreadas' => \App\Http\Middleware\TareasCreadas::class,
         'TareasEspecialidad' => \App\Http\Middleware\TareasEspecialidad::class,
         'TareasVentas' => \App\Http\Middleware\TareasVentas::class,
+        'Ubicación' => \App\Http\Middleware\Ubicacion::class,
+        'Seguimiento' => \App\Http\Middleware\Seguimiento::class,
+        'Facturacion' => \App\Http\Middleware\Facturacion::class,
+        'AlmacenUsuario' => \App\Http\Middleware\AlmacenUsuario::class,
+        'Almacen' => \App\Http\Middleware\Almacen::class
     ];
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,
