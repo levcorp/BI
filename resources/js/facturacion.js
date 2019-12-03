@@ -23,26 +23,33 @@ new Vue({
             dato:[],
             loading: {
                 facturacion:true,
-                ped:false
+                ped:false,
+                pedidosMes:false,
+                pedidosGeneral:false,
+                oportunidadesGeneral:false,
+                oportunidadesMes:false,
+                detallePedidos:false,
+                detalleOportunidades:false
             },
             show:{
                 pedidos:false,
                 oportunidades:false,
-                facturacion:true
+                facturacion:true,
             },
             pedidos:[],
             year:[],
             mes:[],
             pedidosAll:[],
             pedidoDetalle:[],
-            pedido:[],
+            pedido:{},
             oportunidades:{
                 mes:[],
                 all:[],
                 meses:[],
                 años:[],
                 detalle:[]
-            }
+            },
+            oportunidad:[]
         }
     },
     mounted() {
@@ -52,10 +59,12 @@ new Vue({
         handleGetFacturacion(){
             axios.get('/api/facturacion/get/facturacion').then(response=>{
                 this.datos=response.data;
-                this.loading=false
+                this.loading.facturacion=false
             });
         },
         handleShowPedidos(item){
+            this.loading.pedidosMes=true
+            this.loading.pedidosGeneral=true
             this.show.facturacion=false
             this.dato=item
             setTimeout(()=>{
@@ -65,16 +74,19 @@ new Vue({
                 this.handleGetYear(item.Sector)
                 this.handleGetPedidosAll(item.Sector)
             },400);
+            
         },
         handleShowOportunidades(item){
             this.show.facturacion=false
+            this.loading.oportunidadesMes=true
+            this.loading.oportunidadesGeneral=true
             this.dato=item
             setTimeout(()=>{
                 this.show.oportunidades=true
                 this.handleGetOportunidadesMes(item.Sector)
-                this.handleGetOportunidadesAll(item.Sector)
                 this.handleGetOportunidadesMeses(item.Sector)
                 this.handleGetOportunidadesAños(item.Sector)
+                this.handleGetOportunidadesAll(item.Sector)
             },400);
         },
         handleBackPedidos(){
@@ -109,10 +121,12 @@ new Vue({
         handleGetPedidosAll(Sector){
             axios.get('/api/facturacion/get/pedidosall/'+Sector).then(response=>{
                 this.pedidosAll=response.data;
+                this.loading.pedidosMes=false
+                this.loading.pedidosGeneral=false
             });
         },
         handleGetPedidoDetalle(row){
-            this.pedido=row
+            this.loading.detallePedidos=true
             $('#detallePedido').modal('show');
             axios.post('/api/facturacion/get/pedidodetalle',{
                mes:row.Moth,
@@ -120,7 +134,9 @@ new Vue({
                year:row.Year,
                cliente: row.Nombre_Cliente
             }).then(response=>{
+                this.pedido=row
                 this.pedidoDetalle=response.data
+                this.loading.detallePedidos=false
             });
         },
         handleGetOportunidadesAll(Sector){
@@ -128,6 +144,8 @@ new Vue({
                 Sector:Sector
             }).then(response=>{
                 this.oportunidades.all=response.data
+                this.loading.oportunidadesMes=false
+                this.loading.oportunidadesGeneral=false
             })
         },
         handleGetOportunidadesMes(Sector){
@@ -148,7 +166,8 @@ new Vue({
             });
         },
         handleGetOportunidadDetalle(row){
-            this.pedido=row
+            this.loading.detalleOportunidades=true
+            this.oportunidad=row
             $('#detalleOportunidad').modal('show');
             axios.post('/api/facturacion/get/oportunidades/detalle',{
                mes:row.Mes,
@@ -157,8 +176,26 @@ new Vue({
                cliente: row.Cliente
             }).then(response=>{
                 this.oportunidades.detalle=response.data
+                this.loading.detalleOportunidades=false
             });
         },
+        handleCloseDetalleOportunidad(){
+            $('#detalleOportunidad').modal('hide');
+            this.oportunidades.detalle=[]
+        },
+        handleCloseDetallePedido(){
+            $('#detallePedido').modal('hide');
+            this.pedidoDetalle=[]
+        },
+        handleStyleHeadMes({row, column, rowIndex, columnIndex}){
+            return { backgroundColor: '#70a1d7', width: '100%' ,color:'#FFFFFF'};
+        },
+        handleStyleHeadGeneral({row, column, rowIndex, columnIndex}){
+            return { backgroundColor: '#a1de93', width: '100%' ,color:'#FFFFFF'};
+        },
+        handleStyleHeadDetalle({row, column, rowIndex, columnIndex}){
+            return { backgroundColor: '#343F52', width: '100%' ,color:'#FFFFFF'};
+        }
     },
     filters:{
         mes(value){

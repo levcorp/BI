@@ -42,9 +42,9 @@
                                                                 Facturación Enero - @{{item.MesFaAnteriorLiteral}} - @{{item.GESTION}} 
                                                             </strong>
                                                         </div>
-                                                        <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
+                                                        <div class="col-sm-4 text-right" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_FACTURAS ? item.TOTAL_FACTURAS:'0' | currency('$', 2)}}
+                                                                @{{item.TOTAL_FACTURAS ? item.TOTAL_FACTURAS:'0' | currency('$', 0)}}
                                                             </strong> 
                                                         </div>
                                                     </div>
@@ -56,9 +56,9 @@
                                                                 Facturacion @{{item.MesFaLiteral}}  - @{{item.GESTION}} 
                                                             </strong>
                                                         </div>
-                                                        <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
+                                                        <div class="col-sm-4 text-right" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_FACTURASA ? item.TOTAL_FACTURASA:'0' | currency('$', 2)}}
+                                                                @{{item.TOTAL_FACTURASA ? item.TOTAL_FACTURASA:'0' | currency('$', 0)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -70,9 +70,9 @@
                                                                 Pedidos @{{item.MesOVALiteral}} - @{{item.GESTION}} 
                                                             </strong>
                                                         </div>
-                                                        <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
+                                                        <div class="col-sm-4 text-right" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_OVA ? item.TOTAL_OVA:'0'| currency('$', 2)}} 
+                                                                @{{item.TOTAL_OVA ? item.TOTAL_OVA:'0'| currency('$', 0)}} 
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -84,9 +84,9 @@
                                                                 Pedidos Futuros - @{{item.GESTION}}
                                                             </strong>
                                                         </div>
-                                                        <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
+                                                        <div class="col-sm-4 text-right" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.TOTAL_OV ? item.TOTAL_OV :'0'| currency('$', 2)}}
+                                                                @{{item.TOTAL_OV ? item.TOTAL_OV :'0'| currency('$', 0)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -98,9 +98,9 @@
                                                                 Oportunidades @{{item.MesCierreLiteral}} - @{{item.GESTION}}
                                                             </strong>
                                                         </div>
-                                                        <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
+                                                        <div class="col-sm-4 text-right" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.OPORTUNIDADESTOTAL_MES ? item.OPORTUNIDADESTOTAL_MES : '0'| currency('$', 2)}}
+                                                                @{{item.OPORTUNIDADESTOTAL_MES ? item.OPORTUNIDADESTOTAL_MES : '0'| currency('$', 0)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -112,9 +112,9 @@
                                                                 Opotunidades Futuras - @{{item.GESTION}}
                                                             </strong>
                                                         </div>
-                                                        <div class="col-sm-4 text-center" style="background-color: #ecf4ff;color:#86b9fa">
+                                                        <div class="col-sm-4 text-right" style="background-color: #ecf4ff;color:#86b9fa">
                                                             <strong>
-                                                                @{{item.OPORTUNIDADESTOTAL_GESTION ? item.OPORTUNIDADESTOTAL_GESTION:'0'| currency('$', 2)}}
+                                                                @{{item.OPORTUNIDADESTOTAL_GESTION ? item.OPORTUNIDADESTOTAL_GESTION:'0'| currency('$', 0)}}
                                                             </strong>
                                                         </div>
                                                     </div>
@@ -127,9 +127,9 @@
                                                                 Estimado Cierre Gestion - @{{item.GESTION}}
                                                             </strong>
                                                         </div>
-                                                        <div class="col-sm-4 text-center" style="background-color: #e1f3d9;color:#67c239">
+                                                        <div class="col-sm-4 text-right" style="background-color: #e1f3d9;color:#67c239">
                                                             <strong>
-                                                                @{{item.Total ?  item.Total:'0' | currency('$', 2)}}                                                        
+                                                                @{{item.Total ?  item.Total:0 | currency('$', 0)}}                                                        
                                                             </strong>
                                                         </div>
                                                     </div>

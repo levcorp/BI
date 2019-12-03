@@ -2,7 +2,7 @@
     <div class="modal-dialog  modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" @click="handleCloseDetallePedido()">
             <span aria-hidden="true">&times;</span></button>
             <p style="font-size: 15px;">
                 <strong>
@@ -11,26 +11,75 @@
             </p>
         </div>
         <div class="modal-body">
-            <el-table border :data="pedidoDetalle" style="width: 100%" height="450" highlight-current-row>
-                <el-table-column width="70" align="center" label="#">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6 text-right">
+                            <p>
+                                <strong>
+                                    Vendedor :
+                                </strong>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>@{{pedido.VENDEDOR}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6 text-right">
+                            <p>
+                                <strong>
+                                    Nombre Cliente :
+                                </strong>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>@{{pedido.Nombre_Cliente}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6 text-right">
+                            <p>
+                                <strong>
+                                    Sucursal :
+                                </strong>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>@{{pedido.Sucursal}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6 text-right">
+                            <p>
+                                <strong>
+                                    Total :
+                                </strong>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>@{{pedido.Total | currency('$', 0)}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <el-table border :header-cell-style="handleStyleHeadDetalle" v-loading="loading.detallePedidos" :data="pedidoDetalle" style="width: 100%" height="450" highlight-current-row>
+                <el-table-column width="50" align="center" label="#">
                     <template slot-scope="scope">
                         @{{scope.$index +1}}
                     </template>
                 </el-table-column>
-                <el-table-column align="center" prop="Vendedor" label="Vendedor">
+                <el-table-column align="center" label="Fabricante" prop="Nombre_Fabricante">
                     <template slot-scope="scope">
                         <p style="font-size: 12px;">
                             <strong>
-                                @{{scope.row.Vendedor}}
-                            </strong>
-                        </p>
-                    </template>
-                </el-table-column>
-                <el-table-column align="center" prop="Descricion" label="Descripcion">
-                    <template slot-scope="scope">
-                        <p style="font-size: 12px;">
-                            <strong>
-                                @{{scope.row.Descricion}}
+                                @{{scope.row.Nombre_Fabricante}}
                             </strong>
                         </p>
                     </template>
@@ -44,16 +93,25 @@
                         </p>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="Fabricante" prop="Nombre_Fabricante">
+                <el-table-column align="center" prop="Descricion" label="Descripcion">
                     <template slot-scope="scope">
                         <p style="font-size: 12px;">
                             <strong>
-                                @{{scope.row.Nombre_Fabricante}}
+                                @{{scope.row.Descricion}}
                             </strong>
                         </p>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="Cantidad" prop="Cantidad">
+                <el-table-column align="center" prop="Vendedor" label="Fecha Entrega">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.FECHA_ENTREGA2  | moment("D-M-YYYY")}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="Cantidad" prop="Cantidad" width="100">
                     <template slot-scope="scope">
                         <p style="font-size: 12px;">
                             <strong>
@@ -62,11 +120,11 @@
                         </p>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="TOTAL" prop="total_USD">
+                <el-table-column align="center" label="Total">
                     <template slot-scope="scope">
                         <p style="font-size: 12px;">
                             <strong>
-                                @{{scope.row.total_USD}}
+                                @{{scope.row.total_USD  | currency('$', 0)}}
                             </strong>
                         </p>
                     </template>
@@ -75,7 +133,7 @@
         </div>
         <div class="modal-footer">
             <div class="text-center">
-                <el-button size="mini" type="primary" data-dismiss="modal" round>
+                <el-button size="mini" type="primary" @click="handleCloseDetallePedido()" round>
                     Cerrar
                 </el-button>
             </div>
