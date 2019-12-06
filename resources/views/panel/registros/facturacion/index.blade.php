@@ -16,7 +16,7 @@
                             <div v-for="item in datos">
                                 <div>
                                     <div class="col-sm-6"> 
-                                        <el-card>
+                                        <el-card >
                                             <div class="row">
                                                 <div class="text-center">
                                                     <p style="font-size: 14px;letter-spacing: 1px">
@@ -143,7 +143,125 @@
                                         <br>
                                     </div>
                                 </div>
-                            </div>
+                            </div>    
+                            <div>
+                                <div class="col-sm-6"> 
+                                    <el-card :body-style="{border: '4px #e1f3d9 solid'}">
+                                        <div class="row">
+                                            <div class="text-center">
+                                                <p style="font-size: 14px;letter-spacing: 1px">
+                                                    <strong>
+                                                        Facturacion General
+                                                    </strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div style="width: 100%;background-color:#C0C4CC;height: 1px;margin-bottom: 8px;"></div>
+                                        <div class="row" style="margin:10px;">
+                                            <div class="col-sm-12" style="margin: 3px;">
+                                                <div class="row">
+                                                    <div class="col-sm-8" style="font-size: 13px;color:#606266;">
+                                                        <strong>
+                                                            Facturación Enero - @{{total.MESFA-1 | mes}} - @{{total.GESTION}} 
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-sm-4 text-right" style="background-color:#dcf2f0;color:#49beb6">
+                                                        <strong>
+                                                            @{{total.TOTAL_FACTURAS ? total.TOTAL_FACTURAS:'0' | currency('$', 0)}}
+                                                        </strong> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin: 3px;">
+                                                <div class="row" >
+                                                    <div class="col-sm-8" style="font-size: 13px;color:#606266;">
+                                                        <strong>
+                                                            Facturacion @{{total.MESFA | mes}}  - @{{total.GESTION}} 
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-sm-4 text-right" style="background-color: #dcf2f0;color:#49beb6">
+                                                        <strong>
+                                                            @{{total.TOTAL_FACTURASA ? total.TOTAL_FACTURASA:'0' | currency('$', 0)}}
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin: 3px;">
+                                                <div class="row">
+                                                    <div class="col-sm-8" style="font-size: 13px;color:#606266;">
+                                                        <strong>
+                                                            Pedidos @{{total.MESOVA | mes}} - @{{total.GESTION}} 
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-sm-4 text-right" style="background-color: #dcf2f0;color:#49beb6">
+                                                        <strong>
+                                                            @{{total.TOTAL_OVA ? total.TOTAL_OVA:'0'| currency('$', 0)}} 
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin: 3px;">
+                                                <div class="row">
+                                                    <div class="col-sm-8" style="font-size: 13px;color:#606266;">
+                                                        <strong>
+                                                            Pedidos Futuros - @{{total.GESTION}}
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-sm-4 text-right" style="background-color: #dcf2f0;color:#49beb6">
+                                                        <strong>
+                                                            @{{total.TOTAL_OV ? total.TOTAL_OV :'0'| currency('$', 0)}}
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin: 3px;">
+                                                <div class="row">
+                                                    <div class="col-sm-8" style="font-size: 13px;color:#606266;">
+                                                        <strong>
+                                                            Oportunidades @{{total.MESCIERRE | mes}} - @{{total.GESTION}}
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-sm-4 text-right" style="background-color:#dcf2f0;color:#49beb6">
+                                                        <strong>
+                                                            @{{total.OPORTUNIDADESTOTAL_MES ? total.OPORTUNIDADESTOTAL_MES : '0'| currency('$', 0)}}
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin: 3px;">
+                                                <div class="row">
+                                                    <div class="col-sm-8" style="font-size: 13px;color:#606266;">
+                                                        <strong>
+                                                            Opotunidades Futuras - @{{total.GESTION}}
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-sm-4 text-right" style="background-color: #dcf2f0;color:#49beb6">
+                                                        <strong>
+                                                            @{{total.OPORTUNIDADESTOTAL_GESTION ? total.OPORTUNIDADESTOTAL_GESTION:'0'| currency('$', 0)}}
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" style="margin: 3px;">
+                                                <div style="width: 100%;background-color:#C0C4CC;height: 1px;margin-bottom: 8px;"></div>
+                                                <div class="row">
+                                                    <div class="col-sm-8" style="font-size: 13px;color:#606266;">
+                                                        <strong>
+                                                            Estimado Cierre Gestion - @{{total.GESTION}}
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-sm-4 text-right" style="background-color: #e1f3d9;color:#67c239">
+                                                        <strong>
+                                                            @{{total.Total ?  total.Total:0 | currency('$', 0)}}             
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </el-card>
+                                    <br>
+                                </div>
+                            </div>                        
                         </div>
                     </div>
                 </div>

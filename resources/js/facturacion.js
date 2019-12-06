@@ -49,11 +49,13 @@ new Vue({
                 años:[],
                 detalle:[]
             },
-            oportunidad:[]
+            oportunidad:[],
+            total:[]
         }
     },
     mounted() {
         this.handleGetFacturacion();
+        this.handleGetFacturacionAll(); 
     },
     methods: {
         handleGetFacturacion(){
@@ -74,7 +76,6 @@ new Vue({
                 this.handleGetYear(item.Sector)
                 this.handleGetPedidosAll(item.Sector)
             },400);
-            
         },
         handleShowOportunidades(item){
             this.show.facturacion=false
@@ -195,6 +196,11 @@ new Vue({
         },
         handleStyleHeadDetalle({row, column, rowIndex, columnIndex}){
             return { backgroundColor: '#343F52', width: '100%' ,color:'#FFFFFF'};
+        },
+        handleGetFacturacionAll(){
+            axios.get('/api/facturacion/get/facturacion/all').then(response=>{
+                this.total=response.data[0]
+            });
         }
     },
     filters:{

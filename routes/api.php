@@ -1,5 +1,6 @@
 <?php
 /////////////////////Facturacion/////////////////////////////////
+Route::get('facturacion/get/facturacion/all','Panel\controllerFacturacion@handleGetFacturacionTotal');
 Route::post('facturacion/get/oportunidades/detalle','Panel\controllerFacturacion@handleGetOporunidadesDetalle');
 Route::get('facturacion/get/oportunidades/year/{sector}','Panel\controllerFacturacion@handleGetOportunidadesAños');
 Route::get('facturacion/get/oportunidades/meses/{sector}','Panel\controllerFacturacion@handleGetOportunidadesMeses');

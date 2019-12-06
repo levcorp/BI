@@ -7,7 +7,24 @@ use Illuminate\Http\Request;
 use App\Facturacion;
 use DB;
 class controllerFacturacion extends Controller
-{
+{      
+    public function handleGetFacturacionTotal(){
+        return DB::select(<<<EOF
+            select	T0.GESTION,
+            SUM(T0.TOTAL_FACTURAS) as TOTAL_FACTURAS, 
+            SUM(T0.TOTAL_FACTURASA) as TOTAL_FACTURASA, 
+            T0.MESFA,
+            SUM(T0.TOTAL_OVA) as TOTAL_OVA, 
+            T0.MESOVA,
+            SUM(T0.TOTAL_OV) as TOTAL_OV,
+            SUM(T0.OPORTUNIDADESTOTAL_MES) as OPORTUNIDADESTOTAL_MES,
+            T0.MESCIERRE,
+            SUM(T0.OPORTUNIDADESTOTAL_GESTION) as OPORTUNIDADESTOTAL_GESTION,
+            SUM(ISNULL(T0.OPORTUNIDADESTOTAL_GESTION,0)+ISNULL(T0.OPORTUNIDADESTOTAL_MES,0)+ISNULL(T0.TOTAL_OV,0)+ISNULL(T0.TOTAL_OVA,0)+ISNULL(T0.TOTAL_FACTURASA,0)+ISNULL(T0.TOTAL_FACTURAS,0)) as Total
+            From FACTURACION T0
+            Group By T0.GESTION,T0.MESFA,T0.MESOVA,T0.MESCIERRE
+        EOF);
+    }
     public function handleGetFacturacion(){
         return Facturacion::all();
     }
