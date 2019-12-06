@@ -87,6 +87,15 @@
                                 </p>
                             </template>
                         </el-table-column>
+                        <el-table-column align="center" label="Vendedor">
+                            <template slot-scope="scope">
+                                <p style="font-size: 12px;">
+                                    <strong>
+                                        @{{scope.row.Ejecutivo}}
+                                    </strong>
+                                </p>
+                            </template>
+                        </el-table-column>
                         <el-table-column align="center" prop="Nombre_Cliente" label="Nombre Cliente" >
                             <template slot-scope="scope">
                                 <p style="font-size: 12px;">
@@ -101,26 +110,22 @@
                                 <el-tag :type="scope.row.Sucursal=='La Paz'? 'primary' : scope.row.Sucursal=='Santa Cruz'? 'success' : 'warning'" size="mini">@{{scope.row.Sucursal}}</el-tag>
                             </template>
                         </el-table-column>
-                        <template v-for="itemY in oportunidades.años">
-                            <el-table-column align="center" :label="itemY.Año">
-                                <template v-for="itemM in oportunidades.meses">
-                                    <el-table-column align="center" :label="itemM.Mes | mes" v-if="itemY.Año==itemM.Año">
-                                        <el-table-column align="center" :label="itemM.Total | currency('$', 0)" width="130">
-                                                <template slot-scope="scope">
-                                                    <p style="font-size: 12px;" v-if="itemM.Mes==scope.row.Mes && itemY.Año==scope.row.Año">
-                                                        <strong>
-                                                            @{{scope.row.Total | currency('$', 0)}}
-                                                        </strong>
-                                                    </p>
-                                                    <p style="font-size: 12px;" v-else>
-                                                        <strong>
-                                                            -
-                                                        </strong>
-                                                    </p>
-                                                </template>
-                                        </el-table-column>
-                                    </el-table-column>
-                                </template>
+                        <template v-for="itemM in oportunidades.meses">
+                            <el-table-column align="center" :label="itemM.Mes | mes">
+                                <el-table-column align="center" :label="itemM.Total | currency('$', 0)" width="130">
+                                        <template slot-scope="scope">
+                                            <p style="font-size: 12px;" v-if="itemM.Mes==scope.row.Mes">
+                                                <strong>
+                                                    @{{scope.row.Total | currency('$', 0)}}
+                                                </strong>
+                                            </p>
+                                            <p style="font-size: 12px;" v-else>
+                                                <strong>
+                                                    -
+                                                </strong>
+                                            </p>
+                                        </template>
+                                </el-table-column>
                             </el-table-column>
                         </template>
                     </el-table>

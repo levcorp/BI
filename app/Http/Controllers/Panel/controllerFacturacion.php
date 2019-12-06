@@ -55,13 +55,14 @@ class controllerFacturacion extends Controller
     }
     public function handleGetPedidoDetalle(Request $request){
         return DB::select(<<<EOF
-            select T0.FECHA_ENTREGA2,T0.Nombre_Cliente,T0.Vendedor,T0.Descricion,T0.cod_ventas,T0.Nombre_Fabricante,T0.Cantidad,total_USD
+            select T0.N_OV_SAP,T0.FECHA_ENTREGA2,T0.Nombre_Cliente,T0.Vendedor,T0.Descricion,T0.cod_ventas,T0.Nombre_Fabricante,T0.Cantidad, SUM(total_USD) as total_USD
             FROM LEVCORP.dbo.REPORTE_OV T0
             where 
             MONTH(T0.Fecha_Entrega2) = '$request->mes'  
             and T0.Sector='$request->sector' 
             and YEAR(T0.Fecha_Entrega2) = '$request->year'
             and T0.Nombre_Cliente like '$request->cliente'
+            GROUP BY T0.N_OV_SAP, T0.FECHA_ENTREGA2,T0.Nombre_Cliente,T0.Vendedor,T0.Descricion,T0.cod_ventas,T0.Nombre_Fabricante,T0.Cantidad 
             order by total_USD desc
         EOF);
     }
@@ -83,7 +84,8 @@ class controllerFacturacion extends Controller
         return DB::select(<<<EOF
             Select T0.Ejecutivo,T0.Cliente,T0.Sector,T0.Sucursal,SUM(T0.TotalUSD) as Total,MONTH(T0.FechaEstimadaCierre) as Mes,YEAR(T0.FechaEstimadaCierre) as Año
             From [192.168.10.31].H2_Levcorp.dbo.RPT_OPORTUNIDADES T0
-            where YEAR(T0.FechaEstimadaCierre) >= YEAR(GETDATE()) 
+            where YEAR(T0.FechaEstimadaCierre) = YEAR(GETDATE()) 
+            and MONTH(T0.FechaEstimadaCierre) > MONTH(GETDATE())
             and T0.Sector='$request->Sector'
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')
             and T0.Estado !='Cerrada'
@@ -96,7 +98,8 @@ class controllerFacturacion extends Controller
         return DB::select(<<<EOF
             Select SUM(T0.TotalUSD) as Total,MONTH(T0.FechaEstimadaCierre) as Mes,YEAR(T0.FechaEstimadaCierre) as Año
             From [192.168.10.31].H2_Levcorp.dbo.RPT_OPORTUNIDADES T0
-            where YEAR(T0.FechaEstimadaCierre) >= YEAR(GETDATE()) 
+            where YEAR(T0.FechaEstimadaCierre) = YEAR(GETDATE()) 
+            and MONTH(T0.FechaEstimadaCierre) > MONTH(GETDATE())
             and T0.Sector='$sector' 
             and T0.Estado !='Cerrada'
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')
@@ -108,7 +111,8 @@ class controllerFacturacion extends Controller
         return DB::select(<<<EOF
             Select SUM(T0.TotalUSD) as Total,YEAR(T0.FechaEstimadaCierre) as Año
             From [192.168.10.31].H2_Levcorp.dbo.RPT_OPORTUNIDADES T0
-            where YEAR(T0.FechaEstimadaCierre) >= YEAR(GETDATE()) 
+            where YEAR(T0.FechaEstimadaCierre) = YEAR(GETDATE()) 
+            and MONTH(T0.FechaEstimadaCierre) > MONTH(GETDATE())
             and T0.Sector='$sector'
             and T0.Estado !='Cerrada'
             --and (T0.EstadoOportunidad ='Propuesta' or T0.EstadoOportunidad ='Negociacion')

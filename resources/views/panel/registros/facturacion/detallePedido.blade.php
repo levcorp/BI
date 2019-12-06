@@ -75,6 +75,15 @@
                         @{{scope.$index +1}}
                     </template>
                 </el-table-column>
+                <el-table-column align="center" width="100" label="Cod. SAP" prop="N_OV_SAP">
+                    <template slot-scope="scope">
+                        <p style="font-size: 12px;">
+                            <strong>
+                                @{{scope.row.N_OV_SAP}}
+                            </strong>
+                        </p>
+                    </template>
+                </el-table-column>
                 <el-table-column align="center" label="Fabricante" prop="Nombre_Fabricante">
                     <template slot-scope="scope">
                         <p style="font-size: 12px;">
