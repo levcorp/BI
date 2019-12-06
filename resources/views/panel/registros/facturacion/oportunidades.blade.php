@@ -68,7 +68,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
                             <p style="font-size: 15px">
-                                <strong>&nbsp;&nbsp;Oportunidades @{{dato.Sector | sector}} - General</strong>
+                                <strong>&nbsp;&nbsp;Oportunidades @{{dato.Sector | sector}} - General - @{{dato.GESTION}}</strong>
                             </p>
                         </div>
                     </div>
