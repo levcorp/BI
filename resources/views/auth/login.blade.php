@@ -20,7 +20,7 @@
       <div>
         <div class="login-box" id="login" v-cloak> 
           <div class="login-logo">
-            <img src="../images/logo.png" alt="" width="350" height="100">
+            <img src="../images/logo.png" alt="" width="350" height="110">
            <!--  <a><b style="color:#3c70a4; letter-spacing: 5px">LEV</b><b style="background-color: #3c70a4; color: white; letter-spacing: 5px; padding: 1px 5px;">CORP</b></a> -->
           </div>
           <!-- /.login-logo -->
