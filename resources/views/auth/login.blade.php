@@ -14,13 +14,14 @@
     }
   </style>
 </head>
-<body class="hold-transition login-page" style="background:#d8e2ec !important">
+<body class="hold-transition login-page" style="background:#eaebef !important">
   <div class="row">
     <div class="col-sm-12">
       <div>
         <div class="login-box" id="login" v-cloak> 
           <div class="login-logo">
-            <a><b style="color:#3c70a4; letter-spacing: 5px">LEV</b><b style="background-color: #3c70a4; color: white; letter-spacing: 5px; padding: 1px 5px;">CORP</b></a>
+            <img src="../images/logo.png" alt="" width="380" height="120">
+           <!--  <a><b style="color:#3c70a4; letter-spacing: 5px">LEV</b><b style="background-color: #3c70a4; color: white; letter-spacing: 5px; padding: 1px 5px;">CORP</b></a> -->
           </div>
           <!-- /.login-logo -->
           <el-card class="box-card">
@@ -59,14 +60,14 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                  <el-button style="background-color: #3c70a4;border-color: #3c70a4" type="primary" round native-type="submit">Entrar</el-button>
+                  <el-button style="background-color: #2d3661;border-color: #2d3661" type="primary" round native-type="submit">Entrar</el-button>
                 </div>
                 <!-- /.col -->
               </div>
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="text-center" style="margin:5px">
-                      <el-link style="color: #3c70a4;" icon="el-icon-unlock" @click="reset" type="primary">Olvide mi contraseña</el-link>
+                      <el-link style="color: #2d3661;" icon="el-icon-unlock" @click="reset" type="primary">Olvide mi contraseña</el-link>
                     </div>
                   </div>
                 </div>

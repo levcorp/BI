@@ -39,7 +39,7 @@
                   <el-table v-loading="loading.datos" :header-row-style="headerRowStyleDatos" :data="datos" style="width: 100%" height="420" highlight-current-row>
                       <el-table-column align="center" width="50" fixed="left">
                             <template slot-scope="scope">
-                                <el-button v-if="scope.row.PROCESADO=='SI'" @click="handleGetDetalle(scope.row)" icon="el-icon-plus" circle size="mini" type="primary"></el-button>
+                                <el-button @click="handleGetDetalle(scope.row)" icon="el-icon-plus" circle size="mini" type="primary"></el-button>
                             </template>
                         </el-table-column>
                       <el-table-column align="center" label="#"  width="70">
@@ -106,7 +106,7 @@
                           <template slot-scope="scope">
                               <p style="font-size: 12px;">
                                 <strong>
-                                  @{{scope.row.OV_FEC_ENTREGA | moment("Y-MM-DD") }}
+                                  @{{scope.row.OV_FEC_ENTREGA | moment("Y/MM/DD") }}
                                 </strong>
                               </p>
                           </template>

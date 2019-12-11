@@ -15,6 +15,8 @@ class Seguimiento extends ODBC
     public function getDetalle($request){
         $sql= <<<EOF
         select 
+        T0."OV_NO_ITEM_OC",
+        T0."OV_ENTREGA_PARCIAL",
         T0."PO_NOM_PROVEEDOR",
         T0."PO_MED_EMBARQUE",
         T0."PO_COD_ARTICULO" ,

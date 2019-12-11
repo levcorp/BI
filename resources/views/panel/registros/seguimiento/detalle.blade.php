@@ -77,7 +77,7 @@
                                 FECHA ENTREGA :
                             </strong>
                             <strong style="color: black">
-                            @{{dato.OV_FEC_ENTREGA | moment("Y-MM-DD")}}
+                            @{{dato.OV_FEC_ENTREGA | moment("Y/MM/DD")}}
                             </strong>
                         </p>
                     </div>
@@ -105,7 +105,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong>
-                                    @{{scope.row.PO_MED_EMBARQUE}}
+                                    @{{scope.row.PO_MED_EMBARQUE?scope.row.PO_MED_EMBARQUE:'-'}}
                                 </strong>
                             </p>
                         </template>
@@ -128,7 +128,7 @@
                             </p>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="PO_DESCRIPCION" label="DESCRIPCION" width="200">
+                    <el-table-column prop="PO_DESCRIPCION" label="DESCRIPCION" width="230">
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong>
@@ -146,6 +146,21 @@
                             </p>
                         </template>
                     </el-table-column>
+                    <el-table-column align="center" prop="OV_NO_ITEM_OC" label="N° ITEM OC" width="120">
+                        <template slot-scope="scope">
+                            <p style="font-size: 11px;">
+                                <strong>
+                                    @{{scope.row.OV_NO_ITEM_OC? scope.row.OV_NO_ITEM_OC: '-'}}
+                                </strong>
+                            </p>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="OV_ENTREGA_PARCIAL" label="ENTREGA PARCIAL" width="140">
+                        <template slot-scope="scope">
+                            <el-button v-if="scope.row.OV_ENTREGA_PARCIAL=='Y'" size="mini" icon="el-icon-check" type="success" style="padding:3px;" disabled></el-button>
+                            <el-button v-else size="mini" icon="el-icon-close" type="danger" style="padding:3px;" disabled></el-button>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="PO_ALMACEN" label="ALMACEN" align="center" width="100">
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
@@ -155,12 +170,11 @@
                             </p>
                         </template>
                     </el-table-column>
-                
                     <el-table-column align="center" prop="PO_FEC_ENTREGA_ARTICULO" label="FEC. ENT. ARTICULO" width="150">
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong>
-                                    @{{scope.row.PO_FEC_ENTREGA_ARTICULO | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_FEC_ENTREGA_ARTICULO | moment("Y/MM/DD")}}
                                 </strong>
                             </p>
                         </template>
@@ -178,7 +192,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_PED_PROV">
-                                    @{{scope.row.PO_F_PED_PROV | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_PED_PROV | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -190,7 +204,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EST_PED_PROV">
-                                    @{{scope.row.PO_F_EST_PED_PROV | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EST_PED_PROV | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -202,7 +216,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EST_ENT_FAB">
-                                    @{{scope.row.PO_F_EST_ENT_FAB | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EST_ENT_FAB | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -214,7 +228,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_ENT_FAB">
-                                    @{{scope.row.PO_F_ENT_FAB | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_ENT_FAB | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -226,7 +240,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EMB_PROV">
-                                    @{{scope.row.PO_F_EMB_PROV | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EMB_PROV | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -238,7 +252,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EST_EMB_PROV">
-                                    @{{scope.row.PO_F_EST_EMB_PROV | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EST_EMB_PROV | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -250,7 +264,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_ARRB_PUERTO">
-                                    @{{scope.row.PO_F_ARRB_PUERTO | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_ARRB_PUERTO | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -262,7 +276,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EST_ARRB_PUERTO">
-                                    @{{scope.row.PO_F_EST_ARRB_PUERTO | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EST_ARRB_PUERTO | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -274,7 +288,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_ARRB_BO">
-                                    @{{scope.row.PO_F_ARRB_BO | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_ARRB_BO | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -286,7 +300,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EST_ARRB_BO">
-                                    @{{scope.row.PO_F_EST_ARRB_BO | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EST_ARRB_BO | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -298,7 +312,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_DESADUANIZACION">
-                                    @{{scope.row.PO_F_DESADUANIZACION | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_DESADUANIZACION | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -310,7 +324,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EST_DESADUANIZACION">
-                                    @{{scope.row.PO_F_EST_DESADUANIZACION | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EST_DESADUANIZACION | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -322,7 +336,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_ALMACENES">
-                                    @{{scope.row.PO_F_ALMACENES | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_ALMACENES | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
@@ -334,7 +348,7 @@
                         <template slot-scope="scope">
                             <p style="font-size: 11px;">
                                 <strong style="font-size: 11px;" v-if="scope.row.PO_F_EST_ALMACENES">
-                                    @{{scope.row.PO_F_EST_ALMACENES | moment("Y-MM-DD")}}
+                                    @{{scope.row.PO_F_EST_ALMACENES | moment("Y/MM/DD")}}
                                 </strong>
                                 <strong style="color: #F56C6C;font-size: 11px;" v-else>
                                     Sin Fecha
