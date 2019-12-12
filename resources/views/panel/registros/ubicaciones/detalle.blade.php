@@ -128,12 +128,19 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-sm-8">
-                            <el-button-group v-if="usuario_id==1 || usuario_id==3">
-                                <el-button size="mini" type="primary" @click="handelChoseUbicacionNull('La Paz')" icon="el-icon-location-outline">LPZ</el-button>
-                                <el-button size="mini" type="primary" @click="handelChoseUbicacionNull('Santa Cruz')" icon="el-icon-location-outline">SCZ</el-button>
-                                <el-button size="mini" type="primary" @click="handelChoseUbicacionNull('Cochabamba')" icon="el-icon-location-outline">CBB</el-button>
-                            </el-button-group>
+                        <div class="col-sm-4 text-center">
+                            <el-dropdown type="primary" @command="handelChoseUbicacionNull">
+                                <el-button type="primary" size="mini">
+                                    @{{ciudad.new?ciudad.new:ciudad.init}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                </el-button>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item v-if="ciudad.init=='La Paz'" command="La Paz">La Paz</el-dropdown-item>
+                                    <el-dropdown-item v-if="ciudad.init=='Santa Cruz'" command="Cochabamba">Cochabamba</el-dropdown-item>
+                                    <el-dropdown-item v-if="ciudad.init=='Santa Cruz'" command="Santa Cruz">Santa Cruz</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                        <div class="col-sm-4">
                         </div>
                     </div>
                     <el-table v-loading="loading.ubicacionesNull" :data="ubicacionesNull.filter(data => !search.ubicacionesNull || data.U_Cod_Vent.toLowerCase().includes(search.ubicacionesNull.toLowerCase()) || data.ItemCode.toLowerCase().includes(search.ubicacionesNull.toLowerCase()))" style="width: 100%" max-height="400" highlight-current-row :default-sort="{prop: 'id', order: 'descending'}">

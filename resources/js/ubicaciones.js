@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import axios from 'axios';
-import ElementUI from 'element-ui'
+import ElementUI, { Switch } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/es';
 import locale from 'element-ui/lib/locale';
@@ -49,7 +49,12 @@ var Main={
                 codVenta: [{ required: true, message: 'El campo es requerido', trigger: 'change' }],
             },
             ubicacion:[],
-            usuario_id:''
+            usuario_id:'',
+            ciudad:{
+                new:'',
+                init:'',
+                add:''
+            }
         }
     },
     mounted() {
@@ -109,15 +114,17 @@ var Main={
         handleAdd(){
             $('#add').modal('show');
         },
-        handelChoseUbicacionNull($option){
+        handelChoseUbicacionNull(option){
             var url='/api/ubicacion/chosenull';
             this.loading.ubicacionesNull=true;
+            this.ciudad.new=option
             axios.post(url,{
-                WhsCode:$option
+                WhsCode:option
             }).then(response=>{
                 this.ubicacionesNull=response.data
                 this.loading.ubicacionesNull=false
             });
+           // dc:a2:66:52:7a:35
         },
         handleArticulosUbicacion(){
             var url='/api/ubicacion/items';
@@ -151,7 +158,7 @@ var Main={
                     var url='/api/ubicacion/searchcodventa';
                     axios.post(url,{
                         'codVenta':this.search.codVenta,
-                        'ciudad':this.sucursal
+                        'ciudad':this.ciudad.add?this.ciudad.add:this.ciudad.init
                     }).then(response=>{
                         this.loading.articulos=false;
                         this.articulos=response.data;
@@ -285,6 +292,23 @@ var Main={
                 });
             }).catch(() => {
             });
+        },
+        handleChoseSucursal(command){
+            switch (command) {
+                case 'La Paz':
+                    this.ciudad.add='La Paz'
+                    break;
+            
+                case 'Cochabamba':
+                    this.ciudad.add='Cochabamba'
+
+                    break;
+
+                case 'Santa Cruz':
+                    this.ciudad.add='Santa Cruz'
+
+                    break;
+            }
         }
     }
 }

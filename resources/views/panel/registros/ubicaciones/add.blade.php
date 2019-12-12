@@ -8,20 +8,25 @@
                             <el-form-item label="Buscar Articulo" prop="codVenta">
                                 <el-input @keydown.native.enter.prevent="handleSearchCodVenta()" size="mini" v-model="search.codVenta" placeholder="Codigo Venta"></el-input>
                             </el-form-item>
-                            <!--<el-form-item prop="ciudad">
-                                <el-select v-model="search.ciudad" size="mini" placeholder="Sucursal" @keydown.native.enter.prevent="handleSearchCodVenta()" >
-                                    <el-option label="LPZ001" value="LPZ001"></el-option>
-                                    <el-option label="SCZ001" value="SCZ001"></el-option>
-                                    <el-option label="CBB001" value="CBB001"></el-option>
-                                </el-select>
-                            </el-form-item>-->
+                            <el-form-item prop="ciudad">
+                                <el-dropdown type="primary" @command="handleChoseSucursal">
+                                    <el-button type="primary" size="mini">
+                                        @{{ciudad.add?ciudad.add:ciudad.init}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                    </el-button>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item v-if="ciudad.init=='La Paz'" command="La Paz">La Paz</el-dropdown-item>
+                                        <el-dropdown-item v-if="ciudad.init=='Santa Cruz'" command="Cochabamba">Cochabamba</el-dropdown-item>
+                                        <el-dropdown-item v-if="ciudad.init=='Santa Cruz'" command="Santa Cruz">Santa Cruz</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </el-form-item>
                             <el-form-item>
                                 <el-button size="mini" @click="handleSearchCodVenta()" type="primary" icon="el-icon-search" circle></el-button>
                             </el-form-item>
                         </el-form>
                     </div>
                 </div>
-                <el-table v-loading="loading.articulos" :data="articulos" style="width: 100%" highlight-current-row :default-sort="{prop: 'id', order: 'descending'}">
+                <el-table height="400" v-loading="loading.articulos" :data="articulos" style="width: 100%" highlight-current-row :default-sort="{prop: 'id', order: 'descending'}">
                     <el-table-column align="center" label="Cod. SAP" width="120">
                         <template slot-scope="scope">
                             <p style="font-size: 12px;">

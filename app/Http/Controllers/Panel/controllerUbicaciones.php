@@ -53,8 +53,8 @@ class controllerUbicaciones extends Controller
         ListaStock::findOrFail($list_id)->delete();
     }
     public function handleSearchCodVenta(Request $request){
-        $sucursal=Sucursal::where('id',$request->ciudad)->first();
-        switch ($sucursal->ciudad) {
+       // $sucursal=Sucursal::where('id',$request->ciudad)->first();
+        switch ($request->ciudad) {
             case 'La Paz':
                 return Response::json(DB::table('UbicacionLPZ')->where('U_Cod_Vent','like',$request->codVenta.'%')->where('WhsCode','like','LPZ001')->get());
                 break;
