@@ -1,4 +1,13 @@
 <?php
+/////////////////////dashboard/////////////////////////////////
+Route::get('panel/get/presupuesto','Panel\controllerDashboard@handleGetPresupuesto');
+Route::get('panel/get/facturacion','Panel\controllerDashboard@handleGetFacturacion');
+Route::get('panel/get/presupuesto/mercado/{value}','Panel\controllerDashboard@handleGetPresupuestoMercado');
+Route::get('panel/get/facturacion/mercado/{value}','Panel\controllerDashboard@handleGetFacturacionMercado');
+
+/////////////////////Socios de Negocios/////////////////////////////////
+Route::get('socios/get/grupos','Panel\controllerSociosNegocio@handleGetGrupos');
+Route::post('socios/get/listas','Panel\controllerSociosNegocio@handleGetListas');
 /////////////////////Facturacion/////////////////////////////////
 Route::get('facturacion/get/facturacion/all','Panel\controllerFacturacion@handleGetFacturacionTotal');
 Route::post('facturacion/get/oportunidades/detalle','Panel\controllerFacturacion@handleGetOporunidadesDetalle');

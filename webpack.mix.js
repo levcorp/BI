@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 // ELEMENT VERSION 2.8.2 FIX
 //mix.js('resources/js/detalleSolicitud.js', 'public/js/detalleSolicitud.js');
 //mix.js('resources/js/SolicitudABM.js','public/js/app.js');
@@ -25,7 +25,7 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/cuestionarioResultado.js','public/js/');
 //mix.js('resources/js/mobile/mobile.js', 'public/js/');
 //mix.js('resources/js/ssl.js', 'public/js/');
-mix.js('resources/js/ubicaciones.js','public/js');
+//mix.js('resources/js/ubicaciones.js','public/js');
 //mix.js('resources/js/articulosABM.js','public/js');
 //mix.js('resources/js/almacen.js','public/js');
 //mix.vuetify().js('resources/js/pwa/index.js', 'public/js/pwa.js').sass('resources/sass/app.scss', 'public/css/pwa')
@@ -33,10 +33,8 @@ mix.js('resources/js/ubicaciones.js','public/js');
 //mix.js('resources/js/almacenUsuario.js','public/js');
 //mix.js('resources/js/factura.js','public/js');
 //mix.js('resources/js/rendicionViaticos.js','public/js');
-
-
 //mix.js('resources/js/seguimiento.js', 'public/js');
 //mix.js('resources/js/facturacion.js', 'public/js');
-
-
+//mix.js('resources/js/sociosNegocio.js','public/js')
+mix.js("resources/js/panel.js", "public/js");
 //mix.browserSync('localhost');

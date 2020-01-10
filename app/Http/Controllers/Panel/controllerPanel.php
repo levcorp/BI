@@ -40,7 +40,7 @@ class controllerPanel extends Controller
         $meses = EspecialidadMeses::select('PERIODO', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')->get();
         $todo=EspecialidadMeses::all()->toJson();
         Session::flash('mensaje','Datos cargados correctamente');
-        return view('panel.dashboard.panel',compact('meses','todo','titulo'));
+        return view('panel.dashboard.2020.index',compact('meses','todo','titulo'));
     }
     public function inicio(){
         $titulo="General";
@@ -233,5 +233,8 @@ class controllerPanel extends Controller
     }
     public function facturacion(){
      return view('panel.registros.facturacion.index');
+    }
+    public function socios(){
+        return view('panel.registros.sociosNegocio.index');
     }
 }

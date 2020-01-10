@@ -42,7 +42,8 @@ class Seguimiento extends ODBC
         T0."PO_F_ALMACENES",
         T0."PO_F_EST_ALMACENES"
         from LEVCORP.SEGUIMIENTO_OV T0 
-        where T0."OV_COD_SAP" = $request->DocNum        
+        where T0."OV_COD_SAP" = $request->DocNum      
+        and T0."PO_COD_VENTA" is not null
         EOF;
         return parent::query(utf8_decode($sql));
     }
