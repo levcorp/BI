@@ -41,4 +41,10 @@ class controllerAlmacenUsuario extends Controller
       ->join('users','users.id','=','ASIGNACION_ALMACEN.USUARIO_ID')
       ->where('ASIGNACION_ALMACEN.USUARIO_ID','=','1')->where('LISTA_ALMACEN.id','=','2')->get();
     }
+    public function prueba(){
+      ini_set('max_execution_time', 500);
+      $truncate=$this->Almacen->prueba();
+      $call=$this->Almacen->prueba2();
+      return $truncate." ".$call;
+    }
 }

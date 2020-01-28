@@ -1,5 +1,5 @@
 <?php
-Route::get('prueba','Panel\controllerAlmacenUsuario@Lista');
+Route::get('prueba','Panel\controllerAlmacenUsuario@prueba');
 
 Route::get('prueba2','Panel\controllerAlmacen@handleGetArticulos');
 ////////////////////////////Socios de Negocio/////////////////////////////////

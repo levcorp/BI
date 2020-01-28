@@ -23,4 +23,12 @@ class ODBC{
           return json_encode($data);
       }
   }
+  public function procedure_void($sql){
+    if (!($this->connect)){
+        return "Falló la conexión a la base de datos a través de ODBC:";
+      }else{
+          $result = odbc_exec($this->connect, $sql);
+          return "Realizado";
+      }
+  }
 }

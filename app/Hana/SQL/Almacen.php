@@ -8,6 +8,8 @@ use App\ListaAlmacen;
 use App\AsignacionAlmacen;
 use App\FabricanteAsignacion;
 use App\ArticulosAlmacen;
+use Carbon\Carbon;
+use DateTime;
 class Almacen extends ODBC{
   public function WhsCode($sucursal){
     $ciudad=Sucursal::findOrFail($sucursal)->ciudad;
@@ -221,4 +223,5 @@ class Almacen extends ODBC{
   public function GetArticulosCheck($request){
       return Response::json(ArticulosAlmacen::where('FABRICANTE_ASIGNACION_ID',$request->asignacion_fabricante_id)->orderBy('id','desc')->get());
   }
+
 }

@@ -52,6 +52,8 @@ class Kernel extends ConsoleKernel
                  ->dailyAt('17:00');
         $schedule->command('gpos:validate')
                  ->dailyAt('16:30');
+        $schedule->command('DMI:start')
+                 ->dailyAt('20:00');
     }
     protected function commands()
     {
