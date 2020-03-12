@@ -18,21 +18,8 @@ class controllerDashboard extends Controller
         $data=DB::select(<<<EOF
         select SUM(convert(int,T0.MONTO)) as MONTO,T0.MES
         from BI.dbo.PRESUPUESTO2020 T0
-        --where T0.MERCADO='PEG'
         group BY T0.MES
-        order BY case T0.MES when 'ENERO' then 1
-                            when 'FEBRERO' then 2
-                            when 'MARZO' then 3
-                            when 'ABRIL' then 4
-                            when 'MAYO' then 5
-                            when 'JUNIO' then 6
-                            when 'JULIO' then 7
-                            when 'AGOSTO' then 8
-                            when 'SEPTIEMBRE' then 9
-                            when 'OCTUBRE' then 10
-                            when 'NOVIEMBRE' then 11
-                            when 'DICIEMBRE' then 12
-                            END ASC
+        order BY T0.MES 
         EOF);
         $values=[];
         foreach ($data as $key => $value) {
