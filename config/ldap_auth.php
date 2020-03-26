@@ -38,7 +38,8 @@ return [
         'ciudad'=>'l',
         'departamento'=>'department',
         'interno'=>'ipphone',
-        'brand'=>'company'    
+        'brand'=>'company',
+        'ci'=>'description'
     ],
     'logging' => [
         'enabled' => env('LDAP_LOGGING', true),

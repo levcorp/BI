@@ -499,14 +499,14 @@ body{background-color:#fff}.logo a:hover,.logo a:focus{color:#1e2e3b !important}
       
               <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 20px;">
       <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-        <h1 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #fff;font-size: 30px;line-height: 38px;font-family: Avenir,sans-serif;text-align: center;"><span style="color:#2679d2"><strong>Cuestionario</strong></span></h1><p style="Margin-top: 20px;Margin-bottom: 20px;text-align: center;"><span style="color:#2679d2">Tiene una nueva encuesta por llenar, dedique unos minutos a completar esta peque&#241;a encuesta, la informaci&#243;n que nos proporcione ser&#225; muy &#250;til.</span></p>
+        <h1 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #fff;font-size: 30px;line-height: 38px;font-family: Avenir,sans-serif;text-align: center;"><span style="color:#409EFF"><strong>Nueva Encuesta</strong></span></h1><p style="Margin-top: 20px;Margin-bottom: 20px;text-align: center;"><span style="color:#606266">Tiene una nueva encuesta por llenar, dedique unos minutos a completar esta peque&#241;a encuesta, la informaci&#243;n que nos proporcione ser&#225; muy &#250;til.</span></p>
       </div>
     </div>
             
               <div style="Margin-left: 20px;Margin-right: 20px;">
       <div class="btn btn--flat btn--large" style="Margin-bottom: 20px;text-align: center;">
-        <![if !mso]><a style="border-radius: 4px;display: inline-block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;background-color: #2679d2;font-family: Avenir, sans-serif;" href="https://example.com/">DIG IN</a><![endif]>
-      <!--[if mso]><p style="line-height:0;margin:0;">&nbsp;</p><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://example.com/" style="width:91px" arcsize="9%" fillcolor="#2679D2" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,11px,0px,11px"><center style="font-size:14px;line-height:24px;color:#FFFFFF;font-family:Avenir,sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:4px">DIG IN</center></v:textbox></v:roundrect><![endif]--></div>
+        <![if !mso]><a style="border-radius: 10px;display: inline-block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 9px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;background-color: #2679d2;font-family: Avenir, sans-serif;" href="https://bi.levcorp.bo/">Entrar</a><![endif]>
+      <!--[if mso]><p style="line-height:0;margin:0;">&nbsp;</p><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://bi.levcorp.bo/" style="width:91px" arcsize="9%" fillcolor="#2679D2" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,11px,0px,11px"><center style="font-size:14px;line-height:24px;color:#FFFFFF;font-family:Avenir,sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:4px">Entrar</center></v:textbox></v:roundrect><![endif]--></div>
     </div>
             
               <div style="Margin-left: 20px;Margin-right: 20px;">

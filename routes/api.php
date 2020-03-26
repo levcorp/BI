@@ -1,4 +1,7 @@
 <?php
+/////////////////////Solicitud Fondos a Rendicion/////////////////////////////////
+Route::get('rendicion/solicitud/usuario/{id}','Panel\controllerSolicitudRendicion@handleGetUsuario');
+
 /////////////////////dashboard/////////////////////////////////
 Route::get('panel/get/presupuesto','Panel\controllerDashboard@handleGetPresupuesto');
 Route::get('panel/get/facturacion','Panel\controllerDashboard@handleGetFacturacion');

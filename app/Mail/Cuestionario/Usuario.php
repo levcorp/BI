@@ -16,7 +16,7 @@ class Usuario extends Mailable
     }
     public function build()
     {
-        return $this->view('email.cuestionario.usuarios')
-                    ->subject('Nuevo Cuestionario');
+        return $this->view('emails.cuestionario.usuarios')
+                    ->subject('Nueva Encuesta');
     }
 }

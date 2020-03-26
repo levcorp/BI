@@ -150,6 +150,8 @@ class controllerCuestionarios extends Controller
         Cuestionario::findOrFail($request->CUESTIONARIO_ID)->fill([
             'ID_GRUPO_USUARIOS'=>$request->GRUPO_ID
         ])->save();
+        //Mail::to('gpinto@levcorp.bo')->send(new Usuario);
+        $this->MailSend($request->GRUPO_ID);
     }
     public function showCaracteristicas(Request $request){
         return Response::json(Caracteristica::where('PREGUNTA_ID',$request->PREGUNTA_ID)->first());
@@ -161,14 +163,10 @@ class controllerCuestionarios extends Controller
         Opciones::where('ID_PREGUNTA',$request->PREGUNTA_ID)->delete();
         Caracteristica::where('PREGUNTA_ID',$request->PREGUNTA_ID)->delete();
     }
-    public function MailSend(Request $request){
-        $usuarios=AsignacionGrupo::where('GRUPO_ID',$request->GRUPO_ID)->get();
-        foreach ($usuarios as $usuario) {
-            try {
-                Mail::send(new Usuario)->to('gpinto@levcorp.bo');
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
+    public function MailSend($GRUPO_ID){
+        $items=AsignacionGrupo::where('GRUPO_ID',$GRUPO_ID)->get();
+        foreach ($items as $item) {
+            Mail::to(User::findOrFail($item->USUARIO_ID)->email)->send(new Usuario);
         }
     }
     public function prueba(){

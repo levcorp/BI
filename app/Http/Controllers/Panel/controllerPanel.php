@@ -237,4 +237,7 @@ class controllerPanel extends Controller
     public function socios(){
         return view('panel.registros.sociosNegocio.index');
     }
+    public function solicitud(){
+        return view('panel.registros.rendicion.solicitud.index');
+    }
 }

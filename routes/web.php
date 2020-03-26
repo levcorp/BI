@@ -2,6 +2,8 @@
 Route::get('prueba','Panel\controllerAlmacenUsuario@prueba');
 
 Route::get('prueba2','Panel\controllerAlmacen@handleGetArticulos');
+////////////////////////////Solicitud de Rendicion/////////////////////////////////
+Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('sociosNegocio');
 ////////////////////////////Socios de Negocio/////////////////////////////////
 Route::get('panel/socios','Panel\controllerPanel@socios')->name('sociosNegocio');
 ////////////////////////////OV-PO/////////////////////////////////
@@ -9,7 +11,7 @@ Route::get('panel/facturacion','Panel\controllerPanel@facturacion')->name('factu
 ////////////////////////////OV-PO/////////////////////////////////
 Route::get('panel/seguimiento','Panel\controllerPanel@seguimiento')->name('seguimiento');
 ////////////////////////////Rendicion Viaticos/////////////////////////////////
-Route::get('panel/rendicion/viaticos','Panel\controllerPanel@rendicionViaticos')->name('rendicionViaticos');
+//Route::get('panel/rendicion/viaticos','Panel\controllerPanel@rendicionViaticos')->name('rendicionViaticos');
 ////////////////////////////Facturas/////////////////////////////////
 Route::get('panel/facturas','Panel\controllerPanel@facturas')->name('facturas');
 ////////////////////////////AlmacenUser/////////////////////////////////
@@ -68,7 +70,7 @@ Route::post('login','Login\controllerLogin@login')->name('login');
 Route::get('logout','Login\controllerLogin@logout')->name('logout');
 Route::get('/','Login\controllerLogin@log')->name('log');
 ////////////////////////USUARIOS/////////////////////////////////////
-Route::get('panel/usuarios','Panel\ControllerPanel@usuarios')->name('usuarios');
+Route::get('panel/usuarios','Panel\controllerPanel@usuarios')->name('usuarios');
 ////////////////////////PANEL/////////////////////////////////////
 Route::get('panel/{sector}','Panel\controllerPanel@newSector')->name('newfiltroSector');
 Route::get('panel','Panel\controllerPanel@newInicio')->name('panel');
