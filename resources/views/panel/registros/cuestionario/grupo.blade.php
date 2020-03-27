@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body">
                 <div class="col-sm-12">
-                    <el-table :data="grupos" style="width: 100%">
+                    <el-table :data="grupos" style="width: 100%" v-loading="loading.cuestionario">
                         <el-table-column prop="NOMBRE" label="Nombre">
                         </el-table-column>
                         <el-table-column prop="DESCRIPCION" label="Descripcion">

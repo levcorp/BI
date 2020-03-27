@@ -31,11 +31,15 @@ var Main = {
             usuario_id:'',
             grupoUser:[],
             cuestionario_id:'',
+            titulo:'',
             searchGrupos:'',
             grupos:[],
             pregunta:[],
             index:'',
             preg:'',
+            loading:{
+                cuestionario:false
+            },
             toolPreguntas: {
                 OPTIONS: [],
                 DESCS: [],
@@ -291,6 +295,7 @@ var Main = {
                     break;
                 case 'grupo':
                     this.cuestionario_id=command.cuestionario.id;
+                    this.titulo=command.cuestionario.TITULO;
                     this.handleGetGrupos();
                     $('#grupo').modal('show');                               
                     break;
@@ -524,9 +529,11 @@ var Main = {
             });
         },
         handleAssignmentGrupo(index, row){
+            this.loading.cuestionario=true
             var url='/api/cuestionarios/assignaciongrupo'
             axios.post(url,{
                 CUESTIONARIO_ID:this.cuestionario_id,
+                TITULO:this.titulo,
                 GRUPO_ID:row.id,
             }).then(response=>{
                 $('#grupo').modal('hide');    
@@ -535,6 +542,7 @@ var Main = {
                     type: 'primary',
                     message: 'El grupo fue assignado correctamente'
                 });
+                this.loading.cuestionario=false
             })
         },
         

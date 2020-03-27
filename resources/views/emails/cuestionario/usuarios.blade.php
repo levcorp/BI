@@ -490,16 +490,10 @@ body{background-color:#fff}.logo a:hover,.logo a:focus{color:#1e2e3b !important}
             <div class="column" style="max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);text-align: left;color: #fff;font-size: 17px;line-height: 26px;font-family: Karla,Calibri,Geneva,sans-serif;">
             
               <div style="Margin-left: 20px;Margin-right: 20px;">
-      <div style="mso-line-height-rule: exactly;line-height: 40px;font-size: 1px;">&nbsp;</div>
     </div>
-            
-        <div style="font-size: 12px;font-style: normal;font-weight: normal;line-height: 19px;" align="center">
-          <img style="border: 0;display: block;height: auto;width: 100%;max-width: 151px;" alt="" width="151" src="images/discuss-issue1-990145045101453c.png" />
-        </div>
-      
-              <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 20px;">
+    <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 20px;">
       <div style="mso-line-height-rule: exactly;mso-text-raise: 4px;">
-        <h1 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #fff;font-size: 30px;line-height: 38px;font-family: Avenir,sans-serif;text-align: center;"><span style="color:#409EFF"><strong>Nueva Encuesta</strong></span></h1><p style="Margin-top: 20px;Margin-bottom: 20px;text-align: center;"><span style="color:#606266">Tiene una nueva encuesta por llenar, dedique unos minutos a completar esta peque&#241;a encuesta, la informaci&#243;n que nos proporcione ser&#225; muy &#250;til.</span></p>
+        <h1 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #fff;font-size: 30px;line-height: 38px;font-family: Avenir,sans-serif;text-align: center;"><span style="color:#409EFF"><strong>{{$titulo}}</strong></span></h1><p style="Margin-top: 20px;Margin-bottom: 20px;text-align: center;"><span style="color:#606266">Tiene una nueva encuesta por llenar, dedique unos minutos a completarla, la informaci&#243;n que nos proporcione ser&#225; muy &#250;til.</span></p>
       </div>
     </div>
             

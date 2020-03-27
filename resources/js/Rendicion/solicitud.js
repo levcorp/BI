@@ -36,7 +36,7 @@ new Vue({
                 MOTIVO:null,
                 MEDIO_PAGO:null,
                 CUENTA:null,
-                BANCO:null,
+                BANCO_ID:null,
                 SUCURSAL:null,
                 ESTADO:null
             },
@@ -56,13 +56,15 @@ new Vue({
                         label:'Abono Cuenta Bancaria'
                     }
                 ],
-                usuario:[]
+                usuario:[],
+                bancos:[]
             }
         }
     },
     mounted () {
         this.handleGetUsuarios();
         this.handleGetUsuario();
+        this.handleGetBancosRendicion();
     },
     watch: {
         'solicitud.IMPORTE_SOLICITADO' :function(newValue, oldValue) {
@@ -82,6 +84,12 @@ new Vue({
             var url='/api/rendicion/solicitud/usuario/'+this.values.usuario_id
             axios.get(url).then(response=>{
                 this.data.usuario=response.data
+            })
+        },
+        handleGetBancosRendicion(){
+            var url='/api/rendicion/solicitud/bancos/'
+            axios.get(url).then(response=>{
+                this.data.bancos=response.data
             })
         },
         handleCreateSolicitud() {

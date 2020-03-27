@@ -220,7 +220,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
-                                    <el-select style="width:100%;" v-model="solicitud.MEDIO_PAGO" size="small" placeholder="Elija una Opción">
+                                    <el-select style="width:100%;" filterable clearable v-model="solicitud.MEDIO_PAGO" size="small" placeholder="Elija una Opción">
                                         <el-option
                                         v-for="item in data.medio"
                                         :key="item.value"
@@ -242,7 +242,14 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <el-input type="text"  size="small" v-model="solicitud.BANCO" placeholder="Llenar campo"></el-input>
+                                    <el-select style="width:100%;"  filterable clearable  v-model="solicitud.BANCO_ID" size="small" placeholder="Elija una Opción">
+                                        <el-option
+                                        v-for="item in data.bancos"
+                                        :key="item.id"
+                                        :label="item.Nombre"
+                                        :value="item.id">
+                                        </el-option>
+                                    </el-select>
                                 </div>
                             </div>
                         </div>
