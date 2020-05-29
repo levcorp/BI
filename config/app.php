@@ -118,6 +118,6 @@ return [
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'Avatar' => Laravolt\Avatar\Facade::class
+        'Avatar' => Laravolt\Avatar\Facade::class,
     ],
 ];

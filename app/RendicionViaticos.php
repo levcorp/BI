@@ -10,13 +10,14 @@ class RendicionViaticos extends Model
     protected $fillable=[
         'id',
         'RESPONSABLE_ID',
-        'CONCEPTO',
         'FECHA_ASIGNACION',
+        'CONCEPTO',
         'MONTO_ASIGNADO',
-        'CI',
+        'IMPORTE_REEMBOLSO',
+        'GASTO_IMPUTABLE',
         'BANCO',
-        'CUENTA',
-        'MERCADO'
+        'ID',
+        'CUENTA'
     ];
     public $timestamps=false;
 }

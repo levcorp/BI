@@ -19,7 +19,7 @@ const mix = require("laravel-mix");
 //mix.js('resources/js/tareasBrand.js', 'public/js/');
 //mix.js('resources/js/mercado.js', 'public/js/');
 // ELEMENT VERSION 2.11.1 BUG IN TABLE=>NPM RUN WATCH
-mix.js('resources/js/cuestionario.js', 'public/js/');
+//mix.js('resources/js/cuestionario.js', 'public/js/');
 //mix.js('resources/js/grupo.js','public/js/'); //oldversion
 //mix.js('resources/js/cuestionarioUser.js','public/js/'); //newversion
 //mix.js('resources/js/cuestionarioResultado.js','public/js/');
@@ -37,4 +37,7 @@ mix.js('resources/js/cuestionario.js', 'public/js/');
 //mix.js('resources/js/facturacion.js', 'public/js');
 //mix.js('resources/js/sociosNegocio.js','public/js')
 //mix.js("resources/js/Rendicion/solicitud.js", "public/js");
+//mix.js("resources/js/Rendicion/aprobacion.js", "public/js");
 //mix.browserSync('localhost');
+mix.js("resources/js/asistencia.js", "public/js");
+//mix.js("resources/js/usuariosRegistros.js", "public/js");

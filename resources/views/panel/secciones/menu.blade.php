@@ -190,6 +190,8 @@
                   @endif
               </ul>
           </li>
+          @endif
+          @endif
           @if(isset(Auth::user()->perfil->asignacionModulo))
           @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','14')||Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','15')||Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','17'))
             <li class="treeview {{active(['cuestionarioUser.*','cuestionarios.*','cuestionariosResultado'])}}">
@@ -217,8 +219,6 @@
                 @endif
               </ul>
           </li>
-          @endif
-          @endif
           @endif
           @endif
           @if(isset(Auth::user()->perfil->asignacionModulo))

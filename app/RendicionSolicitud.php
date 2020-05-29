@@ -3,7 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
+use DateTime;
 class RendicionSolicitud extends Model
 {
     protected $table='RENDICION_SOLICITUD';
@@ -18,8 +19,24 @@ class RendicionSolicitud extends Model
         'MOTIVO',
         'MEDIO_PAGO',
         'CUENTA',
-        'BANCO',
+        'BANCO_ID',
         'SUCURSAL',
-        'ESTADO'
-    ]
+        'ESTADO',
+        'FECHA_AUTORIZACION',
+        'FECHA_RENDICION',
+        'MONTO_TOTAL',
+        'IMPORTE_REEMBOLSO',
+        'GASTO_IMPUTABLE'
+    ];
+    public $timestamps=false;
+    public function banco(){
+      return $this->belongsTo(BancosRendicion::class,'BANCO_ID');
+    }
+    public function solicitado(){
+      return $this->belongsTo(User::class,'SOLICITADO_ID');
+    }
+    public function autorizado(){
+      return $this->belongsTo(User::class,'AUTORIZADO_ID');
+    }
+
 }

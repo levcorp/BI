@@ -4,7 +4,7 @@
             <p style="font-size: 15px">
                 <el-button @click="handleBackIndex()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
                 <strong>
-                    Solicitud de fondos a cuenta de rendición
+                    Actualizar Solicitud de fondos a cuenta de rendición
                 </strong>
             </p>
         </div>
@@ -14,9 +14,9 @@
                 size="mini"
                 type="success"
                 icon="el-icon-check"
-                @click="handleStoreRendicionSolicitud()"
+                @click="handleUpdateSolicitud()"
                 round
-                >Guardar
+                >Actualizar
                 </el-button>
             </div>
         </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <el-date-picker style="width:100%;" placeholder="Elija una fecha" size="small" v-model="solicitud.FECHA_SOLICITUD"></el-date-picker>
+                    <el-date-picker style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_SOLICITUD"></el-date-picker>
                 </div>
             </div>
         </div>
@@ -44,9 +44,9 @@
                     </div>
                 </div>
                 <div class="col-sm-7">
-                    <el-date-picker style="width:100%;" placeholder="Elija una fecha" size="small" v-model="solicitud.FECHA_DESEMBOLSO"></el-date-picker>
+                    <el-date-picker style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_DESEMBOLSO"></el-date-picker>
                 </div>
-            </row>
+            </div>
         </div>
     </div>
     <div class="row" style="margin-top:15px;">
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="col-sm-10">
-            <el-input type="text" placeholder="Llenar campo" size="small" v-model="solicitud.DESCRIPCION"></el-input>
+            <el-input type="text" placeholder="Llenar campo" size="small" v-model="data.solicitudEdit.DESCRIPCION"></el-input>
         </div>
     </div>
     <div class="row" style="margin-top:15px;">
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <el-input type="number" size="small" placeholder="Llenar campo" v-model="solicitud.IMPORTE_SOLICITADO"></el-input>
+                    <el-input type="number" size="small" placeholder="Llenar campo" v-model="data.solicitudEdit.IMPORTE_SOLICITADO"></el-input>
                 </div>
             </div>
         </div>
@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <el-select style="width:100%;" clearable v-model="solicitud.AUTORIZADO_ID" filterable placeholder="Seleccionar Usuario" size="small">
+                    <el-select style="width:100%;" clearable v-model="data.solicitudEdit.AUTORIZADO_ID" filterable placeholder="Seleccionar Usuario" size="small">
                         <el-option
                             v-for="item in data.usuarios"
                             :key="item.nombre+' '+item.apellido"
@@ -132,7 +132,7 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <el-input type="text"  placeholder="Llenar campo" size="small" v-model="solicitud.COMENTARIOS"></el-input>
+                    <el-input type="text"  placeholder="Llenar campo" size="small" v-model="data.solicitudEdit.COMENTARIOS"></el-input>
                 </div>
             </div>
         </div>
@@ -151,7 +151,7 @@
                         size="small"
                         :autosize="{ minRows: 2, maxRows: 4}"
                         placeholder="Llenar campo"
-                        v-model="solicitud.MOTIVO">
+                        v-model="data.solicitudEdit.MOTIVO">
                     </el-input>
                 </div>
             </div>
@@ -166,7 +166,7 @@
                     </div>
                 </div>
                 <div class="col-sm-5">
-                    <el-select style="width:100%;" filterable clearable v-model="solicitud.MEDIO_PAGO" size="small" placeholder="Elija una Opción">
+                    <el-select style="width:100%;" filterable clearable v-model="data.solicitudEdit.MEDIO_PAGO" size="small" placeholder="Elija una Opción">
                         <el-option
                         v-for="item in data.medio"
                         :key="item.value"
@@ -176,7 +176,7 @@
                     </el-select>
                 </div>
                 <div class="col-sm-4">
-                    <el-input v-if="show.abono" type="text" size="small" v-model="solicitud.CUENTA"></el-input>
+                    <el-input v-if="show.abono" type="text" size="small" v-model="data.solicitudEdit.CUENTA"></el-input>
                 </div>
             </div>
         </div>
@@ -188,7 +188,7 @@
                     </div>
                 </div>
                 <div class="col-sm-9">
-                    <el-select style="width:100%;" filterable clearable v-model="solicitud.BANCO_ID" size="small" placeholder="Elija una Opción">
+                    <el-select style="width:100%;" filterable clearable v-model="data.solicitudEdit.BANCO_ID" size="small" placeholder="Elija una Opción">
                         <el-option
                         v-for="item in data.bancos"
                         :key="item.id"

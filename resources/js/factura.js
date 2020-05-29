@@ -22,7 +22,7 @@ new Vue({
     data() {
         return {
             result: '',
-            error: '', 
+            error: '',
             factura:{
                 NIT_Emisor:'',
                 Numero_Factura:'',
@@ -46,7 +46,7 @@ new Vue({
         }
     },
     mounted() {
-        
+
     },
     methods: {
         handleDecode(result) {
@@ -87,7 +87,7 @@ new Vue({
             }
         },
         handleReadQR(){
-            this.show.success=false;            
+            this.show.success=false;
             setTimeout(() => {
                 this.show.camara=true;
             }, 300);

@@ -1,15 +1,21 @@
 <?php
-Route::get('prueba','Panel\controllerAlmacenUsuario@prueba');
+Route::get('prueba',function(){
+  return view("pdf.solicitud");
+});
 
 Route::get('prueba2','Panel\controllerAlmacen@handleGetArticulos');
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////
-Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('sociosNegocio');
+Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('solicitudFondos');
+Route::get('panel/rendicion/autorizacion','Panel\controllerPanel@autorizacion')->name('solicitudAprobacion');
 ////////////////////////////Socios de Negocio/////////////////////////////////
 Route::get('panel/socios','Panel\controllerPanel@socios')->name('sociosNegocio');
 ////////////////////////////OV-PO/////////////////////////////////
 Route::get('panel/facturacion','Panel\controllerPanel@facturacion')->name('facturacion');
 ////////////////////////////OV-PO/////////////////////////////////
 Route::get('panel/seguimiento','Panel\controllerPanel@seguimiento')->name('seguimiento');
+////////////////////////////Marcaje/////////////////////////////////
+
+Route::get('panel/registros_usuarios','Panel\controllerPanel@usuarioRegistros')->name('marcaje-usuarios');
 ////////////////////////////Rendicion Viaticos/////////////////////////////////
 //Route::get('panel/rendicion/viaticos','Panel\controllerPanel@rendicionViaticos')->name('rendicionViaticos');
 ////////////////////////////Facturas/////////////////////////////////

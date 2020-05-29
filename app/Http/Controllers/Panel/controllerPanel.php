@@ -36,11 +36,7 @@ class controllerPanel extends Controller
         $this->middleware('Almacen',['only'=>'almacen']);
     }
     public function newInicio(){
-        $titulo="General";
-        $meses = EspecialidadMeses::select('PERIODO', DB::raw('SUM(EJECUTADO) as EJECUTADO'),DB::raw('SUM(META) as META'))->where('SECTOR','like','%')->groupBy('PERIODO')->orderBy('PERIODO','asc')->get();
-        $todo=EspecialidadMeses::all()->toJson();
-        Session::flash('mensaje','Datos cargados correctamente');
-        return view('panel.dashboard.2020.index',compact('meses','todo','titulo'));
+        return view('panel.dashboard.Asistencia.index');
     }
     public function inicio(){
         $titulo="General";
@@ -239,5 +235,11 @@ class controllerPanel extends Controller
     }
     public function solicitud(){
         return view('panel.registros.rendicion.solicitud.index');
+    }
+    public function autorizacion(){
+        return view('panel.registros.rendicion.solicitud.aprobacion.index');
+    }
+    public function usuarioRegistros(){
+        return view('panel.dashboard.Asistencia.usuarios');
     }
 }

@@ -9,6 +9,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   @include('panel.secciones.styles.css')
   @include('panel.dashboard.styles.css')
+  @yield('css')
   @laravelPWA
   <style>
     [v-cloak] {

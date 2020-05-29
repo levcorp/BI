@@ -18,31 +18,31 @@
             <tr>
                 <td>Apellido</td>
                 <td v-for="item in usuario.sn">
-                      @{{item}}         
+                      @{{item}}
                 </td>
             </tr>
             <tr>
                 <td>Correo Electronico</td>
                 <td v-for="item in usuario.mail">
-                      @{{item}}                         
+                      @{{item}}
                 </td>
             </tr>
             <tr>
                 <td>Ciudad</td>
                 <td v-for="item in usuario.l">
-                     @{{item}}                                      
+                     @{{item}}
                 </td>
             </tr>
             <tr>
                 <td>Pais</td>
                 <td v-for="item in usuario.c">
-                     @{{item}}                                                    
+                     @{{item}}
                 </td>
             </tr>
                  <tr>
                 <td>Movil</td>
                 <td v-for="item in usuario.mobile">
-                     @{{item}}                                                    
+                     @{{item}}
                 </td>
             </tr>
                  <tr>
@@ -54,19 +54,19 @@
                  <tr>
                 <td>Puesto</td>
                 <td v-for="item in usuario.title">
-                     @{{item}}          
+                     @{{item}}
                 </td>
             </tr>
                  <tr>
                 <td>Departamento</td>
                 <td v-for="item in usuario.department">
-                     @{{item}}                              
+                     @{{item}}
                 </td>
             </tr>
                  <tr>
                 <td>Organización</td>
                 <td v-for="item in usuario.company">
-                     @{{item}}                                              
+                     @{{item}}
                 </td>
             </tr>
               <tr>
@@ -97,7 +97,7 @@
                         <el-col span="12">@{{sucursal.fax}}</el-col>
                     </el-row>
                     <el-button slot="reference" size="mini">@{{sucursal.nombre}}</el-button>
-                    </el-popover>                                              
+                    </el-popover>
                 </td>
             </tr>
             </tbody>
