@@ -5,7 +5,7 @@ Route::delete('asistencia/delete/tolerancia/{id}','controllerAsistencia@handleRe
 Route::post('asistencia/post/tolerancia','controllerAsistencia@handleStoreTipoRegistros');
 Route::post('asistencia/post/asignacion','controllerAsistencia@handleStoreAsignacion');
 Route::get('asistencia/get/usuario','controllerAsistencia@handleGetUsuarios');
-Route::get('asistencia/get/historial/{tipo}','controllerAsistencia@handleGetRegistro');
+Route::get('asistencia/get/historial/{tipo}/{usuario_id}','controllerAsistencia@handleGetRegistro');
 Route::post('asistencia/post/registro','controllerAsistencia@handleStoreRegistro');
 /////////////////////Solicitud Fondos a Rendicion/////////////////////////////////
 Route::get('rendicion/solicitud/usuario/{id}','Panel\controllerSolicitudRendicion@handleGetUsuario');

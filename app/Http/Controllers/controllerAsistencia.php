@@ -33,10 +33,10 @@ class controllerAsistencia extends Controller
           'tipo_registros_id'=>$request->tolerancia_id
       ])->save();
     }
-    public function handleGetRegistro($tipo){
-      $validate=Historial_Registros::where('tipo',$tipo)->whereDate('fecha',date('Y-m-d'))->count();
+    public function handleGetRegistro($tipo,$usuario_id){
+      $validate=Historial_Registros::where('usuario_id',$usuario_id)->where('tipo',$tipo)->whereDate('fecha',date('Y-m-d'))->count();
       if($validate>0){
-        return Response::json(Historial_Registros::where('tipo',$tipo)->whereDate('fecha',date('Y-m-d'))->first());
+        return Response::json(Historial_Registros::where('usuario_id',$usuario_id)->where('tipo',$tipo)->whereDate('fecha',date('Y-m-d'))->first());
       }
     }
     public function handleStoreRegistro(Request $request){

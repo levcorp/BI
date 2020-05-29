@@ -69,10 +69,10 @@ var Main = {
        })
      },
      handleGetRegistro(){
-       var entrada='api/asistencia/get/historial/E'
-       var almuerzo='api/asistencia/get/historial/A'
-       var regreso='api/asistencia/get/historial/R'
-       var salida='api/asistencia/get/historial/S'
+       var entrada='api/asistencia/get/historial/E/'+this.registro.usuario_id
+       var almuerzo='api/asistencia/get/historial/A/'+this.registro.usuario_id
+       var regreso='api/asistencia/get/historial/R/'+this.registro.usuario_id
+       var salida='api/asistencia/get/historial/S/'+this.registro.usuario_id
        axios.get(entrada).then(response=>{
          this.entrada=response.data
        })
