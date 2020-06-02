@@ -78,8 +78,8 @@
         @endif
       @endif
       @if(isset(Auth::user()->perfil->asignacionModulo))
-        @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','1'))
-          <li class="treeview {{active(['articulosABM','ubicaciones'])}}">
+        @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','1') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','18'))
+          <li class="treeview {{active(['articulosABM','ubicaciones','solicitudAprobacion'])}}">
             <a href="#">
               <i class="fa fa-files-o"></i> <span>Solicitudes</span>
               <span class="pull-right-container">
@@ -95,6 +95,16 @@
               @if(isset(Auth::user()->perfil->asignacionModulo))
                 @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','18'))
                   <li class="{{active('ubicaciones')}}"><a href="{{route('ubicaciones')}}"><i class="fa fa-qrcode"></i> Ubicaciones</a></li>
+                @endif
+              @endif
+              @if(isset(Auth::user()->perfil->asignacionModulo))
+                @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','23'))
+                  <li class="{{active('solicitudAprobacion')}}"><a href="{{route('solicitudAprobacion')}}"><i class="fa fa-qrcode"></i> Autorizacion Solicitud Fondos</a></li>
+                @endif
+              @endif
+              @if(isset(Auth::user()->perfil->asignacionModulo))
+                @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','24'))
+                  <li class="{{active('solicitudFondos')}}"><a href="{{route('solicitudFondos')}}"><i class="fa fa-qrcode"></i> Solicitud y Rendicion Fondos</a></li>
                 @endif
               @endif
             </ul>
