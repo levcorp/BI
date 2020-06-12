@@ -12,7 +12,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-    ];  
+    ];
     protected $middlewareGroups = [
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -25,7 +25,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:200,1',
+            //'throttle:200,1',
             'bindings',
         ],
     ];

@@ -7,6 +7,8 @@ Route::post('asistencia/post/asignacion','controllerAsistencia@handleStoreAsigna
 Route::get('asistencia/get/usuario','controllerAsistencia@handleGetUsuarios');
 Route::get('asistencia/get/historial/{tipo}/{usuario_id}','controllerAsistencia@handleGetRegistro');
 Route::post('asistencia/post/registro','controllerAsistencia@handleStoreRegistro');
+Route::post('asistencia/get/reporte','controllerAsistencia@handleGetReporte');
+Route::get('asistencia/get/estado/{tipo}/{usuario_id}','controllerAsistencia@handleGetValid');
 /////////////////////Solicitud Fondos a Rendicion/////////////////////////////////
 Route::get('rendicion/solicitud/usuario/{id}','Panel\controllerSolicitudRendicion@handleGetUsuario');
 Route::get('rendicion/solicitud/bancos','Panel\controllerSolicitudRendicion@handleGetBancosRendicion');

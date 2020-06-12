@@ -1,9 +1,6 @@
 <?php
-Route::get('prueba',function(){
-  return view("pdf.solicitud");
-});
 
-Route::get('prueba2','Panel\controllerAlmacen@handleGetArticulos');
+Route::get('prueba2','controllerAsistencia@prueba');
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////
 Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('solicitudFondos');
 Route::get('panel/rendicion/autorizacion','Panel\controllerPanel@autorizacion')->name('solicitudAprobacion');

@@ -19,7 +19,17 @@ var Main = {
           entrada:null,
           almuerzo:null,
           regreso:null,
-          salida:null
+          salida:null,
+          estado:{
+            entrada:null,
+            almuerzo:null,
+            regreso:null,
+            salida:null,
+          },
+          asistencia:{
+            fecha1:null,
+            fecha2:null
+          },
         }
     },
     watch: {
@@ -32,6 +42,7 @@ var Main = {
       this.handleUpdateTime()
       this.handleGetIP()
       this.handleGetRegistro()
+      this.handleGetEstado()
     },
     methods: {
       handleZeroPadding(num, digit) {
@@ -55,11 +66,12 @@ var Main = {
          var url='api/asistencia/post/registro'
          axios.post(url,this.registro).then(response=>{
            this.handleGetRegistro()
+           this.handleGetEstado()
+           this.$message({
+             type: 'success',
+             message: response.data
+           });
          })
-         this.$message({
-           type: 'success',
-           message: 'Se registro la hora y fecha'
-         });
        }).catch(() => {
        });
      },
@@ -85,6 +97,47 @@ var Main = {
        axios.get(salida).then(response=>{
          this.salida=response.data
        })
+     },
+     handleGetEstado(){
+       var entrada='api/asistencia/get/estado/E/'+this.registro.usuario_id
+       var almuerzo='api/asistencia/get/estado/A/'+this.registro.usuario_id
+       var regreso='api/asistencia/get/estado/R/'+this.registro.usuario_id
+       var salida='api/asistencia/get/estado/S/'+this.registro.usuario_id
+       axios.get(entrada).then(response=>{
+         this.estado.entrada=response.data
+       })
+       axios.get(almuerzo).then(response=>{
+         this.estado.almuerzo=response.data
+       })
+       axios.get(regreso).then(response=>{
+         this.estado.regreso=response.data
+       })
+       axios.get(salida).then(response=>{
+         this.estado.salida=response.data
+       })
+     },
+     handleGetReporte(){
+       var urlApi = 'api/asistencia/get/reporte';
+       axios({
+           url: urlApi,
+           method: 'POST',
+           data:{
+             fecha1:this.asistencia.fecha1,
+             fecha2:this.asistencia.fecha2
+           },
+           responseType: 'blob', // important
+       }).then(response => {
+           const url = window.URL.createObjectURL(new Blob([response.data]));
+           const link = document.createElement('a');
+           link.href = url;
+           link.setAttribute('download','Asistencia'+this.asistencia.fecha1+'a'+this.asistencia.fecha2+'.xlsx'); //or any other extension
+           document.body.appendChild(link);
+           link.click();
+           this.$message({
+               message: 'Se descargo el archivo ',
+               type: 'success'
+           });
+       });
      }
     }
 }

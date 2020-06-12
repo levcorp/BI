@@ -15,4 +15,7 @@ class Historial_Registros extends Model
       'tipo'
     ];
     public $timestamps=false;
+    public function usuario(){
+      return $this->belongsTo(User::class,'usuario_id');
+    }
 }
