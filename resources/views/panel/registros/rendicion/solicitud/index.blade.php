@@ -5,7 +5,10 @@
 <div class="row" id="app" v-cloak>
     <input type="text" v-model="values.sucursal_id='{{Auth::user()->sucursal_id}}'" hidden>
     <input type="text" v-model="values.usuario_id='{{Auth::user()->id}}'" hidden>
+    <input type="text" v-model="values.objectguid='{{Auth::user()->objectguid}}'" hidden>
+    <input type="text" v-model="values.cuenta='{{Auth::user()->cuenta_bancaria}}'" hidden>
     <div class="col-sm-12">
+      {{QrCode::format('png')->generate('Embed me into an e-mail!')}}
         <div class="box box-info">
             <template v-if="show.index">
                 <div class="box-header">
@@ -51,15 +54,21 @@
                         <el-table-column align="center" prop="DESCRIPCION" label="Descripcion"></el-table-column>
                         <el-table-column align="center" prop="ESTADO" label="Estado">
                           <template slot-scope="scope">
-                              <div slot="reference" class="name-wrapper" v-if="scope.row.ESTADO==1">
-                                <el-tag type="success" size="medium">Aprobado</el-tag>
-                              </div>
-                              <div slot="reference" class="name-wrapper" v-else="scope.row.ESTADO==0">
-                                <el-tag type="danger" size="medium">No Aprobado</el-tag>
+                              <div slot="reference" class="name-wrapper" >
+                                <el-tag type="danger" size="medium">Pendiente</el-tag>
                               </div>
                           </template>
                         </el-table-column>
-                        <el-table-column align="center" prop="IMPORTE_SOLICITADO" label="Importe Solicitado"></el-table-column>
+                        <el-table-column align="center" label="Tipo">
+                          <template slot-scope="scope">
+                              <div slot="reference" class="name-wrapper" v-if="scope.row.URGENTE==1">
+                                <el-tag type="primary" size="medium">Urgente</el-tag>
+                              </div>
+                              <div slot="reference" class="name-wrapper" v-else="scope.row.URGENTE==0">
+                                <el-tag type="success" size="medium">Normal</el-tag>
+                              </div>
+                          </template>
+                        </el-table-column>
                         <el-table-column align="center" label="Acciones" width="180">
                             <template slot-scope="scope">
                                 <el-button circle size="mini" type="primary" icon="el-icon-notebook-2" @click="handleReporteSolicitud(scope.$index, scope.row)"></el-button>
@@ -98,11 +107,8 @@
                         <el-table-column align="center" prop="DESCRIPCION" label="Descripcion"></el-table-column>
                         <el-table-column align="center" prop="ESTADO" label="Estado">
                           <template slot-scope="scope">
-                              <div slot="reference" class="name-wrapper" v-if="scope.row.ESTADO==1">
-                                <el-tag type="success" size="medium">Aprobado</el-tag>
-                              </div>
-                              <div slot="reference" class="name-wrapper" v-else="scope.row.ESTADO==0">
-                                <el-tag type="danger" size="medium">No Aprobado</el-tag>
+                              <div slot="reference" class="name-wrapper" >
+                                <el-tag type="success" size="medium">Autorizado</el-tag>
                               </div>
                           </template>
                         </el-table-column>
@@ -135,7 +141,6 @@
         </div>
         @include('panel.registros.rendicion.solicitud.show')
         @include('panel.registros.rendicion.viaticos.manual')
-
     </div>
 </div>
 @section('script')

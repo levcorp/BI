@@ -167,7 +167,7 @@
           <el-button style="margin:10px;" type="primary" @click="handleGetReporte()" size="small" round>Descargar</el-button>
       </el-form>
     </el-card>
-    <el-card v-if="registro.usuario_id==2">
+    <el-card v-if="registro.usuario_id==3">
       <h4 class="text-center" style="padding:0px;margin:0px;">
         <strong>
           Descargar Registros de Asistencia

@@ -36,8 +36,8 @@ const mix = require("laravel-mix");
 //mix.js('resources/js/seguimiento.js', 'public/js');
 //mix.js('resources/js/facturacion.js', 'public/js');
 //mix.js('resources/js/sociosNegocio.js','public/js')
-//mix.js("resources/js/Rendicion/solicitud.js", "public/js");
+mix.js("resources/js/Rendicion/solicitud.js", "public/js");
 //mix.js("resources/js/Rendicion/aprobacion.js", "public/js");
 //mix.browserSync('localhost');
-mix.js("resources/js/asistencia.js", "public/js");
+//mix.js("resources/js/asistencia.js", "public/js");
 //mix.js("resources/js/usuariosRegistros.js", "public/js");

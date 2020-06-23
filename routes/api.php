@@ -27,6 +27,8 @@ Route::post('rendicion/viaticos/store','Panel\controllerRedicionViaticos@handleS
 Route::get('rendicion/viaticos/delete/{id}','Panel\controllerRedicionViaticos@handleDeleteFactura');
 Route::get('rendicion/viaticos/api/{id}','Panel\controllerRedicionViaticos@handleDeleteFactura');
 Route::get('rendicion/get/rendicion/{id}','Panel\controllerRedicionViaticos@handleGetRendicion');
+Route::get('rendicion/get/tiposolicitud','Panel\controllerSolicitudRendicion@handleGetTipoSolicitud');
+Route::get('rendicion/get/centrocostos/{id}','Panel\controllerSolicitudRendicion@handleGetCentroCostos');
 /////////////////////dashboard/////////////////////////////////
 Route::get('panel/get/presupuesto','Panel\controllerDashboard@handleGetPresupuesto');
 Route::get('panel/get/facturacion','Panel\controllerDashboard@handleGetFacturacion');

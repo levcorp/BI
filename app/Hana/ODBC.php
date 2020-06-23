@@ -7,7 +7,7 @@ use Config;
 class ODBC{
   public $connect;
   public function __construct(){
-    $this->connect = odbc_connect("Driver=".Config::get('database.connections.HANA.driver').";ServerNode=".Config::get('database.connections.HANA.server').";Database=".Config::get('database.connections.HANA.database').";CHAR_AS_UTF8=true", Config::get('database.connections.HANA.username'),Config::get('database.connections.HANA.password'),SQL_CUR_USE_ODBC);
+    //$this->connect = odbc_connect("Driver=".Config::get('database.connections.HANA.driver').";ServerNode=".Config::get('database.connections.HANA.server').";Database=".Config::get('database.connections.HANA.database').";CHAR_AS_UTF8=true", Config::get('database.connections.HANA.username'),Config::get('database.connections.HANA.password'),SQL_CUR_USE_ODBC);
   }
   public function query($sql){
     if (!($this->connect)){

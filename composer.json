@@ -27,6 +27,7 @@
         "proengsoft/laravel-jsvalidation": "^2.4",
         "realrashid/sweet-alert": "^1.1",
         "silviolleite/laravelpwa": "^1.0",
+        "simplesoftwareio/simple-qrcode": "^3.0",
         "spatie/array-to-xml": "^2.8",
         "tymon/jwt-auth": "dev-develop",
         "usmanhalalit/laracsv": "^2.0",

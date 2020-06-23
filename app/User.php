@@ -31,7 +31,8 @@ class User extends Authenticatable
         'sucursal_id',
         'brand',
         'sector',
-        'tipo_registros_id'
+        'tipo_registros_id',
+        'cuenta_bancaria'
     ];
     protected $hidden = [
         'password', 'remember_token',

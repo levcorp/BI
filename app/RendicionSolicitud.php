@@ -26,7 +26,11 @@ class RendicionSolicitud extends Model
         'FECHA_RENDICION',
         'MONTO_TOTAL',
         'IMPORTE_REEMBOLSO',
-        'GASTO_IMPUTABLE'
+        'GASTO_IMPUTABLE',
+        'URGENTE',
+        'CENTRO_COSTOS_ID',
+        'PRESUPUESTO',
+        'TIPO_SOLICITUD_ID' 
     ];
     public $timestamps=false;
     public function banco(){
@@ -38,5 +42,4 @@ class RendicionSolicitud extends Model
     public function autorizado(){
       return $this->belongsTo(User::class,'AUTORIZADO_ID');
     }
-
 }

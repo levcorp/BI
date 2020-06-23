@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Resultados Cuestionario</title>
+    <title>Solicitud de Fondos</title>
     <link type="text/css" href="{{ public_path().'/public/bootstrap/css/bootstrap.css'}}" rel="stylesheet"/>
     <style type="text/css">
     @page {
@@ -164,16 +164,14 @@
     </table>
     <table cellpadding="0" cellspacing="0" style="width:100%;">
       <tr>
-        <td style="text-align: left;font-size:12px;" width="100%">
+        <td style="text-align: left;font-size:12px;" width="30%">
           <p style="margin:7px 0px;">
             <strong>
               Concepto o motivo de la solicitud:
             </strong>
           </p>
         </td>
-      </tr>
-      <tr>
-        <td style="text-align: left;font-size:12px;" width="100%">
+        <td style="text-align: left;font-size:12px;" width="70%">
           <p style="margin:7px 0px;">
               {{$solicitud->MOTIVO}}
           </p>
@@ -210,38 +208,27 @@
     </table>
     <br>
     <br>
-    <br>
     <table cellpadding="0" cellspacing="0" style="width:100%;">
       <tr>
-        <td style="text-align: center;font-size:12px;" width="50%">
-            <hr style="width:180px;">
-        </td>
-        <td style="text-align: center;font-size:12px;" width="50%">
-          <hr style="width:180px;">
-        </td>
-      </tr>
-    </table>
-    <table cellpadding="0" cellspacing="0" style="width:100%;">
-      <tr>
-        <td style="text-align: center;font-size:12px;" width="50%">
+        <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-              Firma y sello del solicitante:
+              <img src="data:image/png;base64, {!! $qrcode !!}">
             </strong>
           </p>
         </td>
-        <td style="text-align: center;font-size:12px;" width="50%">
+      </tr>
+      <tr>
+        <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-              Firma y sello del autorizador:
+                askdhgaskjdhoqwhdlkqwehfdñoqjfqpwjdoqj1293764912puhyfp92h4pwjdoqj1293764912puhyfp92h4
             </strong>
           </p>
         </td>
       </tr>
     </table>
-
-    <hr style="margin:35px 0px 15px 0px;width:100%">
-
+    <hr style="margin:20px 0px 15px 0px;width:100%">
     <table cellpadding="0" cellspacing="0" style="width:100%;">
         <tr class="cabecera">
             <td rowspan="4" width="70%">
@@ -383,16 +370,14 @@
     </table>
     <table cellpadding="0" cellspacing="0" style="width:100%;">
       <tr>
-        <td style="text-align: left;font-size:12px;" width="100%">
+        <td style="text-align: left;font-size:12px;" width="30%">
           <p style="margin:7px 0px;">
             <strong>
               Concepto o motivo de la solicitud:
             </strong>
           </p>
         </td>
-      </tr>
-      <tr>
-        <td style="text-align: left;font-size:12px;" width="100%">
+        <td style="text-align: left;font-size:12px;" width="70%">
           <p style="margin:7px 0px;">
               {{$solicitud->MOTIVO}}
           </p>
@@ -429,30 +414,21 @@
     </table>
     <br>
     <br>
-    <br>
     <table cellpadding="0" cellspacing="0" style="width:100%;">
       <tr>
-        <td style="text-align: center;font-size:12px;" width="50%">
-            <hr style="width:180px;">
-        </td>
-        <td style="text-align: center;font-size:12px;" width="50%">
-          <hr style="width:180px;">
-        </td>
-      </tr>
-    </table>
-    <table cellpadding="0" cellspacing="0" style="width:100%;">
-      <tr>
-        <td style="text-align: center;font-size:12px;" width="50%">
+        <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-              Firma y sello del solicitante:
+              <img src="data:image/png;base64, {!! $qrcode !!}">
             </strong>
           </p>
         </td>
-        <td style="text-align: center;font-size:12px;" width="50%">
+      </tr>
+      <tr>
+        <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-              Firma y sello del autorizador:
+                askdhgaskjdhoqwhdlkqwehfdñoqjfqpwjdoqj1293764912puhyfp92h4pwjdoqj1293764912puhyfp92h4
             </strong>
           </p>
         </td>

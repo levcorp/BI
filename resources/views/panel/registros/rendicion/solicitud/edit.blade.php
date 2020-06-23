@@ -24,27 +24,53 @@
 </div>
 <div class="box-body" style="margin:0px 20px;">
     <div class="row" style="margin-top:15px;">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <div class="pull-right">
                         <label for="" style="margin-top:5px;"> Fecha de Solicitud :</label>
                     </div>
                 </div>
-                <div class="col-sm-8">
-                    <el-date-picker style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_SOLICITUD"></el-date-picker>
+                <div class="col-sm-10">
+                    <el-date-picker disabled style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_SOLICITUD"></el-date-picker>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+    </div>
+    <div class="row" style="margin-top:15px;">
+      <div class="col-sm-4">
+          <div class="row">
+              <div class="col-sm-6">
+                  <div class="pull-right">
+                      <label for="" style="margin-top:5px;"> Presupuesto :</label>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <el-checkbox v-model="data.solicitudEdit.PRESUPUESTO" size="small" label="Presupuesto" border></el-checkbox>
+              </div>
+          </div>
+      </div>
+        <div class="col-sm-4">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-6">
+                    <div class="pull-right">
+                        <label for="" style="margin-top:5px;"> Desembolso Urgente :</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <el-checkbox v-model="data.solicitudEdit.URGENTE" size="small" label="Urgente" border></el-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="pull-right">
                         <label for="" > Fecha de desembolso requerido :</label>
                     </div>
                 </div>
-                <div class="col-sm-7">
-                    <el-date-picker style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_DESEMBOLSO"></el-date-picker>
+                <div class="col-sm-6">
+                    <el-date-picker :disabled="!data.solicitudEdit.URGENTE" style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_DESEMBOLSO"></el-date-picker>
                 </div>
             </div>
         </div>
@@ -176,7 +202,7 @@
                     </el-select>
                 </div>
                 <div class="col-sm-4">
-                    <el-input v-if="show.abono" type="text" size="small" v-model="data.solicitudEdit.CUENTA"></el-input>
+                    <el-input :disabled="show.cuentaEdit" v-if="show.abono" type="text" size="small" v-model="data.solicitudEdit.CUENTA"></el-input>
                 </div>
             </div>
         </div>
@@ -191,11 +217,53 @@
                     <el-select style="width:100%;" filterable clearable v-model="data.solicitudEdit.BANCO_ID" size="small" placeholder="Elija una Opción">
                         <el-option
                         v-for="item in data.bancos"
-                        :key="item.id"
+                        :key="item.Nombre"
                         :label="item.Nombre"
                         :value="item.id">
                         </el-option>
                     </el-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:15px;">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="pull-right">
+                        <label for="" style="margin-top:5px;">Tipo Solicitud</label>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <el-select style="width:100%;" clearable v-model="data.solicitudEdit.TIPO_SOLICITUD_ID" filterable placeholder="Seleccionar Tipo Solicitud" size="small">
+                        <el-option
+                            v-for="item in data.tipoSolicitud"
+                            :key="item.NOMBRE"
+                            :label="item.NOMBRE"
+                            :value="item.id">
+                            <span style="float: left">@{{ item.NOMBRE}}</span>
+                        </el-option>
+                    </el-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+             <div class="row">
+                <div class="col-sm-4">
+                    <div class="pull-right">
+                        <label for="">Centro de Costos</label>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                  <el-select style="width:100%;" clearable v-model="data.solicitudEdit.CENTRO_COSTOS_ID" filterable placeholder="Seleccionar un Centro de Costo" size="small">
+                      <el-option
+                          v-for="item in data.centroCostos"
+                          :key="item.NOMBRE"
+                          :label="item.NOMBRE"
+                          :value="item.id">
+                          <span style="float: left">@{{ item.NOMBRE}}</span>
+                      </el-option>
+                  </el-select>
                 </div>
             </div>
         </div>

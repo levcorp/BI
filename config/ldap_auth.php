@@ -39,7 +39,8 @@ return [
         'departamento'=>'department',
         'interno'=>'ipphone',
         'brand'=>'company',
-        'ci'=>'description'
+        'ci'=>'description',
+        'cuenta_bancaria'=>'postalcode'
     ],
     'logging' => [
         'enabled' => env('LDAP_LOGGING', true),

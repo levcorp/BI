@@ -44,49 +44,53 @@ new Vue({
             show:{
                 create:false,
                 index:true,
-                abono:false,
+                abono:true,
                 edit:false,
                 rendicion:false,
                 success:false,
                 camara:true,
                 factura:true,
                 facturas:false,
-                descripcion:false
+                descripcion:false,
+                cuenta:false,
+                cuentaEdit:false
             },
             values:{
                 sucursal_id:'',
                 usuario_id:'',
                 literal:'',
+                objectguid:'',
+                cuenta:''
             },
             solicitud:{
-                FECHA_SOLICITUD:null,
-                FECHA_DESEMBOLSO:null,
+                FECHA_SOLICITUD:new Date(),
+                FECHA_DESEMBOLSO:new Date(),
                 DESCRIPCION:null,
                 IMPORTE_SOLICITADO:null,
                 SOLICITADO_ID:null,
                 AUTORIZADO_ID:null,
                 COMENTARIOS:null,
                 MOTIVO:null,
-                MEDIO_PAGO:null,
+                MEDIO_PAGO:'Abono Cuenta Bancaria',
                 CUENTA:null,
                 BANCO_ID:null,
                 SUCURSAL:null,
-                ESTADO:null
+                ESTADO:null,
+                URGENTE:false,
+                TIPO_SOLICITUD_ID:null,
+                CENTRO_COSTOS_ID:null,
+                PRESUPUESTO:false,
             },
             data:{
                 usuarios:[],
                 medio:[
                     {
-                        value:'Cheque',
-                        label:'Cheque'
-                    },
-                    {
-                        value:'Efectivo',
-                        label:'Efectivo'
-                    },
-                    {
                         value:'Abono Cuenta Bancaria',
                         label:'Abono Cuenta Bancaria'
+                    },
+                    {
+                        value:'Cheque',
+                        label:'Cheque'
                     }
                 ],
                 usuario:[],
@@ -99,9 +103,14 @@ new Vue({
                 banco:[],
                 solicitado:[],
                 autorizado:[],
-                solicitudEdit:[],
+                solicitudEdit:{
+                  FECHA_DESEMBOLSO:null,
+                  PRESUPUESTO:null
+                },
                 rendicion:[],
-                viaticos:[]
+                viaticos:[],
+                tipoSolicitud:[],
+                centroCostos:[]
             },
             loading:false,
             errors:[],
@@ -114,9 +123,14 @@ new Vue({
         this.handleGetBancosRendicion()
         this.handleGetRendicionesSolicitudAprobado()
         this.handleGetRendicionesSolicitudNoAprobado()
+        this.handleGetDateMore()
+        this.handleGetTipoSolicitud()
     },
     watch: {
         'solicitud.IMPORTE_SOLICITADO' :function(newValue, oldValue) {
+            this.values.literal=writtenNumber(newValue)
+        },
+        'data.solicitudEdit.IMPORTE_SOLICITADO' :function(newValue, oldValue) {
             this.values.literal=writtenNumber(newValue)
         },
         'solicitud.MEDIO_PAGO' :function(newValue, oldValue) {
@@ -126,9 +140,57 @@ new Vue({
             }else{
                 this.show.abono=false
             }
+        },
+        'solicitud.BANCO_ID' :function(newValue, oldValue) {
+            if(newValue=='1' || newValue==1)
+            {
+                this.solicitud.CUENTA=this.values.cuenta
+                this.show.cuenta=true
+            }else{
+                this.solicitud.CUENTA=null
+                this.show.cuenta=false
+            }
+        },
+        'data.solicitudEdit.BANCO_ID' :function(newValue, oldValue) {
+            if(newValue=='1' || newValue==1)
+            {
+                this.data.solicitudEdit.CUENTA=this.values.cuenta
+                this.show.cuentaEdit=true
+            }else{
+                this.data.solicitudEdit.CUENTA=null
+                this.show.cuentaEdit=false
+            }
+        },
+        'solicitud.TIPO_SOLICITUD_ID' :function(newValue, oldValue) {
+            this.handleGetCentroCostos(newValue)
+            this.solicitud.CENTRO_COSTOS_ID=null
+        },
+        'data.solicitudEdit.TIPO_SOLICITUD_ID' :function(newValue, oldValue) {
+            this.handleGetCentroCostos(newValue)
+            this.data.solicitudEdit.CENTRO_COSTOS_ID=null
+        },
+        'solicitud.URGENTE' :function(newValue, oldValue) {
+            if(!newValue)
+            {
+              var dias =2;
+              this.solicitud.FECHA_DESEMBOLSO=new Date()
+              this.solicitud.FECHA_DESEMBOLSO=this.solicitud.FECHA_DESEMBOLSO.setDate(this.solicitud.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
+            }
+        },
+        'data.solicitudEdit.URGENTE' :function(newValue, oldValue) {
+            if(!newValue)
+            {
+              var dias =2;
+              this.data.solicitudEdit.FECHA_DESEMBOLSO=new Date()
+              this.data.solicitudEdit.FECHA_DESEMBOLSO=this.data.solicitudEdit.FECHA_DESEMBOLSO.setDate(this.data.solicitudEdit.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
+            }
         }
     },
     methods: {
+        handleGetDateMore(){
+          var dias =2;
+          this.solicitud.FECHA_DESEMBOLSO.setDate(this.solicitud.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
+        },
         handleShowSolicitud(index,row){
           var url='/api/rendicion/solicitud/get/'+row.id
           axios.get(url).then(response=>{
@@ -178,11 +240,12 @@ new Vue({
             })
         },
         handleCreateSolicitud() {
-            this.show.create=true
-            this.show.index=false
+          this.show.create=true
+          this.show.index=false
         },
         handleBackIndex(){
           this.show.create=false
+          this.show.edit=false
           this.show.index=true
           this.show.rendicion=false
         },
@@ -190,6 +253,21 @@ new Vue({
           this.show.edit=true
           this.show.index=false
           this.data.solicitudEdit=row
+          this.data.solicitudEdit.TIPO_SOLICITUD_ID=null
+          this.data.solicitudEdit.CENTRO_COSTOS_ID=null
+          this.data.solicitudEdit.AUTORIZADO_ID=null
+          this.data.solicitudEdit.BANCO_ID=null
+          this.data.solicitudEdit.CUENTA=null
+          if(row.URGENTE){
+            this.data.solicitudEdit.URGENTE=true
+          }else{
+            this.data.solicitudEdit.URGENTE=false
+          }
+          if(row.PRESUPUESTO){
+            this.data.solicitudEdit.PRESUPUESTO=true
+          }else{
+            this.data.solicitudEdit.PRESUPUESTO=false
+          }
         },
         handleDeleteSolicitud(index,row){
           this.$confirm('Eliminar Solicitud ?', 'Warning', {
@@ -394,6 +472,19 @@ new Vue({
         },
         handleShowFacturaManual(){
           $('#facturaManual').modal('show')
+        },
+        handleGetCentroCostos(TIPO_SOLICITUD_ID){
+          this.data.centroCostos=[]
+          var url="/api/rendicion/get/centrocostos/"+TIPO_SOLICITUD_ID
+          axios.get(url).then(response=>{
+            this.data.centroCostos=response.data
+          });
+        },
+        handleGetTipoSolicitud(){
+          var url="/api/rendicion/get/tiposolicitud"
+          axios.get(url).then(response=>{
+            this.data.tipoSolicitud=response.data
+          });
         }
     },
 })
