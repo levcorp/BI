@@ -237,7 +237,10 @@ class controllerPanel extends Controller
         return view('panel.registros.rendicion.solicitud.index');
     }
     public function autorizacion(){
-        return view('panel.registros.rendicion.solicitud.aprobacion.index');
+        return view('panel.registros.rendicion.solicitud.autorizacion.index');
+    }
+    public function desembolso(){
+        return view('panel.registros.rendicion.solicitud.desembolso.index');
     }
     public function usuarioRegistros(){
         return view('panel.dashboard.Asistencia.usuarios');

@@ -4,6 +4,7 @@ Route::get('prueba2','controllerAsistencia@prueba');
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////
 Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('solicitudFondos');
 Route::get('panel/rendicion/autorizacion','Panel\controllerPanel@autorizacion')->name('solicitudAprobacion');
+Route::get('panel/rendicion/tesoreria','Panel\controllerPanel@desembolso')->name('solicitudAprobacion');
 ////////////////////////////Socios de Negocio/////////////////////////////////
 Route::get('panel/socios','Panel\controllerPanel@socios')->name('sociosNegocio');
 ////////////////////////////OV-PO/////////////////////////////////

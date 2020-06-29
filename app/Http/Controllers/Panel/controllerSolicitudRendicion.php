@@ -12,6 +12,8 @@ use App\CentroCostos;
 use App\TipoSolicitud;
 use PDF;
 use QrCode;
+use Crypt;
+use Config;
 class controllerSolicitudRendicion extends Controller
 {
     public function handleGetUsuario($id){
@@ -34,17 +36,23 @@ class controllerSolicitudRendicion extends Controller
             'PRESUPUESTO'=>$request->PRESUPUESTO,
             'CENTRO_COSTOS_ID'=>$request->CENTRO_COSTOS_ID,
             'TIPO_SOLICITUD_ID'=>$request->TIPO_SOLICITUD_ID,
-            'ESTADO'=>1
+            'ESTADO'=>0
         ]);
     }
     public function handleGetBancosRendicion(){
         return Response::json(BancosRendicion::all());
     }
     public function handleGetSolicitudesUsuarioAprobado($id){
-        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',2)->with('banco','solicitado','autorizado')->get());
+      //Estado 1 Autorizado
+        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',1)->orWhere('ESTADO',3)->with('banco','solicitado','autorizado')->get());
     }
     public function handleGetSolicitudesUsuarioNoAprobado($id){
-        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',1)->get());
+      //Estado 0 Pendiente
+        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',0)->with('banco','solicitado','autorizado')->get());
+    }
+    public function handleGetSolicitudesUsuarioRechazado($id){
+      //Estado 2 Rechazado
+      return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',2)->with('banco','solicitado','autorizado')->get());
     }
     public function handleGetSolicitud($id){
       return Response::json(RendicionSolicitud::where('id',$id)->with('banco','solicitado','autorizado')->first());
@@ -71,23 +79,34 @@ class controllerSolicitudRendicion extends Controller
         'TIPO_SOLICITUD_ID'=>$request->TIPO_SOLICITUD_ID,
       ])->save();
     }
-    public function handleGetSolicitudesAprobado(){
-      return Response::json(RendicionSolicitud::where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
-    }
-    public function handleGetSolicitudesNoAprobado(){
-      return Response::json(RendicionSolicitud::where('ESTADO',0)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
-    }
-    public function handleAprobarSolicitud(Request $request){
+    public function handleEnviarSolicitud(Request $request){
       RendicionSolicitud::findOrFail($request->id)->fill([
-        'ESTADO'=>2,
-        'FECHA_AUTORIZACION'=>$request->FECHA_AUTORIZACION
+        'ESTADO'=>0,
+        'RECHAZO'=>null
+      ])->save();
+    }
+    public function handleGetSolicitudesAutorizado($id){
+      //Estado 1 Autorizado=>Autorizado //Estado 3 Autorizado=>Autorizado
+      return Response::json(RendicionSolicitud::where('AUTORIZADO_ID',$id)->where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
+    }
+    public function handleGetSolicitudesNoAutorizado($id){
+      //Estado 0 Pendiente=>No Autorizado
+      return Response::json(RendicionSolicitud::where('AUTORIZADO_ID',$id)->where('ESTADO',0)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
+    }
+    public function handleDesembolsoSolicitud(Request $request){
+      //Estado 3 Desembolsado
+      RendicionSolicitud::findOrFail($request->id)->fill([
+        'ESTADO'=>3,
+        'FECHA_DESEMBOLSO_TESORERIA'=>$request->FECHA_DESEMBOLSO_TESORERIA
       ])->save();
     }
     public function handleSolicitudPDF(Request $request){
-      $qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(100)->errorCorrection('H')->generate('askdhgaskjdhoqwhdlkqwehfdñoqjfqpwjdoqj1'));
       $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal')->first();
+      $firma=base64_encode($solicitud->AUTORIZADO_ID.'@'.$solicitud->SOLICITADO_ID.'@'.md5('10').'@'.$solicitud->FECHA_SOLICITUD);
+      $firma = str_replace(array('M','N','='),array('A','B','C'),$firma);
+      $qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(500)->errorCorrection('H')->generate($firma));
       $label=strtoupper($request->label);
-      $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','qrcode'));
+      $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','qrcode','firma'));
       $pdf->setPaper("letter", "portrait");
       $pdf->getDomPDF()->set_option("enable_php", true);
       return $pdf->download('invoice.pdf');
@@ -97,5 +116,23 @@ class controllerSolicitudRendicion extends Controller
     }
     public function handleGetCentroCostos($id){
       return Response::json(CentroCostos::where('TIPO_SOLICITUD',$id)->get());
+    }
+    public function handleRechazarSolicitud(Request $request){
+      RendicionSolicitud::findOrFail($request->id)->fill([
+        'ESTADO'=>2,
+        'RECHAZO'=>$request->RECHAZO
+      ])->save();
+    }
+    public function handleAutorizarSolicitud(Request $request){
+      RendicionSolicitud::findOrFail($request->id)->fill([
+        'ESTADO'=>1,
+      ])->save();
+    }
+    public function handleGetProcesamiento(){
+      return Response::json(RendicionSolicitud::where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
+    }
+    public function handleGetDesembolso(){
+      //Estado 3 Desembolsado
+      return Response::json(RendicionSolicitud::where('ESTADO',3)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
     }
 }

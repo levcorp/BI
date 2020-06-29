@@ -213,7 +213,7 @@
         <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-              <img src="data:image/png;base64, {!! $qrcode !!}">
+              <img src="data:image/png;base64, {!! $qrcode !!}"  width="100" height="100">
             </strong>
           </p>
         </td>
@@ -222,7 +222,7 @@
         <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-                askdhgaskjdhoqwhdlkqwehfdñoqjfqpwjdoqj1293764912puhyfp92h4pwjdoqj1293764912puhyfp92h4
+                {{$firma}}
             </strong>
           </p>
         </td>
@@ -419,7 +419,7 @@
         <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-              <img src="data:image/png;base64, {!! $qrcode !!}">
+              <img src="data:image/png;base64, {!! $qrcode !!}"  width="100" height="100">
             </strong>
           </p>
         </td>
@@ -428,7 +428,7 @@
         <td style="text-align: center;font-size:12px;" width="100%">
           <p style="margin:0px 0px 5px 0px;">
             <strong>
-                askdhgaskjdhoqwhdlkqwehfdñoqjfqpwjdoqj1293764912puhyfp92h4pwjdoqj1293764912puhyfp92h4
+                {{$firma}}
             </strong>
           </p>
         </td>

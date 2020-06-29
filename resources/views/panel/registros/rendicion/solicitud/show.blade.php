@@ -141,6 +141,13 @@
                   @{{((data.banco.Nombre))}}
                 </td>
             </tr>
+          </tr>
+            <tr v-if="data.solicitud.ESTADO==2">
+                <td>Motivo de Rechazo</td>
+                <td style="color:red;">
+                  @{{((data.solicitud.RECHAZO))}}
+                </td>
+            </tr>
             </tbody>
         </table>
         </div>

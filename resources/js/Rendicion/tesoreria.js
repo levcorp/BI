@@ -21,8 +21,7 @@ new Vue({
     data(){
         return {
               show:{
-                  autorizacion:false,
-                  rechazo:false
+                  desembolso:false
               },
               values:{
                   sucursal_id:'',
@@ -30,15 +29,15 @@ new Vue({
               },
               data:{
                 solicitudes:{
-                  autorizado:[],
-                  noautorizado:[]
+                  procesamiento:[],
+                  desembolsado:[]
                 },
-                solicitud:[],
-                banco:[],
                 autorizado:[],
+                banco:[],
+                solicitud:[],
                 solicitado:[],
-                rechazo:{
-                  RECHAZO:'',
+                desembolso:{
+                  FECHA_DESEMBOLSO_TESORERIA:'',
                   id:null
                 }
               },
@@ -46,20 +45,20 @@ new Vue({
             }
     },
     mounted(){
-      this.handleGetRendicionesSolicitudAutorizado()
-      this.handleGetRendicionesSolicitudNoAutorizado()
+      this.handleGetRendicionesSolicitudProcesamiento()
+      this.handleGetRendicionesSolicitudDesembolsado()
     },
     methods: {
-      handleGetRendicionesSolicitudAutorizado(){
-          var url='/api/rendicion/solicitudes/autorizado/'+this.values.usuario_id
+      handleGetRendicionesSolicitudProcesamiento(){
+          var url='/api/rendicion/solicitudes/procesamiento'
           axios.get(url).then(response=>{
-            this.data.solicitudes.autorizado=response.data
+            this.data.solicitudes.procesamiento=response.data
         })
       },
-      handleGetRendicionesSolicitudNoAutorizado(){
-          var url='/api/rendicion/solicitudes/noautorizado/'+this.values.usuario_id
+      handleGetRendicionesSolicitudDesembolsado(){
+          var url='/api/rendicion/solicitudes/desembolsado'
           axios.get(url).then(response=>{
-            this.data.solicitudes.noautorizado=response.data
+            this.data.solicitudes.desembolsado=response.data
         })
       },
       handleShowSolicitud(index,row){
@@ -69,37 +68,24 @@ new Vue({
         this.data.autorizado=row.autorizado
         $('#show').modal('show')
       },
-      handleRechazoSolicitud(index,row){
-        this.show.rechazo=true;
-        this.data.rechazo.id=row.id
+      handleDesembolsoSolicitud(index,row){
+        this.show.desembolso=true;
+        this.data.desembolso.id=row.id
       },
-      handlePostRechazoSolicitud(){
-        var url='/api/rendicion/solicitudes/rechazar'
-        axios.post(url,this.data.rechazo).then(response=>{
-          this.handleGetRendicionesSolicitudNoAutorizado()
-          this.handleGetRendicionesSolicitudAutorizado()
-          this.show.rechazo=false;
-          this.$message({
-              type: 'success',
-              message: 'La solicitud fue rechazada'
-            });
-        })
-      },
-      handleAutorizarSolicitud(index,row){
+      handlePostDesembolsoSolicitud(){
         this.$confirm('¿ Esta seguro de Autorizar la Solicitud ?', 'Advertencia', {
           confirmButtonText: 'Autorizar',
           cancelButtonText: 'Cancelar',
           type: 'warning'
         }).then(() => {
-          var url='/api/rendicion/solicitudes/autorizar'
-          axios.post(url,{
-            id:row.id
-          }).then(response=>{
-            this.handleGetRendicionesSolicitudAutorizado()
-            this.handleGetRendicionesSolicitudNoAutorizado()
+          var url='/api/rendicion/solicitudes/desembolso'
+          axios.post(url,this.data.desembolso).then(response=>{
+            this.show.desembolso=false
+            this.handleGetRendicionesSolicitudDesembolsado()
+            this.handleGetRendicionesSolicitudProcesamiento()
             this.$message({
               type: 'success',
-              message: 'Se autorizo la Solicitud'
+              message: 'Se aprobo el desembolso la Solicitud'
             });
           })
         })

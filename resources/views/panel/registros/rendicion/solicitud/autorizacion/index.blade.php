@@ -12,14 +12,14 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                             <p style="font-size: 15px">
                                 <strong>
-                                    Solicitud de Fondos No aprobadas
+                                    Solicitud de Fondos No Autorizadas
                                 </strong>
                             </p>
                         </div>
                     </div>
                 </div>
               <div class="box-body">
-                  <el-table v-loading="loading" :data="data.solicitudes.noaprobado" max-height="250" style="width: 100%"  highlight-current-row>
+                  <el-table v-loading="loading" :data="data.solicitudes.noautorizado" max-height="250" style="width: 100%"  highlight-current-row>
                       <el-table-column width="70" align="center" label="#">
                           <template slot-scope="scope">
                               <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
@@ -38,20 +38,24 @@
                       <el-table-column align="center" prop="DESCRIPCION" label="Descripcion"></el-table-column>
                       <el-table-column align="center" prop="ESTADO" label="Estado">
                         <template slot-scope="scope">
-                            <div slot="reference" class="name-wrapper" v-if="scope.row.ESTADO==1">
-                              <el-tag type="success" size="medium">Aprobado</el-tag>
+                              <el-tag type="danger" size="medium">No Autorizado</el-tag>
+                        </template>
+                      </el-table-column>
+                      <el-table-column align="center" label="Tipo">
+                        <template slot-scope="scope">
+                            <div slot="reference" class="name-wrapper" v-if="scope.row.URGENTE==1">
+                              <el-tag type="primary" size="medium">Urgente</el-tag>
                             </div>
-                            <div slot="reference" class="name-wrapper" v-else="scope.row.ESTADO==0">
-                              <el-tag type="danger" size="medium">No Aprobado</el-tag>
+                            <div slot="reference" class="name-wrapper" v-else="scope.row.URGENTE==0">
+                              <el-tag type="success" size="medium">Normal</el-tag>
                             </div>
                         </template>
                       </el-table-column>
-                      <el-table-column align="center" prop="IMPORTE_SOLICITADO" label="Importe Solicitado"></el-table-column>
                       <el-table-column align="center" label="Acciones" width="180">
                           <template slot-scope="scope">
-                              <el-button circle size="mini" type="primary" icon="el-icon-check" @click="handleAprobarRendicionesSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="primary" icon="el-icon-notebook-2" @click="handleReporteSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="success" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
+                              <el-button circle size="mini" type="success" icon="el-icon-check" @click="handleAutorizarSolicitud(scope.$index, scope.row)"></el-button>
+                              <el-button circle size="mini" type="danger" icon="el-icon-close" @click="handleRechazoSolicitud(scope.$index, scope.row)"></el-button>
+                              <el-button circle size="mini" type="warning" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
                           </template>
                       </el-table-column>
                   </el-table>
@@ -65,14 +69,14 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                             <p style="font-size: 15px">
                                 <strong>
-                                    Solicitud de Fondos Aprobadas
+                                    Solicitud de Fondos Autorizadas
                                 </strong>
                             </p>
                         </div>
                     </div>
                 </div>
               <div class="box-body">
-                  <el-table v-loading="loading" :data="data.solicitudes.aprobado" max-height="250" style="width: 100%"  highlight-current-row>
+                  <el-table v-loading="loading" :data="data.solicitudes.autorizado" max-height="250" style="width: 100%"  highlight-current-row>
                       <el-table-column width="70" align="center" label="#">
                           <template slot-scope="scope">
                               <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
@@ -91,26 +95,21 @@
                       <el-table-column align="center" prop="DESCRIPCION" label="Descripcion"></el-table-column>
                       <el-table-column align="center" prop="ESTADO" label="Estado">
                         <template slot-scope="scope">
-                            <div slot="reference" class="name-wrapper" v-if="scope.row.ESTADO==1">
-                              <el-tag type="success" size="medium">Aprobado</el-tag>
-                            </div>
-                            <div slot="reference" class="name-wrapper" v-else="scope.row.ESTADO==0">
-                              <el-tag type="danger" size="medium">No Aprobado</el-tag>
-                            </div>
+                              <el-tag type="success" size="medium">Autorizado</el-tag>
                         </template>
                       </el-table-column>
                       <el-table-column align="center" prop="IMPORTE_SOLICITADO" label="Importe Solicitado"></el-table-column>
                       <el-table-column align="center" label="Acciones" width="180">
                           <template slot-scope="scope">
                               <el-button circle size="mini" type="primary" icon="el-icon-notebook-2" @click="handleReporteSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="success" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
+                              <el-button circle size="mini" type="warning" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
                           </template>
                       </el-table-column>
                   </el-table>
               </div>
         </div>
         @include('panel.registros.rendicion.solicitud.show')
-        @include('panel.registros.rendicion.solicitud.aprobacion.autorizacion')
+        @include('panel.registros.rendicion.solicitud.autorizacion.rechazo')
     </div>
 </div>
 @section('script')

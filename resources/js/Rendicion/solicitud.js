@@ -97,7 +97,8 @@ new Vue({
                 bancos:[],
                 solicitudes:{
                   aprobado:[],
-                  noaprobado:[]
+                  noaprobado:[],
+                  rechazado:[],
                 },
                 solicitud:[],
                 banco:[],
@@ -123,6 +124,7 @@ new Vue({
         this.handleGetBancosRendicion()
         this.handleGetRendicionesSolicitudAprobado()
         this.handleGetRendicionesSolicitudNoAprobado()
+        this.handleGetRendicionesSolicitudRechazado()
         this.handleGetDateMore()
         this.handleGetTipoSolicitud()
     },
@@ -213,12 +215,39 @@ new Vue({
               this.data.solicitudes.noaprobado=response.data
             })
         },
+        handleGetRendicionesSolicitudRechazado(){
+            var url='/api/rendicion/solicitudes/usuario/rechazado/'+this.values.usuario_id
+            axios.get(url).then(response=>{
+              this.data.solicitudes.rechazado=response.data
+            })
+        },
+        handleSentSolicitud(index,row){
+            this.$confirm('¿ Esta seguro de enviar la Solicitud ?', 'Warning', {
+              confirmButtonText: 'Enviar',
+              cancelButtonText: 'Cancelar',
+              type: 'warning'
+            }).then(() => {
+              var url='/api/rendicion/solicitudes/enviar'
+              axios.post(url,{
+                id:row.id
+              }).then(response=>{
+                this.handleGetRendicionesSolicitudAprobado();
+                this.handleGetRendicionesSolicitudNoAprobado();
+                this.handleGetRendicionesSolicitudRechazado();
+                this.$message({
+                  type: 'success',
+                  message: 'Se envio la Solicitud'
+                });
+              })
+            })
+        },
         handleStoreRendicionSolicitud(){
             this.solicitud.SOLICITADO_ID=this.data.usuario.id
             var url='/api/rendicion/solicitud/store'
             axios.post(url,this.solicitud).then(response=>{
                 this.handleGetRendicionesSolicitudAprobado();
                 this.handleGetRendicionesSolicitudNoAprobado();
+                this.handleGetRendicionesSolicitudRechazado();
                 this.show.create=false
                 this.show.index=true
                 this.$notify.success({
@@ -248,6 +277,9 @@ new Vue({
           this.show.edit=false
           this.show.index=true
           this.show.rendicion=false
+          this.handleGetRendicionesSolicitudAprobado();
+          this.handleGetRendicionesSolicitudNoAprobado();
+          this.handleGetRendicionesSolicitudRechazado();
         },
         handleEditSolicitud(index,row){
           this.show.edit=true
@@ -258,12 +290,12 @@ new Vue({
           this.data.solicitudEdit.AUTORIZADO_ID=null
           this.data.solicitudEdit.BANCO_ID=null
           this.data.solicitudEdit.CUENTA=null
-          if(row.URGENTE){
+          if(row.URGENTE==1){
             this.data.solicitudEdit.URGENTE=true
           }else{
             this.data.solicitudEdit.URGENTE=false
           }
-          if(row.PRESUPUESTO){
+          if(row.PRESUPUESTO==1){
             this.data.solicitudEdit.PRESUPUESTO=true
           }else{
             this.data.solicitudEdit.PRESUPUESTO=false

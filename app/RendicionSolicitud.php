@@ -30,7 +30,9 @@ class RendicionSolicitud extends Model
         'URGENTE',
         'CENTRO_COSTOS_ID',
         'PRESUPUESTO',
-        'TIPO_SOLICITUD_ID' 
+        'TIPO_SOLICITUD_ID',
+        'RECHAZO',
+        'FECHA_DESEMBOLSO_TESORERIA'
     ];
     public $timestamps=false;
     public function banco(){
