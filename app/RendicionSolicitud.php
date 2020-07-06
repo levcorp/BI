@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use DateTime;
+use App\RendicionViaticosDetalle;
 class RendicionSolicitud extends Model
 {
     protected $table='RENDICION_SOLICITUD';
@@ -32,6 +33,7 @@ class RendicionSolicitud extends Model
         'PRESUPUESTO',
         'TIPO_SOLICITUD_ID',
         'RECHAZO',
+        'CENTRO_COSTOS_ID',
         'FECHA_DESEMBOLSO_TESORERIA'
     ];
     public $timestamps=false;
@@ -43,5 +45,31 @@ class RendicionSolicitud extends Model
     }
     public function autorizado(){
       return $this->belongsTo(User::class,'AUTORIZADO_ID');
+    }
+    public function centrocostos(){
+      return $this->belongsTo(CentroCostos::class,'CENTRO_COSTOS_ID');
+    }
+    public function tiposolicitud(){
+      return $this->belongsTo(TipoSolicitud::class,'TIPO_SOLICITUD_ID');
+    }
+    public function getDescargoAttribute(){
+      $datos=RendicionViaticosDetalle::where('RENDICION_VIATICOS_ID',$this->id)->get();
+      $sum=0;
+      foreach ($datos as $key => $value) {
+        $sum=$sum+$value->IMPORTE_PAGADO;
+      }
+      return $sum;
+    }
+    public function getRembolsoAttribute(){
+      $datos=RendicionViaticosDetalle::where('RENDICION_VIATICOS_ID',$this->id)->get();
+      $sum=0;
+      foreach ($datos as $key => $value) {
+        $sum=$sum+$value->IMPORTE_PAGADO;
+      }
+      if($sum>$this->IMPORTE_SOLICITADO){
+        return $sum-$this->IMPORTE_SOLICITADO;
+      }else{
+        return 0;
+      }
     }
 }

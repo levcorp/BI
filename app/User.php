@@ -32,7 +32,8 @@ class User extends Authenticatable
         'brand',
         'sector',
         'tipo_registros_id',
-        'cuenta_bancaria'
+        'cuenta_bancaria',
+        'ci'
     ];
     protected $hidden = [
         'password', 'remember_token',

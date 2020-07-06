@@ -13,3 +13,4 @@ class CentroCostos extends Model
       'TIPO_SOLICITUD',
     ];
 }
+  

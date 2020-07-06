@@ -44,18 +44,18 @@ class controllerSolicitudRendicion extends Controller
     }
     public function handleGetSolicitudesUsuarioAprobado($id){
       //Estado 1 Autorizado
-        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',1)->orWhere('ESTADO',3)->with('banco','solicitado','autorizado')->get());
+        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',1)->orWhere('ESTADO',3)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
     }
     public function handleGetSolicitudesUsuarioNoAprobado($id){
       //Estado 0 Pendiente
-        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',0)->with('banco','solicitado','autorizado')->get());
+        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',0)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
     }
     public function handleGetSolicitudesUsuarioRechazado($id){
       //Estado 2 Rechazado
-      return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',2)->with('banco','solicitado','autorizado')->get());
+      return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',2)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
     }
     public function handleGetSolicitud($id){
-      return Response::json(RendicionSolicitud::where('id',$id)->with('banco','solicitado','autorizado')->first());
+      return Response::json(RendicionSolicitud::where('id',$id)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->first());
     }
     public function handleDeleteSolicitud($id){
       RendicionSolicitud::findOrFail($id)->delete();
@@ -87,11 +87,11 @@ class controllerSolicitudRendicion extends Controller
     }
     public function handleGetSolicitudesAutorizado($id){
       //Estado 1 Autorizado=>Autorizado //Estado 3 Autorizado=>Autorizado
-      return Response::json(RendicionSolicitud::where('AUTORIZADO_ID',$id)->where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
+      return Response::json(RendicionSolicitud::where('AUTORIZADO_ID',$id)->where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos','tiposolicitud')->get());
     }
     public function handleGetSolicitudesNoAutorizado($id){
       //Estado 0 Pendiente=>No Autorizado
-      return Response::json(RendicionSolicitud::where('AUTORIZADO_ID',$id)->where('ESTADO',0)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
+      return Response::json(RendicionSolicitud::where('AUTORIZADO_ID',$id)->where('ESTADO',0)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos','tiposolicitud')->get());
     }
     public function handleDesembolsoSolicitud(Request $request){
       //Estado 3 Desembolsado
@@ -129,10 +129,13 @@ class controllerSolicitudRendicion extends Controller
       ])->save();
     }
     public function handleGetProcesamiento(){
-      return Response::json(RendicionSolicitud::where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
+      return Response::json(RendicionSolicitud::where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos','tiposolicitud')->get());
     }
     public function handleGetDesembolso(){
       //Estado 3 Desembolsado
-      return Response::json(RendicionSolicitud::where('ESTADO',3)->with('banco','solicitado','autorizado','solicitado.sucursal')->get());
+      return Response::json(RendicionSolicitud::where('ESTADO',3)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos','tiposolicitud')->get());
+    }
+    public function handleGetCentroCostosRendicion($id){
+      return Response::json(CentroCostos::where('TIPO_SOLICITUD',$id)->get());
     }
 }

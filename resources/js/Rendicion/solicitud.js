@@ -39,7 +39,8 @@ new Vue({
               Importe_No_Sujeto:'',
               Descuentos:'',
               Descripcion:'',
-              id:''
+              id:'',
+              Centro_Costos:null
           },
             show:{
                 create:false,
@@ -53,7 +54,10 @@ new Vue({
                 facturas:false,
                 descripcion:false,
                 cuenta:false,
-                cuentaEdit:false
+                cuentaEdit:false,
+                conIVA:false,
+                sinIVA:true,
+                costos:false
             },
             values:{
                 sucursal_id:'',
@@ -108,10 +112,43 @@ new Vue({
                   FECHA_DESEMBOLSO:null,
                   PRESUPUESTO:null
                 },
-                rendicion:[],
+                rendicion:{
+                  centrocostos:{
+                    NOMBRE:null
+                  },
+                  tiposolicitud:{
+                    NOMBRE:null
+                  }
+                },
                 viaticos:[],
                 tipoSolicitud:[],
-                centroCostos:[]
+                centroCostos:[],
+                centroCostosRendicion:[],
+                opciones_manual: [
+                    {
+                      value: 'Sin IVA',
+                      label: 'Sin IVA'
+                    },
+                    {
+                      value: 'Con IVA',
+                      label: 'Con IVA'
+                    }
+                ],
+                facturaManual:{
+                  tipo:'Sin IVA',
+                  NIT_Emisor:null,
+                  Numero_Factura:null,
+                  Numero_Autorizacion:null,
+                  Fecha_Emision:null,
+                  Total:null,
+                  Descripcion:null,
+                  CENTRO_COSTOS_ID:null,
+                  Codigo_Control:null,
+                  id:null,
+                },
+                centrocostos:{
+                  NOMBRE:null
+                },
             },
             loading:false,
             errors:[],
@@ -129,6 +166,17 @@ new Vue({
         this.handleGetTipoSolicitud()
     },
     watch: {
+        'data.facturaManual.tipo':function(newValue, oldValue){
+            if(newValue=='Con IVA'){
+              this.show.conIVA=true
+              this.show.sinIVA=false
+              this.handleVaciarCamposFacturaManual()
+            }else{
+              this.show.conIVA=false
+              this.show.sinIVA=true
+              this.handleVaciarCamposFacturaManual()
+            }
+        },
         'solicitud.IMPORTE_SOLICITADO' :function(newValue, oldValue) {
             this.values.literal=writtenNumber(newValue)
         },
@@ -189,6 +237,16 @@ new Vue({
         }
     },
     methods: {
+        handleVaciarCamposFacturaManual(){
+          this.data.facturaManual.NIT_Emisor=null
+          this.data.facturaManual.Numero_Factura=null
+          this.data.facturaManual.Numero_Autorizacion=null
+          this.data.facturaManual.Codigo_Control=null
+          this.data.facturaManual.Fecha_Emision=null
+          this.data.facturaManual.Total=null
+          this.data.facturaManual.Descripcion=null
+          this.data.facturaManual.CENTRO_COSTOS_ID=null
+        },
         handleGetDateMore(){
           var dias =2;
           this.solicitud.FECHA_DESEMBOLSO.setDate(this.solicitud.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
@@ -367,7 +425,10 @@ new Vue({
           this.show.rendicion=true
           this.show.index=false
           this.data.rendicion=row
+          this.data.centrocostos.NOMBRE=row.centrocostos.NOMBRE
+          console.log(this.data.centrocostos.NOMBRE)
           this.handleGetViaticoDetalle()
+          this.handleGetCentroCostosRendicion(this.data.rendicion.TIPO_SOLICITUD_ID)
         },
         handleRendicionFacturas(){
           this.show.rendicion=false
@@ -452,28 +513,48 @@ new Vue({
           this.factura.id=this.data.rendicion.id
           axios.post(url,this.factura).then(response=>{
             this.handleGetViaticoDetalle()
+            this.handleGetRendicion()
             this.show.descripcion = false
             this.show.rendicion=true
             this.show.facturas=false
             this.show.index=false
-            this.handleGetRendicion()
-            this.factura.NIT_Emisor=''
-            this.factura.Numero_Factura=''
-            this.factura.Numero_Autorizacion=''
-            this.factura.Fecha_Emision=''
-            this.factura.Total=''
-            this.factura.Importe_Credito_Fiscal=''
-            this.factura.Codigo_Control=''
-            this.factura.NIT_Comprador=''
-            this.factura.Importe_Ventas=''
-            this.factura.Importe_ICE=''
-            this.factura.Importe_No_Sujeto=''
-            this.factura.Descuentos=''
-            this.factura.Descripcion=''
-            this.factura.id=''
+            this.factura.NIT_Emisor=null
+            this.factura.Numero_Factura=null
+            this.factura.Numero_Autorizacion=null
+            this.factura.Fecha_Emision=null
+            this.factura.Total=null
+            this.factura.Importe_Credito_Fiscal=null
+            this.factura.Codigo_Control=null
+            this.factura.NIT_Comprador=null
+            this.factura.Importe_Ventas=null
+            this.factura.Importe_ICE=null
+            this.factura.Importe_No_Sujetonull
+            this.factura.Descuentos=null
+            this.factura.Descripcion=null
+            this.factura.CENTRO_COSTOS_ID=null
+            this.factura.id=null
             this.show.camara=true;
             this.show.success=false;
             this.errors=[];
+          })
+        },
+        handleStoreFacturaManual(){
+          var url='/api/rendicion/viaticos/factura/manual'
+          this.data.facturaManual.id=this.data.rendicion.id
+          axios.post(url,this.data.facturaManual).then(response=>{
+            this.handleGetViaticoDetalle()
+            this.handleGetRendicion()
+            $('#facturaManual').modal('hide')
+            this.data.facturaManual.tipo='Sin IVA'
+            this.data.facturaManual.NIT_Emisor=null
+            this.data.facturaManual.Numero_Factura=null
+            this.data.facturaManual.Numero_Autorizacion=null
+            this.data.facturaManual.Fecha_Emision=null
+            this.data.facturaManual.Total=null
+            this.data.facturaManual.Codigo_Control=null
+            this.data.facturaManual.Descripcion=null
+            this.data.facturaManual.CENTRO_COSTOS_ID=null
+            this.data.facturaManual.id=null
           })
         },
         handleGetViaticoDetalle(){
@@ -517,6 +598,20 @@ new Vue({
           axios.get(url).then(response=>{
             this.data.tipoSolicitud=response.data
           });
+        },
+        handleGetCentroCostosRendicion(TIPO_SOLICITUD_ID){
+          this.data.centroCostosRendicion=[]
+          var url="/api/rendicion/get/centrocostos/"+TIPO_SOLICITUD_ID
+          axios.get(url).then(response=>{
+            this.data.centroCostosRendicion=response.data
+          });
+        },
+        handleShowCentroCostos(){
+          if(this.show.costos){
+            this.show.costos=false
+          }else{
+            this.show.costos=true
+          }
         }
     },
 })

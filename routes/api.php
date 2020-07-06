@@ -30,11 +30,13 @@ Route::post('rendicion/solicitudes/enviar','Panel\controllerSolicitudRendicion@h
 Route::post('rendicion/solicitud/pdf','Panel\controllerSolicitudRendicion@handleSolicitudPDF');
 Route::get('rendicion/viaticos/detalle/{id}','Panel\controllerRedicionViaticos@handleGetViaticoDetalle');
 Route::post('rendicion/viaticos/store','Panel\controllerRedicionViaticos@handleStoreFactura');
+Route::post('rendicion/viaticos/factura/manual','Panel\controllerRedicionViaticos@handleStoreFacturaManual');
 Route::get('rendicion/viaticos/delete/{id}','Panel\controllerRedicionViaticos@handleDeleteFactura');
 Route::get('rendicion/viaticos/api/{id}','Panel\controllerRedicionViaticos@handleDeleteFactura');
 Route::get('rendicion/get/rendicion/{id}','Panel\controllerRedicionViaticos@handleGetRendicion');
 Route::get('rendicion/get/tiposolicitud','Panel\controllerSolicitudRendicion@handleGetTipoSolicitud');
 Route::get('rendicion/get/centrocostos/{id}','Panel\controllerSolicitudRendicion@handleGetCentroCostos');
+Route::get('rendicion/get/cuentacontable','Panel\controllerRedicionViaticos@handleGetCuentaContable');
 /////////////////////dashboard/////////////////////////////////
 Route::get('panel/get/presupuesto','Panel\controllerDashboard@handleGetPresupuesto');
 Route::get('panel/get/facturacion','Panel\controllerDashboard@handleGetFacturacion');

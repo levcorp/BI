@@ -4,7 +4,7 @@
             <p style="font-size: 15px">
                 <el-button @click="handleBackIndex2()" type="primary" size="mini" circle icon="el-icon-arrow-left"></el-button>
                 <strong>
-                    Rendicion de Viáticos ASgnados
+                    Rendicion de Viáticos Asignados
                 </strong>
             </p>
         </div>
@@ -12,8 +12,7 @@
             <div class="pull-right" style="margin-top-right: 10px">
                 <el-button
                 size="mini"
-                type="success"
-                icon="el-icon-check"
+                type="primary"
                 @click="handleShowFacturaManual()"
                 round
                 >Agregar Factura Manual
@@ -22,8 +21,7 @@
             <div class="pull-left" style="margin-top-right: 10px">
                 <el-button
                 size="mini"
-                type="success"
-                icon="el-icon-check"
+                type="primary"
                 @click="handleRendicionFacturas()"
                 round
                 >Agregar Factura QR
@@ -56,6 +54,11 @@
             Importe a Rembolsar :
           </strong>
         </div>
+        <div class="col-sm-12">
+          <strong>
+            Tipo de Solicitud :
+          </strong>
+        </div>
       </div>
     </div>
     <div class="col-sm-3">
@@ -67,10 +70,13 @@
           Bs. @{{data.rendicion.IMPORTE_SOLICITADO}}
         </div>
         <div class="col-sm-12">
-          Bs. @{{data.rendicion.MONTO_TOTAL}}
+          Bs. @{{data.rendicion.MONTO_TOTAL==null?'0':data.rendicion.MONTO_TOTAL}}
         </div>
         <div class="col-sm-12">
-          Bs. @{{data.rendicion.IMPORTE_REEMBOLSO}}
+          Bs. @{{data.rendicion.IMPORTE_REEMBOLSO==null?'0':data.rendicion.IMPORTE_REEMBOLSO}}
+        </div>
+        <div class="col-sm-12">
+           @{{data.rendicion.tiposolicitud.NOMBRE}}
         </div>
       </div>
     </div>
@@ -88,6 +94,9 @@
         <div class="col-sm-12">
           <strong>N° Cuenta :</strong>
         </div>
+        <div class="col-sm-12">
+          <strong>Centro de Costos :</strong>
+        </div>
       </div>
     </div>
     <div class="col-sm-3">
@@ -96,13 +105,16 @@
           {{Carbon\Carbon::now()}}
         </div>
         <div class="col-sm-12">
-          Bs. @{{data.rendicion.FECHA_AUTORIZACION}}
+          @{{data.rendicion.FECHA_DESEMBOLSO_TESORERIA | moment("Y-M-D")}}
         </div>
         <div class="col-sm-12">
           @{{data.rendicion.MEDIO_PAGO}}
         </div>
         <div class="col-sm-12">
           @{{data.rendicion.CUENTA}}
+        </div>
+        <div class="col-sm-12">
+          @{{data.rendicion.centrocostos.NOMBRE}}
         </div>
       </div>
     </div>
@@ -129,27 +141,52 @@
               <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
           </template>
       </el-table-column>
-      <el-table-column align="center" prop="FECHA_GASTO" label="Fecha Solicitud" width="150">
+      <el-table-column align="center" prop="FECHA_GASTO" label="Fecha Solicitud" width="120">
         <template slot-scope="scope">
-            @{{scope.row.FECHA_GASTO | moment("Y-M-D")}}
+            @{{scope.row.FECHA_GASTO}}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="TIPO" label="Tipo">
+        <template slot-scope="scope">
+          <div slot="reference" class="name-wrapper" v-if="scope.row.TIPO=='Con IVA'">
+            <el-tag type="primary" size="medium">Con IVA</el-tag>
+          </div>
+          <div slot="reference" class="name-wrapper" v-else="scope.row.TIPO=='Sin IVA'">
+            <el-tag type="success" size="medium">Sin IVA</el-tag>
+          </div>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="DESCRIPCION" label="Descripcion" width="150"></el-table-column>
-      <el-table-column align="center" prop="IMPORTE_PAGADO" label="Importe Pagado"></el-table-column>
-      <el-table-column align="center" prop="TIPO" label="Tipo"></el-table-column>
-      <el-table-column align="center" prop="NUMERO" label="Numero"></el-table-column>
-      <el-table-column align="center" prop="IMPORTE_GASTO" label="Importe al Gasto"></el-table-column>
-      <el-table-column align="center" prop="CREDITO_FISCAL" label="Credito Fiscal"></el-table-column>
-      <el-table-column align="center" prop="ESPECIFICACION" label="Especificacion"></el-table-column>
-      <el-table-column align="center" prop="FECHA_FACTURA" label="Fecha Factura"></el-table-column>
-      <el-table-column align="center" prop="NIT_PROVEEDOR" label="NIT Proveedor"></el-table-column>
-      <el-table-column align="center" prop="N_FACTURA" label="Nº Factura"></el-table-column>
-      <el-table-column align="center" prop="N_FACTURA" label="Nº Factura"></el-table-column>
-      <el-table-column align="center" prop="N_DUI" label="Nº DUI"></el-table-column>
-      <el-table-column align="center" prop="SUBTOTAL" label="Subtotal"></el-table-column>
-      <el-table-column align="center" prop="DESCUENTO" label="Descuento"></el-table-column>
-      <el-table-column align="center" prop="IMPORTE_BASE" label="Importe Base"></el-table-column>
-      <el-table-column align="center" prop="CREDITO_FISCAL_2" label="Credito Fiscal"></el-table-column>
+      <el-table-column align="center" prop="NIT_PROVEEDOR" label="NIT Proveedor" width="150">
+        <template slot-scope="scope">
+            <span style="margin-top-left: 10px">@{{ scope.row.NIT_PROVEEDOR==null?'-':scope.row.NIT_PROVEEDOR}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="N_FACTURA" label="Nº Factura" width="150">
+        <template slot-scope="scope">
+            <span style="margin-top-left: 10px">@{{ scope.row.N_FACTURA==null?'-':scope.row.N_FACTURA}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="NUMERO_AUTORIZACION" label="Nº Autorizaciòn" width="150">
+        <template slot-scope="scope">
+            <span style="margin-top-left: 10px">@{{ scope.row.NUMERO_AUTORIZACION==null?'-':scope.row.NUMERO_AUTORIZACION}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="CODIGO_CONTROL" label="Codigo Control" width="150">
+        <template slot-scope="scope">
+            <span style="margin-top-left: 10px">@{{ scope.row.CODIGO_CONTROL==null?'-':scope.row.CODIGO_CONTROL}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="IMPORTE_PAGADO" label="Importe Pagado" width="150">
+        <template slot-scope="scope">
+            <span style="margin-top-left: 10px">@{{ scope.row.IMPORTE_PAGADO | number('0.00') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="Centro de Cosotos" width="150">
+        <template slot-scope="scope">
+            <span style="margin-top-left: 10px">@{{ scope.row.centrocostos.NOMBRE }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="Acciones">
           <template slot-scope="scope">
               <el-button circle size="mini" type="danger" icon="el-icon-remove" @click="handleDeleteFactura(scope.$index, scope.row)"></el-button>

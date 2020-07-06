@@ -18,6 +18,10 @@ return [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\ubicaciones',
         ],
+        'rendicion' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\rendicion',
+        ],
         'perfil' => [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\perfil',
