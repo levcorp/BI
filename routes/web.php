@@ -1,6 +1,8 @@
 <?php
 
 Route::get('prueba','Panel\controllerRedicionViaticos@pruebaSAP');
+Route::get('prueba2','Panel\controllerRedicionViaticos@pruebaSAP2');
+
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////
 Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('solicitudFondos');
 Route::get('panel/rendicion/autorizacion','Panel\controllerPanel@autorizacion')->name('solicitudAprobacion');

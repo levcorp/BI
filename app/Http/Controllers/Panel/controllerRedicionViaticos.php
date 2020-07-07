@@ -97,7 +97,6 @@ class controllerRedicionViaticos extends Controller
       return Response::json(RendicionSolicitud::where('id',$id)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->first());
     }
     public function pruebaReporte(){
-      //return $this->handlegetCodigoUsuario('13149840');
       $descargos=RendicionViaticosDetalle::where('RENDICION_VIATICOS_ID',1016)->with('centrocostos')->get();
       $solicitud=RendicionSolicitud::where('id',1016)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos')->first();
       $firma=base64_encode($solicitud->AUTORIZADO_ID.'@'.$solicitud->SOLICITADO_ID.'@'.md5('10').'@'.$solicitud->FECHA_SOLICITUD);
@@ -111,19 +110,19 @@ class controllerRedicionViaticos extends Controller
     public function pruebaSAP(){
       $nombre='Gabriel';
       $apellido='Pinto';
-      $fecha=Carbon::now()->format('dmYHmms');
+      $fecha=Carbon::now()->format('dmYHms');
       $usuario=strtolower(substr($nombre,0,1).$apellido);
-      $nombreCabeceraSegunda=$usuario.'\cabecera\\'.$fecha.'.csv';
-      $nombreDetalle=$usuario.'\detalle\\'.$fecha.'.csv';
+      $nombreCabeceraSegunda=$usuario.'\cabecera\\'.'SubCabecera'.$fecha.'.csv';
+      $nombreDetalle=$usuario.'\detalle\\'.'Detalle'.$fecha.'.csv';
       $urlCabecera=base_path()."\public\archivos\rendicion\CabezeraAsientoContable.csv";
-      $urlCabeceraSegunda=base_path().'\public\archivos\rendicion\\'.$nombreCabeceraSegunda;
+      $urlSubCabecera=base_path().'\public\archivos\rendicion\\'.$nombreCabeceraSegunda;
       $urlDetalle=base_path().'\public\archivos\rendicion\\'.$nombreDetalle;
       Excel::store(new AsientoContableDetalle(1016), $nombreDetalle, 'rendicion', \Maatwebsite\Excel\Excel::CSV);
-      //Excel::store(new AsientoContableCabezera(1016), $nombreCabeceraSegunda, 'rendicion', \Maatwebsite\Excel\Excel::CSV);
-      //$xml=$this->xml($urlCabecera,$urlCabeceraSegunda,$urlDetalle);
-      //Storage::disk('rendicion')->put($usuario.'\script.xml', $xml);
+      Excel::store(new AsientoContableCabezera(1016), $nombreCabeceraSegunda, 'rendicion', \Maatwebsite\Excel\Excel::CSV);
+      $xml=$this->xml($urlCabecera,$urlCabeceraSegunda,$urlDetalle);
+      Storage::disk('rendicion')->put($usuario.'\script.xml', $xml);
     }
-    public function xml($urlCabecera,$urlCabeceraSegunda,$urlDetalle){
+    public function xml($urlCabecera,$urlSubCabecera,$urlDetalle){
         return $archivo="<Transfer>
           <Logon>
             <UserName>sist_lp1</UserName>
@@ -155,7 +154,7 @@ class controllerRedicionViaticos extends Controller
             <FilesTypes>1</FilesTypes>
             <Files>
               <JournalVouchers>$urlCabecera</JournalVouchers>
-              <JournalEntries>$urlCabeceraSegunda</JournalEntries>
+              <JournalEntries>$urlSubCabecera</JournalEntries>
               <JournalEntries_Lines>$urlDetalle</JournalEntries_Lines>
             </Files>
           </FileExtractor>
@@ -235,14 +234,6 @@ class controllerRedicionViaticos extends Controller
             <ThreadNum>4</ThreadNum>
           </Run>
         </Transfer>";
-    }
-    public function handlegetCodigoUsuario($ci){
-      $codigo=DB::table('Codigo_Usuario')->select('Codigo_Usuario.CardCode')->where('Codigo_Usuario.LicTradNum',$ci)->first();
-      if(isset($codigo->CardCode)){
-        return $codigo->CardCode;
-      }else{
-        return "No existe el usuario";
-      }
     }
     public function handleGetCuentaContable(){
       return Response::json(DB::table('Cuenta_Contable')->get());

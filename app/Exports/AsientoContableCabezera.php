@@ -22,19 +22,21 @@ class AsientoContableCabezera implements FromQuery, WithMapping,WithHeadings
         return [
             [
                 'Recordkey',
+                'JdtNum',
                 'Reference',
                 'Reference2',
                 'Memo',
                 'U_GLOSAM',
-                'RefDate',
+                'ReferenceDate',
             ],
             [
                 'Recordkey',
+                'Transaction Key',
                 'Reference1',
                 'Reference2',
                 'Details',
                 'Glosa',
-                'ReferenceDate1',
+                'ReferenceDate',
             ],
         ];
     }
@@ -42,12 +44,17 @@ class AsientoContableCabezera implements FromQuery, WithMapping,WithHeadings
     {
         return [
             '1',
+            '',
             $this->handlegetCodigoUsuario($rendicion->SOLICITADO_ID),
             '',
             $rendicion->DESCRIPCION,
             $rendicion->MOTIVO,
-            $rendicion->FECHA_AUTORIZACION
+            $this->ReferenceDate()
         ];
+    }
+    public function ReferenceDate(){
+        $date=explode("/",str_replace('-','/', '07/06/2020'));
+        return $date[2].$date[1].$date[0];
     }
     public function query()
     {
