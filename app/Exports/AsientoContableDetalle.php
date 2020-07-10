@@ -17,11 +17,14 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
 {
     use Exportable;
     public $solicitud_id;
+    public $fecha;
+    public $cuenta;
     public $index;
     public $state;
-    public function __construct(int $solicitud_id)
+    public function __construct(int $solicitud_id,string $cuenta)
     {
         $this->solicitud_id = $solicitud_id;
+        $this->cuenta=$cuenta;
         $this->index = -1;
     }
     public function headings(): array
@@ -116,7 +119,8 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
     }
     public function Reference1($id,$state,$tipo,$descripcion){
         if($id=='97483647'){
-            return 'CAJA CHICA DISTRIBUCION - LP'; // a cambiar segun usuario
+            $cuenta=DB::table('Cuenta_Contable')->where('AcctCode',$this->cuenta)->first();
+            return $cuenta->AcctName;
         }else{
             if($tipo=='Sin IVA'){
                 return $descripcion;
@@ -131,7 +135,7 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
     }
     public function ShortName($id,$state,$tipo){
         if($id=='97483647'){
-            return ''; 
+            return '';
         }else{
             if($tipo=='Sin IVA'){
                 return $this->handlegetCodigoUsuario();
@@ -146,7 +150,7 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
     }
     public function AccountCode($id,$state,$tipo){
         if($id=='97483647'){
-            return '_SYS00000000175';  // a cambiar segun usuario
+            return $this->cuenta;  
         }else{
             if($tipo=='Sin IVA'){
                 return '';
@@ -167,7 +171,7 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
                                         ->unionAll($facturas);
         $recibos=RendicionViaticosDetalle::query()->where('RENDICION_VIATICOS_ID',$this->solicitud_id)->where('TIPO',"Sin IVA")
                                         ->unionAll($facturas2);
-        return $recibos->unionAll($vacios)->orderBy('TIPO','ASC')->orderBy('id','ASC');;  
+        return $recibos->unionAll($vacios)->orderBy('TIPO','ASC')->orderBy('id','ASC');;
     }
     public function handleContar(){
       $this->index++;

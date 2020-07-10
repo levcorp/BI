@@ -1,12 +1,13 @@
 <?php
 
-Route::get('prueba','Panel\controllerRedicionViaticos@pruebaSAP');
+Route::get('prueba','Panel\controllerRendicionFinalizacion@handleGetCuentaContable');
 Route::get('prueba2','Panel\controllerRedicionViaticos@pruebaSAP2');
 
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////
 Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('solicitudFondos');
 Route::get('panel/rendicion/autorizacion','Panel\controllerPanel@autorizacion')->name('solicitudAprobacion');
-Route::get('panel/rendicion/tesoreria','Panel\controllerPanel@desembolso')->name('solicitudAprobacion');
+Route::get('panel/rendicion/tesoreria','Panel\controllerPanel@desembolso');
+Route::get('panel/rendicion/finalizada','Panel\controllerPanel@finalizada');
 ////////////////////////////Socios de Negocio/////////////////////////////////
 Route::get('panel/socios','Panel\controllerPanel@socios')->name('sociosNegocio');
 ////////////////////////////OV-PO/////////////////////////////////

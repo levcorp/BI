@@ -34,7 +34,9 @@ new Vue({
                   noautorizado:[]
                 },
                 solicitud:[],
-                banco:[],
+                banco:{
+                  Nombre:''
+                },
                 autorizado:[],
                 solicitado:[],
                 rechazo:{

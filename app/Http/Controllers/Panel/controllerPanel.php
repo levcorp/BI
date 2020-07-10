@@ -245,4 +245,7 @@ class controllerPanel extends Controller
     public function usuarioRegistros(){
         return view('panel.dashboard.Asistencia.usuarios');
     }
+    public function finalizada(){
+        return view('panel.registros.rendicion.solicitud.autorizacionRendicion.index');
+    }
 }

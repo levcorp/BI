@@ -612,6 +612,16 @@ new Vue({
           }else{
             this.show.costos=true
           }
+        },
+        handleRendicionFinalizada(){
+          var url="/api/rendicion/post/rendicionfinalizada"
+          axios.post(url,this.data.rendicion).then(response=>{
+            this.show.rendicion=false
+            this.show.index=true
+            this.handleGetRendicionesSolicitudAprobado()
+            this.handleGetRendicionesSolicitudNoAprobado()
+            this.handleGetRendicionesSolicitudRechazado()
+          });
         }
     },
 })

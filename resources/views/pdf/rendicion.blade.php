@@ -19,7 +19,11 @@
         }
         body{
             font-family: 'Roboto', sans-serif;
+
         }
+      #header { position: fixed; left: 0px; top: -180px; right: 0px; height: 150px; background-color: orange; text-align: center; }
+      #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 150px; background-color: lightblue; }
+      #footer .page:after { content: counter(page, upper-roman); }
     </style>
 </head>
 <body>
@@ -271,25 +275,19 @@
         </tr>
       @endforeach
     </table>
-    <table cellpadding="0" cellspacing="0" style="width:100%;">
-      <tr>
-        <td style="text-align: center;font-size:10px;" width="100%">
-          <p style="margin:0px 0px 5px 0px;">
-            <strong>
-              <img src="data:image/png;base64, {!! $qrcode !!}"  width="100" height="100">
-            </strong>
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: center;font-size:10px;" width="100%">
-          <p style="margin:0px 0px 5px 0px;">
-            <strong>
-                {{$firma}}
-            </strong>
-          </p>
-        </td>
-      </tr>
-    </table>
+    <div style="margin-top:100px;">
+      <table cellpadding="0" cellspacing="0" style="width:100%;">
+        <tr>
+          <td style="text-align: center;font-size:12px;" width="100%">
+            <p style="margin:0px 0px 5px 0px;">
+              <br>
+              <strong style="border-top:1px solid;padding:10px;margin:10px">
+                Firma del Solicitante
+              </strong>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
 </body>
 </html>

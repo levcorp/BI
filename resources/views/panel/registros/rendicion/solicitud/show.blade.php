@@ -42,31 +42,31 @@
                   trigger="click">
                   <el-row>
                       <el-col span="12"><strong>Cargo :</strong></el-col>
-                      <el-col span="12">@{{data.solicitado.cargo}}</el-col>
+                      <el-col span="12">@{{data.solicitado?data.solicitado.cargo:''}}</el-col>
                   </el-row>
                   <el-row>
                       <el-col span="12"><strong>Departamento :</strong></el-col>
-                      <el-col span="12">@{{data.solicitado.departamento}}</el-col>
+                      <el-col span="12">@{{data.solicitado?data.solicitado.departamento:''}}</el-col>
                   </el-row>
                   <el-row>
                       <el-col span="12"><strong>Correo :</strong></el-col>
-                      <el-col span="12">@{{data.solicitado.email}}</el-col>
+                      <el-col span="12">@{{data.solicitado?data.solicitado.email:''}}</el-col>
                   </el-row>
                   <el-row>
                       <el-col span="12"><strong>Interno :</strong></el-col>
-                      <el-col span="12">@{{data.solicitado.interno}}</el-col>
+                      <el-col span="12">@{{data.solicitado?data.solicitado.interno:''}}</el-col>
                   </el-row>
                   <el-row>
                       <el-col span="12"><strong>Cedula Identidad :</strong></el-col>
-                      <el-col span="12">@{{data.solicitado.ci}}</el-col>
+                      <el-col span="12">@{{data.solicitado?data.solicitado.ci:''}}</el-col>
                   </el-row>
                   <el-row>
                       <el-col span="12"><strong>Celular :</strong></el-col>
-                      <el-col span="12">@{{data.solicitado.celular}}</el-col>
+                      <el-col span="12">@{{data.solicitado?data.solicitado.celular:''}}</el-col>
                   </el-row>
                   <el-row>
                       <el-col span="12"><strong>Ciudad :</strong></el-col>
-                      <el-col span="12">@{{data.solicitado.ciudad}}</el-col>
+                      <el-col span="12">@{{data.solicitado?data.solicitado.ciudad:''}}</el-col>
                   </el-row>
                   <el-button slot="reference" size="mini">@{{data.solicitado.nombre+' '+data.solicitado.apellido}}</el-button>
                   </el-popover>
@@ -143,6 +143,12 @@
             </tr>
           </tr>
             <tr v-if="data.solicitud.ESTADO==2">
+                <td>Motivo de Rechazo</td>
+                <td style="color:red;">
+                  @{{((data.solicitud.RECHAZO))}}
+                </td>
+            </tr>
+            <tr v-if="data.solicitud.ESTADO==3">
                 <td>Motivo de Rechazo</td>
                 <td style="color:red;">
                   @{{((data.solicitud.RECHAZO))}}

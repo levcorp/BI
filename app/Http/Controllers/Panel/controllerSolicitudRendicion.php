@@ -138,4 +138,5 @@ class controllerSolicitudRendicion extends Controller
     public function handleGetCentroCostosRendicion($id){
       return Response::json(CentroCostos::where('TIPO_SOLICITUD',$id)->get());
     }
+
 }

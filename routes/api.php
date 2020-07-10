@@ -37,6 +37,13 @@ Route::get('rendicion/get/rendicion/{id}','Panel\controllerRedicionViaticos@hand
 Route::get('rendicion/get/tiposolicitud','Panel\controllerSolicitudRendicion@handleGetTipoSolicitud');
 Route::get('rendicion/get/centrocostos/{id}','Panel\controllerSolicitudRendicion@handleGetCentroCostos');
 Route::get('rendicion/get/cuentacontable','Panel\controllerRedicionViaticos@handleGetCuentaContable');
+Route::post('rendicion/post/rendicionfinalizada','Panel\controllerRedicionViaticos@handleRendicionFinalizada');
+Route::get('rendicion/get/finalizada/autorizados/{id}','Panel\controllerRendicionFinalizacion@handleGetRendicionFinalizadaAutorizada');
+Route::get('rendicion/get/finalizada/noautorizados/{id}','Panel\controllerRendicionFinalizacion@handleGetRendicionFinalizadaNoAutorizada');
+Route::post('rendicion/get/finalizada/rechazar','Panel\controllerRendicionFinalizacion@handleRechazarSolicitud');
+Route::post('rendicion/get/finalizada/probar','Panel\controllerRendicionFinalizacion@handleRendicionAutorizada');
+Route::get('rendicion/get/finalizada/cuenta','Panel\controllerRendicionFinalizacion@handleGetCuentaContable');
+Route::get('rendicion/get/finalizada/reporte/{id}','Panel\controllerRendicionFinalizacion@handleGetReporteDetalle');
 /////////////////////dashboard/////////////////////////////////
 Route::get('panel/get/presupuesto','Panel\controllerDashboard@handleGetPresupuesto');
 Route::get('panel/get/facturacion','Panel\controllerDashboard@handleGetFacturacion');

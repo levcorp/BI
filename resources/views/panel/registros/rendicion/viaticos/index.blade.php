@@ -9,6 +9,7 @@
             </p>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+          <div v-if="data.rendicion.ESTADO!='4'">
             <div class="pull-right" style="margin-top-right: 10px">
                 <el-button
                 size="mini"
@@ -27,6 +28,7 @@
                 >Agregar Factura QR
                 </el-button>
             </div>
+          </div>
         </div>
     </div>
 </div>
@@ -135,7 +137,7 @@
       <h4>Rendicion con Factura</h4>
     </div>
   </div>
-  <el-table v-loading="loading" :data="data.viaticos" style="width: 100%" highlight-current-row>
+  <el-table v-loading="loading" :data="data.viaticos" style="width: 100%" highlight-current-row max-height="450">
       <el-table-column width="70" align="center" label="#" width="150">
           <template slot-scope="scope">
               <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
@@ -187,10 +189,43 @@
             <span style="margin-top-left: 10px">@{{ scope.row.centrocostos.NOMBRE }}</span>
         </template>
       </el-table-column>
+      <div v-if="data.rendicion.ESTADO!='4'">
       <el-table-column align="center" label="Acciones">
           <template slot-scope="scope">
               <el-button circle size="mini" type="danger" icon="el-icon-remove" @click="handleDeleteFactura(scope.$index, scope.row)"></el-button>
-          </template>
+          </template>/
       </el-table-column>
+    </div>
   </el-table>
+  <div class="row">
+    <div class="col-12" v-if="data.rendicion.ESTADO=='4'">
+      <div class="text-center" style="margin-top: 10px">
+        <el-button
+        size="mini"
+        type="danger"
+        @click="handleRechazoSolicitud()"
+        round
+        >Rechazar Rendicion
+        </el-button>
+        <el-button
+        size="mini"
+        type="primary"
+        @click="handleAprobarSolicitud()"
+        round
+        >Autorizar Rendicion
+        </el-button>
+      </div>
+    </div>
+    <div class="col-12" v-else>
+      <div class="text-center" style="margin-top: 10px">
+          <el-button
+          size="mini"
+          type="primary"
+          @click="handleRendicionFinalizada()"
+          round
+          >Finalizar Rendicion
+          </el-button>
+      </div>
+    </div>
+  </div>
 </div>

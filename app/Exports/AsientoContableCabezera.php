@@ -13,9 +13,11 @@ class AsientoContableCabezera implements FromQuery, WithMapping,WithHeadings
 {
     use Exportable;
     public $rendicion_id;
-    public function __construct(int $rendicion_id)
+    public $fecha;
+    public function __construct(int $rendicion_id, string $fecha)
     {
         $this->rendicion_id = $rendicion_id;
+        $this->fecha=$fecha;
     }
     public function headings(): array
     {
@@ -53,7 +55,7 @@ class AsientoContableCabezera implements FromQuery, WithMapping,WithHeadings
         ];
     }
     public function ReferenceDate(){
-        $date=explode("/",str_replace('-','/', '07/06/2020'));
+        $date=explode("/",str_replace('-','/', $this->fecha));
         return $date[2].$date[1].$date[0];
     }
     public function query()
