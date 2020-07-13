@@ -57,7 +57,7 @@ class controllerRendicionFinalizacion extends Controller
       $urlCabecera=base_path().'\public\archivos\rendicion\CabezeraAsientoContable.csv';
       $urlSubCabecera=base_path().'\public\archivos\rendicion\\'.$nombreCabeceraSegunda;
       $urlDetalle=base_path().'\public\archivos\rendicion\\'.$nombreDetalle;
-      Excel::store(new AsientoContableDetalle($solicitud->id,$request->cuenta), $nombreDetalle, 'rendicion', \Maatwebsite\Excel\Excel::CSV);
+      Excel::store(new AsientoContableDetalle($solicitud->id,$request->cuenta,$request->fecha), $nombreDetalle, 'rendicion', \Maatwebsite\Excel\Excel::CSV);
       Excel::store(new AsientoContableCabezera($solicitud->id,$request->fecha), $nombreCabeceraSegunda, 'rendicion', \Maatwebsite\Excel\Excel::CSV);
       $xml=$this->xml($urlCabecera,$urlSubCabecera,$urlDetalle);
       Storage::disk('rendicion')->put($usuario.'\script.xml', $xml);

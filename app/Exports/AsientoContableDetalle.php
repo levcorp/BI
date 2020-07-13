@@ -21,42 +21,71 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
     public $cuenta;
     public $index;
     public $state;
-    public function __construct(int $solicitud_id,string $cuenta)
+    public function __construct(int $solicitud_id,string $cuenta, string $fecha)
     {
         $this->solicitud_id = $solicitud_id;
         $this->cuenta=$cuenta;
         $this->index = -1;
+        $this->fecha=$fecha;
     }
     public function headings(): array
     {
         return [
             [
-                'Recordkey',
+                'ParentKey',
                 'Line_ID',
                 'AccountCode',
-                'ShortName',
-                'Reference1',
-                'Reference2',
                 'FCDebit',
                 'FCCredit',
-                'Debit',
-                'Credit',
+                'FCCurrency',
                 'DueDate',
-                'CostingCode2'
+                'ShortName',
+                'ContraAccount',
+                'LineMemo',
+                'CostingCode2',
+                'U_FechaFac',
+                'U_IUE',
+                'U_CARDNAME',
+                'U_ICE',
+                'U_EXENTO',
+                'U_Importe',
+                'U_TipoDoc',
+                'U_CODALFA',
+                'U_NUM_FACT',
+                'U_NUMORDER',
+                'U_NUMPOL',
+                'U_RUC',
+                'U_TIPOCOM',
+                'U_DESCUENTO',
+                'U_ESTADOFC'
             ],
             [
-                'Recordkey',
-                'Row Number',
-                'Cuenta',
-                'ShortDescripcion',
-                'Ref1',
-                'Ref2',
-                'Debit(FC)',
-                'Credit(FC)',
-                'Debit',
-                'Credit',
-                'ValueDate',
-                'OCRCode2'
+                'BatchNum',
+                'Line_ID',
+                'Account',
+                'FCDebit',
+                'FCCredit',
+                'FCCurrency',
+                'DueDate',
+                'ShortName',
+                'ContraAccount',
+                'LineMemo',
+                'CostingCode2',
+                'Fecha Factura',
+                'U_IUE',
+                'U_CARDNAME',
+                'U_ICE',
+                'U_EXENTO',
+                'U_Importe',
+                'Tipo Documento',
+                'Codigo Alfanumerico',
+                'Numero Factura',
+                'Numero Autorizacion',
+                'Numerp de Poliza',
+                'nit',
+                'Tipo Compra',
+                'Descuento Factura',
+                'Estado Factura '
             ],
         ];
     }
@@ -66,16 +95,211 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
             '1',
             $this->handleContar(),
             $this->AccountCode($filas->id,$this->state,$filas->TIPO),
+            $this->FCDebit($filas->id,$this->state,$filas->TIPO,$filas->IMPORTE_PAGADO),
+            $this->FCCredit($filas->id),
+            $this->FCCurrency(),
+            $this->DueDate($this->fecha),
             $this->ShortName($filas->id,$this->state,$filas->TIPO),
-            $this->Reference1($filas->id,$this->state,$filas->TIPO,$filas->DESCRIPCION),
-            '',
-            '',
-            '',
-            $this->Debit($filas->id,$this->state,$filas->TIPO,$filas->IMPORTE_PAGADO),
-            $this->Credit($filas->id),
-            $this->DueDate($filas->id,$filas->FECHA_GASTO),
-            $this->CostingCode2($filas->id,$filas->CENTRO_COSTOS_ID,$this->solicitud_id)
+            $this->ContraAccount($filas->id,$this->state,$filas->TIPO),
+            $this->LineMemo($filas->id,$this->state,$filas->TIPO,$filas->DESCRIPCION),
+            $this->CostingCode2($filas->id,$filas->CENTRO_COSTOS_ID,$this->solicitud_id),
+            $this->U_FechaFac($filas->id,$filas->FECHA_GASTO),
+            $this->U_IUE($filas->id,$filas->TIPO,$this->state),
+            $this->U_CARDNAME(),
+            $this->U_ICE(),
+            $this->U_EXENTO($filas->id,$filas->TIPO,$this->state,$filas->IMPORTE_PAGADO),
+            $this->U_Importe($filas->id,$filas->TIPO,$this->state,$filas->IMPORTE_PAGADO),
+            $this->U_TipoDoc($filas->id,$filas->TIPO,$this->state),
+            $this->U_CODALFA($filas->id,$filas->TIPO,$this->state,$filas->CODIGO_CONTROL),
+            $this->U_NUM_FACT($filas->id,$filas->TIPO,$this->state,$filas->N_FACTURA),
+            $this->U_NUMORDER($filas->id,$filas->TIPO,$this->state,$filas->NUMERO_AUTORIZACION),
+            $this->U_NUMPOL(),
+            $this->U_RUC($filas->id,$filas->TIPO,$this->state,$filas->NIT_PROVEEDOR),
+            $this->U_TIPOCOM($filas->id,$filas->TIPO,$this->state),
+            $this->U_DESCUENTO($filas->id,$filas->TIPO,$this->state,$filas->DESCUENTO),
+            $this->U_ESTADOF($filas->id,$filas->TIPO,$this->state)
         ];
+    }
+    public function U_ESTADOF($id,$tipo,$state){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return 'V';
+                }
+            }
+        }
+    }
+    public function U_DESCUENTO($id,$tipo,$state,$DESCUENTO){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return $DESCUENTO;
+                }
+            }
+        }
+    }
+    public function U_TIPOCOM($id,$tipo,$state){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return '1';
+                }
+            }
+        }
+    }
+    public function U_RUC($id,$tipo,$state,$NIT_PROVEEDOR){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return $NIT_PROVEEDOR;
+                }
+            }
+        };
+    }
+    public function U_NUMPOL(){
+        return '0';
+    }
+    public function U_NUMORDER($id,$tipo,$state,$NUMERO_AUTORIZACION){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return $NUMERO_AUTORIZACION;
+                }
+            }
+        }
+    }
+    public function U_NUM_FACT($id,$tipo,$state,$N_FACTURA){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return $N_FACTURA;
+                }
+            }
+        }
+    }
+    public function U_CODALFA($id,$tipo,$state,$CODIGO_CONTROL){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return $CODIGO_CONTROL;
+                }
+            }
+        }
+    }
+    public function U_TipoDoc($id,$tipo,$state){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '1';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return '1';
+                }
+            }
+        }
+    }
+    public function U_Importe($id,$tipo,$state,$IMPORTE_PAGADO){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '0';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return $IMPORTE_PAGADO;
+                }
+            }
+        }
+    }
+    public function U_EXENTO($id,$tipo,$state,$IMPORTE_PAGADO){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return $IMPORTE_PAGADO;
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return '0';
+                }
+            }
+        }
+    }
+    public function U_ICE(){
+        return '0';
+    }
+    public function U_CARDNAME(){
+      return 'Por definir';
+    }
+    public function U_IUE($id,$tipo,$state){
+        if($id=='97483647'){
+            return '';
+        }else{
+            if($tipo=='Sin IVA'){
+                return '';
+            }else{
+                if($state=='par'){
+                    return '';
+                }else{
+                    return 'S';
+                }
+            }
+        }
+    }
+    public function ContraAccount($id){
+        if($id=='97483647'){
+            return $this->cuenta;  
+        }else{
+            return '';
+        }
     }
     public function CostingCode2($id,$centro_costos_id,$solicitud_id){
         if($id=='97483647'){
@@ -87,7 +311,11 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
             return $centro_costos->COD_SAP;
         }
     }
-    public function DueDate($id,$fecha_gasto){
+    public function DueDate($fecha){
+        $date=explode("/",str_replace('-','/', $fecha));
+        return $date[2].$date[1].$date[0];
+    }
+    public function U_FechaFac($id,$fecha_gasto){
         if($id=='97483647'){
             return '';
         }else{
@@ -95,14 +323,17 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
             return $date[2].$date[1].$date[0];
         }
     }
-    public function Credit($id){
+    public function FCCurrency(){
+       return 'BS';
+    }
+    public function FCCredit($id){
         if($id=='97483647'){
             return $this->Total();
         }else{
            return '';
         }
     }
-    public function Debit($id,$state,$tipo,$importe_pagado){
+    public function FCDebit($id,$state,$tipo,$importe_pagado){
         if($id=='97483647'){
             return '';
         }else{
@@ -117,7 +348,7 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
             }
         }
     }
-    public function Reference1($id,$state,$tipo,$descripcion){
+    public function LineMemo($id,$state,$tipo,$descripcion){
         if($id=='97483647'){
             $cuenta=DB::table('Cuenta_Contable')->where('AcctCode',$this->cuenta)->first();
             return $cuenta->AcctName;
