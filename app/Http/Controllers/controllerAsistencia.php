@@ -10,8 +10,11 @@ use App\User;
 use Carbon\Carbon;
 use Auth;
 use App\Exports\HistorialAsistencia;
+use App\Exports\LCV;
 use Excel;
-
+use Mail;
+use App\Mail\LCV\Bonificacion;
+use App\Transacciones_Levcoins;
 class controllerAsistencia extends Controller
 {
     public function handleGetUsuarios(){
@@ -199,5 +202,36 @@ class controllerAsistencia extends Controller
     }
     public function handleGetReporte(Request $request){
       return Excel::download(new HistorialAsistencia($request->fecha1,$request->fecha2),'Asistencia'.$request->fecha1.'a'.$request->fecha2.'.xlsx');
+    }
+    public function handleGetReporteLCV(Request $request){
+      return Excel::download(new LCV(),'Reporte LCV.xlsx');
+    }
+    public function handleGetUsuariosLCV($id){
+      return Response::json(User::select('nombre','apellido','id')->where('id','!=',$id)->get());
+    }
+    public function handleMailLevcoins($transaccion){
+      Mail::send(new Bonificacion($transaccion));
+    }
+    public function handleGetUsuario($id){
+      return Response::json(User::where('id',$id)->first());
+    }
+    public function handleStoreLCV(Request $request){
+      $emisor=User::where('id',$request->emisor_id)->first();
+      if($emisor->LCVs>=$request->monto)
+      {
+        $registro=Transacciones_Levcoins::create([
+          'EMISOR_ID'=>$request->emisor_id,
+          'BENEFICIARIO_ID'=> $request->beneficiario_id['value'],
+          'MONTO'=>$request->monto,
+          'MOTIVO'=>$request->motivo,
+          'OPCION_MOTIVO'=>$request->opcion,
+          'FECHA'=>date('Y-m-d')
+        ]);
+        User::findOrFail($emisor->id)->fill([
+          'LCVs'=>(int)$emisor->LCVs-(int)$request->monto
+        ])->save();
+        $transaccion=Transacciones_Levcoins::where('id',$registro->id)->with('beneficiario','emisor')->first();
+        $this->handleMailLevcoins($transaccion);
+      }
     }
 }

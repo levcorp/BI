@@ -9,6 +9,11 @@ Route::get('asistencia/get/historial/{tipo}/{usuario_id}','controllerAsistencia@
 Route::post('asistencia/post/registro','controllerAsistencia@handleStoreRegistro');
 Route::post('asistencia/get/reporte','controllerAsistencia@handleGetReporte');
 Route::get('asistencia/get/estado/{tipo}/{usuario_id}','controllerAsistencia@handleGetValid');
+Route::get('lcv/get/usuarios/{id}','controllerAsistencia@handleGetUsuariosLCV');
+Route::get('lcv/get/usuario/{id}','controllerAsistencia@handleGetUsuario');
+Route::post('lcv/store/lcv','controllerAsistencia@handleStoreLCV');
+Route::get('lcv/get/reporte','controllerAsistencia@handleGetReporteLCV');
+
 /////////////////////Solicitud Fondos a Rendicion/////////////////////////////////
 Route::get('rendicion/solicitud/usuario/{id}','Panel\controllerSolicitudRendicion@handleGetUsuario');
 Route::get('rendicion/solicitud/bancos','Panel\controllerSolicitudRendicion@handleGetBancosRendicion');

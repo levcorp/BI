@@ -1,6 +1,6 @@
 <?php
 
-Route::get('prueba','Panel\controllerRendicionFinalizacion@handleGetCuentaContable');
+Route::get('prueba','controllerAsistencia@handleGetReporteLCV');
 Route::get('prueba2','Panel\controllerRedicionViaticos@pruebaSAP2');
 
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////
