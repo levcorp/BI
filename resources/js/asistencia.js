@@ -41,13 +41,13 @@ new Vue({
             usuario:[],
             usuarios:[],
             buenTrabajo:[
-              'Reconocer el esfuerzo independientemente de los resultados',
-              'Reconocer un comportamiento, compromiso y actitud positivos',
-              'Reconocer a la persona que cree espacios de opinión y comunicación abierta',
+              'Reconociendo el esfuerzo independiente de los resultados',
+              'Reconociendo un comportamiento, compromiso y actitud positivos',
+              'Reconociendo que la persona crea espacios de opinión y comunicación abierta',
             ],
             esfuerzoExtra:[
-              'Reconocer a la persona que apoya a otras áreas sin esperar nada a cambio',
-              'Reconocer a la persona que propone mejoras y cambios (actividades, alegría, procesos, etc.)',
+              'Reconociendo que la persona apoya a otras áreas sin esperar nada a cambio',
+              'Reconociendo que la persona propone mejoras y cambios (actividades, alegría, procesos, etc.)',
             ],
             opcionesMotivo:[]
           },

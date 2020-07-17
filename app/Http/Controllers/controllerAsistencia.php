@@ -217,6 +217,7 @@ class controllerAsistencia extends Controller
     }
     public function handleStoreLCV(Request $request){
       $emisor=User::where('id',$request->emisor_id)->first();
+      $beneficiario=User::where('id',$request->beneficiario_id)->first();
       if($emisor->LCVs>=$request->monto)
       {
         $registro=Transacciones_Levcoins::create([
@@ -229,6 +230,9 @@ class controllerAsistencia extends Controller
         ]);
         User::findOrFail($emisor->id)->fill([
           'LCVs'=>(int)$emisor->LCVs-(int)$request->monto
+        ])->save();
+        User::findOrFail($beneficiario->id)->fill([
+          'LCVs'=>(int)$beneficiario->LCVs+(int)$request->monto
         ])->save();
         $transaccion=Transacciones_Levcoins::where('id',$registro->id)->with('beneficiario','emisor')->first();
         $this->handleMailLevcoins($transaccion);
