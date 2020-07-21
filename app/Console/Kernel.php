@@ -54,6 +54,8 @@ class Kernel extends ConsoleKernel
                  ->dailyAt('16:30');
         $schedule->command('DMI:start')
                  ->dailyAt('21:30');
+       $schedule->command('speedTest:start')
+                  ->dailyAt('12:00');
     }
     protected function commands()
     {
