@@ -53,7 +53,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('gpos:validate')
                  ->dailyAt('16:30');
         $schedule->command('DMI:start')
-                 ->dailyAt('21:30');
+                 ->dailyAt('20:30');
        $schedule->command('speedTest:start')
                   ->dailyAt('12:00');
     }
