@@ -31,7 +31,7 @@
           <ul class="treeview-menu">
             @if(isset(Auth::user()->perfil->asignacionModulo))
               @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','4'))
-              <li class="{{active(['panel/dashboard/*','panel'])}}"><a href="{{route('panel')}}"><i class="fa fa-line-chart"></i> Ventas</a></li>
+              <li class="{{active(['panel/dashboard/*','panel'])}}"><a href="{{route('panel')}}"><i class="fa fa-line-chart"></i> Inicio</a></li>
               @endif
             @endif
           </ul>
@@ -78,7 +78,7 @@
         @endif
       @endif
       @if(isset(Auth::user()->perfil->asignacionModulo))
-        @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','1') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','18'))
+        @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','1') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','18')  || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','23') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','24') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','25') || Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','26'))
           <li class="treeview {{active(['articulosABM','ubicaciones','solicitudAprobacion'])}}">
             <a href="#">
               <i class="fa fa-files-o"></i> <span>Solicitudes</span>
@@ -99,12 +99,22 @@
               @endif
               @if(isset(Auth::user()->perfil->asignacionModulo))
                 @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','23'))
-                  <li class="{{active('solicitudAprobacion')}}"><a href="{{route('solicitudAprobacion')}}"><i class="fa fa-qrcode"></i> Autorizacion Solicitud Fondos</a></li>
+                  <li class="{{active('solicitudAprobacion')}}"><a href="{{route('solicitudAutorizacion')}}"><i class="fa fa-qrcode"></i> Autorizacion Solicitud Fondos</a></li>
                 @endif
               @endif
               @if(isset(Auth::user()->perfil->asignacionModulo))
                 @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','24'))
                   <li class="{{active('solicitudFondos')}}"><a href="{{route('solicitudFondos')}}"><i class="fa fa-qrcode"></i> Solicitud y Rendicion Fondos</a></li>
+                @endif
+              @endif
+              @if(isset(Auth::user()->perfil->asignacionModulo))
+                @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','25'))
+                  <li class="{{active('solicitudFondos')}}"><a href="{{route('solicitudTesoreria')}}"><i class="fa fa-qrcode"></i> Solicitud de Desembolso</a></li>
+                @endif
+              @endif
+              @if(isset(Auth::user()->perfil->asignacionModulo))
+                @if(Auth::user()->perfil->asignacionModulo->firstWhere('modulo_id','26'))
+                  <li class="{{active('solicitudFondos')}}"><a href="{{route('solicitudFinalizada')}}"><i class="fa fa-qrcode"></i> Autorizacion de Rendicion</a></li>
                 @endif
               @endif
             </ul>
