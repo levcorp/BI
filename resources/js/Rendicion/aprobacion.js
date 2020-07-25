@@ -52,6 +52,29 @@ new Vue({
       this.handleGetRendicionesSolicitudNoAutorizado()
     },
     methods: {
+      handleCommandSolicitudNoAutorizado(command){
+        switch (command.type) {
+          case 'autorizar':
+            this.handleAutorizarSolicitud(command.solicitud)
+          break;
+          case 'rechazar':
+            this.handleRechazoSolicitud(command.solicitud)
+          break;
+          case 'show':
+            this.handleShowSolicitud(command.solicitud)
+          break;
+        }
+      },
+      handleCommandSolicitudAutorizado(command){
+        switch (command.type) {
+          case 'reporte':
+            this.handleReporteSolicitud(command.solicitud)
+          break;
+          case 'show':
+            this.handleShowSolicitud(command.solicitud)
+          break;
+        }
+      },
       handleGetRendicionesSolicitudAutorizado(){
           var url='/api/rendicion/solicitudes/autorizado/'+this.values.usuario_id
           axios.get(url).then(response=>{
@@ -64,14 +87,14 @@ new Vue({
             this.data.solicitudes.noautorizado=response.data
         })
       },
-      handleShowSolicitud(index,row){
+      handleShowSolicitud(row){
         this.data.solicitud=row
         this.data.banco=row.banco
         this.data.solicitado=row.solicitado
         this.data.autorizado=row.autorizado
         $('#show').modal('show')
       },
-      handleRechazoSolicitud(index,row){
+      handleRechazoSolicitud(row){
         this.show.rechazo=true;
         this.data.rechazo.id=row.id
       },
@@ -87,7 +110,7 @@ new Vue({
             });
         })
       },
-      handleAutorizarSolicitud(index,row){
+      handleAutorizarSolicitud(row){
         this.$confirm('¿ Esta seguro de Autorizar la Solicitud ?', 'Advertencia', {
           confirmButtonText: 'Autorizar',
           cancelButtonText: 'Cancelar',
@@ -106,7 +129,7 @@ new Vue({
           })
         })
       },
-      handleReporteSolicitud(index,row){
+      handleReporteSolicitud(row){
           this.loading=true
           var urlApi = '/api/rendicion/solicitud/pdf';
           axios({

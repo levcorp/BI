@@ -36,7 +36,7 @@
                 </div>
                 <div class="box-body">
                     <el-table v-loading="loading" :data="data.solicitudes.noaprobado" style="width: 100%" max-height="250" highlight-current-row>
-                        <el-table-column width="70" align="center" label="#">
+                        <el-table-column width="120" align="center" label="Nº Documento">
                             <template slot-scope="scope">
                                 <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
                             </template>
@@ -71,9 +71,16 @@
                         </el-table-column>
                         <el-table-column align="center" label="Acciones" width="180">
                             <template slot-scope="scope">
-                                <el-button circle size="mini" type="primary" icon="el-icon-edit" @click="handleEditSolicitud(scope.$index, scope.row)"></el-button>
-                                <el-button circle size="mini" type="warning" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
-                                <el-button circle size="mini" type="danger" icon="el-icon-close" @click="handleDeleteSolicitud(scope.$index, scope.row)"></el-button>
+                              <el-dropdown @command="handleCommandSolicitudPendiente">
+                                <el-button type="primary" size="mini">
+                                  Opciones<i class="el-icon-arrow-down el-icon--right"></i>
+                                </el-button>
+                                <el-dropdown-menu slot="dropdown">
+                                  <el-dropdown-item :command="{type:'edit',pendiente:scope.row}">Editar</el-dropdown-item>
+                                  <el-dropdown-item :command="{type:'show',pendiente:scope.row}">Detalles</el-dropdown-item>
+                                  <el-dropdown-item :command="{type:'delete',pendiente:scope.row}">Eliminar</el-dropdown-item>
+                                </el-dropdown-menu>
+                              </el-dropdown>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -88,7 +95,7 @@
                         </div>
                     </div>
                     <el-table v-loading="loading" :data="data.solicitudes.aprobado" style="width: 100%" max-height="250" highlight-current-row>
-                        <el-table-column width="70" align="center" label="#">
+                        <el-table-column width="120" align="center" label="Nº Documento">
                             <template slot-scope="scope">
                                 <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
                             </template>
@@ -115,7 +122,7 @@
                                 <el-tag type="success" size="medium">Autorizado</el-tag>
                               </div>
                               <div slot="reference" class="name-wrapper" v-if="scope.row.ESTADO==3">
-                                <el-tag type="success" size="medium">Desembolsado</el-tag>
+                                <el-tag type="success" size="medium">Por Desembolsar</el-tag>
                               </div>
                           </template>
                         </el-table-column>
@@ -131,9 +138,16 @@
                         </el-table-column>
                         <el-table-column align="center" label="Acciones" width="180">
                             <template slot-scope="scope">
-                                <el-button circle size="mini" type="primary" icon="el-icon-notebook-2" @click="handleReporteSolicitud(scope.$index, scope.row)"></el-button>
-                                <el-button circle size="mini" type="warning" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
-                                <el-button circle size="mini" type="primary" icon="el-icon-document-checked" @click="handleRendicionViaticos(scope.$index, scope.row)"></el-button>
+                              <el-dropdown @command="handleCommandSolicitudAutorizado">
+                                <el-button type="primary" size="mini">
+                                  Opciones<i class="el-icon-arrow-down el-icon--right"></i>
+                                </el-button>
+                                <el-dropdown-menu slot="dropdown">
+                                  <el-dropdown-item :command="{type:'exportar',pendiente:scope.row}">Exportar</el-dropdown-item>
+                                  <el-dropdown-item :command="{type:'show',pendiente:scope.row}">Detalle</el-dropdown-item>
+                                  <el-dropdown-item :command="{type:'rendicion',pendiente:scope.row}">Rendicion</el-dropdown-item>
+                                </el-dropdown-menu>
+                              </el-dropdown>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -148,7 +162,7 @@
                         </div>
                     </div>
                     <el-table v-loading="loading" :data="data.solicitudes.rechazado" style="width: 100%" max-height="250" highlight-current-row>
-                        <el-table-column width="70" align="center" label="#">
+                        <el-table-column width="120" align="center" label="Nº Documento">
                             <template slot-scope="scope">
                                 <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
                             </template>
@@ -183,10 +197,17 @@
                         </el-table-column>
                         <el-table-column align="center" label="Acciones" width="180">
                             <template slot-scope="scope">
-                              <el-button circle size="mini" type="success" icon="el-icon-check" @click="handleSentSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="primary" icon="el-icon-edit" @click="handleEditSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="warning" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="danger" icon="el-icon-close" @click="handleDeleteSolicitud(scope.$index, scope.row)"></el-button>
+                              <el-dropdown @command="handleCommandSolicitudRechazado">
+                                <el-button type="primary" size="mini">
+                                  Opciones<i class="el-icon-arrow-down el-icon--right"></i>
+                                </el-button>
+                                <el-dropdown-menu slot="dropdown">
+                                  <el-dropdown-item :command="{type:'sent',pendiente:scope.row}">Reenviar</el-dropdown-item>
+                                  <el-dropdown-item :command="{type:'edit',pendiente:scope.row}">Editar</el-dropdown-item>
+                                  <el-dropdown-item :command="{type:'show',pendiente:scope.row}">Detalles</el-dropdown-item>
+                                  <el-dropdown-item :command="{type:'delete',pendiente:scope.row}">Eliminar</el-dropdown-item>
+                                </el-dropdown-menu>
+                              </el-dropdown>
                             </template>
                         </el-table-column>
                     </el-table>

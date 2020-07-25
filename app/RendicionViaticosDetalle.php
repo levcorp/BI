@@ -22,7 +22,8 @@ class RendicionViaticosDetalle extends Model
         'DESCUENTO',
         'CODIGO_CONTROL',
         'RENDICION_VIATICOS_ID',
-        'CENTRO_COSTOS_ID'
+        'CENTRO_COSTOS_ID',
+        'RAZON_SOCIAL'
     ];
     public $timestamps=false;
     public function centrocostos(){

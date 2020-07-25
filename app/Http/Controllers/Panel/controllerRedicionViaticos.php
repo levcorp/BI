@@ -13,7 +13,10 @@ use DB;
 use Excel;
 use App\Exports\AsientoContableCabezera;
 use App\Exports\AsientoContableDetalle;
+use App\Mail\Rendicion\Rendicion;
 use Carbon\Carbon;
+use Storage;
+use Mail;
 class controllerRedicionViaticos extends Controller
 {
     //public function handleGetRendiciones(Request $request){
@@ -45,7 +48,8 @@ class controllerRedicionViaticos extends Controller
         'RENDICION_VIATICOS_ID'=>$request->id,
         'CENTRO_COSTOS_ID'=>$CENTRO_COSTOS_ID,
         'CODIGO_CONTROL'=>$request->Codigo_Control,
-        'NUMERO_AUTORIZACION'=>$request->Numero_Autorizacion
+        'NUMERO_AUTORIZACION'=>$request->Numero_Autorizacion,
+        'RAZON_SOCIAL'=>$request->Razon_Social
       ]);
       $sum=0;
       $sum=$RendicionViaticos->MONTO_TOTAL+$request->Total;
@@ -72,7 +76,8 @@ class controllerRedicionViaticos extends Controller
         'RENDICION_VIATICOS_ID'=>$request->id,
         'CENTRO_COSTOS_ID'=>$CENTRO_COSTOS_ID,
         'CODIGO_CONTROL'=>$request->Codigo_Control,
-        'NUMERO_AUTORIZACION'=>$request->Numero_Autorizacion
+        'NUMERO_AUTORIZACION'=>$request->Numero_Autorizacion,
+        'RAZON_SOCIAL'=>$request->Razon_Social
       ]);
       $sum=0;
       $sum=$RendicionViaticos->MONTO_TOTAL+$request->Total;
@@ -96,15 +101,21 @@ class controllerRedicionViaticos extends Controller
     public function handleGetRendicion($id){
       return Response::json(RendicionSolicitud::where('id',$id)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->first());
     }
-  
+
     public function handleGetCuentaContable(){
       return Response::json(DB::table('Cuenta_Contable')->get());
     }
     public function handleRendicionFinalizada(Request $request){
-      //Estado 4 Rendicion Finalizada
+      //Estado 4 Rendicion Para verificar
       RendicionSolicitud::findOrFail($request->id)->fill([
         'ESTADO'=>4
       ])->save();
+      $descargos=RendicionViaticosDetalle::where('RENDICION_VIATICOS_ID',$request->id)->with('centrocostos')->get();
+      $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos')->first();
+      $pdf = \PDF::loadView('pdf.rendicion',compact('solicitud','descargos'));
+      $pdf->setPaper("letter", "landscape");
+      $pdf->getDomPDF()->set_option("enable_php", true);
+      Storage::disk('solicitud_rendicion')->put('Rendicion'.$solicitud->id.'.pdf', $pdf->output());
+      Mail::send(new Rendicion($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,'gpinto@levcorp.bo'));
     }
-
 }

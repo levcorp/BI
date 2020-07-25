@@ -14,7 +14,7 @@
                 size="mini"
                 type="success"
                 icon="el-icon-check"
-                @click="handleStoreRendicionSolicitud()"
+                @click="handleValidateRendicionSolicitud()"
                 round
                 >Guardar
                 </el-button>
@@ -22,6 +22,11 @@
         </div>
     </div>
 </div>
+<el-alert type="error" v-if="errorsSolicitud.length>0">
+  <ul>
+    <li v-for="error in errorsSolicitud">@{{error}}</li>
+  </ul>
+</el-alert>
 <div class="box-body" style="margin:0px 20px;">
     <div class="row" style="margin-top:15px;">
         <div class="col-sm-12">
@@ -202,12 +207,13 @@
                     </el-select>
                 </div>
                 <div class="col-sm-4">
-                    <el-input :disabled="show.cuenta" v-if="show.abono" type="text" size="small" v-model="solicitud.CUENTA"></el-input>
+                    <el-input  v-if="show.abono" type="text" size="small" v-model="solicitud.CUENTA"></el-input>
+                    <el-input  v-if="!show.abono" type="text" size="small" v-model="solicitud.CHEQUE_NOMBRE"></el-input>
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
-             <div class="row">
+             <div class="row" v-if="show.abono">
                 <div class="col-sm-3">
                     <div class="pull-right">
                         <label for="" style="margin-top:5px;">Banco</label>

@@ -40,7 +40,8 @@ new Vue({
               Descuentos:'',
               Descripcion:'',
               id:'',
-              Centro_Costos:null
+              Centro_Costos:null,
+              Razon_Social:null
           },
             show:{
                 create:false,
@@ -84,6 +85,7 @@ new Vue({
                 TIPO_SOLICITUD_ID:null,
                 CENTRO_COSTOS_ID:null,
                 PRESUPUESTO:false,
+                CHEQUE_NOMBRE:null
             },
             data:{
                 usuarios:[],
@@ -145,6 +147,7 @@ new Vue({
                   CENTRO_COSTOS_ID:null,
                   Codigo_Control:null,
                   id:null,
+                  Razon_Social:null
                 },
                 centrocostos:{
                   NOMBRE:null
@@ -153,6 +156,8 @@ new Vue({
             loading:false,
             errors:[],
             values:[],
+            errorsSolicitud:[],
+            errorsSolicitudEdit:[]
         }
     },
     mounted () {
@@ -184,6 +189,14 @@ new Vue({
             this.values.literal=writtenNumber(newValue)
         },
         'solicitud.MEDIO_PAGO' :function(newValue, oldValue) {
+            if(newValue=='Abono Cuenta Bancaria')
+            {
+                this.show.abono=true
+            }else{
+                this.show.abono=false
+            }
+        },
+        'data.solicitudEdit.MEDIO_PAGO' :function(newValue, oldValue) {
             if(newValue=='Abono Cuenta Bancaria')
             {
                 this.show.abono=true
@@ -224,7 +237,7 @@ new Vue({
             {
               var dias =2;
               this.solicitud.FECHA_DESEMBOLSO=new Date()
-              this.solicitud.FECHA_DESEMBOLSO=this.solicitud.FECHA_DESEMBOLSO.setDate(this.solicitud.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
+              this.solicitud.FECHA_DESEMBOLSO=this.solicitud.FECHA_DESEMBOLSO.setDate(this.solicitud.FECHA_DESEMBOLSO.getDate()+parseInt(dias)).toISOString().slice(0,10);
             }
         },
         'data.solicitudEdit.URGENTE' :function(newValue, oldValue) {
@@ -232,11 +245,53 @@ new Vue({
             {
               var dias =2;
               this.data.solicitudEdit.FECHA_DESEMBOLSO=new Date()
-              this.data.solicitudEdit.FECHA_DESEMBOLSO=this.data.solicitudEdit.FECHA_DESEMBOLSO.setDate(this.data.solicitudEdit.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
+              this.data.solicitudEdit.FECHA_DESEMBOLSO=this.data.solicitudEdit.FECHA_DESEMBOLSO.setDate(this.data.solicitudEdit.FECHA_DESEMBOLSO.getDate()+parseInt(dias)).toISOString().slice(0,10);
             }
         }
     },
     methods: {
+        handleCommandSolicitudRechazado(command){
+          switch (command.type) {
+            case 'sent':
+              this.handleSentSolicitud(command.pendiente)
+            break;
+            case 'edit':
+              this.handleEditSolicitud(command.pendiente)
+            break;
+            case 'show':
+              this.handleShowSolicitud(command.pendiente)
+            break;
+            case 'delete':
+              this.handleDeleteSolicitud(command.pendiente)
+            break;
+          }
+        },
+        handleCommandSolicitudAutorizado(command){
+          switch (command.type) {
+            case 'exportar':
+              this.handleReporteSolicitud(command.pendiente)
+            break;
+            case 'show':
+              this.handleShowSolicitud(command.pendiente)
+            break;
+            case 'rendicion':
+              this.handleRendicionViaticos(command.pendiente)
+            break;
+          }
+        },
+        handleCommandSolicitudPendiente(command){
+          switch (command.type) {
+            case 'edit':
+              this.handleEditSolicitud(command.pendiente)
+            break;
+            case 'show':
+              this.handleShowSolicitud(command.pendiente)
+            break;
+            case 'delete':
+              this.handleDeleteSolicitud(command.pendiente)
+            break;
+          }
+        },
         handleVaciarCamposFacturaManual(){
           this.data.facturaManual.NIT_Emisor=null
           this.data.facturaManual.Numero_Factura=null
@@ -251,7 +306,7 @@ new Vue({
           var dias =2;
           this.solicitud.FECHA_DESEMBOLSO.setDate(this.solicitud.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
         },
-        handleShowSolicitud(index,row){
+        handleShowSolicitud(row){
           var url='/api/rendicion/solicitud/get/'+row.id
           axios.get(url).then(response=>{
             this.data.solicitud=response.data
@@ -279,7 +334,7 @@ new Vue({
               this.data.solicitudes.rechazado=response.data
             })
         },
-        handleSentSolicitud(index,row){
+        handleSentSolicitud(row){
             this.$confirm('¿ Esta seguro de enviar la Solicitud ?', 'Warning', {
               confirmButtonText: 'Enviar',
               cancelButtonText: 'Cancelar',
@@ -299,6 +354,52 @@ new Vue({
               })
             })
         },
+        handleValidateRendicionSolicitud(){
+          this.errorsSolicitud=[]
+          if(this.solicitud.DESCRIPCION==null){
+            this.errorsSolicitud.push('El campo Descripcion es obligatorio')
+          }
+          if(this.solicitud.IMPORTE_SOLICITADO==null){
+            this.errorsSolicitud.push('El campo Importe Solicitado es obligatorio')
+          }
+          if(this.solicitud.AUTORIZADO_ID==null){
+            this.errorsSolicitud.push('El campo Autorizado por, es obligatorio')
+          }
+          if(this.solicitud.COMENTARIOS==null){
+            this.errorsSolicitud.push('El campo Comentarios por, es obligatorio')
+          }
+          if(this.solicitud.MOTIVO==null){
+            this.errorsSolicitud.push('El campo Motivo es obligatorio')
+          }
+          if(this.solicitud.TIPO_SOLICITUD_ID==null){
+            this.errorsSolicitud.push('El campo Tipo de Solicitud es obligatorio')
+          }
+          if(this.solicitud.CENTRO_COSTOS_ID==null){
+            this.errorsSolicitud.push('El campo Centro de Costos es obligatorio')
+          }
+          if(this.solicitud.MEDIO_PAGO==null){
+            this.errorsSolicitud.push('El campo Medio de Pago es obligatorio')
+          }
+          if(this.solicitud.DESCRIPCION!=null && this.solicitud.IMPORTE_SOLICITADO!=null && this.solicitud.AUTORIZADO_ID!=null && this.solicitud.COMENTARIOS!=null && this.solicitud.MOTIVO!=null && this.solicitud.TIPO_SOLICITUD_ID!=null && this.solicitud.CENTRO_COSTOS_ID!=null && this.solicitud.MEDIO_PAGO!=null){
+            if(this.solicitud.MEDIO_PAGO=='Abono Cuenta Bancaria'){
+              if(this.solicitud.CUENTA!=null && this.solicitud.BANCO_ID!=null){
+                this.handleStoreRendicionSolicitud()
+              }else{
+                this.errorsSolicitud.push('El campo Cuenta es obligatoria')
+                this.errorsSolicitud.push('El campo Banco es obligatorio')
+              }
+            }else{
+              if(this.solicitud.MEDIO_PAGO=='Cheque'){
+                if(this.solicitud.CHEQUE_NOMBRE!=null){
+                  this.handleStoreRendicionSolicitud()
+                }else{
+                  this.errorsSolicitud.push('El cheque a nombre de, es obligatorio')
+                }
+              }
+            }
+          }
+          console.log(this.errorsSolicitud)
+        },
         handleStoreRendicionSolicitud(){
             this.solicitud.SOLICITADO_ID=this.data.usuario.id
             var url='/api/rendicion/solicitud/store'
@@ -312,6 +413,7 @@ new Vue({
                     title: '¡Creado con exito!',
                     message: 'La solicitud fue creada exitosamente',
                 });
+                this.errorsSolicitud=[]
             })
         },
         handleGetUsuario(){
@@ -339,7 +441,7 @@ new Vue({
           this.handleGetRendicionesSolicitudNoAprobado();
           this.handleGetRendicionesSolicitudRechazado();
         },
-        handleEditSolicitud(index,row){
+        handleEditSolicitud(row){
           this.show.edit=true
           this.show.index=false
           this.data.solicitudEdit=row
@@ -359,7 +461,7 @@ new Vue({
             this.data.solicitudEdit.PRESUPUESTO=false
           }
         },
-        handleDeleteSolicitud(index,row){
+        handleDeleteSolicitud(row){
           this.$confirm('Eliminar Solicitud ?', 'Warning', {
               confirmButtonText: 'Eliminar',
               cancelButtonText: 'Cancelar',
@@ -383,6 +485,52 @@ new Vue({
                 this.data.usuarios = response.data;
             })
         },
+        handleValidUpdateSolicitud(){
+          this.errorsSolicitudEdit=[]
+          if(this.data.solicitudEdit.DESCRIPCION==null){
+            this.errorsSolicitudEdit.push('El campo Descripcion es obligatorio')
+          }
+          if(this.data.solicitudEdit.IMPORTE_SOLICITADO==null){
+            this.errorsSolicitudEdit.push('El campo Importe Solicitado es obligatorio')
+          }
+          if(this.data.solicitudEdit.AUTORIZADO_ID==null){
+            this.errorsSolicitudEdit.push('El campo Autorizado por, es obligatorio')
+          }
+          if(this.data.solicitudEdit.COMENTARIOS==null){
+            this.errorsSolicitudEdit.push('El campo Comentarios por, es obligatorio')
+          }
+          if(this.data.solicitudEdit.MOTIVO==null){
+            this.errorsSolicitudEdit.push('El campo Motivo es obligatorio')
+          }
+          if(this.data.solicitudEdit.TIPO_SOLICITUD_ID==null){
+            this.errorsSolicitudEdit.push('El campo Tipo de Solicitud es obligatorio')
+          }
+          if(this.data.solicitudEdit.CENTRO_COSTOS_ID==null){
+            this.errorsSolicitudEdit.push('El campo Centro de Costos es obligatorio')
+          }
+          if(this.data.solicitudEdit.MEDIO_PAGO==null){
+            this.errorsSolicitudEdit.push('El campo Medio de Pago es obligatorio')
+          }
+          if(this.data.solicitudEdit.DESCRIPCION!=null && this.data.solicitudEdit.IMPORTE_SOLICITADO!=null && this.data.solicitudEdit.AUTORIZADO_ID!=null && this.data.solicitudEdit.COMENTARIOS!=null && this.data.solicitudEdit.MOTIVO!=null && this.data.solicitudEdit.TIPO_SOLICITUD_ID!=null && this.data.solicitudEdit.CENTRO_COSTOS_ID!=null && this.data.solicitudEdit.MEDIO_PAGO!=null){
+            if(this.data.solicitudEdit.MEDIO_PAGO=='Abono Cuenta Bancaria'){
+              if(this.data.solicitudEdit.CUENTA!=null && this.data.solicitudEdit.BANCO_ID!=null){
+                this.handleUpdateSolicitud()
+              }else{
+                this.errorsSolicitudEdit.push('El campo Cuenta es obligatoria')
+                this.errorsSolicitudEdit.push('El campo Banco es obligatorio')
+              }
+            }else{
+              if(this.data.solicitudEdit.MEDIO_PAGO=='Cheque'){
+                if(this.data.solicitudEdit.CHEQUE_NOMBRE!=null){
+                  this.handleUpdateSolicitud()
+                }else{
+                  this.errorsSolicitudEdit.push('El cheque a nombre de, es obligatorio')
+                }
+              }
+            }
+          }
+          console.log(this.errorsSolicitudEdit)
+        },
         handleUpdateSolicitud(){
             var url='/api/rendicion/solicitud/update'
             axios.post(url,this.data.solicitudEdit).then(response=>{
@@ -390,13 +538,14 @@ new Vue({
               this.handleGetRendicionesSolicitudNoAprobado();
               this.show.edit=false
               this.show.index=true
+              this.errorsSolicitudEdit=[]
               this.$message({
                   type: 'success',
                   message: 'La solicitud se actualizo correctamente'
                 });
             });
         },
-        handleReporteSolicitud(index,row){
+        handleReporteSolicitud(row){
             this.loading=true
             var urlApi = '/api/rendicion/solicitud/pdf';
             axios({
@@ -421,7 +570,7 @@ new Vue({
                 });
             });
         },
-        handleRendicionViaticos(index,row){
+        handleRendicionViaticos(row){
           this.show.rendicion=true
           this.show.index=false
           this.data.rendicion=row

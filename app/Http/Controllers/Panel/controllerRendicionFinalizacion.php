@@ -13,21 +13,26 @@ use App\Exports\AsientoContableCabezera;
 use App\Exports\AsientoContableDetalle;
 use Carbon\Carbon;
 use App\User;
+use App\Mail\Rendicion\Rendido;
+use App\Mail\Rendicion\RechazarRendicion;
 use Storage;
+use Mail;
 class controllerRendicionFinalizacion extends Controller
 {
     public function handleGetRendicionFinalizadaNoAutorizada($id){
-      return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',4)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
+      return Response::json(RendicionSolicitud::where('ESTADO',4)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
     }
     public function handleGetRendicionFinalizadaAutorizada($id){
-      return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',5)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
+      return Response::json(RendicionSolicitud::where('ESTADO',5)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
     }
     public function handleRechazarSolicitud(Request $request){
-      //Estado 3 Rendicion Finalizada
+      //Estado 3 Rendicion Rechazada
       RendicionSolicitud::findOrFail($request->id)->fill([
         'ESTADO'=>3,
         'RECHAZO'=>$request->RECHAZO
       ])->save();
+      $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos')->first();
+      Mail::send(new RechazarRendicion($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->solicitado->email,$solicitud->RECHAZO));
     }
     public function handleRendicionAutorizada(Request $request){
       //Estado 5 Rendicion Autorizada
@@ -35,13 +40,12 @@ class controllerRendicionFinalizacion extends Controller
         'ESTADO'=>5
       ])->save();
       $this->SAP($request);
+      $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos')->first();
+      Mail::send(new Rendido($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->solicitado->email));
     }
     public function handleGetReporteDetalle($id){
       $descargos=RendicionViaticosDetalle::where('RENDICION_VIATICOS_ID',$id)->with('centrocostos')->get();
       $solicitud=RendicionSolicitud::where('id',$id)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos')->first();
-      //$firma=base64_encode($solicitud->AUTORIZADO_ID.'@'.$solicitud->SOLICITADO_ID.'@'.md5('10').'@'.$solicitud->FECHA_SOLICITUD);
-      //$firma = str_replace(array('M','N','='),array('A','B','C'),$firma);
-      //$qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(500)->errorCorrection('H')->generate($firma));
       $pdf = \PDF::loadView('pdf.rendicion',compact('solicitud','descargos'));
       $pdf->setPaper("letter", "landscape");
       $pdf->getDomPDF()->set_option("enable_php", true);

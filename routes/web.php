@@ -1,6 +1,8 @@
 <?php
 
-Route::get('prueba','controllerAsistencia@handleGetReporteLCV');
+Route::get('prueba',function(){
+return  Storage::disk('solicitud_rendicion')->url('script.pdf');
+});
 Route::get('prueba2','Panel\controllerRedicionViaticos@pruebaSAP2');
 
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////

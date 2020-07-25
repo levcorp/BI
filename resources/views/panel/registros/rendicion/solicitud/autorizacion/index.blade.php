@@ -20,10 +20,15 @@
                 </div>
               <div class="box-body">
                   <el-table v-loading="loading" :data="data.solicitudes.noautorizado" max-height="250" style="width: 100%"  highlight-current-row>
-                      <el-table-column width="70" align="center" label="#">
+                      <el-table-column width="120" align="center" label="Nº Documento">
                           <template slot-scope="scope">
                               <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
                           </template>
+                      </el-table-column>
+                      <el-table-column align="center" width="120" label="Solicitado">
+                        <template slot-scope="scope">
+                            @{{scope.row.solicitado.nombre+' '+scope.row.solicitado.apellido}}
+                        </template>
                       </el-table-column>
                       <el-table-column align="center" prop="FECHA_SOLICITUD" label="Fecha Solicitud">
                         <template slot-scope="scope">
@@ -53,9 +58,16 @@
                       </el-table-column>
                       <el-table-column align="center" label="Acciones" width="180">
                           <template slot-scope="scope">
-                              <el-button circle size="mini" type="success" icon="el-icon-check" @click="handleAutorizarSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="danger" icon="el-icon-close" @click="handleRechazoSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="warning" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
+                            <el-dropdown @command="handleCommandSolicitudNoAutorizado">
+                              <el-button type="primary" size="mini">
+                                Opciones<i class="el-icon-arrow-down el-icon--right"></i>
+                              </el-button>
+                              <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item :command="{type:'autorizar',solicitud:scope.row}">Autorizar</el-dropdown-item>
+                                <el-dropdown-item :command="{type:'rechazar',solicitud:scope.row}">Rechazar</el-dropdown-item>
+                                <el-dropdown-item :command="{type:'show',solicitud:scope.row}">Detalle</el-dropdown-item>
+                              </el-dropdown-menu>
+                            </el-dropdown>
                           </template>
                       </el-table-column>
                   </el-table>
@@ -77,10 +89,15 @@
                 </div>
               <div class="box-body">
                   <el-table v-loading="loading" :data="data.solicitudes.autorizado" max-height="250" style="width: 100%"  highlight-current-row>
-                      <el-table-column width="70" align="center" label="#">
+                      <el-table-column width="120" align="center" label="Nº Documento">
                           <template slot-scope="scope">
                               <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
                           </template>
+                      </el-table-column>
+                      <el-table-column align="center" width="120" label="Solicitado">
+                        <template slot-scope="scope">
+                            @{{scope.row.solicitado.nombre+' '+scope.row.solicitado.apellido}}
+                        </template>
                       </el-table-column>
                       <el-table-column align="center" prop="FECHA_SOLICITUD" label="Fecha Solicitud">
                         <template slot-scope="scope">
@@ -101,8 +118,15 @@
                       <el-table-column align="center" prop="IMPORTE_SOLICITADO" label="Importe Solicitado"></el-table-column>
                       <el-table-column align="center" label="Acciones" width="180">
                           <template slot-scope="scope">
-                              <el-button circle size="mini" type="primary" icon="el-icon-notebook-2" @click="handleReporteSolicitud(scope.$index, scope.row)"></el-button>
-                              <el-button circle size="mini" type="warning" icon="el-icon-plus" @click="handleShowSolicitud(scope.$index, scope.row)"></el-button>
+                            <el-dropdown @command="handleCommandSolicitudAutorizado">
+                              <el-button type="primary" size="mini">
+                                Opciones<i class="el-icon-arrow-down el-icon--right"></i>
+                              </el-button>
+                              <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item :command="{type:'reporte',solicitud:scope.row}">Reporte</el-dropdown-item>
+                                <el-dropdown-item :command="{type:'show',solicitud:scope.row}">Detalle</el-dropdown-item>
+                              </el-dropdown-menu>
+                            </el-dropdown>
                           </template>
                       </el-table-column>
                   </el-table>

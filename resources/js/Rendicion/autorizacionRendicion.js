@@ -67,6 +67,26 @@ new Vue({
       this.handleGetCuentaContable()
     },
     methods: {
+      handleCommandSolicitudNoAprobada(command){
+        switch (command.type) {
+          case 'show':
+            this.handleShowSolicitud(command.solicitud)
+          break;
+          case 'detalle':
+            this.handleRendicionViaticos(command.solicitud)
+          break;
+        }
+      },
+      handleCommandSolicitudAprobada(command){
+        switch (command.type) {
+          case 'reporte':
+            this.handleReporteSolicitud(command.solicitud)
+          break;
+          case 'show':
+            this.handleShowSolicitud(command.solicitud)
+          break;
+        }
+      },
       handleGetRendicionesFinalizadaAutorizado(){
           var url='/api/rendicion/get/finalizada/autorizados/'+this.values.usuario_id
           axios.get(url).then(response=>{
@@ -79,7 +99,7 @@ new Vue({
             this.data.rendiciones.noautorizado=response.data
         })
       },
-      handleShowSolicitud(index,row){
+      handleShowSolicitud(row){
         this.data.solicitud=row
         this.data.banco=row.banco
         this.data.solicitado=row.solicitado
@@ -134,7 +154,7 @@ new Vue({
           })
         })
       },
-      handleRendicionViaticos(index,row){
+      handleRendicionViaticos(row){
         this.show.rendicion=true
         this.show.index=false
         this.data.rendicion=row
@@ -151,7 +171,7 @@ new Vue({
         this.show.rendicion=false
         this.show.index=true
       },
-      handleReporteSolicitud(index,row){
+      handleReporteSolicitud(row){
           this.loading=true
           var urlApi = '/api/rendicion/get/finalizada/reporte/'+row.id;
           axios({

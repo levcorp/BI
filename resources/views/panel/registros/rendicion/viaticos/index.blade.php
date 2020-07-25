@@ -138,7 +138,7 @@
     </div>
   </div>
   <el-table v-loading="loading" :data="data.viaticos" style="width: 100%" highlight-current-row max-height="450">
-      <el-table-column width="70" align="center" label="#" width="150">
+      <el-table-column width="70" align="center" label="#">
           <template slot-scope="scope">
               <span style="margin-top-left: 10px">@{{ scope.row.id }}</span>
           </template>
@@ -158,6 +158,7 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column align="center" prop="RAZON_SOCIAL" label="Razón Social" width="150"></el-table-column>
       <el-table-column align="center" prop="DESCRIPCION" label="Descripcion" width="150"></el-table-column>
       <el-table-column align="center" prop="NIT_PROVEEDOR" label="NIT Proveedor" width="150">
         <template slot-scope="scope">
@@ -195,7 +196,7 @@
               <el-button circle size="mini" type="danger" icon="el-icon-remove" @click="handleDeleteFactura(scope.$index, scope.row)"></el-button>
           </template>/
       </el-table-column>
-    </div>
+      </div>
   </el-table>
   <div class="row">
     <div class="col-12" v-if="data.rendicion.ESTADO=='4'">

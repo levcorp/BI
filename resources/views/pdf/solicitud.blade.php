@@ -208,6 +208,7 @@
     </table>
     <br>
     <br>
+    @if(isset($firma))
     <table cellpadding="0" cellspacing="0" style="width:100%;">
       <tr>
         <td style="text-align: center;font-size:12px;" width="100%">
@@ -228,6 +229,10 @@
         </td>
       </tr>
     </table>
+    @else
+    <table cellpadding="0" cellspacing="0" style="width:100%;height:120px">
+    </table>
+    @endif
     <hr style="margin:20px 0px 15px 0px;width:100%">
     <table cellpadding="0" cellspacing="0" style="width:100%;">
         <tr class="cabecera">
@@ -414,6 +419,7 @@
     </table>
     <br>
     <br>
+    @if(isset($firma))
     <table cellpadding="0" cellspacing="0" style="width:100%;">
       <tr>
         <td style="text-align: center;font-size:12px;" width="100%">
@@ -434,5 +440,6 @@
         </td>
       </tr>
     </table>
+    @endif
 </body>
 </html>

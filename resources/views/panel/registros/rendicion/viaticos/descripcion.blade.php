@@ -30,6 +30,18 @@
       </div>
       <div class="col-sm-12">
           <div>
+              <label for="" > Razon Social:</label>
+          </div>
+      </div>
+      <div style="margin-top:15px" class="col-sm-12">
+        <el-input
+        type="text"
+        placeholder="Razon Social"
+        v-model="factura.Razon_Social">
+        </el-input>
+      </div>
+      <div class="col-sm-12">
+          <div>
               <label for="" > Descripcion:</label>
           </div>
       </div>

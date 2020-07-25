@@ -12,13 +12,13 @@
             <tr>
                 <td>Fecha de Solicitud</td>
                 <td>
-                    @{{data.solicitud.FECHA_SOLICITUD}}
+                    @{{data.solicitud.FECHA_SOLICITUD | moment("Y-M-D")}}
                 </td>
             </tr>
             <tr>
                 <td>Fecha Desembolso</td>
                 <td>
-                      @{{data.solicitud.FECHA_DESEMBOLSO}}
+                      @{{data.solicitud.FECHA_DESEMBOLSO | moment("Y-M-D")}}
                 </td>
             </tr>
             <tr>
@@ -130,12 +130,12 @@
                 </td>
             </tr>
                  <tr>
-                <td>Cuenta</td>
+                <td>@{{data.solicitud.MEDIO_PAGO=='Cheque'?'Cheque a Nombre':'Cuenta'}}</td>
                 <td>
-                     @{{data.solicitud.CUENTA}}
+                   @{{data.solicitud.MEDIO_PAGO=='Cheque'?data.solicitud.CHEQUE_NOMBRE:data.solicitud.CUENTA}}
                 </td>
             </tr>
-              <tr>
+              <tr v-if="data.MEDIO_PAGO=='Abono Cuenta Bancaria'">
                 <td>Banco</td>
                 <td>
                   @{{((data.banco.Nombre))}}

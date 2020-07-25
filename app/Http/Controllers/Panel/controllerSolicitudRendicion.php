@@ -14,13 +14,20 @@ use PDF;
 use QrCode;
 use Crypt;
 use Config;
+use Storage;
+use App\Mail\Rendicion\Solicitud;
+use App\Mail\Rendicion\Autorizacion;
+use App\Mail\Rendicion\Desembolsar;
+use App\Mail\Rendicion\Desembolsado;
+use App\Mail\Rendicion\RechazarAutorizacion;
+use Mail;
 class controllerSolicitudRendicion extends Controller
 {
     public function handleGetUsuario($id){
         return Response::json(User::where('id',$id)->first());
     }
     public function handleStoreRendicionSolicitud(Request $request){
-        RendicionSolicitud::create([
+        $created=RendicionSolicitud::create([
             'FECHA_SOLICITUD'=>$request->FECHA_SOLICITUD,
             'FECHA_DESEMBOLSO'=>$request->FECHA_DESEMBOLSO,
             'DESCRIPCION'=>$request->DESCRIPCION,
@@ -36,15 +43,30 @@ class controllerSolicitudRendicion extends Controller
             'PRESUPUESTO'=>$request->PRESUPUESTO,
             'CENTRO_COSTOS_ID'=>$request->CENTRO_COSTOS_ID,
             'TIPO_SOLICITUD_ID'=>$request->TIPO_SOLICITUD_ID,
-            'ESTADO'=>0
+            'ESTADO'=>0,
+            'CHEQUE_NOMBRE'=>$request->CHEQUE_NOMBRE
         ]);
+        $solicitud=RendicionSolicitud::where('id',$created->id)->with('banco','solicitado','autorizado','solicitado.sucursal')->first();
+        //$firma=base64_encode($solicitud->AUTORIZADO_ID.'@'.$solicitud->SOLICITADO_ID.'@'.md5('10').'@'.$solicitud->FECHA_SOLICITUD);
+        //$firma = str_replace(array('M','N','='),array('A','B','C'),$firma);
+        //$qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(500)->errorCorrection('H')->generate($firma));
+        $label=strtoupper($request->label);
+        $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label'));
+        $pdf->setPaper("letter", "portrait");
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        Storage::disk('solicitud_rendicion')->put('Solicitud'.$solicitud->id.'.pdf', $pdf->output());
+        Mail::send(new Solicitud($created->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->autorizado->nombre.' '.$solicitud->autorizado->apellido,$solicitud->autorizado->email));
     }
     public function handleGetBancosRendicion(){
         return Response::json(BancosRendicion::all());
     }
     public function handleGetSolicitudesUsuarioAprobado($id){
       //Estado 1 Autorizado
-        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->where('ESTADO',1)->orWhere('ESTADO',3)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
+      return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)
+                                              ->where(function($query){
+                                                  $query->where('ESTADO',1)->orWhere('ESTADO',3);
+                                              })->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')
+                                              ->get());
     }
     public function handleGetSolicitudesUsuarioNoAprobado($id){
       //Estado 0 Pendiente
@@ -77,6 +99,7 @@ class controllerSolicitudRendicion extends Controller
         'PRESUPUESTO'=>$request->PRESUPUESTO,
         'CENTRO_COSTOS_ID'=>$request->CENTRO_COSTOS_ID,
         'TIPO_SOLICITUD_ID'=>$request->TIPO_SOLICITUD_ID,
+        'CHEQUE_NOMBRE'=>$request->CHEQUE_NOMBRE
       ])->save();
     }
     public function handleEnviarSolicitud(Request $request){
@@ -99,6 +122,8 @@ class controllerSolicitudRendicion extends Controller
         'ESTADO'=>3,
         'FECHA_DESEMBOLSO_TESORERIA'=>$request->FECHA_DESEMBOLSO_TESORERIA
       ])->save();
+      $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal')->first();
+      Mail::send(new Desembolsado($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->solicitado->email,$solicitud->FECHA_DESEMBOLSO_TESORERIA));
     }
     public function handleSolicitudPDF(Request $request){
       $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal')->first();
@@ -122,11 +147,24 @@ class controllerSolicitudRendicion extends Controller
         'ESTADO'=>2,
         'RECHAZO'=>$request->RECHAZO
       ])->save();
+      $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal')->first();
+      Mail::send(new RechazarAutorizacion($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->autorizado->nombre.' '.$solicitud->autorizado->apellido,$solicitud->solicitado->email,$solicitud->RECHAZO));
     }
     public function handleAutorizarSolicitud(Request $request){
       RendicionSolicitud::findOrFail($request->id)->fill([
         'ESTADO'=>1,
       ])->save();
+      $solicitud=RendicionSolicitud::where('id',$request->id)->with('banco','solicitado','autorizado','solicitado.sucursal')->first();
+      $firma=base64_encode($solicitud->AUTORIZADO_ID.'@'.$solicitud->SOLICITADO_ID.'@'.md5('10').'@'.$solicitud->FECHA_SOLICITUD);
+      $firma = str_replace(array('M','N','='),array('A','B','C'),$firma);
+      $qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(500)->errorCorrection('H')->generate($firma));
+      $label=strtoupper($request->label);
+      $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','qrcode','firma'));
+      $pdf->setPaper("letter", "portrait");
+      $pdf->getDomPDF()->set_option("enable_php", true);
+      Storage::disk('solicitud_rendicion')->put('Solicitud'.$solicitud->id.'.pdf', $pdf->output());
+      Mail::send(new Autorizacion($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->autorizado->nombre.' '.$solicitud->autorizado->apellido,$solicitud->solicitado->email));
+      Mail::send(new Desembolsar($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->autorizado->nombre.' '.$solicitud->autorizado->apellido,'gpinto@levcorp.bo'));
     }
     public function handleGetProcesamiento(){
       return Response::json(RendicionSolicitud::where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos','tiposolicitud')->get());

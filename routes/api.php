@@ -1,3 +1,4 @@
+
 <?php
 /////////////////////Asistencia/////////////////////////////////
 Route::get('asistencia/tolerancia','controllerAsistencia@handleGetTipoRegistros');

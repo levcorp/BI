@@ -34,7 +34,8 @@ class RendicionSolicitud extends Model
         'TIPO_SOLICITUD_ID',
         'RECHAZO',
         'CENTRO_COSTOS_ID',
-        'FECHA_DESEMBOLSO_TESORERIA'
+        'FECHA_DESEMBOLSO_TESORERIA',
+        'CHEQUE_NOMBRE'
     ];
     public $timestamps=false;
     public function banco(){

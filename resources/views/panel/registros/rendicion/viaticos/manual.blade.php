@@ -19,6 +19,9 @@
               </el-select>
             </el-form-item>
             <div v-if="show.conIVA">
+              <el-form-item label="Razon Social">
+                  <el-input type="text" v-model="data.facturaManual.Razon_Social"></el-input>
+              </el-form-item>
               <el-form-item label="NIT Emisor">
                   <el-input type="text" v-model="data.facturaManual.NIT_Emisor"></el-input>
               </el-form-item>
@@ -31,9 +34,6 @@
               <el-form-item label="Codigo de Control">
                   <el-input type="email" v-model="data.facturaManual.Codigo_Control"></el-input>
               </el-form-item>
-              <el-form-item label="Fecha de Emision">
-                  <el-input type="text" v-model="data.facturaManual.Fecha_Emision"></el-input>
-              </el-form-item>
               <el-form-item label="Total">
                   <el-input type="text" v-model="data.facturaManual.Total"></el-input>
               </el-form-item>
@@ -42,6 +42,9 @@
               </el-form-item>
             </div>
             <div v-if="show.sinIVA">
+              <el-form-item label="Razon Social">
+                  <el-input type="text" v-model="data.facturaManual.Razon_Social"></el-input>
+              </el-form-item>
               <el-form-item label="Fecha de Gasto">
                   <el-date-picker style="width:100%" value-format="dd/MM/yyyy" format="dd/MM/yyyy" v-model="data.facturaManual.Fecha_Emision" type="date"></el-date-picker>
               </el-form-item>

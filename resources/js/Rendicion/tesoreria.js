@@ -49,6 +49,29 @@ new Vue({
       this.handleGetRendicionesSolicitudDesembolsado()
     },
     methods: {
+      handleCommandSolicitudProcesada(command){
+        switch (command.type) {
+          case 'desembolso':
+            this.handleDesembolsoSolicitud(command.solicitud)
+          break;
+          case 'reporte':
+            this.handleReporteSolicitud(command.solicitud)
+          break;
+          case 'show':
+            this.handleShowSolicitud(command.solicitud)
+          break;
+        }
+      },
+      handleCommandSolicitudDesembolsado(command){
+        switch (command.type) {
+          case 'reporte':
+            this.handleReporteSolicitud(command.solicitud)
+          break;
+          case 'show':
+            this.handleShowSolicitud(command.solicitud)
+          break;
+        }
+      },
       handleGetRendicionesSolicitudProcesamiento(){
           var url='/api/rendicion/solicitudes/procesamiento'
           axios.get(url).then(response=>{
@@ -61,14 +84,14 @@ new Vue({
             this.data.solicitudes.desembolsado=response.data
         })
       },
-      handleShowSolicitud(index,row){
+      handleShowSolicitud(row){
         this.data.solicitud=row
         this.data.banco=row.banco
         this.data.solicitado=row.solicitado
         this.data.autorizado=row.autorizado
         $('#show').modal('show')
       },
-      handleDesembolsoSolicitud(index,row){
+      handleDesembolsoSolicitud(row){
         this.show.desembolso=true;
         this.data.desembolso.id=row.id
       },
@@ -90,7 +113,7 @@ new Vue({
           })
         })
       },
-      handleReporteSolicitud(index,row){
+      handleReporteSolicitud(row){
           this.loading=true
           var urlApi = '/api/rendicion/solicitud/pdf';
           axios({

@@ -14,6 +14,10 @@ return [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\usuarios',
         ],
+        'solicitud_rendicion' => [
+            'driver' => 'local',
+            'root' => base_path().'\public\archivos\solicitud_rendicion',
+        ],
         'ubicaciones' => [
             'driver' => 'local',
             'root' => base_path().'\public\archivos\ubicaciones',
