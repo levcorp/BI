@@ -71,7 +71,7 @@ class controllerRendicionFinalizacion extends Controller
         return $archivo="<Transfer>
           <Logon>
             <UserName>sist_lp1</UserName>
-            <Password>SIgJnJvLkLrDoDyFrB</Password>
+            <Password>TJjKjNpNmJsAmByFsC</Password>
             <Company>LEVCORP_PRUEBA</Company>
             <Server>saphana:30015</Server>
             <UserAuthentication>False</UserAuthentication>
@@ -98,9 +98,9 @@ class controllerRendicionFinalizacion extends Controller
             </Extorlogin>
             <FilesTypes>1</FilesTypes>
             <Files>
-              <JournalVouchers>$urlCabecera</JournalVouchers>
-              <JournalEntries>$urlSubCabecera</JournalEntries>
-              <JournalEntries_Lines>$urlDetalle</JournalEntries_Lines>
+            <JournalVouchers>$urlCabecera</JournalVouchers>
+            <JournalEntries>$urlSubCabecera</JournalEntries>
+            <JournalEntries_Lines>$urlDetalle</JournalEntries_Lines>
             </Files>
           </FileExtractor>
           <Map>
@@ -122,7 +122,7 @@ class controllerRendicionFinalizacion extends Controller
                   <Reference2 />
                   <Memo />
                   <U_GLOSAM />
-                  <RefDate />
+                  <ReferenceDate />
                 </SourceFields>
                 <TargetFields>
                   <RecordKey>RecordKey</RecordKey>
@@ -131,37 +131,65 @@ class controllerRendicionFinalizacion extends Controller
                   <Reference2>Reference2</Reference2>
                   <Memo>Memo</Memo>
                   <U_GLOSAM>U_GlosaM</U_GLOSAM>
-                  <RefDate>ReferenceDate</RefDate>
+                  <ReferenceDate>ReferenceDate</ReferenceDate>
                 </TargetFields>
               </JournalEntries>
               <JournalEntries_Lines>
                 <SourceFields>
                   <RecordKey />
+                  <ParentKey />
                   <Line_ID />
                   <AccountCode />
-                  <ShortName />
-                  <Reference1 />
-                  <Reference2 />
                   <FCDebit />
                   <FCCredit />
-                  <Debit />
-                  <Credit />
+                  <FCCurrency />
                   <DueDate />
+                  <ShortName />
+                  <ContraAccount />
+                  <LineMemo />
                   <CostingCode2 />
+                  <U_FechaFac />
+                  <U_IUE />
+                  <U_CARDNAME />
+                  <U_ICE />
+                  <U_EXENTO />
+                  <U_Importe />
+                  <U_TipoDoc />
+                  <U_CODALFA />
+                  <U_NUM_FACT />
+                  <U_NUMORDER />
+                  <U_NUMPOL />
+                  <U_RUC />
+                  <U_TIPOCOM />
+                  <U_DESCUENTO />
+                  <U_ESTADOFC />
                 </SourceFields>
                 <TargetFields>
                   <RecordKey>RecordKey</RecordKey>
                   <Line_ID>Line_ID</Line_ID>
                   <AccountCode>AccountCode</AccountCode>
-                  <ShortName>ShortName</ShortName>
-                  <Reference1>Reference1</Reference1>
-                  <Reference2>Reference2</Reference2>
                   <FCDebit>FCDebit</FCDebit>
                   <FCCredit>FCCredit</FCCredit>
-                  <Debit>Debit</Debit>
-                  <Credit>Credit</Credit>
+                  <FCCurrency>FCCurrency</FCCurrency>
                   <DueDate>DueDate</DueDate>
+                  <ShortName>ShortName</ShortName>
+                  <ContraAccount>ContraAccount</ContraAccount>
+                  <LineMemo>LineMemo</LineMemo>
                   <CostingCode2>CostingCode2</CostingCode2>
+                  <U_FechaFac>U_FechaFac</U_FechaFac>
+                  <U_IUE>U_IUE</U_IUE>
+                  <U_CARDNAME>U_CARDNAME</U_CARDNAME>
+                  <U_ICE>U_ICE</U_ICE>
+                  <U_EXENTO>U_EXENTO</U_EXENTO>
+                  <U_Importe>U_Importe</U_Importe>
+                  <U_TipoDoc>U_TipoDoc</U_TipoDoc>
+                  <U_CODALFA>U_CODALFA</U_CODALFA>
+                  <U_NUM_FACT>U_NUM_FACT</U_NUM_FACT>
+                  <U_NUMPOL>U_NUMPOL</U_NUMPOL>
+                  <U_RUC>U_RUC</U_RUC>
+                  <U_TIPOCOM>U_TIPOCOM</U_TIPOCOM>
+                  <U_DESCUENTO>U_DESCUENTO</U_DESCUENTO>
+                  <U_ESTADOFC>U_ESTADOFC</U_ESTADOFC>
                 </TargetFields>
               </JournalEntries_Lines>
             </Fields>

@@ -296,7 +296,7 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
     }
     public function ContraAccount($id){
         if($id=='97483647'){
-            return $this->cuenta;  
+            return $this->cuenta;
         }else{
             return '';
         }
@@ -381,7 +381,7 @@ class AsientoContableDetalle implements FromQuery, WithMapping,WithHeadings
     }
     public function AccountCode($id,$state,$tipo){
         if($id=='97483647'){
-            return $this->cuenta;  
+            return $this->cuenta;
         }else{
             if($tipo=='Sin IVA'){
                 return '';
