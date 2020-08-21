@@ -116,6 +116,6 @@ class controllerRedicionViaticos extends Controller
       $pdf->setPaper("letter", "landscape");
       $pdf->getDomPDF()->set_option("enable_php", true);
       Storage::disk('solicitud_rendicion')->put('Rendicion'.$solicitud->id.'.pdf', $pdf->output());
-      Mail::send(new Rendicion($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,'gpinto@levcorp.bo'));
+      Mail::send(new Rendicion($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,'jjimenez@levcorp.bo'));
     }
 }

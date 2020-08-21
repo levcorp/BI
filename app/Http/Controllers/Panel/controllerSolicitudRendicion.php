@@ -167,7 +167,7 @@ class controllerSolicitudRendicion extends Controller
       $pdf->getDomPDF()->set_option("enable_php", true);
       Storage::disk('solicitud_rendicion')->put('Solicitud'.$solicitud->id.'.pdf', $pdf->output());
       Mail::send(new Autorizacion($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->autorizado->nombre.' '.$solicitud->autorizado->apellido,$solicitud->solicitado->email));
-      Mail::send(new Desembolsar($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->autorizado->nombre.' '.$solicitud->autorizado->apellido,'gpinto@levcorp.bo'));
+      Mail::send(new Desembolsar($request->id,$solicitud->solicitado->nombre.' '.$solicitud->solicitado->apellido,$solicitud->autorizado->nombre.' '.$solicitud->autorizado->apellido,'jjimenez@levcorp.bo'));
     }
     public function handleGetProcesamiento(){
       return Response::json(RendicionSolicitud::where('ESTADO',1)->with('banco','solicitado','autorizado','solicitado.sucursal','centrocostos','tiposolicitud')->get());
