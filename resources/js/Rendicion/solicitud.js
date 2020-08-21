@@ -7,7 +7,9 @@ import locale from 'element-ui/lib/locale';
 import Vue2Filters from 'vue2-filters'
 import VueMoment from 'vue-moment';
 import VueQrcodeReader from "vue-qrcode-reader";
+import vSelect from 'vue-select'
 
+Vue.component('v-select', vSelect)
 const moment = require('moment')
 require('moment/locale/es')
 Vue.use(VueQrcodeReader);
@@ -23,6 +25,12 @@ new Vue({
     el:'#app',
     data(){
         return {
+          pickerOptions: {
+            disabledDate(time) {
+              const date = new Date()
+              return time.getTime() < date.setTime(date.getTime() - 3600 * 1000 * 24)
+            },
+          },
           result: '',
           error: '',
           factura:{
@@ -58,14 +66,20 @@ new Vue({
                 cuentaEdit:false,
                 conIVA:false,
                 sinIVA:true,
-                costos:false
+                costos:false,
+                autorizacion:false,
+                banco:false,
+                cuenta:false,
+                tiposolicitud:false,
+                centrocostos:false
             },
             values:{
                 sucursal_id:'',
                 usuario_id:'',
                 literal:'',
                 objectguid:'',
-                cuenta:''
+                cuenta:'',
+                decimal:'',
             },
             solicitud:{
                 FECHA_SOLICITUD:new Date(),
@@ -110,6 +124,8 @@ new Vue({
                 banco:[],
                 solicitado:[],
                 autorizado:[],
+                tiposolicitud:[],
+                centrocostos:[],
                 solicitudEdit:{
                   FECHA_DESEMBOLSO:null,
                   PRESUPUESTO:null
@@ -157,7 +173,13 @@ new Vue({
             errors:[],
             values:[],
             errorsSolicitud:[],
-            errorsSolicitudEdit:[]
+            errorsSolicitudEdit:[],
+            load:{
+              create:false,
+              edit:false,
+              factura:false,
+              facturaManual:false,
+            }
         }
     },
     mounted () {
@@ -169,6 +191,7 @@ new Vue({
         this.handleGetRendicionesSolicitudRechazado()
         this.handleGetDateMore()
         this.handleGetTipoSolicitud()
+        this.handleGetCentroCostos()
     },
     watch: {
         'data.facturaManual.tipo':function(newValue, oldValue){
@@ -183,10 +206,12 @@ new Vue({
             }
         },
         'solicitud.IMPORTE_SOLICITADO' :function(newValue, oldValue) {
-            this.values.literal=writtenNumber(newValue)
+            this.values.literal=writtenNumber(parseInt(newValue))
+            this.values.decimal=parseInt((newValue-Math.floor(newValue))*100)
         },
         'data.solicitudEdit.IMPORTE_SOLICITADO' :function(newValue, oldValue) {
-            this.values.literal=writtenNumber(newValue)
+            this.values.literal=writtenNumber(parseInt(newValue))
+            this.values.decimal=parseInt((newValue-Math.floor(newValue))*100)
         },
         'solicitud.MEDIO_PAGO' :function(newValue, oldValue) {
             if(newValue=='Abono Cuenta Bancaria')
@@ -223,14 +248,6 @@ new Vue({
                 this.data.solicitudEdit.CUENTA=null
                 this.show.cuentaEdit=false
             }
-        },
-        'solicitud.TIPO_SOLICITUD_ID' :function(newValue, oldValue) {
-            this.handleGetCentroCostos(newValue)
-            this.solicitud.CENTRO_COSTOS_ID=null
-        },
-        'data.solicitudEdit.TIPO_SOLICITUD_ID' :function(newValue, oldValue) {
-            this.handleGetCentroCostos(newValue)
-            this.data.solicitudEdit.CENTRO_COSTOS_ID=null
         },
         'solicitud.URGENTE' :function(newValue, oldValue) {
             if(!newValue)
@@ -307,12 +324,15 @@ new Vue({
           this.solicitud.FECHA_DESEMBOLSO.setDate(this.solicitud.FECHA_DESEMBOLSO.getDate()+parseInt(dias));
         },
         handleShowSolicitud(row){
+          console.log("entro");
           var url='/api/rendicion/solicitud/get/'+row.id
           axios.get(url).then(response=>{
             this.data.solicitud=response.data
             this.data.banco=response.data.banco
             this.data.solicitado=response.data.solicitado
             this.data.autorizado=response.data.autorizado
+            this.data.centrocostos=response.data.centrocostos
+            this.data.tiposolicitud=response.data.tiposolicitud
             $('#show').modal('show')
           })
         },
@@ -401,9 +421,14 @@ new Vue({
           console.log(this.errorsSolicitud)
         },
         handleStoreRendicionSolicitud(){
+            this.load.create=true
             this.solicitud.SOLICITADO_ID=this.data.usuario.id
             var url='/api/rendicion/solicitud/store'
-            axios.post(url,this.solicitud).then(response=>{
+            axios.post(url,{
+              solicitud:this.solicitud,
+              label:writtenNumber(parseInt(this.solicitud.IMPORTE_SOLICITADO)),
+              decimal:parseInt((this.solicitud.IMPORTE_SOLICITADO - Math.floor(this.solicitud.IMPORTE_SOLICITADO))*100)
+            }).then(response=>{
                 this.handleGetRendicionesSolicitudAprobado();
                 this.handleGetRendicionesSolicitudNoAprobado();
                 this.handleGetRendicionesSolicitudRechazado();
@@ -414,6 +439,7 @@ new Vue({
                     message: 'La solicitud fue creada exitosamente',
                 });
                 this.errorsSolicitud=[]
+                this.load.create=false
             })
         },
         handleGetUsuario(){
@@ -437,6 +463,11 @@ new Vue({
           this.show.edit=false
           this.show.index=true
           this.show.rendicion=false
+          this.show.autorizacion=false,
+          this.show.banco=false,
+          this.show.cuenta=false,
+          this.show.tiposolicitud=false,
+          this.show.centrocostos=false
           this.handleGetRendicionesSolicitudAprobado();
           this.handleGetRendicionesSolicitudNoAprobado();
           this.handleGetRendicionesSolicitudRechazado();
@@ -445,11 +476,7 @@ new Vue({
           this.show.edit=true
           this.show.index=false
           this.data.solicitudEdit=row
-          this.data.solicitudEdit.TIPO_SOLICITUD_ID=null
-          this.data.solicitudEdit.CENTRO_COSTOS_ID=null
-          this.data.solicitudEdit.AUTORIZADO_ID=null
-          this.data.solicitudEdit.BANCO_ID=null
-          this.data.solicitudEdit.CUENTA=null
+          console.log(row)
           if(row.URGENTE==1){
             this.data.solicitudEdit.URGENTE=true
           }else{
@@ -482,7 +509,7 @@ new Vue({
         handleGetUsuarios(){
             var url = "/api/tareas/users";
             axios.get(url).then(response => {
-                this.data.usuarios = response.data;
+                this.data.usuarios = response.data
             })
         },
         handleValidUpdateSolicitud(){
@@ -532,6 +559,7 @@ new Vue({
           console.log(this.errorsSolicitudEdit)
         },
         handleUpdateSolicitud(){
+            this.load.edit=true
             var url='/api/rendicion/solicitud/update'
             axios.post(url,this.data.solicitudEdit).then(response=>{
               this.handleGetRendicionesSolicitudAprobado();
@@ -543,6 +571,7 @@ new Vue({
                   type: 'success',
                   message: 'La solicitud se actualizo correctamente'
                 });
+                this.load.edit=false
             });
         },
         handleReporteSolicitud(row){
@@ -554,7 +583,8 @@ new Vue({
                 responseType: 'blob', // important
                 data:{
                   id:row.id,
-                  label:writtenNumber(row.IMPORTE_SOLICITADO)
+                  label:writtenNumber(parseInt(row.IMPORTE_SOLICITADO)),
+                  decimal:parseInt((row.IMPORTE_SOLICITADO - Math.floor(row.IMPORTE_SOLICITADO))*100)
                 }
             }).then(response => {
                 const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -577,7 +607,7 @@ new Vue({
           this.data.centrocostos.NOMBRE=row.centrocostos.NOMBRE
           console.log(this.data.centrocostos.NOMBRE)
           this.handleGetViaticoDetalle()
-          this.handleGetCentroCostosRendicion(this.data.rendicion.TIPO_SOLICITUD_ID)
+          this.handleGetCentroCostosRendicion()
         },
         handleRendicionFacturas(){
           this.show.rendicion=false
@@ -658,6 +688,7 @@ new Vue({
             }
         },
         handleStoreFactura(){
+          this.load.factura=true
           var url='/api/rendicion/viaticos/store'
           this.factura.id=this.data.rendicion.id
           axios.post(url,this.factura).then(response=>{
@@ -685,9 +716,11 @@ new Vue({
             this.show.camara=true;
             this.show.success=false;
             this.errors=[];
+            this.load.factura=false
           })
         },
         handleStoreFacturaManual(){
+          this.load.facturaManual=true
           var url='/api/rendicion/viaticos/factura/manual'
           this.data.facturaManual.id=this.data.rendicion.id
           axios.post(url,this.data.facturaManual).then(response=>{
@@ -704,6 +737,7 @@ new Vue({
             this.data.facturaManual.Descripcion=null
             this.data.facturaManual.CENTRO_COSTOS_ID=null
             this.data.facturaManual.id=null
+            this.load.facturaManual=false
           })
         },
         handleGetViaticoDetalle(){
@@ -735,9 +769,9 @@ new Vue({
         handleShowFacturaManual(){
           $('#facturaManual').modal('show')
         },
-        handleGetCentroCostos(TIPO_SOLICITUD_ID){
+        handleGetCentroCostos(){
           this.data.centroCostos=[]
-          var url="/api/rendicion/get/centrocostos/"+TIPO_SOLICITUD_ID
+          var url="/api/rendicion/get/centrocostos"
           axios.get(url).then(response=>{
             this.data.centroCostos=response.data
           });
@@ -748,9 +782,9 @@ new Vue({
             this.data.tipoSolicitud=response.data
           });
         },
-        handleGetCentroCostosRendicion(TIPO_SOLICITUD_ID){
+        handleGetCentroCostosRendicion(){
           this.data.centroCostosRendicion=[]
-          var url="/api/rendicion/get/centrocostos/"+TIPO_SOLICITUD_ID
+          var url="/api/rendicion/get/centrocostos/"
           axios.get(url).then(response=>{
             this.data.centroCostosRendicion=response.data
           });
@@ -771,6 +805,38 @@ new Vue({
             this.handleGetRendicionesSolicitudNoAprobado()
             this.handleGetRendicionesSolicitudRechazado()
           });
+        },
+        handleShowAutorizacion(){
+          if(this.show.autorizacion){
+            this.show.autorizacion=false
+          }else{
+            this.show.autorizacion=true
+            this.data.solicitudEdit.AUTORIZADO_ID=null
+          }
+        },
+        handleShowBanco(){
+          if(this.show.banco){
+            this.show.banco=false
+          }else{
+            this.show.banco=true
+            this.data.solicitudEdit.BANCO_ID=null
+          }
+        },
+        handleShowTipoSolicitud(){
+          if(this.show.tiposolicitud){
+            this.show.tiposolicitud=false
+          }else{
+            this.show.tiposolicitud=true
+            this.data.solicitudEdit.TIPO_SOLICITUD_ID=null
+          }
+        },
+        handleShowCentroCostos(){
+          if(this.show.centrocostos){
+            this.show.centrocostos=false
+          }else{
+            this.show.centrocostos=true
+            this.data.solicitudEdit.CENTRO_COSTOS_ID=null
+          }
         }
     },
 })

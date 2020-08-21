@@ -20,6 +20,12 @@ new Vue({
     el:'#app',
     data(){
         return {
+              pickerOptions: {
+                disabledDate(time) {
+                  const date = new Date()
+                  return time.getTime() < date.setTime(date.getTime() - 3600 * 1000 * 24)
+                },
+              },
               show:{
                   autorizacion:false,
                   rechazo:false
@@ -39,6 +45,8 @@ new Vue({
                 },
                 autorizado:[],
                 solicitado:[],
+                tiposolicitud:[],
+                centrocostos:[],
                 rechazo:{
                   RECHAZO:'',
                   id:null
@@ -92,6 +100,8 @@ new Vue({
         this.data.banco=row.banco
         this.data.solicitado=row.solicitado
         this.data.autorizado=row.autorizado
+        this.data.centrocostos=row.centrocostos
+        this.data.tiposolicitud=row.tiposolicitud
         $('#show').modal('show')
       },
       handleRechazoSolicitud(row){
@@ -138,7 +148,8 @@ new Vue({
               responseType: 'blob', // important
               data:{
                 id:row.id,
-                label:writtenNumber(row.IMPORTE_SOLICITADO)
+                label:writtenNumber(parseInt(row.IMPORTE_SOLICITADO)),
+                decimal:parseInt((row.IMPORTE_SOLICITADO - Math.floor(row.IMPORTE_SOLICITADO))*100)
               }
           }).then(response => {
               const url = window.URL.createObjectURL(new Blob([response.data]));

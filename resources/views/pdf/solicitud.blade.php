@@ -98,12 +98,12 @@
         </td>
         <td style="text-align: left;font-size:12px;" width="20%">
           <p style="margin:7px 0px;">
-            {{'Bs. '.$solicitud->IMPORTE_SOLICITADO}}
+            {{'Bs. '.number_format($solicitud->IMPORTE_SOLICITADO, 2)}}
           </p>
         </td>
         <td style="text-align: left;font-size:12px;" width="60%">
           <p style="margin:7px 0px;">
-            {{$label}} 00/100 BOLIVIANOS
+            {{$label}} {{$decimal}}/100 BOLIVIANOS
           </p>
         </td>
       </tr>
@@ -309,12 +309,12 @@
         </td>
         <td style="text-align: left;font-size:12px;" width="20%">
           <p style="margin:7px 0px;">
-            {{'Bs. '.$solicitud->IMPORTE_SOLICITADO}}
+            {{'Bs. '.number_format($solicitud->IMPORTE_SOLICITADO, 2)}}
           </p>
         </td>
         <td style="text-align: left;font-size:12px;" width="60%">
           <p style="margin:7px 0px;">
-            {{$label}} 00/100 BOLIVIANOS
+            {{$label}} {{$decimal}}/100 BOLIVIANOS
           </p>
         </td>
       </tr>

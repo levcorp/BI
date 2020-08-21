@@ -1,4 +1,4 @@
-<div class="box-header">
+<div class="box-header"  v-loading="load.create">
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
             <p style="font-size: 15px">
@@ -27,7 +27,7 @@
     <li v-for="error in errorsSolicitud">@{{error}}</li>
   </ul>
 </el-alert>
-<div class="box-body" style="margin:0px 20px;">
+<div class="box-body" style="margin:0px 20px;" v-loading="load.create">
     <div class="row" style="margin-top:15px;">
         <div class="col-sm-12">
             <div class="row">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="col-sm-10">
-                    <el-date-picker disabled style="width:100%;" placeholder="Elija una fecha" size="small" v-model="solicitud.FECHA_SOLICITUD"></el-date-picker>
+                    <el-date-picker :picker-options="pickerOptions" disabled style="width:100%;" placeholder="Elija una fecha" size="small" v-model="solicitud.FECHA_SOLICITUD"></el-date-picker>
                 </div>
             </div>
         </div>
@@ -71,11 +71,11 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="pull-right">
-                        <label for="" > Fecha de desembolso requerido :</label>
+                        <label for="" > Fecha de desembolso requerida :</label>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <el-date-picker :disabled="!solicitud.URGENTE" style="width:100%;" placeholder="Elija una fecha" size="small" v-model="solicitud.FECHA_DESEMBOLSO"></el-date-picker>
+                    <el-date-picker :picker-options="pickerOptions" :disabled="!solicitud.URGENTE" style="width:100%;" placeholder="Elija una fecha" size="small" v-model="solicitud.FECHA_DESEMBOLSO"></el-date-picker>
                 </div>
             </div>
         </div>
@@ -104,7 +104,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <label style="margin-top:5px;color:#409EFF;">@{{values.literal | uppercase}} 00/100 BOLIVIANOS</label>
+            <label style="margin-top:5px;color:#409EFF;">@{{values.literal | uppercase}} @{{values.decimal}}/100 BOLIVIANOS</label>
         </div>
     </div>
     <div class="row" style="margin-top:15px;">

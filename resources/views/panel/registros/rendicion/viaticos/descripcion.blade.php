@@ -2,7 +2,9 @@
   title="¿Añadir Factura?"
   :visible.sync="show.descripcion"
   width="30%"
-  center>
+  center
+  v-loading="load.factura"
+  >
   <div class="row text-center">
       <div class="col-sm-12">
           <div>

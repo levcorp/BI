@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <el-date-picker :disabled="!data.solicitudEdit.URGENTE" style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_DESEMBOLSO"></el-date-picker>
+                    <el-date-picker :picker-options="pickerOptions"  :disabled="!data.solicitudEdit.URGENTE" style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.solicitudEdit.FECHA_DESEMBOLSO"></el-date-picker>
                 </div>
             </div>
         </div>
@@ -142,16 +142,24 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <el-select style="width:100%;" clearable v-model="data.solicitudEdit.AUTORIZADO_ID" filterable placeholder="Seleccionar Usuario" size="small">
-                        <el-option
-                            v-for="item in data.usuarios"
-                            :key="item.nombre+' '+item.apellido"
-                            :label="item.nombre+' '+item.apellido"
-                            :value="item.id">
-                            <span style="float: left">@{{ item.nombre+' '+item.apellido }}</span>
-                            <span style="float: right; color: #8492a6; font-size: 13px"><i class="el-icon-user"></i></span>
-                        </el-option>
-                    </el-select>
+                    <el-form :inline="true" label-width="150px" :model="factura" class="demo-form-inline">
+                      <el-form-item >
+                        <el-select v-if="show.autorizacion" style="width:100%;" clearable v-model="data.solicitudEdit.AUTORIZADO_ID" filterable placeholder="Seleccionar Usuario" size="small">
+                            <el-option
+                                v-for="item in data.usuarios"
+                                :key="item.nombre+' '+item.apellido"
+                                :label="item.nombre+' '+item.apellido"
+                                :value="item.id">
+                                <span style="float: left">@{{ item.nombre+' '+item.apellido }}</span>
+                                <span style="float: right; color: #8492a6; font-size: 13px"><i class="el-icon-user"></i></span>
+                            </el-option>
+                        </el-select>
+                        <el-tag v-if="!show.autorizacion" type="primary">@{{data.solicitudEdit.autorizado.nombre+" "+data.solicitudEdit.autorizado.apellido}}</el-tag>
+                      </el-form-item>
+                      <el-form-item>
+                        <el-button v-if="!show.autorizacion" size="small" type="primary" @click="handleShowAutorizacion" icon="el-icon-edit"></el-button>
+                      </el-form-item>
+                    </el-form>
                 </div>
             </div>
         </div>
@@ -189,7 +197,7 @@
         </div>
     </div>
     <div class="row" style="margin-top:15px;">
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="pull-right">
@@ -212,7 +220,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-5">
              <div class="row" v-if="show.abono">
                 <div class="col-sm-3">
                     <div class="pull-right">
@@ -220,14 +228,22 @@
                     </div>
                 </div>
                 <div class="col-sm-9">
-                    <el-select style="width:100%;" filterable clearable v-model="data.solicitudEdit.BANCO_ID" size="small" placeholder="Elija una Opción">
-                        <el-option
-                        v-for="item in data.bancos"
-                        :key="item.Nombre"
-                        :label="item.Nombre"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
+                  <el-form :inline="true" :model="factura" class="demo-form-inline">
+                    <el-form-item >
+                      <el-select style="width:100%;" v-if="show.banco" filterable clearable v-model="data.solicitudEdit.BANCO_ID" size="small" placeholder="Elija una Opción">
+                          <el-option
+                          v-for="item in data.bancos"
+                          :key="item.Nombre"
+                          :label="item.Nombre"
+                          :value="item.id">
+                          </el-option>
+                      </el-select>
+                      <el-tag v-if="!show.banco" type="primary">@{{data.solicitudEdit.banco.Nombre}}</el-tag>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button v-if="!show.banco" size="small" type="primary" @click="handleShowBanco" icon="el-icon-edit"></el-button>
+                    </el-form-item>
+                  </el-form>
                 </div>
             </div>
         </div>
@@ -235,21 +251,29 @@
     <div class="row" style="margin-top:15px;">
         <div class="col-sm-6">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="pull-right">
                         <label for="" style="margin-top:5px;">Tipo Solicitud</label>
                     </div>
                 </div>
-                <div class="col-sm-8">
-                    <el-select style="width:100%;" clearable v-model="data.solicitudEdit.TIPO_SOLICITUD_ID" filterable placeholder="Seleccionar Tipo Solicitud" size="small">
-                        <el-option
-                            v-for="item in data.tipoSolicitud"
-                            :key="item.NOMBRE"
-                            :label="item.NOMBRE"
-                            :value="item.id">
-                            <span style="float: left">@{{ item.NOMBRE}}</span>
-                        </el-option>
-                    </el-select>
+                <div class="col-sm-9">
+                  <el-form :inline="true" :model="factura" class="demo-form-inline">
+                    <el-form-item >
+                      <el-select v-if="show.tiposolicitud" style="width:100%;" clearable v-model="data.solicitudEdit.TIPO_SOLICITUD_ID" filterable placeholder="Seleccionar Tipo Solicitud" size="small">
+                          <el-option
+                              v-for="item in data.tipoSolicitud"
+                              :key="item.NOMBRE"
+                              :label="item.NOMBRE"
+                              :value="item.id">
+                              <span style="float: left">@{{ item.NOMBRE}}</span>
+                          </el-option>
+                      </el-select>
+                      <el-tag v-if="!show.tiposolicitud" type="primary">@{{data.solicitudEdit.tiposolicitud.NOMBRE}}</el-tag>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button v-if="!show.tiposolicitud" size="small" type="primary" @click="handleShowTipoSolicitud" icon="el-icon-edit"></el-button>
+                    </el-form-item>
+                  </el-form>
                 </div>
             </div>
         </div>
@@ -261,15 +285,23 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                  <el-select style="width:100%;" clearable v-model="data.solicitudEdit.CENTRO_COSTOS_ID" filterable placeholder="Seleccionar un Centro de Costo" size="small">
-                      <el-option
-                          v-for="item in data.centroCostos"
-                          :key="item.NOMBRE"
-                          :label="item.NOMBRE"
-                          :value="item.id">
-                          <span style="float: left">@{{ item.NOMBRE}}</span>
-                      </el-option>
-                  </el-select>
+                  <el-form :inline="true" :model="factura" class="demo-form-inline">
+                    <el-form-item >
+                      <el-select v-if="show.centrocostos" style="width:100%;" clearable v-model="data.solicitudEdit.CENTRO_COSTOS_ID" filterable placeholder="Seleccionar un Centro de Costo" size="small">
+                          <el-option
+                              v-for="item in data.centroCostos"
+                              :key="item.NOMBRE"
+                              :label="item.NOMBRE"
+                              :value="item.id">
+                              <span style="float: left">@{{ item.NOMBRE}}</span>
+                          </el-option>
+                      </el-select>
+                      <el-tag v-if="!show.centrocostos" type="primary">@{{data.solicitudEdit.centrocostos.NOMBRE}}</el-tag>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button v-if="!show.centrocostos" size="small" type="primary" @click="handleShowCentroCostos" icon="el-icon-edit"></el-button>
+                    </el-form-item>
+                  </el-form>
                 </div>
             </div>
         </div>

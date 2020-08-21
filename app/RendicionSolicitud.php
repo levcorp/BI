@@ -53,6 +53,9 @@ class RendicionSolicitud extends Model
     public function tiposolicitud(){
       return $this->belongsTo(TipoSolicitud::class,'TIPO_SOLICITUD_ID');
     }
+    public function getImporteSolicitadoAttribute($value){
+      return number_format($value,2);
+    }
     public function getDescargoAttribute(){
       $datos=RendicionViaticosDetalle::where('RENDICION_VIATICOS_ID',$this->id)->get();
       $sum=0;

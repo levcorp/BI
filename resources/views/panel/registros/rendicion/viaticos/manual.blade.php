@@ -1,6 +1,6 @@
 <div class="modal fade" id="facturaManual"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-md" role="document">
-    <div class="modal-content">
+    <div class="modal-content" v-loading="load.facturaManual">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
@@ -29,13 +29,13 @@
                   <el-date-picker style="width:100%" value-format="dd-MM-yyyy" format="dd/MM/yyyy" v-model="data.facturaManual.Fecha_Emision" type="date"></el-date-picker>
               </el-form-item>
               <el-form-item label="Numero de Autorizacion">
-                  <el-input type="email" v-model="data.facturaManual.Numero_Autorizacion"></el-input>
+                  <el-input  v-model="data.facturaManual.Numero_Autorizacion"></el-input>
               </el-form-item>
               <el-form-item label="Codigo de Control">
-                  <el-input type="email" v-model="data.facturaManual.Codigo_Control"></el-input>
+                  <el-input type="text" v-model="data.facturaManual.Codigo_Control"></el-input>
               </el-form-item>
               <el-form-item label="Total">
-                  <el-input type="text" v-model="data.facturaManual.Total"></el-input>
+                  <el-input type="number" v-model="data.facturaManual.Total"></el-input>
               </el-form-item>
               <el-form-item label="Descripcion ">
                   <el-input type="text" v-model="data.facturaManual.Descripcion"></el-input>
@@ -49,7 +49,7 @@
                   <el-date-picker style="width:100%" value-format="dd/MM/yyyy" format="dd/MM/yyyy" v-model="data.facturaManual.Fecha_Emision" type="date"></el-date-picker>
               </el-form-item>
               <el-form-item label="Total">
-                  <el-input type="text" v-model="data.facturaManual.Total"></el-input>
+                  <el-input type="number" v-model="data.facturaManual.Total"></el-input>
               </el-form-item>
               <el-form-item label="Descripcion ">
                   <el-input type="text" v-model="data.facturaManual.Descripcion"></el-input>

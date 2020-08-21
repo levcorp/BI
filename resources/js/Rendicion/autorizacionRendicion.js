@@ -31,6 +31,8 @@ new Vue({
                   usuario_id:'',
               },
               data:{
+                tiposolicitud:[],
+                centrocostos:[],
                 rendiciones:{
                   autorizado:[],
                   noautorizado:[]
@@ -104,6 +106,8 @@ new Vue({
         this.data.banco=row.banco
         this.data.solicitado=row.solicitado
         this.data.autorizado=row.autorizado
+        this.data.centrocostos=row.centrocostos
+        this.data.tiposolicitud=row.tiposolicitud
         $('#show').modal('show')
       },
       handleRechazoSolicitud(index,row){

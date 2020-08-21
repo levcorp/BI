@@ -28,30 +28,31 @@ class controllerSolicitudRendicion extends Controller
     }
     public function handleStoreRendicionSolicitud(Request $request){
         $created=RendicionSolicitud::create([
-            'FECHA_SOLICITUD'=>$request->FECHA_SOLICITUD,
-            'FECHA_DESEMBOLSO'=>$request->FECHA_DESEMBOLSO,
-            'DESCRIPCION'=>$request->DESCRIPCION,
-            'IMPORTE_SOLICITADO'=>$request->IMPORTE_SOLICITADO,
-            'SOLICITADO_ID'=>$request->SOLICITADO_ID,
-            'AUTORIZADO_ID'=>$request->AUTORIZADO_ID,
-            'COMENTARIOS'=>$request->COMENTARIOS,
-            'MOTIVO'=>$request->MOTIVO,
-            'MEDIO_PAGO'=>$request->MEDIO_PAGO,
-            'CUENTA'=>$request->CUENTA,
-            'BANCO_ID'=>$request->BANCO_ID,
-            'URGENTE'=>$request->URGENTE,
-            'PRESUPUESTO'=>$request->PRESUPUESTO,
-            'CENTRO_COSTOS_ID'=>$request->CENTRO_COSTOS_ID,
-            'TIPO_SOLICITUD_ID'=>$request->TIPO_SOLICITUD_ID,
+            'FECHA_SOLICITUD'=>$request->solicitud["FECHA_SOLICITUD"],
+            'FECHA_DESEMBOLSO'=>$request->solicitud["FECHA_DESEMBOLSO"],
+            'DESCRIPCION'=>$request->solicitud["DESCRIPCION"],
+            'IMPORTE_SOLICITADO'=>number_format($request->solicitud["IMPORTE_SOLICITADO"],2),
+            'SOLICITADO_ID'=>$request->solicitud["SOLICITADO_ID"],
+            'AUTORIZADO_ID'=>$request->solicitud["AUTORIZADO_ID"],
+            'COMENTARIOS'=>$request->solicitud["COMENTARIOS"],
+            'MOTIVO'=>$request->solicitud["MOTIVO"],
+            'MEDIO_PAGO'=>$request->solicitud["MEDIO_PAGO"],
+            'CUENTA'=>$request->solicitud["CUENTA"],
+            'BANCO_ID'=>$request->solicitud["BANCO_ID"],
+            'URGENTE'=>$request->solicitud["URGENTE"],
+            'PRESUPUESTO'=>$request->solicitud["PRESUPUESTO"],
+            'CENTRO_COSTOS_ID'=>$request->solicitud["CENTRO_COSTOS_ID"],
+            'TIPO_SOLICITUD_ID'=>$request->solicitud["TIPO_SOLICITUD_ID"],
             'ESTADO'=>0,
-            'CHEQUE_NOMBRE'=>$request->CHEQUE_NOMBRE
+            'CHEQUE_NOMBRE'=>$request->solicitud["CHEQUE_NOMBRE"]
         ]);
         $solicitud=RendicionSolicitud::where('id',$created->id)->with('banco','solicitado','autorizado','solicitado.sucursal')->first();
         //$firma=base64_encode($solicitud->AUTORIZADO_ID.'@'.$solicitud->SOLICITADO_ID.'@'.md5('10').'@'.$solicitud->FECHA_SOLICITUD);
         //$firma = str_replace(array('M','N','='),array('A','B','C'),$firma);
         //$qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(500)->errorCorrection('H')->generate($firma));
         $label=strtoupper($request->label);
-        $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label'));
+        $decimal=$request->decimal;
+        $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','decimal'));
         $pdf->setPaper("letter", "portrait");
         $pdf->getDomPDF()->set_option("enable_php", true);
         Storage::disk('solicitud_rendicion')->put('Solicitud'.$solicitud->id.'.pdf', $pdf->output());
@@ -87,7 +88,7 @@ class controllerSolicitudRendicion extends Controller
         'FECHA_SOLICITUD'=>$request->FECHA_SOLICITUD,
         'FECHA_DESEMBOLSO'=>$request->FECHA_DESEMBOLSO,
         'DESCRIPCION'=>$request->DESCRIPCION,
-        'IMPORTE_SOLICITADO'=>$request->IMPORTE_SOLICITADO,
+        'IMPORTE_SOLICITADO'=>number_format($request->IMPORTE_SOLICITADO,2),
         'SOLICITADO_ID'=>$request->SOLICITADO_ID,
         'AUTORIZADO_ID'=>$request->AUTORIZADO_ID,
         'COMENTARIOS'=>$request->COMENTARIOS,
@@ -131,7 +132,8 @@ class controllerSolicitudRendicion extends Controller
       $firma = str_replace(array('M','N','='),array('A','B','C'),$firma);
       $qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(500)->errorCorrection('H')->generate($firma));
       $label=strtoupper($request->label);
-      $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','qrcode','firma'));
+      $decimal=$request->decimal;
+      $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','qrcode','firma','decimal'));
       $pdf->setPaper("letter", "portrait");
       $pdf->getDomPDF()->set_option("enable_php", true);
       return $pdf->download('invoice.pdf');
@@ -139,8 +141,8 @@ class controllerSolicitudRendicion extends Controller
     public function handleGetTipoSolicitud(){
       return Response::json(TipoSolicitud::orderBy('id','desc')->get());
     }
-    public function handleGetCentroCostos($id){
-      return Response::json(CentroCostos::where('TIPO_SOLICITUD',$id)->get());
+    public function handleGetCentroCostos(){
+      return Response::json(CentroCostos::orderBy('id','desc')->get());
     }
     public function handleRechazarSolicitud(Request $request){
       RendicionSolicitud::findOrFail($request->id)->fill([
@@ -159,7 +161,8 @@ class controllerSolicitudRendicion extends Controller
       $firma = str_replace(array('M','N','='),array('A','B','C'),$firma);
       $qrcode = base64_encode(QrCode::color(10,10,10)->encoding('UTF-8')->merge( public_path().'\images\logoLevcorp.png',0.3,true)->format('png')->style('round')->size(500)->errorCorrection('H')->generate($firma));
       $label=strtoupper($request->label);
-      $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','qrcode','firma'));
+      $decimal=$request->decimal;
+      $pdf = \PDF::loadView('pdf.solicitud',compact('solicitud','label','qrcode','firma','decimal'));
       $pdf->setPaper("letter", "portrait");
       $pdf->getDomPDF()->set_option("enable_php", true);
       Storage::disk('solicitud_rendicion')->put('Solicitud'.$solicitud->id.'.pdf', $pdf->output());

@@ -30,7 +30,7 @@
             <tr>
                 <td>Importe Solicitado</td>
                 <td>
-                     @{{data.solicitud.IMPORTE_SOLICITADO}}
+                     @{{data.solicitud.IMPORTE_SOLICITADO  | currency('Bs ', 2)}}
                 </td>
             </tr>
             <tr>
@@ -117,10 +117,22 @@
                   @{{data.solicitud.COMENTARIOS}}
                 </td>
             </tr>
-                 <tr>
+            <tr>
                 <td>Motivo</td>
                 <td>
                      @{{data.solicitud.MOTIVO}}
+                </td>
+            </tr>
+            <tr>
+                <td>Tipo de Solicitud</td>
+                <td>
+                     @{{data.tiposolicitud.NOMBRE}}
+                </td>
+            </tr>
+            <tr>
+                <td>Centro de Costo</td>
+                <td>
+                     @{{data.centrocostos.NOMBRE}}
                 </td>
             </tr>
                  <tr>

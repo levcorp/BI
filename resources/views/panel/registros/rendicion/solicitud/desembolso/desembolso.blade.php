@@ -10,7 +10,7 @@
           </div>
       </div>
       <div class="col-sm-12">
-          <el-date-picker style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.desembolso.FECHA_DESEMBOLSO_TESORERIA"></el-date-picker>
+          <el-date-picker :picker-options="pickerOptions" style="width:100%;" placeholder="Elija una fecha" size="small" v-model="data.desembolso.FECHA_DESEMBOLSO_TESORERIA"></el-date-picker>
       </div>
   </row>
   <span slot="footer" class="dialog-footer">

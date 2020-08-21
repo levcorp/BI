@@ -1,3 +1,6 @@
 {
-    "/js/solicitud.js": "/js/solicitud.js"
+    "/js/aprobacion.js": "/js/aprobacion.js",
+    "/js/autorizacionRendicion.js": "/js/autorizacionRendicion.js",
+    "/js/solicitud.js": "/js/solicitud.js",
+    "/js/tesoreria.js": "/js/tesoreria.js"
 }
