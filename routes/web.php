@@ -3,7 +3,7 @@
 Route::get('prueba',function(){
 return  Storage::disk('solicitud_rendicion')->url('script.pdf');
 });
-Route::get('prueba2','Panel\controllerRedicionViaticos@pruebaSAP2');
+Route::get('prueba2','Panel\controllerPanel@prueba');
 
 ////////////////////////////Solicitud de Rendicion/////////////////////////////////
 Route::get('panel/rendicion/solicitud','Panel\controllerPanel@solicitud')->name('solicitudFondos');

@@ -248,4 +248,8 @@ class controllerPanel extends Controller
     public function finalizada(){
         return view('panel.registros.rendicion.solicitud.autorizacionRendicion.index');
     }
+    public function prueba(){
+        return Carbon::parse('2020-05-18');
+        return view('panel.registros.solicitud_rendicion.index');
+    }
 }

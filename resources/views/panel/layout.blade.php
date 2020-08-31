@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Levcorp | </title>
   <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
   @include('panel.secciones.styles.css')
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -26,7 +26,7 @@
     <!-- Content Header (Page header) -->
       <section class="content-header">
         @yield('titulo')
-      </section> 
+      </section>
 
     <!-- Main content -->
       <section class="content">
@@ -67,7 +67,7 @@
     @include('panel.secciones.footer')
 
     <!-- Control Sidebar -->
-    <!--code is here -->    
+    <!--code is here -->
     <!-- /.control-sidebar -->
     <!-- Add the sidebar's background. This div must be placed
         immediately after the control sidebar -->

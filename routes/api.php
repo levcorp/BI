@@ -1,5 +1,8 @@
 
 <?php
+/////////////////////NEW API SOLICITUDES Y RENDICION/////////////////////////////////
+Route::get('rendicion/solicitudes/usuario/{id}','Panel\controllerSolicitudRendicion@handleGetSolicitudesUsuario');
+
 /////////////////////Asistencia/////////////////////////////////
 Route::get('asistencia/tolerancia','controllerAsistencia@handleGetTipoRegistros');
 Route::delete('asistencia/delete/tolerancia/{id}','controllerAsistencia@handleRemoveTipoRegistro');

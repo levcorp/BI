@@ -180,4 +180,11 @@ class controllerSolicitudRendicion extends Controller
       return Response::json(CentroCostos::where('TIPO_SOLICITUD',$id)->get());
     }
 
+
+
+    // NEW UI
+    public function handleGetSolicitudesUsuario($id){
+      //Estado 0 Pendiente
+        return Response::json(RendicionSolicitud::where('SOLICITADO_ID',$id)->with('banco','solicitado','autorizado','centrocostos','tiposolicitud')->get());
+    }
 }
