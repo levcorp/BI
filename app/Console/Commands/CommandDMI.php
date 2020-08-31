@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Hana\SQL\DMI;
+use App\Mail\Edi\DMI as MAILDMI;
+use Mail;
 class CommandDMI extends Command
 {
     protected $signature = 'DMI:start';
@@ -18,6 +20,7 @@ class CommandDMI extends Command
     public function handle(){
         $truncate=$this->DMI->truncate();
         $call=$this->DMI->call();
+        Mail::send(new MAILDMI($truncate,$call));
         $this->info($truncate);
         $this->info($call);
     }
