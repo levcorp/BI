@@ -50,7 +50,7 @@
                                 <el-dropdown-item v-if="cuestionario.resp==0" :command="{type:'edit',cuestionario:cuestionario}" icon="el-icon-edit">Editar</el-dropdown-item>
                                 <el-dropdown-item :command="{type:'show',cuestionario:cuestionario}" icon="el-icon-plus">Ver</el-dropdown-item>
                                 <el-dropdown-item :command="{type:'more',cuestionario:cuestionario}" icon="el-icon-more">Datos</el-dropdown-item>
-                                <el-dropdown-item v-if="cuestionario.GRUPO_ID" :command="{type:'grupo',cuestionario:cuestionario}" icon="el-icon-user">Grupo</el-dropdown-item>
+                                <el-dropdown-item v-if="cuestionario.resp==0" :command="{type:'grupo',cuestionario:cuestionario}" icon="el-icon-user">Grupo</el-dropdown-item>
                                 <el-dropdown-item v-if="cuestionario.resp==0" :command="{type:'delete',cuestionario:cuestionario}" icon="el-icon-close">Eliminar</el-dropdown-item>
                               </el-dropdown-menu>
                             </el-dropdown>

@@ -4,7 +4,6 @@
 @section('body')
 <div class="row" id="app" v-cloak>
   <input type="text" hidden :value="registro.usuario_id={{Auth::user()->id}}">
-  @include('panel.dashboard.Asistencia.LCVs')
   <div class="col-md-12">
     <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12 text-center" style="padding-bottom:15px">

@@ -8,7 +8,8 @@ use App\Mail\Edi\Success;
 use App\Mail\Edi\Failure;
 use App\Mail\Gpos\Failure as FailureGPOS;
 use App\Mail\Gpos\Success as SuccessGPOS;
-use App\Mail\Gpos\SuccessExcel as SuccessGPOSExcel;
+use App\Mail\Gpos\SuccessExcel as SuccessGPOSExcel; 
+use App\Mail\Gpos\SuccessExcelManual;
 use App\Text\EDIGPOS;
 use App\Text\EDI;
 use Mail;
@@ -24,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('edi:send')
-                 ->dailyAt('23:00')
+                 ->dailyAt('23:30')
                  ->onSuccess(function () {
                     $edi=new EDI;
                     $count=$edi->count();
@@ -34,9 +35,22 @@ class Kernel extends ConsoleKernel
                  ->onFailure(function () {
                     Mail::send(new Failure);
                   });
-        $schedule->command('gpos:send')
-                 ->weeklyOn(1, '3:00')
+        $schedule->command('gpos:mail')
+                 ->weeklyOn(1, '01:00')
                  ->onSuccess(function () {
+                    $gpos=new EDIGPOS;
+                    $counts=$gpos->counts();
+                    $names=$gpos->names();
+                    $count=$gpos->count();
+                    $name=$gpos->name();
+                    Mail::send(new SuccessExcelManual($count,$name,'sistemas'));
+                  })
+                  ->onFailure(function () {
+                    Mail::send(new FailureGPOS);
+                  });
+      $schedule->command('gpos:send')
+                ->weeklyOn(3, '14:32')
+                ->onSuccess(function () {
                     $gpos=new EDIGPOS;
                     $counts=$gpos->counts();
                     $names=$gpos->names();
@@ -45,7 +59,7 @@ class Kernel extends ConsoleKernel
                     Mail::send(new SuccessGPOSExcel($count,$name));
                     Mail::send(new SuccessGPOS($counts,$names));
                   })
-                 ->onFailure(function () {
+                ->onFailure(function () {
                     Mail::send(new FailureGPOS);
                   });
         $schedule->command('upc:null')
@@ -53,8 +67,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('gpos:validate')
                  ->dailyAt('16:30');
         $schedule->command('DMI:start')
-                 ->dailyAt('20:30');
-       $schedule->command('speedTest:start')
+                 ->dailyAt('22:30');
+        $schedule->command('speedTest:start')
                   ->dailyAt('12:00');
     }
     protected function commands()

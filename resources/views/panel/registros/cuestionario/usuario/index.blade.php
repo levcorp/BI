@@ -166,12 +166,12 @@
                                                     <div class="text-center" v-else-if="pregunta.tipo=='rate'">
                                                     <el-form :model="inputs[index]" :ref="pregunta.tipo+pregunta.pregunta_id+'Form'" size="mini" @submit.native.prevent="handleNext(pregunta)" @keydown.native.enter.prevent="handleNext(pregunta)">
                                                             <el-form-item :prop="pregunta.tipo+pregunta.pregunta_id" :rules="[{ required: true, message: 'La puntuacion es requerida', trigger: 'change' }]">
-                                                                <rate :length="5" v-model="inputs[index][pregunta.tipo+pregunta.pregunta_id]" :ratedesc="pregunta.labels"/>    
+                                                                <rate :length="Number(pregunta.max)" v-model="inputs[index][pregunta.tipo+pregunta.pregunta_id]" :ratedesc="pregunta.labels"/>    
                                                             </el-form-item>
                                                             <el-form-item>
                                                                 <el-button size="mini" type="default" v-if="show!=1" @click="handlePrevious">Anterior</el-button>
                                                                 <el-button size="mini" native-type="submit" type="primary">@{{show==countPreguntas? 'Finalizar':'Siguiente'}}</el-button>
-                                                            </el-form-item>
+                                                            </el-form-item>                                                  
                                                         </el-form>
                                                     </div>
                                                     <div class="text-center" v-else-if="pregunta.tipo=='switch'">

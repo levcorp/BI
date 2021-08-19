@@ -75,17 +75,17 @@ class CommandGPOSManual extends Command
                     $this->output->progressAdvance();
                     if(GPOS::whereDate('DocDate','>=',$FechaMenor)->whereDate('DocDate','<=',$FechaMayor)->where('ShipFromDistributorDUNS+4','=','LARCOS000')->count()>0){
                         Storage::disk('gposLP')->put('\LaPaz_'.$FechaMenor->format('Ymd').'a'.$FechaMayor->format('Ymd').'.txt', $gpos->text_date('LARCOS000','0000863151',$FechaMenor,$FechaMayor));
-                        //Storage::disk('EDIftp')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text_date('LARCOS000','0000863151',$FechaMenor,$FechaMayor));
+                        Storage::disk('EDIftp')->put('\LaPaz_'.$lastSunday->format('Ymd').'a'.$nextSaturday->format('Ymd').'.txt', $gpos->text_date('LARCOS000','0000863151',$FechaMenor,$FechaMayor));
                         $this->output->progressAdvance();
                     }
                     if(GPOS::whereDate('DocDate','>=',$FechaMenor)->whereDate('DocDate','<=',$FechaMayor)->where('ShipFromDistributorDUNS+4','=','LARCOS001')->count()>0){
                         Storage::disk('gposSC')->put('\SantaCruz_'.$FechaMenor->format('Ymd').'a'.$FechaMayor->format('Ymd').'.txt', $gpos->text_date('LARCOS001','0000863153',$FechaMenor,$FechaMayor));
-                        //Storage::disk('EDIftp')->put('\SantaCruz_'.$FechaMenor->format('Ymd').'a'.$FechaMayor->format('Ymd').'.txt', $gpos->text_date('LARCOS001','0000863153',$FechaMenor,$FechaMayor));
+                        Storage::disk('EDIftp')->put('\SantaCruz_'.$FechaMenor->format('Ymd').'a'.$FechaMayor->format('Ymd').'.txt', $gpos->text_date('LARCOS001','0000863153',$FechaMenor,$FechaMayor));
                         $this->output->progressAdvance();
                     }
                     if(GPOS::whereDate('DocDate','>=',$FechaMenor)->whereDate('DocDate','<=',$FechaMayor)->where('ShipFromDistributorDUNS+4','=','LARCOS002')->count()>0){
                         Storage::disk('gposCO')->put('\Cochabamba_'.$FechaMenor->format('Ymd').'a'.$FechaMayor->format('Ymd').'.txt', $gpos->text_date('LARCOS002','0000863152',$FechaMenor,$FechaMayor));
-                        //Storage::disk('EDIftp')->put('\Cochabamba_'.$FechaMenor->format('Ymd').'a'.$FechaMayor->format('Ymd').'.txt', $gpos->text_date('LARCOS002','0000863152',$FechaMenor,$FechaMayor));
+                        Storage::disk('EDIftp')->put('\Cochabamba_'.$FechaMenor->format('Ymd').'a'.$FechaMayor->format('Ymd').'.txt', $gpos->text_date('LARCOS002','0000863152',$FechaMenor,$FechaMayor));
                         $this->output->progressAdvance();
                     }
                     $this->output->progressAdvance();

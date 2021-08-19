@@ -87,22 +87,22 @@ class CommandEDIManual extends Command
                   $this->output->progressStart(10);
                   if(LP::whereDate('Fecha',$date)->count()>0){
                       Storage::disk('edi')->put('\LaPaz\LaPaz_'.$date->format('Ymd').'.txt', $edi->text_lp($date));
-                      //Storage::disk('EDIftp')->put('\LaPaz_'.$date->format('Ymd').'.txt', $edi->text_lp($date));
+                      Storage::disk('EDIftp')->put('\LaPaz_'.$date->format('Ymd').'.txt', $edi->text_lp($date));
                       $this->output->progressAdvance();
                   }
                   if(CO::whereDate('Fecha',$date)->count()>0){
                       Storage::disk('edi')->put('\Cochabamba\Cochabamba_'.$date->format('Ymd').'.txt', $edi->text_co($date));
-                      //Storage::disk('EDIftp')->put('\Cochabamba_'.$date->format('Ymd').'.txt', $edi->text_co($date));
+                      Storage::disk('EDIftp')->put('\Cochabamba_'.$date->format('Ymd').'.txt', $edi->text_co($date));
                       $this->output->progressAdvance();
                   }
                   if(SC::whereDate('Fecha',$date)->count()>0){
                       Storage::disk('edi')->put('\SantaCruz\SantaCruz_'.$date->format('Ymd').'.txt', $edi->text_sc($date));
-                      //Storage::disk('EDIftp')->put('\SantaCruz_'.$date->format('Ymd').'.txt', $edi->text_sc($date));
+                      Storage::disk('EDIftp')->put('\SantaCruz_'.$date->format('Ymd').'.txt', $edi->text_sc($date));
                       $this->output->progressAdvance();
                   }
                   if(HUB::whereDate('Fecha',$date)->count()>0){
                       Storage::disk('edi')->put('\Hub\Hub_'.$date->format('Ymd').'.txt', $edi->text_hub($date));
-                      //   Storage::disk('EDIftp')->put('\Hub_'.$date->format('Ymd').'.txt', $edi->text_hub($date));
+                      Storage::disk('EDIftp')->put('\Hub_'.$date->format('Ymd').'.txt', $edi->text_hub($date));
                       $this->output->progressAdvance();
                   }
                   $this->output->progressAdvance();

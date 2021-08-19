@@ -11,9 +11,9 @@ class EDIGPOS
     protected $now;
     public function __construct()
     {
-        $this->nextSaturday= new Carbon('last saturday');
+        $this->nextSaturday= new Carbon('last sunday');
         Carbon::setTestNow($this->nextSaturday);
-        $this->lastSunday=new Carbon('last sunday');
+        $this->lastSunday=new Carbon('last monday');
         Carbon::setTestNow();
         $this->now=Carbon::now()->format('Ymd');
     }
@@ -180,7 +180,7 @@ class EDIGPOS
                         /*-------Customer PO Number----------*/
                         $this->etiqueta(20,'',$this->charters($item->CustomerPONumber)).
                         /*-------Distributor Invoice Number----------*/
-                        $this->etiqueta(20,'',$this->DistributorInvoiceNumber(Carbon::now()->format('ym'),$item->NumAtCard,$item->ObjType,$city)).
+                        $this->etiqueta(20,'',$this->DistributorInvoiceNumber(Carbon::parse($item->DistributorInvoiceDate)->format('ym'),$item->NumAtCard,$item->ObjType,$city)).
                         /*-------Distributor Invoice Item----------*/
                         $this->etiqueta(20,'',$item->NumLine).
                         /*--------Distributor Invoice Date---------*/

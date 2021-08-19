@@ -24,14 +24,14 @@ class controllerStock extends Controller
     public function stockDetalle(Request $request){
         $datos=DB::table('DISPONIBILIDAD_STOCK')->select('EMPRESA','ALMACEN','ItemCode','U_Cod_Vent'    ,'WhsCode','OnHand','IsCommited','OnOrder','TRASLADOS_OUT','TRASLADOS_IN','OV','PO','DISPONIBLE','Clasificacion')->where('U_Cod_Vent',$request->U_Cod_Vent)->get();
         foreach ($datos as $key) {
-            $key->OnHand=number_format($key->OnHand,2);
-            $key->IsCommited=number_format($key->IsCommited,2);
-            $key->OnOrder=number_format($key->OnOrder,2);
-            $key->TRASLADOS_OUT=number_format($key->TRASLADOS_OUT,2);
-            $key->TRASLADOS_IN=number_format($key->TRASLADOS_IN,2);
-            $key->OV=number_format($key->OV,2);
-            $key->PO=number_format($key->PO,2);
-            $key->DISPONIBLE=number_format($key->DISPONIBLE,2);
+            $key->OnHand=number_format((float)$key->OnHand,2);
+            $key->IsCommited=number_format((float)$key->IsCommited,2);
+            $key->OnOrder=number_format((float)$key->OnOrder,2);
+            $key->TRASLADOS_OUT=number_format((float)$key->TRASLADOS_OUT,2);
+            $key->TRASLADOS_IN=number_format((float)$key->TRASLADOS_IN,2);
+            $key->OV=number_format((float)$key->OV,2);
+            $key->PO=number_format((float)$key->PO,2);
+            $key->DISPONIBLE=number_format((float)$key->DISPONIBLE,2);
             $key->Clasificacion=strtoupper($key->Clasificacion);
         }
         return response()->json($datos);
