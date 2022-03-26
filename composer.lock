@@ -741,12 +741,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -799,12 +799,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Promise\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -859,12 +859,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Psr7\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -928,8 +928,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "HighIdeas\\UsersOnline\\": "src/",
-                    "HighIdeas\\Tests\\": "tests/"
+                    "HighIdeas\\Tests\\": "tests/",
+                    "HighIdeas\\UsersOnline\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1436,12 +1436,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Collective\\Html\\": "src/"
-                },
                 "files": [
                     "src/helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1743,12 +1743,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "League\\Csv\\": "src"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1955,9 +1955,6 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Complex\\": "classes/src/"
-                },
                 "files": [
                     "classes/src/functions/abs.php",
                     "classes/src/functions/acos.php",
@@ -2001,7 +1998,10 @@
                     "classes/src/operations/multiply.php",
                     "classes/src/operations/divideby.php",
                     "classes/src/operations/divideinto.php"
-                ]
+                ],
+                "psr-4": {
+                    "Complex\\": "classes/src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2049,9 +2049,6 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Matrix\\": "classes/src/"
-                },
                 "files": [
                     "classes/src/functions/adjoint.php",
                     "classes/src/functions/antidiagonal.php",
@@ -2069,7 +2066,10 @@
                     "classes/src/operations/multiply.php",
                     "classes/src/operations/divideby.php",
                     "classes/src/operations/divideinto.php"
-                ]
+                ],
+                "psr-4": {
+                    "Matrix\\": "classes/src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2381,12 +2381,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Opis\\Closure\\": "src/"
-                },
                 "files": [
                     "functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "Opis\\Closure\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2780,12 +2780,12 @@
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nrk/predis.git",
+                "url": "https://github.com/predis/predis.git",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "url": "https://api.github.com/repos/predis/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "shasum": ""
             },
@@ -2822,6 +2822,16 @@
                 "nosql",
                 "predis",
                 "redis"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/tillkruss",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tillkruss",
+                    "type": "github"
+                }
             ],
             "time": "2016-06-16T16:22:20+00:00"
         },
@@ -3259,12 +3269,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Ramsey\\Uuid\\": "src/"
-                },
                 "files": [
                     "src/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3291,6 +3301,16 @@
                 "guid",
                 "identifier",
                 "uuid"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/ramsey",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ramsey/uuid",
+                    "type": "tidelift"
+                }
             ],
             "time": "2019-12-01T04:55:27+00:00"
         },
@@ -3329,12 +3349,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "RealRashid\\SweetAlert\\": "src"
-                },
                 "files": [
                     "src/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "RealRashid\\SweetAlert\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3362,29 +3382,33 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "8.3.0",
+            "version": "8.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-                "reference": "91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f"
+                "reference": "e41d2140031d533348b2192a83f02d8dd8a71d30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f",
-                "reference": "91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f",
+                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/e41d2140031d533348b2192a83f02d8dd8a71d30",
+                "reference": "e41d2140031d533348b2192a83f02d8dd8a71d30",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "ext-iconv": "*",
+                "php": ">=5.6.20"
             },
             "require-dev": {
                 "codacy/coverage": "^1.4",
-                "phpunit/phpunit": "~4.8"
+                "phpunit/phpunit": "^4.8.36"
+            },
+            "suggest": {
+                "ext-mbstring": "for parsing UTF-8 CSS"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Sabberworm\\CSS": "lib/"
+                "psr-4": {
+                    "Sabberworm\\CSS\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3397,13 +3421,13 @@
                 }
             ],
             "description": "Parser for CSS Files written in PHP",
-            "homepage": "http://www.sabberworm.com/blog/2010/6/10/php-css-parser",
+            "homepage": "https://www.sabberworm.com/blog/2010/6/10/php-css-parser",
             "keywords": [
                 "css",
                 "parser",
                 "stylesheet"
             ],
-            "time": "2019-02-22T07:42:52+00:00"
+            "time": "2021-12-11T13:40:54+00:00"
         },
         {
             "name": "silviolleite/laravelpwa",
@@ -3625,6 +3649,7 @@
                 "mail",
                 "mailer"
             ],
+            "abandoned": "symfony/mailer",
             "time": "2019-11-12T09:31:26+00:00"
         },
         {
@@ -4279,12 +4304,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4337,12 +4362,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Iconv\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Iconv\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4398,12 +4423,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Intl\\Idn\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Idn\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4458,12 +4483,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4515,12 +4540,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php56\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php56\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4570,12 +4595,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php72\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php72\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4625,12 +4650,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php73\\": ""
-                },
                 "files": [
                     "bootstrap.php"
                 ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php73\\": ""
+                },
                 "classmap": [
                     "Resources/stubs"
                 ]
@@ -4758,6 +4783,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-03-27T16:54:36+00:00"
         },
         {
@@ -5108,12 +5147,12 @@
             "version": "v6.5.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tightenco/collect.git",
+                "url": "https://github.com/tighten/collect.git",
                 "reference": "402a89f11c55b86c5a081c267957a0c071375278"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/collect/zipball/402a89f11c55b86c5a081c267957a0c071375278",
+                "url": "https://api.github.com/repos/tighten/collect/zipball/402a89f11c55b86c5a081c267957a0c071375278",
                 "reference": "402a89f11c55b86c5a081c267957a0c071375278",
                 "shasum": ""
             },
@@ -5217,22 +5256,22 @@
                 "shasum": ""
             },
             "require": {
-                "illuminate/auth": "^5.1|^6",
-                "illuminate/contracts": "^5.1|^6",
-                "illuminate/http": "^5.1|^6",
-                "illuminate/support": "^5.1|^6",
-                "lcobucci/jwt": "^3.2",
+                "illuminate/auth": "^5.2|^6|^7|^8",
+                "illuminate/contracts": "^5.2|^6|^7|^8",
+                "illuminate/http": "^5.2|^6|^7|^8",
+                "illuminate/support": "^5.2|^6|^7|^8",
+                "lcobucci/jwt": "<3.4",
                 "namshi/jose": "^7.0",
                 "nesbot/carbon": "^1.0|^2.0",
-                "php": "^5.5.9|^7.0"
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
-                "cartalyst/sentinel": "^2|^3",
-                "illuminate/console": "^5.1|^6",
-                "illuminate/database": "^5.1|^6",
-                "illuminate/routing": "^5.1|^6",
+                "illuminate/console": "^5.2|^6|^7|^8",
+                "illuminate/database": "^5.2|^6|^7|^8",
+                "illuminate/routing": "^5.2|^6|^7|^8",
                 "mockery/mockery": ">=0.9.9",
-                "phpunit/phpunit": "~4.8|~6.0"
+                "phpunit/phpunit": "^8.5|^9.4",
+                "yoast/phpunit-polyfills": "^0.2.0"
             },
             "type": "library",
             "extra": {
@@ -5274,6 +5313,12 @@
                 "auth",
                 "jwt",
                 "laravel"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/seantymon",
+                    "type": "patreon"
+                }
             ],
             "time": "2019-09-09T03:33:47+00:00"
         },
@@ -5421,12 +5466,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Watson\\Active\\": "src/"
-                },
                 "files": [
                     "src/helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "Watson\\Active\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -5482,12 +5527,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "BeyondCode\\DumpServer\\": "src"
-                },
                 "files": [
                     "helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "BeyondCode\\DumpServer\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -5672,6 +5717,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-11-14T13:13:06+00:00"
         },
         {
@@ -5815,12 +5861,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "DeepCopy\\": "src/DeepCopy/"
-                },
                 "files": [
                     "src/DeepCopy/deep_copy.php"
-                ]
+                ],
+                "psr-4": {
+                    "DeepCopy\\": "src/DeepCopy/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -6465,6 +6511,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -7162,12 +7209,12 @@
             "version": "1.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "573381c0a64f155a0d9a23f4b0c797194805b925"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/573381c0a64f155a0d9a23f4b0c797194805b925",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/573381c0a64f155a0d9a23f4b0c797194805b925",
                 "reference": "573381c0a64f155a0d9a23f4b0c797194805b925",
                 "shasum": ""
             },
